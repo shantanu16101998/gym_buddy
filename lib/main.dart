@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/owner_sign_up.dart';
+import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:gym_buddy/screens/login.dart';
 
 void main() async {
@@ -10,7 +11,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  String initialRoute = '/owner-sign-up';
+  String initialRoute = '/user-sign-up';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: initialRoute,
       routes: {
         '/login': (context) => const Login(),
-        '/owner-sign-up' : (context) => const OwnerSignUp()
+        '/owner-sign-up' : (context) => const OwnerSignUp(),
+        '/user-sign-up' : (context) => const UserSignUp()
       },
     );
   }

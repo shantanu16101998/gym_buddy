@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/login_form.dart';
-import 'package:gym_buddy/components/owner_sign_up_form.dart';
-import 'package:gym_buddy/components/owner_further_information.dart';
+import 'package:gym_buddy/components/user_sign_up_form_basic.dart';
+import 'package:gym_buddy/components/user_further_information_form.dart';
 
-class OwnerSignUp extends StatefulWidget {
-  const OwnerSignUp({super.key});
+class UserSignUp extends StatefulWidget {
+  const UserSignUp({super.key});
 
   @override
-  State<OwnerSignUp> createState() => _OwnerSignUpState();
+  State<UserSignUp> createState() => _UserSignUpState();
 }
 
-class _OwnerSignUpState extends State<OwnerSignUp> {
+class _UserSignUpState extends State<UserSignUp> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -65,7 +64,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(20), child: OwnerFurtherInformationForm())
+                    Padding(padding: EdgeInsets.all(20), child: UserFurtherInformationForm())
                   ])))
     ]));
   }
