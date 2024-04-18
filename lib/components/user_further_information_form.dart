@@ -73,17 +73,17 @@ class _UserFurtherInformationFormState
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Age", controller: _usernameController)),
+                  labelText: "Age", controller: _usernameController,errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Gender", controller: _usernameController)),
+                  labelText: "Gender", controller: _usernameController,errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Blood Group", controller: _usernameController)),
+                  labelText: "Blood Group", controller: _usernameController,errorText: null)),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -101,7 +101,7 @@ class _UserFurtherInformationFormState
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Start Date", controller: _usernameController)),
+                  labelText: "Start Date", controller: _usernameController,errorText: null)),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -168,7 +168,7 @@ class _UserFurtherInformationFormState
                   padding: EdgeInsets.all(30),
                   child: LabeledTextField(
                       labelText: "Add Custom Month",
-                      controller: _usernameController))),
+                      controller: _usernameController,errorText: null))),
           Align(
               alignment: Alignment.center,
               child: Padding(

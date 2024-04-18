@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/owner_form.dart';
+import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,13 +28,14 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: Colors.red, primary: Colors.blue),
+            .copyWith(secondary: Colors.red, primary: Color(0xff667085)),
         primaryColor: Colors.black,
       ),
-      initialRoute: '/owner-sign-up',
+      initialRoute: '/subscription',
       routes: {
         '/owner-sign-up': (context) => const OwnerForm(),
-        '/user-sign-up': (context) => const UserSignUp()
+        '/user-sign-up': (context) => const UserSignUp(),
+        '/subscription': (context) => const Subscription()
       },
     );
   }

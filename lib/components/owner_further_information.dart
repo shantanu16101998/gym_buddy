@@ -41,17 +41,17 @@ class _OwnerFurtherInformationFormState extends State<OwnerFurtherInformationFor
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Gym Name", controller: _usernameController)),
+                  labelText: "Gym Name", controller: _usernameController,errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Contact", controller: _usernameController)),
+                  labelText: "Contact", controller: _usernameController,errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Address", controller: _usernameController)),
+                  labelText: "Address", controller: _usernameController,errorText: null)),
           Align(
               alignment: Alignment.center,
               child: Padding(
