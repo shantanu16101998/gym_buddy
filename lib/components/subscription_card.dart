@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/components/subscription_dialog.dart';
 
 class SubscriptionCard extends StatefulWidget {
   final String name;
@@ -119,14 +118,20 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
               ? Align(
                   alignment: Alignment.center,
                   child: OutlinedButton(
-                      onPressed: () => {},
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SubscriptionDialog();
+                          },
+                        );
+                      },
                       style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side:
                               BorderSide(width: 1.0, color: Color(0xffD0D5DD)),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                          )),
+                              borderRadius: BorderRadius.circular(10))),
                       child: Text("Update Subscription",
                           style: GoogleFonts.inter(
                               textStyle: const TextStyle(

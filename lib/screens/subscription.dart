@@ -3,6 +3,8 @@ import 'package:gym_buddy/components/header.dart';
 import 'package:gym_buddy/components/subscription_card_container.dart';
 import 'package:gym_buddy/components/tab_bar.dart';
 import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Subscription extends StatefulWidget {
   const Subscription({super.key});
@@ -14,6 +16,16 @@ class Subscription extends StatefulWidget {
 class _SubscriptionState extends State<Subscription> {
   final TextEditingController _usernameController = TextEditingController();
 
+  bool showCurrentUsers = true;
+
+  Future<void> setShouldShowCurrent(bool value) async {
+    var sharedPreference = await SharedPreferences.getInstance();
+    await sharedPreference.setBool("showCurrent", value);
+    setState(() {
+      showCurrentUsers = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +36,13 @@ class _SubscriptionState extends State<Subscription> {
                 physics: const BouncingScrollPhysics(),
                 child: Container(
                   // padding: EdgeInsets.all(10),
-                  padding: EdgeInsets.only(top: 40, left: 10, right: 10),
+                  padding: EdgeInsets.only(top: getStatusBarHeight(context), left: 10, right: 10),
                   child: Column(
                     children: [
                       Header(),
-                      CustomTabBar(),
+                      CustomTabBar(
+                          setShouldShowCurrent: setShouldShowCurrent,
+                          showCurrentUsers: showCurrentUsers),
                       Container(
                         width: 340,
                         child: LabeledTextField.homepageText(
@@ -36,7 +50,8 @@ class _SubscriptionState extends State<Subscription> {
                             controller: _usernameController,
                             errorText: null),
                       ),
-                      SubscriptionCardContainer()
+                      SubscriptionCardContainer(
+                          showCurrentUsers: showCurrentUsers)
                     ],
                   ),
                 )),
