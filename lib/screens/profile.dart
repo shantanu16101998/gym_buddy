@@ -33,16 +33,48 @@ class _ProfileState extends State<Profile> {
                           fit: BoxFit.fill),
                     ),
                   ),
-                  SizedBox(height: getScreenHeight(context) * 0.1),
-                  Text("Aryan Gupta",
-                      style: GoogleFonts.inter(
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)))),
+                  SizedBox(height: getScreenHeight(context) * 0.08),
+                  Column(
+                    children: [
+                      Padding(
+                        padding:  const EdgeInsets.fromLTRB(20.0, 16.0, 12.0, 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Aryan Gupta",
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Color(0xff004576)))),
+                            const Icon(Icons.male, color: Color(0xff004576), size : 35),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 45),
+                    child: Container(
+                        height: 41,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: Color(0xF2F4F7),
+                          border: Border.all(width: 2, color: Color(0xffD0D5DD)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text("Update Subscription",
+                              style: GoogleFonts.inter(
+                                  textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)))),
+                        )),
+                  ),
                   Container(
-
                     width: 250,
+                    // color: Color.fromARGB(255, 1, 10, 26),
                     child: Column(
                       children: [
                         Padding(
@@ -50,9 +82,7 @@ class _ProfileState extends State<Profile> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.location_on,
-                              color: Color(0xff004576)),
+                              Icon(Icons.location_on, color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
                                 child: Text("20J Cross Road Ejipura",
@@ -70,8 +100,7 @@ class _ProfileState extends State<Profile> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.email,
-                              color: Color(0xff004576)),
+                              Icon(Icons.email, color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
                                 child: new Text("aryan.gupta@juspay.gmail.com",
@@ -83,18 +112,16 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          
                         ),
                         Padding(
                           padding: const EdgeInsets.all(13),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.phone,
-                              color: Color(0xff004576)),
+                              const Icon(Icons.phone, color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
-                                child: new Text("+91 987654321",
+                                child: Text("+91 987654321",
                                     style: GoogleFonts.inter(
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.normal,
@@ -103,18 +130,16 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          
                         ),
                         Padding(
                           padding: const EdgeInsets.all(13),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.cake,
-                              color: Color(0xff004576)),
+                              const Icon(Icons.cake, color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
-                                child: new Text("21 years old",
+                                child: Text("21 years old",
                                     style: GoogleFonts.inter(
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.normal,
@@ -123,18 +148,16 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          
                         ),
                         Padding(
                           padding: const EdgeInsets.all(13),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.bloodtype,
-                              color: Color(0xff004576)),
+                              const Icon(Icons.bloodtype, color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
-                                child: new Text("B+ ve",
+                                child: Text("B+ ve",
                                     style: GoogleFonts.inter(
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.normal,
@@ -143,11 +166,29 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 45),
+                    child: Container(
+                        height: 41,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: Color(0xF2F4F7),
+                          border: Border.all(width: 2, color: Color(0xffD0D5DD)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text("Delete user",
+                              style: GoogleFonts.inter(
+                                  textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xffB01D1D)))),
+                        )),
+                  ),
                 ],
               ),
               Padding(
@@ -163,9 +204,9 @@ class _ProfileState extends State<Profile> {
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: 2,
-                            color: Color.fromARGB(255, 255, 255, 255)),
+                            color: const Color.fromARGB(255, 255, 255, 255)),
                         borderRadius: BorderRadius.circular(60),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: AssetImage("assets/images/profile_pic.png"),
                             fit: BoxFit.fill),
                       ),
