@@ -1,6 +1,7 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/screens/subscription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserFurtherInformationForm extends StatefulWidget {
@@ -24,7 +25,7 @@ class _UserFurtherInformationFormState
     var sharedPreference = await SharedPreferences.getInstance();
     userName = sharedPreference.getString("userName") ?? "User" "'s";
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -73,17 +74,23 @@ class _UserFurtherInformationFormState
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Age", controller: _usernameController,errorText: null)),
+                  labelText: "Age",
+                  controller: _usernameController,
+                  errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Gender", controller: _usernameController,errorText: null)),
+                  labelText: "Gender",
+                  controller: _usernameController,
+                  errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Blood Group", controller: _usernameController,errorText: null)),
+                  labelText: "Blood Group",
+                  controller: _usernameController,
+                  errorText: null)),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -101,7 +108,9 @@ class _UserFurtherInformationFormState
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Start Date", controller: _usernameController,errorText: null)),
+                  labelText: "Start Date",
+                  controller: _usernameController,
+                  errorText: null)),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -168,7 +177,8 @@ class _UserFurtherInformationFormState
                   padding: EdgeInsets.all(30),
                   child: LabeledTextField(
                       labelText: "Add Custom Month",
-                      controller: _usernameController,errorText: null))),
+                      controller: _usernameController,
+                      errorText: null))),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -177,7 +187,13 @@ class _UserFurtherInformationFormState
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: _setFurtherInformation,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Subscription()));
+                          },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),

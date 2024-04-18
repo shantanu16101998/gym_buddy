@@ -3,6 +3,7 @@ import 'package:gym_buddy/components/header.dart';
 import 'package:gym_buddy/components/subscription_card_container.dart';
 import 'package:gym_buddy/components/tab_bar.dart';
 import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +37,8 @@ class _SubscriptionState extends State<Subscription> {
                 physics: const BouncingScrollPhysics(),
                 child: Container(
                   // padding: EdgeInsets.all(10),
-                  padding: EdgeInsets.only(top: getStatusBarHeight(context), left: 10, right: 10),
+                  padding: EdgeInsets.only(
+                      top: getStatusBarHeight(context), left: 10, right: 10),
                   child: Column(
                     children: [
                       Header(),
@@ -68,7 +70,13 @@ class _SubscriptionState extends State<Subscription> {
                               height: 50,
                               width: 340,
                               child: ElevatedButton(
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserSignUp()))
+                                      },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
                                       backgroundColor: const Color(0xFFD9D9D9)),
