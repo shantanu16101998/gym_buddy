@@ -1,11 +1,13 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserFurtherInformationForm extends StatefulWidget {
-  const UserFurtherInformationForm({super.key});
+  final Function(bool) onNeedFurtherInformationChanged;
+
+  const UserFurtherInformationForm(
+      {super.key, required this.onNeedFurtherInformationChanged});
 
   @override
   State<UserFurtherInformationForm> createState() =>
@@ -16,8 +18,26 @@ class _UserFurtherInformationFormState
     extends State<UserFurtherInformationForm> {
   final TextEditingController _usernameController = TextEditingController();
 
-  DateTime selectedDate = DateTime.now();
+  late String userName = "User's";
 
+  void intialConfigs() async {
+    var sharedPreference = await SharedPreferences.getInstance();
+    userName = sharedPreference.getString("userName") ?? "User" "'s";
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    intialConfigs();
+  }
+
+  Future<void> _setFurtherInformation() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("needFurtherInformation", false);
+    widget.onNeedFurtherInformationChanged(false);
+  }
+
+  DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -42,7 +62,7 @@ class _UserFurtherInformationFormState
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-              child: Text("Complete Suraj's registration",
+              child: Text("Complete  $userName registration",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
                     color: Color(0xffFFFFFF),
@@ -143,11 +163,12 @@ class _UserFurtherInformationFormState
                 ],
               )),
           Align(
-            alignment: Alignment.center,
-            child: Padding(
-                          padding: EdgeInsets.all(30),
-                          child:LabeledTextField(
-                  labelText: "Add Custom Month", controller: _usernameController))),
+              alignment: Alignment.center,
+              child: Padding(
+                  padding: EdgeInsets.all(30),
+                  child: LabeledTextField(
+                      labelText: "Add Custom Month",
+                      controller: _usernameController))),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -156,13 +177,13 @@ class _UserFurtherInformationFormState
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: _setFurtherInformation,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
-                              child: Text("Next",
+                              child: Text("Register",
                                   style: TextStyle(
                                       color: Color(0xff004576),
                                       fontSize: 18,

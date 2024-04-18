@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/user_sign_up_form_basic.dart';
 import 'package:gym_buddy/components/user_further_information_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSignUp extends StatefulWidget {
+  
   const UserSignUp({super.key});
 
   @override
@@ -12,6 +14,25 @@ class UserSignUp extends StatefulWidget {
 class _UserSignUpState extends State<UserSignUp> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  late bool needFurtherInformation = false;
+
+  void intialRouteDecider() async {
+    var sharedPreference = await SharedPreferences.getInstance();
+    needFurtherInformation =
+        sharedPreference.getBool("needFurtherInformation") ?? false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    intialRouteDecider();
+  }
+
+  void onNeedFurtherInformationChanged(value) async {
+    setState(() {
+      needFurtherInformation = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,44 +48,21 @@ class _UserSignUpState extends State<UserSignUp> {
           physics: const BouncingScrollPhysics(),
           child: Container(
               color: Colors.transparent,
-              child: const Column(
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(padding: EdgeInsets.only(top: 100.0)),
+                    const Padding(padding: EdgeInsets.only(top: 100.0)),
                     Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                "Log In",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                              )),
-                          Text(
-                            "|",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22),
-                          ),
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                    color: Color(0xffE7AA0F),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(20), child: UserFurtherInformationForm())
+                      padding: const EdgeInsets.all(20),
+                      child: needFurtherInformation
+                          ? UserFurtherInformationForm(
+                              onNeedFurtherInformationChanged:
+                                  onNeedFurtherInformationChanged)
+                          : UserSignUpFormBasic(
+                              onNeedFurtherInformationChanged:
+                                  onNeedFurtherInformationChanged),
+                    )
                   ])))
     ]));
   }

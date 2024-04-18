@@ -1,9 +1,12 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSignUpFormBasic extends StatefulWidget {
-  const UserSignUpFormBasic({super.key});
+  final Function(bool) onNeedFurtherInformationChanged;
+
+  const UserSignUpFormBasic({super.key,required this.onNeedFurtherInformationChanged});
 
   @override
   State<UserSignUpFormBasic> createState() => _UserSignUpFormBasicState();
@@ -11,6 +14,14 @@ class UserSignUpFormBasic extends StatefulWidget {
 
 class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   final TextEditingController _usernameController = TextEditingController();
+
+  Future<void> _setState() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool("needFurtherInformation", true);
+    await sharedPreferences.setString("userName",_usernameController.text);
+    widget.onNeedFurtherInformationChanged(true);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +68,6 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Address", controller: _usernameController)),
-          
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -66,7 +76,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: _setState,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),

@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/screens/owner_sign_up.dart';
+import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
-import 'package:gym_buddy/screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  String initialRoute = '/user-sign-up';
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          secondary: Colors.red,
-          primary: Colors.blue
-        ),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Colors.red, primary: Colors.blue),
         primaryColor: Colors.black,
       ),
-      initialRoute: initialRoute,
+      initialRoute: '/owner-sign-up',
       routes: {
-        '/login': (context) => const Login(),
-        '/owner-sign-up' : (context) => const OwnerSignUp(),
-        '/user-sign-up' : (context) => const UserSignUp()
+        '/owner-sign-up': (context) => const OwnerForm(),
+        '/user-sign-up': (context) => const UserSignUp()
       },
     );
   }

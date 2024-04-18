@@ -2,17 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/login_form.dart';
 import 'package:gym_buddy/components/owner_sign_up_form.dart';
 import 'package:gym_buddy/components/owner_further_information.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OwnerSignUp extends StatefulWidget {
-  const OwnerSignUp({super.key});
+class OwnerForm extends StatefulWidget {
+  const OwnerForm({super.key});
 
   @override
-  State<OwnerSignUp> createState() => _OwnerSignUpState();
+  State<OwnerForm> createState() => _OwnerFormState();
 }
 
-class _OwnerSignUpState extends State<OwnerSignUp> {
+class _OwnerFormState extends State<OwnerForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  late bool shouldShowLoginPage = false;
+  late bool shouldShowFutherInformation = false;
+
+  Future<void> setShouldShowLoginPage(bool value) async {
+    var sharedPreference = await SharedPreferences.getInstance();
+    await sharedPreference.setBool("shouldShowLoginPage", value);
+    setState(() {
+      shouldShowLoginPage = value;
+    });
+  }
+
+  Future<void> setShouldShowFurtherInformation(bool value) async {
+    var sharedPreference = await SharedPreferences.getInstance();
+    await sharedPreference.setBool("shouldShowFurtherInformation", value);
+    setState(() {
+      shouldShowFutherInformation = value;
+    });
+  }
+
+  Widget widgetDecider() {
+    if (shouldShowLoginPage) {
+      return const LoginForm();
+    } else if (shouldShowFutherInformation) {
+      return const OwnerFurtherInformationForm();
+    } else {
+      return OwnerFormForm(
+          setShouldShowFurtherInformation: setShouldShowFurtherInformation);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +58,7 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
           physics: const BouncingScrollPhysics(),
           child: Container(
               color: Colors.transparent,
-              child: const Column(
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -38,15 +68,19 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                       child: Row(
                         children: [
                           TextButton(
-                              onPressed: null,
+                              onPressed: () {
+                                setShouldShowLoginPage(true);
+                              },
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: shouldShowLoginPage
+                                        ? Color(0xffE7AA0F)
+                                        : Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22),
                               )),
-                          Text(
+                          const Text(
                             "|",
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -54,18 +88,22 @@ class _OwnerSignUpState extends State<OwnerSignUp> {
                                 fontSize: 22),
                           ),
                           TextButton(
-                              onPressed: null,
+                              onPressed: () {
+                                setShouldShowLoginPage(false);
+                              },
                               child: Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                    color: Color(0xffE7AA0F),
+                                    color: shouldShowLoginPage
+                                        ? Color.fromARGB(255, 255, 255, 255)
+                                        : Color(0xffE7AA0F),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22),
                               )),
                         ],
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(20), child: OwnerFurtherInformationForm())
+                    Padding(padding: EdgeInsets.all(20), child: widgetDecider())
                   ])))
     ]));
   }

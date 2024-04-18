@@ -2,14 +2,16 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OwnerSignUpForm extends StatefulWidget {
-  const OwnerSignUpForm({super.key});
+class OwnerFormForm extends StatefulWidget {
+  final Function setShouldShowFurtherInformation;
+  const OwnerFormForm(
+      {super.key, required this.setShouldShowFurtherInformation});
 
   @override
-  State<OwnerSignUpForm> createState() => _OwnerSignUpFormState();
+  State<OwnerFormForm> createState() => _OwnerFormFormState();
 }
 
-class _OwnerSignUpFormState extends State<OwnerSignUpForm> {
+class _OwnerFormFormState extends State<OwnerFormForm> {
   final TextEditingController _usernameController = TextEditingController();
 
   @override
@@ -60,7 +62,8 @@ class _OwnerSignUpFormState extends State<OwnerSignUpForm> {
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: () => {},
+                          onPressed: () =>
+                              {widget.setShouldShowFurtherInformation(true)},
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),
