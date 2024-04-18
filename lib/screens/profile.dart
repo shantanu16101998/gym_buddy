@@ -40,18 +40,113 @@ class _ProfileState extends State<Profile> {
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
                               color: Color(0xff004576)))),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.location_on),
-                  SizedBox(width: getScreenWidth(context) * 0.05),
-                      Text("Aryan Gupta",
-                          style: GoogleFonts.inter(
-                              textStyle: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 18,
-                                  color: Color(0xff544C4C)))),
-                    ],
+                  Container(
+
+                    width: 250,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.location_on,
+                              color: Color(0xff004576)),
+                              SizedBox(width: getScreenWidth(context) * 0.03),
+                              Flexible(
+                                child: Text("20J Cross Road Ejipura",
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18,
+                                            color: Color(0xff544C4C)))),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.email,
+                              color: Color(0xff004576)),
+                              SizedBox(width: getScreenWidth(context) * 0.03),
+                              Flexible(
+                                child: new Text("aryan.gupta@juspay.gmail.com",
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18,
+                                            color: Color(0xff544C4C)))),
+                              )
+                            ],
+                          ),
+                          
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.phone,
+                              color: Color(0xff004576)),
+                              SizedBox(width: getScreenWidth(context) * 0.03),
+                              Flexible(
+                                child: new Text("+91 987654321",
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18,
+                                            color: Color(0xff544C4C)))),
+                              )
+                            ],
+                          ),
+                          
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.cake,
+                              color: Color(0xff004576)),
+                              SizedBox(width: getScreenWidth(context) * 0.03),
+                              Flexible(
+                                child: new Text("21 years old",
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18,
+                                            color: Color(0xff544C4C)))),
+                              )
+                            ],
+                          ),
+                          
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.bloodtype,
+                              color: Color(0xff004576)),
+                              SizedBox(width: getScreenWidth(context) * 0.03),
+                              Flexible(
+                                child: new Text("B+ ve",
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18,
+                                            color: Color(0xff544C4C)))),
+                              )
+                            ],
+                          ),
+                          
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
