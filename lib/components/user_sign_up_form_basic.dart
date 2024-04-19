@@ -2,26 +2,59 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gym_buddy/utils/validator.dart';
 
 class UserSignUpFormBasic extends StatefulWidget {
   final Function(bool) onNeedFurtherInformationChanged;
 
-  const UserSignUpFormBasic({super.key,required this.onNeedFurtherInformationChanged});
+  const UserSignUpFormBasic(
+      {super.key, required this.onNeedFurtherInformationChanged});
 
   @override
   State<UserSignUpFormBasic> createState() => _UserSignUpFormBasicState();
 }
 
 class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
-  Future<void> _setState() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setBool("needFurtherInformation", true);
-    await sharedPreferences.setString("userName",_usernameController.text);
-    widget.onNeedFurtherInformationChanged(true);
+  String? _nameError;
+  String? _emailError;
+  String? _contactError;
+  String? _addressError;
+
+  onNextButtonPressed() async {
+    bool isInformationValidated = validateForm();
+
+    if (isInformationValidated) {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString("userName", _nameController.text);
+      await sharedPreferences.setString("userEmail", _emailController.text);
+      await sharedPreferences.setString("userContact", _contactController.text);
+      await sharedPreferences.setString("userAddress", _addressController.text);
+      await sharedPreferences.setBool("needFurtherInformation", true);
+
+      widget.onNeedFurtherInformationChanged(true);
+    }
   }
 
+  bool validateForm() {
+    setState(() {
+      _nameError = validateSimpleText(_nameController.text, "Name");
+      _emailError = validateSimpleText(_emailController.text, "Email");
+      _contactError = validateSimpleText(_contactController.text, "Contact");
+      _addressError = validateSimpleText(_addressController.text, "Email");
+    });
+    if (_nameError != null ||
+        _emailError != null ||
+        _contactError != null ||
+        _addressError != null) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,22 +85,30 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Name", controller: _usernameController,errorText: null)),
+                  labelText: "Name",
+                  controller: _nameController,
+                  errorText: _nameError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Email", controller: _usernameController,errorText: null)),
+                  labelText: "Email",
+                  controller: _emailController,
+                  errorText: _emailError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Contact", controller: _usernameController,errorText: null)),
+                  labelText: "Contact",
+                  controller: _contactController,
+                  errorText: _contactError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Address", controller: _usernameController,errorText: null)),
+                  labelText: "Address",
+                  controller: _addressController,
+                  errorText: _addressError)),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -76,7 +117,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: _setState,
+                          onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),

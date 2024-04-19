@@ -2,9 +2,15 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/subscription.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gym_buddy/utils/validator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class OwnerFurtherInformationForm extends StatefulWidget {
-  const OwnerFurtherInformationForm({super.key});
+  final TextEditingController nameController;
+
+  const OwnerFurtherInformationForm({super.key, required this.nameController});
 
   @override
   State<OwnerFurtherInformationForm> createState() =>
@@ -13,7 +19,54 @@ class OwnerFurtherInformationForm extends StatefulWidget {
 
 class _OwnerFurtherInformationFormState
     extends State<OwnerFurtherInformationForm> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _gymNameController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  String? gymNameError;
+  String? addressError;
+  String? contactError;
+
+  onSignUpButtonPressed() async {
+    bool isInformationValidated = validateForm();
+
+    if (isInformationValidated) {
+      var sharedPreferences = await SharedPreferences.getInstance();
+
+      var ownerName = sharedPreferences.getString("ownerName") ?? "";
+      var ownerEmail = sharedPreferences.getString("ownerEmail") ?? "";
+      var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
+      await sharedPreferences.setString("gymName", _gymNameController.text) ??
+          "";
+
+      http.post(
+        Uri.parse('https://eoyzujf70gludva.m.pipedream.net'),
+        body: jsonEncode(<String, String>{
+          'name': ownerName,
+          'email': ownerEmail,
+          'password': ownerPassword,
+          'gymName': _gymNameController.text,
+          'contact': _contactController.text,
+          'address': _addressController.text
+        }),
+      );
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Subscription()));
+    }
+  }
+
+  bool validateForm() {
+    setState(() {
+      gymNameError = validateSimpleText(_gymNameController.text, "Gym Name");
+      addressError = validateSimpleText(_addressController.text, "Address");
+      contactError = validateSimpleText(_contactController.text, "Contact");
+    });
+    if (gymNameError != null || addressError != null || contactError != null) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +78,7 @@ class _OwnerFurtherInformationFormState
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-              child: Text("Hi Murali",
+              child: Text("Hi ${widget.nameController.text}",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
                     color: Color(0xffFFFFFF),
@@ -45,22 +98,22 @@ class _OwnerFurtherInformationFormState
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Gym Name",
-                  controller: _usernameController,
+                  controller: _gymNameController,
                   errorText: null)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
-                  controller: _usernameController,
-                  errorText: null)),
+                  controller: _contactController,
+                  errorText: contactError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Address",
-                  controller: _usernameController,
-                  errorText: null)),
+                  controller: _addressController,
+                  errorText: addressError)),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -69,13 +122,7 @@ class _OwnerFurtherInformationFormState
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: () => {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Subscription()))
-                              },
+                          onPressed: onSignUpButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),

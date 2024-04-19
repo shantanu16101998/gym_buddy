@@ -13,10 +13,11 @@ class OwnerForm extends StatefulWidget {
 }
 
 class _OwnerFormState extends State<OwnerForm> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   late bool shouldShowLoginPage = false;
   late bool shouldShowFutherInformation = false;
+
+  final TextEditingController nameController = TextEditingController();
+
 
   Future<void> setShouldShowLoginPage(bool value) async {
     var sharedPreference = await SharedPreferences.getInstance();
@@ -38,9 +39,10 @@ class _OwnerFormState extends State<OwnerForm> {
     if (shouldShowLoginPage) {
       return const LoginForm();
     } else if (shouldShowFutherInformation) {
-      return const OwnerFurtherInformationForm();
+      return OwnerFurtherInformationForm(nameController: nameController);
     } else {
       return OwnerFormForm(
+        nameController: nameController,
           setShouldShowFurtherInformation: setShouldShowFurtherInformation);
     }
   }

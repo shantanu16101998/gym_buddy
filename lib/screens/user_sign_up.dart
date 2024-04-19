@@ -4,7 +4,6 @@ import 'package:gym_buddy/components/user_further_information_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSignUp extends StatefulWidget {
-  
   const UserSignUp({super.key});
 
   @override
@@ -12,9 +11,8 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  late bool needFurtherInformation = false;
+
+  late bool needFurtherInformation = true;
 
   void intialRouteDecider() async {
     var sharedPreference = await SharedPreferences.getInstance();

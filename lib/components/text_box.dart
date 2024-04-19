@@ -8,6 +8,7 @@ class LabeledTextField extends StatelessWidget {
   final Color textColour;
   final Color borderColor;
   final Color cursorColor;
+  final void Function()? onTap;
 
   LabeledTextField.passwordField(
       {required this.labelText,
@@ -16,7 +17,8 @@ class LabeledTextField extends StatelessWidget {
       this.shouldObscure = true,
       this.textColour = Colors.white,
       this.borderColor = Colors.white,
-      this.cursorColor = Colors.white});
+      this.cursorColor = Colors.white,
+      this.onTap});
 
   LabeledTextField(
       {required this.labelText,
@@ -25,7 +27,8 @@ class LabeledTextField extends StatelessWidget {
       this.shouldObscure = false,
       this.textColour = Colors.white,
       this.cursorColor = Colors.white,
-      this.borderColor = Colors.white});
+      this.borderColor = Colors.white,
+      this.onTap});
 
   LabeledTextField.homepageText(
       {required this.labelText,
@@ -34,7 +37,18 @@ class LabeledTextField extends StatelessWidget {
       this.shouldObscure = false,
       this.textColour = const Color(0xff667085),
       this.borderColor = const Color(0xffD0D5DD),
-      this.cursorColor = const Color(0xff667085)});
+      this.cursorColor = const Color(0xff667085),
+      this.onTap});
+
+  LabeledTextField.onTapOverride(
+      {required this.labelText,
+      required this.controller,
+      required this.errorText,
+      this.shouldObscure = false,
+      this.textColour = Colors.white,
+      this.cursorColor = Colors.white,
+      this.borderColor = Colors.white,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +59,7 @@ class LabeledTextField extends StatelessWidget {
             style: TextStyle(color: textColour),
             cursorColor: cursorColor,
             controller: controller,
+            onTap: onTap,
             obscureText: shouldObscure,
             decoration: InputDecoration(
               labelText: labelText,
@@ -54,13 +69,10 @@ class LabeledTextField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
-                      width: 1,
-                      color:
-                          borderColor.withOpacity(0.4))),
+                      width: 1, color: borderColor.withOpacity(0.4))),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                      width: 1, color: borderColor)),
+                  borderSide: BorderSide(width: 1, color: borderColor)),
             ))
       ]),
     );

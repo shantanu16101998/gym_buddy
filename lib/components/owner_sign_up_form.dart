@@ -1,18 +1,53 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:gym_buddy/utils/validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnerFormForm extends StatefulWidget {
   final Function setShouldShowFurtherInformation;
+  final TextEditingController nameController;
   const OwnerFormForm(
-      {super.key, required this.setShouldShowFurtherInformation});
+      {super.key, required this.setShouldShowFurtherInformation,required this.nameController});
 
   @override
   State<OwnerFormForm> createState() => _OwnerFormFormState();
 }
 
 class _OwnerFormFormState extends State<OwnerFormForm> {
-  final TextEditingController _usernameController = TextEditingController();
+  
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  String? emailError;
+  String? passwordError;
+  String? nameError;
+
+  onNextButtonPressed() async {
+    bool isInformationValidated = validateForm();
+
+    if (isInformationValidated) {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString("ownerName", widget.nameController.text);
+      await sharedPreferences.setString("ownerEmail", _emailController.text);
+      await sharedPreferences.setString(
+          "ownerPassword", _passwordController.text);
+      widget.setShouldShowFurtherInformation(true);
+    }
+  }
+
+  bool validateForm() {
+    setState(() {
+      emailError = validateSimpleText(_emailController.text, "Email");
+      passwordError = validateSimpleText(_passwordController.text, "Password");
+      nameError = validateSimpleText(widget.nameController.text, "Name");
+    });
+    if (emailError != null || passwordError != null || nameError != null) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +78,23 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Name", controller: _usernameController,errorText: null)),
+                  labelText: "Name",
+                  controller: widget.nameController,
+                  errorText: nameError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Email", controller: _usernameController,errorText: null)),
+                  labelText: "Email",
+                  controller: _emailController,
+                  errorText: emailError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Password", controller: _usernameController,errorText: null)),
+              child: LabeledTextField.passwordField(
+                  labelText: "Password",
+                  controller: _passwordController,
+                  errorText: passwordError)),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -62,8 +103,7 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: () =>
-                              {widget.setShouldShowFurtherInformation(true)},
+                          onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),
