@@ -9,6 +9,7 @@ class LabeledTextField extends StatelessWidget {
   final Color borderColor;
   final Color cursorColor;
   final void Function()? onTap;
+  final void Function(String)? onChange;
 
   LabeledTextField.passwordField(
       {required this.labelText,
@@ -18,7 +19,8 @@ class LabeledTextField extends StatelessWidget {
       this.textColour = Colors.white,
       this.borderColor = Colors.white,
       this.cursorColor = Colors.white,
-      this.onTap});
+      this.onTap,
+      this.onChange});
 
   LabeledTextField(
       {required this.labelText,
@@ -28,7 +30,8 @@ class LabeledTextField extends StatelessWidget {
       this.textColour = Colors.white,
       this.cursorColor = Colors.white,
       this.borderColor = Colors.white,
-      this.onTap});
+      this.onTap,
+      this.onChange});
 
   LabeledTextField.homepageText(
       {required this.labelText,
@@ -38,7 +41,8 @@ class LabeledTextField extends StatelessWidget {
       this.textColour = const Color(0xff667085),
       this.borderColor = const Color(0xffD0D5DD),
       this.cursorColor = const Color(0xff667085),
-      this.onTap});
+      this.onTap,
+      this.onChange});
 
   LabeledTextField.onTapOverride(
       {required this.labelText,
@@ -48,7 +52,19 @@ class LabeledTextField extends StatelessWidget {
       this.textColour = Colors.white,
       this.cursorColor = Colors.white,
       this.borderColor = Colors.white,
-      required this.onTap});
+      required this.onTap,
+      this.onChange});
+
+  LabeledTextField.onChangeOverride(
+      {required this.labelText,
+      required this.controller,
+      required this.errorText,
+      this.shouldObscure = false,
+      this.textColour = const Color(0xff667085),
+      this.borderColor = const Color(0xffD0D5DD),
+      this.cursorColor = const Color(0xff667085),
+      this.onTap,
+      required this.onChange});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +76,7 @@ class LabeledTextField extends StatelessWidget {
             cursorColor: cursorColor,
             controller: controller,
             onTap: onTap,
+            onChanged: onChange,
             obscureText: shouldObscure,
             decoration: InputDecoration(
               labelText: labelText,

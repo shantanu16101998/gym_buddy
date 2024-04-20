@@ -2,10 +2,9 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class OwnerFurtherInformationForm extends StatefulWidget {
   final TextEditingController nameController;
@@ -36,20 +35,19 @@ class _OwnerFurtherInformationFormState
       var ownerName = sharedPreferences.getString("ownerName") ?? "";
       var ownerEmail = sharedPreferences.getString("ownerEmail") ?? "";
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
-      await sharedPreferences.setString("gymName", _gymNameController.text) ??
-          "";
+      await sharedPreferences.setString("gymName", _gymNameController.text);
 
-      http.post(
-        Uri.parse('https://eoyzujf70gludva.m.pipedream.net'),
-        body: jsonEncode(<String, String>{
-          'name': ownerName,
-          'email': ownerEmail,
-          'password': ownerPassword,
-          'gymName': _gymNameController.text,
-          'contact': _contactController.text,
-          'address': _addressController.text
-        }),
-      );
+      backendAPICall(
+          '/register',
+          {
+            'name': ownerName,
+            'email': ownerEmail,
+            'password': ownerPassword,
+            'gymName': _gymNameController.text,
+            'contact': _contactController.text,
+            'address': _addressController.text
+          },
+          'POST',true);
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));

@@ -2,12 +2,10 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class UserFurtherInformationForm extends StatefulWidget {
   final Function(bool) onNeedFurtherInformationChanged;
@@ -53,20 +51,20 @@ class _UserFurtherInformationFormState
       var userAddress = sharedPreferences.getString("userAddress") ?? "";
       var gymName = sharedPreferences.getString("gymName") ?? "";
 
-      http.post(
-        Uri.parse('https://eoyzujf70gludva.m.pipedream.net'),
-        body: jsonEncode(<String, String>{
-          'name': userName,
-          'email': userEmail,
-          'contact': userContact,
-          'gymName': gymName,
-          'address': userAddress,
-          'age': _ageController.text,
-          'gender': _genderController.text,
-          'startDate': _startDateController.text,
-          'endMonth': _endMonthController.text
-        }),
-      );
+      backendAPICall(
+          '/user/register',
+          {
+            'name': userName,
+            'email': userEmail,
+            'contact': userContact,
+            'gymName': gymName,
+            'address': userAddress,
+            'age': _ageController.text,
+            'gender': _genderController.text,
+            'startDate': _startDateController.text,
+            'endMonth': _endMonthController.text
+          },
+          "POST",true);
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));
@@ -116,10 +114,11 @@ class _UserFurtherInformationFormState
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
     );
-    if (pickedDate != null)
+    if (pickedDate != null) {
       setState(() {
         _dateController.text = DateFormat("d MMMM yyyy").format(pickedDate);
       });
+    }
   }
 
   @override

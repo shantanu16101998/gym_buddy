@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:gym_buddy/screens/subscription.dart';
-import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -36,22 +36,25 @@ class _LoginFormState extends State<LoginForm> {
     bool isInformationValidated = validateForm();
 
     if (isInformationValidated) {
-      final httpresponse = await http.post(
-        Uri.parse('https://eoyzujf70gludva.m.pipedream.net'),
-        body: jsonEncode(<String, String>{
-          'email': _emailController.text,
-          'password': _passwordController.text,
-        }),
-      );
-
-      LoginResponse loginResponse = LoginResponse.fromJson(
-          jsonDecode(httpresponse.body) as Map<String, dynamic>);
+      LoginResponse loginResponse = LoginResponse.fromJson(await backendAPICall(
+          '/login',
+          {
+            'email': _emailController.text,
+            'password': _passwordController.text,
+          },
+          'POST',true));
 
       if (loginResponse.jwtToken != null) {
-        Navigator.push(context,
+        var sharedPreferences = await SharedPreferences.getInstance();
+
+        sharedPreferences.setString("jwtToken", loginResponse.jwtToken ?? "");
+
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Subscription()));
       } else {
-        showEmailPasswordNotMatchedError = true;
+        setState(() {
+          showEmailPasswordNotMatchedError = true;
+        });
       }
     }
   }

@@ -4,8 +4,10 @@ import 'package:gym_buddy/components/subscription_card_container.dart';
 import 'package:gym_buddy/components/tab_bar.dart';
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gym_buddy/models/responses.dart';
 
 class Subscription extends StatefulWidget {
   const Subscription({super.key});
@@ -15,9 +17,47 @@ class Subscription extends StatefulWidget {
 }
 
 class _SubscriptionState extends State<Subscription> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  List currentUsers = [];
+  List expiredUsers = [];
+  List allCurrentUsers = [];
+  List allExpiredUsers = [];
 
   bool showCurrentUsers = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSubscription();
+  }
+
+  fetchSubscription() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    String jwtToken = sharedPreferences.getString("") ?? "";
+
+    SubscriptionDetailsResponse subscriptionDetailsResponse =
+        SubscriptionDetailsResponse.fromJson(await backendAPICall('/demo', {'jwtToken': jwtToken}, "POST",true));
+
+    setState(() {
+      currentUsers = subscriptionDetailsResponse.currentUsers;
+      expiredUsers = subscriptionDetailsResponse.expiredUsers;
+      allCurrentUsers = currentUsers;
+      allExpiredUsers = expiredUsers;
+    });
+  }
+
+  _onSearchTextFieldChanged(String currentText) {
+    setState(() {
+      currentUsers = allCurrentUsers
+          .where((currentUser) =>
+              currentUser.name.toLowerCase()!.contains(currentText))
+          .toList();
+      expiredUsers = allExpiredUsers
+          .where((expiredUser) =>
+              expiredUser.name.toLowerCase()!.contains(currentText))
+          .toList();
+    });
+  }
 
   Future<void> setShouldShowCurrent(bool value) async {
     var sharedPreference = await SharedPreferences.getInstance();
@@ -41,19 +81,23 @@ class _SubscriptionState extends State<Subscription> {
                       top: getStatusBarHeight(context), left: 10, right: 10),
                   child: Column(
                     children: [
-                      Header(),
+                      const Header(),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
                           showCurrentUsers: showCurrentUsers),
                       Container(
                         width: 340,
-                        child: LabeledTextField.homepageText(
+                        child: LabeledTextField.onChangeOverride(
                             labelText: "Search members",
-                            controller: _usernameController,
+                            controller: _searchController,
+                            onChange: _onSearchTextFieldChanged,
                             errorText: null),
                       ),
                       SubscriptionCardContainer(
-                          showCurrentUsers: showCurrentUsers)
+                        showCurrentUsers: showCurrentUsers,
+                        currentUsers: currentUsers,
+                        expiredUsers: expiredUsers,
+                      )
                     ],
                   ),
                 )),

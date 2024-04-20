@@ -7,16 +7,17 @@ class SubscriptionCard extends StatefulWidget {
   final String name;
   final String startDate;
   final String endDate;
-  final String? expiringDay;
-  final String? expiredDay;
-  const SubscriptionCard({
-    super.key,
-    required this.name,
-    required this.startDate,
-    required this.endDate,
-    required this.expiringDay,
-    required this.expiredDay,
-  });
+  final int? expiringDay;
+  final int? expiredDay;
+  final int userId;
+  const SubscriptionCard(
+      {super.key,
+      required this.name,
+      required this.startDate,
+      required this.endDate,
+      required this.expiringDay,
+      required this.expiredDay,
+      required this.userId});
 
   @override
   State<SubscriptionCard> createState() => _SubscriptionCardState();
@@ -27,8 +28,10 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Profile()))
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Profile(userId: widget.userId)))
             },
         child: Container(
           padding: const EdgeInsets.all(24),
@@ -81,7 +84,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                     ],
                   ),
                   Row(children: [
-                    Icon(
+                    const Icon(
                       Icons.calendar_today,
                       color: Color(0xff667085),
                       size: 20,
@@ -91,7 +94,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                     ),
                     Text(widget.endDate,
                         style: GoogleFonts.inter(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 14,
                                 color: Color(0xff344054)))),
@@ -117,7 +120,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                               fontSize: 14,
                               color: Color(0xffB01D1D))))
                   : const SizedBox(),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               widget.expiredDay != null
@@ -134,7 +137,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                           },
                           style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white,
-                              side: BorderSide(
+                              side: const BorderSide(
                                   width: 1.0, color: Color(0xffD0D5DD)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),

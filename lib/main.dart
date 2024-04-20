@@ -32,12 +32,12 @@ class _MyAppState extends State<MyApp> {
             .copyWith(secondary: Colors.red, primary: Color(0xff667085)),
         primaryColor: Colors.black,
       ),
-      initialRoute: '/user-sign-up',
+      initialRoute: '/subscription',
       routes: {
         '/owner-sign-up': (context) => const OwnerForm(),
         '/user-sign-up': (context) => const UserSignUp(),
         '/subscription': (context) => const Subscription(),
-        '/profile': (context) => const Profile()
+        '/profile': (context) => const Profile(userId: 1)
       },
     );
   }
