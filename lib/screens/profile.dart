@@ -37,7 +37,8 @@ class _ProfileState extends State<Profile> {
                   Column(
                     children: [
                       Padding(
-                        padding:  const EdgeInsets.fromLTRB(20.0, 16.0, 12.0, 24.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(20.0, 16.0, 12.0, 24.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -47,31 +48,40 @@ class _ProfileState extends State<Profile> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22,
                                         color: Color(0xff004576)))),
-                            const Icon(Icons.male, color: Color(0xff004576), size : 35),
+                            const Icon(Icons.male,
+                                color: Color(0xff004576), size: 35),
                           ],
                         ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 45),
-                    child: Container(
-                        height: 41,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          color: Color(0xF2F4F7),
-                          border: Border.all(width: 2, color: Color(0xffD0D5DD)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child: Text("Update Subscription",
-                              style: GoogleFonts.inter(
+                      padding: const EdgeInsets.only(bottom: 45),
+                      child: Container(
+                          height: 45,
+                          width: 300,
+                          decoration: BoxDecoration(
+                            color: Color(0xF2F4F7),
+                            border:
+                                Border.all(width: 2, color: Color(0xffD0D5DD)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: TextButton(
+                              style: TextButton.styleFrom(
                                   textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576)))),
-                        )),
-                  ),
+                                      color: Color(0xffB01D1D),
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {},
+                              child: Text('Update Subscription',
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: Color(0xff004576)))),
+                            ),
+                          ))),
                   Container(
                     width: 250,
                     // color: Color.fromARGB(255, 1, 10, 26),
@@ -154,7 +164,8 @@ class _ProfileState extends State<Profile> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Icon(Icons.bloodtype, color: Color(0xff004576)),
+                              const Icon(Icons.bloodtype,
+                                  color: Color(0xff004576)),
                               SizedBox(width: getScreenWidth(context) * 0.03),
                               Flexible(
                                 child: Text("B+ ve",
@@ -173,20 +184,29 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.only(top: 45),
                     child: Container(
-                        height: 41,
+                        height: 45,
                         width: 300,
                         decoration: BoxDecoration(
                           color: Color(0xF2F4F7),
-                          border: Border.all(width: 2, color: Color(0xffD0D5DD)),
+                          border:
+                              Border.all(width: 2, color: Color(0xffD0D5DD)),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
-                          child: Text("Delete user",
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: Color(0xffB01D1D)))),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                textStyle: const TextStyle(
+                                    fontSize: 22,
+                                    color: Color(0xffB01D1D),
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () {},
+                            child: Text('Delete user',
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Color(0xffB01D1D)))),
+                          ),
                         )),
                   ),
                 ],
@@ -218,4 +238,13 @@ class _ProfileState extends State<Profile> {
           )),
     );
   }
+
+  // Text remove() {
+  //   return Text("Delete user",
+  //                             style: GoogleFonts.inter(
+  //                                 textStyle: const TextStyle(
+  //                                     fontWeight: FontWeight.bold,
+  //                                     fontSize: 22,
+  //                                     color: Color(0xffB01D1D))));
 }
+// }
