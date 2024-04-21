@@ -14,42 +14,50 @@ class _HeaderState extends State<Header> {
     return Container(
       padding: EdgeInsets.all(20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/profile_pic.png"),
-                fit: BoxFit.fill,
-              ),
-              shape: BoxShape.circle,
-            ),
-          ),
-          Column(
+          Row(
             children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 17, bottom: 3),
-                  child: Text("Murali M",
-                      style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: Color(0xff344054),
-                          decoration: TextDecoration.none,
-                        ),
-                      ))),
-              Text("Admin",
-                  style: GoogleFonts.roboto(
-                      textStyle: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 18,
-                    color: Color(0xff344054),
-                    decoration: TextDecoration.none,
-                  )))
+              Container(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/profile_pic.png"),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: BoxShape.circle,
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 17, bottom: 3),
+                      child: Text("Murali M",
+                          style: GoogleFonts.inter(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: Color(0xff344054),
+                              decoration: TextDecoration.none,
+                            ),
+                          ))),
+                  Text("Admin",
+                      style: GoogleFonts.roboto(
+                          textStyle: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: Color(0xff344054),
+                        decoration: TextDecoration.none,
+                      )))
+                ],
+              ),
             ],
-          )
+          ),
+          InkWell(
+            onTap: () => {Scaffold.of(context).openDrawer()},
+            child: const Icon(Icons.menu),
+          ),
         ],
       ),
     );

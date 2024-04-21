@@ -64,3 +64,48 @@ class UserProfileResponse {
         gender: json["gender"] ?? "");
   }
 }
+
+class AnalysisHomepageResponse {
+  final int earnings;
+  final int numberOfPeople;
+  final String averageMonth;
+  final String genderRatio;
+
+  const AnalysisHomepageResponse(
+      {required this.earnings,
+      required this.numberOfPeople,
+      required this.averageMonth,
+      required this.genderRatio});
+
+  factory AnalysisHomepageResponse.fromJson(Map<String, dynamic> json) {
+    return AnalysisHomepageResponse(
+        earnings: json["earnings"],
+        numberOfPeople: json["numberOfPeople"],
+        averageMonth: json["averageMonth"],
+        genderRatio: json["genderRatio"]);
+  }
+}
+
+class ExpandedAnalysisResponse {
+  final List<String> titles;
+  final List<double> data;
+  final String average;
+  final String total;
+  final double maxLimitOfData;
+
+  ExpandedAnalysisResponse(
+      {required this.titles,
+      required this.data,
+      required this.average,
+      required this.total,
+      required this.maxLimitOfData});
+
+  factory ExpandedAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return ExpandedAnalysisResponse(
+        average: json["average"],
+        titles: List<String>.from(json["titles"]),
+        data: List<double>.from(json["data"]),
+        maxLimitOfData: json["maxLimitOfData"],
+        total: json["total"]);
+  }
+}

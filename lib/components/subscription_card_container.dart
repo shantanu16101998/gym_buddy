@@ -1,14 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/subscription_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
   final bool showCurrentUsers;
   final List<dynamic> currentUsers;
   final List<dynamic> expiredUsers;
-  const SubscriptionCardContainer({super.key, required this.showCurrentUsers,required this.currentUsers,required this.expiredUsers});
+  const SubscriptionCardContainer(
+      {super.key,
+      required this.showCurrentUsers,
+      required this.currentUsers,
+      required this.expiredUsers});
 
   @override
   State<SubscriptionCardContainer> createState() =>
@@ -16,8 +17,6 @@ class SubscriptionCardContainer extends StatefulWidget {
 }
 
 class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
-  
-
   List listToShow() {
     if (widget.showCurrentUsers) {
       return widget.currentUsers;
@@ -25,10 +24,6 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
       return widget.expiredUsers;
     }
   }
-
-  
-
-  
 
   @override
   Widget build(BuildContext context) {

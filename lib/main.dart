@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/screens/analysis_homepage.dart';
+import 'package:gym_buddy/screens/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/screens/profile.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,12 +33,15 @@ class _MyAppState extends State<MyApp> {
             .copyWith(secondary: Colors.red, primary: Color(0xff667085)),
         primaryColor: Colors.black,
       ),
-      initialRoute: '/subscription',
+      initialRoute: '/analysis-expanded',
       routes: {
         '/owner-sign-up': (context) => const OwnerForm(),
         '/user-sign-up': (context) => const UserSignUp(),
         '/subscription': (context) => const Subscription(),
-        '/profile': (context) => const Profile(userId: 1)
+        '/profile': (context) => const Profile(userId: 1),
+        '/analysis': (context) => const AnalysisHomepage(),
+        '/analysis-expanded': (context) =>
+            const ExpandedAnalysis(label: "earnings")
       },
     );
   }

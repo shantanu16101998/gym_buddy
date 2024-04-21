@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/header.dart';
+import 'package:gym_buddy/components/side_bar.dart';
 import 'package:gym_buddy/components/subscription_card_container.dart';
 import 'package:gym_buddy/components/tab_bar.dart';
 import 'package:gym_buddy/components/text_box.dart';
@@ -36,7 +37,8 @@ class _SubscriptionState extends State<Subscription> {
     String jwtToken = sharedPreferences.getString("") ?? "";
 
     SubscriptionDetailsResponse subscriptionDetailsResponse =
-        SubscriptionDetailsResponse.fromJson(await backendAPICall('/demo', {'jwtToken': jwtToken}, "POST",true));
+        SubscriptionDetailsResponse.fromJson(await backendAPICall(
+            '/demo', {'jwtToken': jwtToken}, "POST", true));
 
     setState(() {
       currentUsers = subscriptionDetailsResponse.currentUsers;
@@ -70,6 +72,7 @@ class _SubscriptionState extends State<Subscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: SideBar(),
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
@@ -84,7 +87,9 @@ class _SubscriptionState extends State<Subscription> {
                       const Header(),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
-                          showCurrentUsers: showCurrentUsers),
+                          showCurrentUsers: showCurrentUsers,
+                          numberOfCurrentUsers: allCurrentUsers.length,
+                          numberOfExpiredUsers: allExpiredUsers.length),
                       Container(
                         width: 340,
                         child: LabeledTextField.onChangeOverride(
