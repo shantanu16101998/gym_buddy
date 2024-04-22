@@ -5,8 +5,14 @@ import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/screens/profile.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:gym_buddy/firebase_options.dart';
+import 'package:gym_buddy/utils/firebase_api.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAPI().initNotification();
   runApp(const MyApp());
 }
 

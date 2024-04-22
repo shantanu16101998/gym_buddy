@@ -16,8 +16,10 @@ class ExpandedAnalysis extends StatefulWidget {
 }
 
 class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
-  ExpandedAnalysisResponse expandedAnalysisResponse =
-      ExpandedAnalysisResponse(titles: [], data: [], average: "", total: "",maxLimitOfData: 100);
+  ExpandedAnalysisResponse expandedAnalysisResponse = ExpandedAnalysisResponse(
+      titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+
+  bool isApiDataLoaded = false;
 
   fetchData() async {
     ExpandedAnalysisResponse _expandedAnalysisResponse =
@@ -25,12 +27,12 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
             '/analysis/${widget.label.toLowerCase()}', {}, 'POST', true));
     setState(() {
       expandedAnalysisResponse = _expandedAnalysisResponse;
+      isApiDataLoaded = true;
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchData();
   }
@@ -43,7 +45,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
               x: entry.key,
               barRods: [
                 BarChartRodData(
-                    toY: entry.value,
+                    toY: entry.value.toDouble(),
                     color: entry.key % 2 == 0
                         ? const Color(0xff344054)
                         : const Color(0xff344054),
@@ -57,18 +59,19 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
   Widget getBottomTitlesWidget(double x, TitleMeta titleMeta) {
     return CustomText(
         text: expandedAnalysisResponse.titles[x.round()],
-        color: Color(0XFF86909C));
+        color: const Color(0XFF86909C));
   }
 
   Widget getLeftTitlesWidget(double x, TitleMeta titleMeta) {
     return CustomText(
         text: NumberFormat.compact(locale: 'en_IN').format(x),
-        color: Color(0XFF86909C));
+        color: const Color(0XFF86909C));
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isApiDataLoaded: isApiDataLoaded,
       child: Column(
         children: [
           Container(
@@ -81,15 +84,15 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  CustomText.bodyHeading(text: "Earnings"),
-                  Container(
+                  const CustomText.bodyHeading(text: "Earnings"),
+                  SizedBox(
                     height: getScreenHeight(context) * 0.3,
                     child: BarChart(
                       BarChartData(
-                          maxY: expandedAnalysisResponse.maxLimitOfData,
+                          maxY: expandedAnalysisResponse.maxLimitOfData.toDouble(),
                           barGroups: makeData(),
                           borderData: FlBorderData(
-                              border: Border(
+                              border: const Border(
                             bottom:
                                 BorderSide(width: 1, color: Color(0xffc9cdd4)),
                           )),
@@ -147,7 +150,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText(
+                        const CustomText(
                             text: "Total Earnings",
                             color: Color(0xff344054),
                             fontSize: 20),

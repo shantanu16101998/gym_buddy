@@ -88,10 +88,10 @@ class AnalysisHomepageResponse {
 
 class ExpandedAnalysisResponse {
   final List<String> titles;
-  final List<double> data;
+  final List<int> data;
   final String average;
   final String total;
-  final double maxLimitOfData;
+  final int maxLimitOfData;
 
   ExpandedAnalysisResponse(
       {required this.titles,
@@ -104,7 +104,7 @@ class ExpandedAnalysisResponse {
     return ExpandedAnalysisResponse(
         average: json["average"],
         titles: List<String>.from(json["titles"]),
-        data: List<double>.from(json["data"]),
+        data: List<int>.from(json["data"]),
         maxLimitOfData: json["maxLimitOfData"],
         total: json["total"]);
   }
