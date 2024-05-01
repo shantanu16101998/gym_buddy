@@ -6,6 +6,8 @@ import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/subscription_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -17,15 +19,19 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   UserProfileResponse userProfileResponse = const UserProfileResponse(
-      name: "name",
+      name: "Suraj Kumar",
       email: "email",
       address: "address",
       age: "age",
-      phone: "phone",
+      phone: "7424948001",
       bloodGroup: "bloodGroup",
       gender: "Male");
 
   bool isApiDataLoaded = false;
+
+  textToSend() {
+    return "Hi ${userProfileResponse.name}, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
+  }
 
   fetchProfileDetails() async {
     var userProfileApiResponse = UserProfileResponse.fromJson(
@@ -45,6 +51,14 @@ class _ProfileState extends State<Profile> {
         context, MaterialPageRoute(builder: (context) => const Subscription()));
   }
 
+  _openWhatsappLink() async {
+    await launchUrl(Uri(
+        host: 'wa.me',
+        path: '+91${userProfileResponse.phone}',
+        scheme: 'https',
+        queryParameters: {'text': textToSend()}));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +70,6 @@ class _ProfileState extends State<Profile> {
     return AppScaffold.noHeader(
       isApiDataLoaded: isApiDataLoaded,
       child: Container(
-          padding: EdgeInsets.only(top: getStatusBarHeight(context)),
           width: double.infinity,
           color: Colors.white,
           child: Stack(
@@ -102,7 +115,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(bottom: 45),
+                      padding: const EdgeInsets.only(bottom: 25),
                       child: SizedBox(
                         height: 45,
                         width: 300,
@@ -133,6 +146,49 @@ class _ProfileState extends State<Profile> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
                                       color: Color(0xff004576)))),
+                        ),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: SizedBox(
+                        height: 45,
+                        width: 300,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    width: 2, color: Color(0xffD0D5DD)),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 22,
+                                color: Color(0xffB01D1D),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _openWhatsappLink,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .center, // Aligns children horizontally
+                              children: [
+                                Icon(FontAwesomeIcons.whatsapp,weight: 20,
+                                    color: Color.fromARGB(255, 29, 176, 93)),
+                                const SizedBox(width: 15),
+                                Text(
+                                  'Message',
+                                  style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: Color.fromARGB(255, 29, 176, 93),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       )),
                   Container(
@@ -237,7 +293,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 45),
+                      padding: const EdgeInsets.only(top: 15),
                       child: SizedBox(
                         height: 45,
                         width: 300,

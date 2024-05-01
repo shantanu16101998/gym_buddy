@@ -24,11 +24,21 @@ class _SubscriptionState extends State<Subscription> {
   List allCurrentUsers = [];
   List allExpiredUsers = [];
 
+  String ownerName = "Owner";
+
+  fetchOwnerName() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      ownerName = sharedPreferences.getString("ownerName") ?? "Owner";
+    });
+  }
+
   bool showCurrentUsers = true;
 
   @override
   void initState() {
     super.initState();
+    fetchOwnerName();
     fetchSubscription();
   }
 
@@ -71,7 +81,7 @@ class _SubscriptionState extends State<Subscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SideBar(),
+        drawer: SideBar(ownerName: ownerName),
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
@@ -80,10 +90,13 @@ class _SubscriptionState extends State<Subscription> {
                 child: Container(
                   // padding: EdgeInsets.all(10),
                   padding: EdgeInsets.only(
-                      top: getStatusBarHeight(context), left: 10, right: 10,bottom: 100),
+                      top: getStatusBarHeight(context),
+                      left: 10,
+                      right: 10,
+                      bottom: 100),
                   child: Column(
                     children: [
-                      const Header(),
+                      Header(ownerName: ownerName),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
                           showCurrentUsers: showCurrentUsers,

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/header.dart';
 import 'package:gym_buddy/components/side_bar.dart';
 import 'package:gym_buddy/components/loader.dart';
+import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AppScaffold extends StatefulWidget {
   final Widget child;
@@ -28,18 +31,35 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
+
+  String ownerName = "Owner";
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOwnerName();
+  }
+
+  fetchOwnerName() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      ownerName = sharedPreferences.getString("ownerName") ?? "Owner";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.isApiDataLoaded
         ? Scaffold(
-            drawer: const SideBar(),
+            drawer: SideBar(ownerName: ownerName),
             body: Container(
               padding: EdgeInsets.only(top: getStatusBarHeight(context)),
               width: double.infinity,
               color: widget.bodyColor ?? Colors.white,
               child: Column(
                 children: [
-                  widget.showHeader ? const Header() : const SizedBox(),
+                  widget.showHeader ? Header(ownerName: ownerName) : const SizedBox(),
                   Container(child: widget.child)
                 ],
               ),

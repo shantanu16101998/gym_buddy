@@ -7,18 +7,22 @@ Future<Map<String, dynamic>> backendAPICall(String path,
     Map<String, dynamic>? requestBody, String method, bool needJwt) async {
   Map<String, String> requestHeaders;
 
+/*
   print('calling $TEST_URL$path');
   print('');
   print('request body $requestBody');
   print('');
   print('method: $method');
   print('');
+  
+  SAMPLE JWT TOKEN FOR DEVELOPING
+
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lck5hbWUiOiJhYmNkIiwiZW1haWwiOiJhYmNkIiwiY29udGFjdCI6IjEyMzEyMzEyMzIxMyIsImlhdCI6MTcxNDU3NzAwNywiZXhwIjozNjAwMTcxNDU3NzAwN30.r3XhAUNTI5kKDxNaacUoCL6djMxudDHSwJWv6ni_Y_I"
+*/
 
   if (needJwt) {
     var sharedPreferences = await SharedPreferences.getInstance();
-    var jwtToken = sharedPreferences.getString("jwtToken") ??
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lck5hbWUiOiJhYmNkIiwiZW1haWwiOiJhYmNkIiwiY29udGFjdCI6IjEyMzEyMzEyMzIxMyIsImlhdCI6MTcxNDU3NzAwNywiZXhwIjozNjAwMTcxNDU3NzAwN30.r3XhAUNTI5kKDxNaacUoCL6djMxudDHSwJWv6ni_Y_I";
-
+    var jwtToken = sharedPreferences.getString("jwtToken") ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lck5hbWUiOiJhYmNkIiwiZW1haWwiOiJhYmNkIiwiY29udGFjdCI6IjEyMzEyMzEyMzIxMyIsImlhdCI6MTcxNDU3NzAwNywiZXhwIjozNjAwMTcxNDU3NzAwN30.r3XhAUNTI5kKDxNaacUoCL6djMxudDHSwJWv6ni_Y_I";
     requestHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -31,15 +35,15 @@ Future<Map<String, dynamic>> backendAPICall(String path,
     };
   }
 
-  print('request headers $requestHeaders');
+  // print('request headers $requestHeaders');
 
   if (method == "GET") {
     final response = await http.get(
       Uri.parse('$TEST_URL$path'),
       headers: requestHeaders,
     );
-    print(response.body);
-    print('');
+    // print(response.body);
+    // print('');
 
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else if (method == "POST") {
@@ -48,8 +52,8 @@ Future<Map<String, dynamic>> backendAPICall(String path,
       headers: requestHeaders,
       body: jsonEncode(requestBody),
     );
-    print(response.body);
-    print('');
+    // print(response.body);
+    // print('');
 
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else if (method == "PUT") {
@@ -58,16 +62,14 @@ Future<Map<String, dynamic>> backendAPICall(String path,
       headers: requestHeaders,
       body: jsonEncode(requestBody),
     );
-    print(response.body);
-    print('');
+    // print(response.body);
+    // print('');
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else if (method == "DELETE") {
-    final response = await http.delete(
-      Uri.parse('$TEST_URL$path'),
-      headers: requestHeaders
-    );
+    final response =
+        await http.delete(Uri.parse('$TEST_URL$path'), headers: requestHeaders);
 
-    print(response.body);
+    // print(response.body);
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
   return jsonDecode("") as Map<String, dynamic>;

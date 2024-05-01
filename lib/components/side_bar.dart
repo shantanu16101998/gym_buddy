@@ -4,7 +4,8 @@ import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  final String ownerName;
+  const SideBar({super.key,required this.ownerName});
 
   @override
   State<SideBar> createState() => _SideBarState();
@@ -23,8 +24,8 @@ class _SideBarState extends State<SideBar> {
               height: getScreenHeight(context) * 0.25,
               child: Padding(
                   padding: EdgeInsets.only(top: getScreenWidth(context) * 0.2),
-                  child: const Text(
-                    "Murali M",
+                  child: Text(
+                    widget.ownerName,
                     style: TextStyle(
                         color: Color(0xff344054),
                         fontWeight: FontWeight.bold,
@@ -42,7 +43,8 @@ class _SideBarState extends State<SideBar> {
                 },
                 child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: const Color(0xffDBDDE2))),
+                        border: Border.all(
+                            width: 1, color: const Color(0xffDBDDE2))),
                     child: Row(children: [
                       Padding(
                           padding: EdgeInsets.only(
@@ -67,7 +69,8 @@ class _SideBarState extends State<SideBar> {
                 },
                 child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: const Color(0xffDBDDE2))),
+                        border: Border.all(
+                            width: 1, color: const Color(0xffDBDDE2))),
                     child: Row(children: [
                       Padding(
                           padding: EdgeInsets.only(
