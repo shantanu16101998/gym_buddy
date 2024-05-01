@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/header.dart';
 import 'package:gym_buddy/components/side_bar.dart';
 import 'package:gym_buddy/components/loader.dart';
-import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

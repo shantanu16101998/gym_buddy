@@ -3,15 +3,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gym_buddy/components/app_scaffold.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 /// This is the screen that you'll see when the app starts
 class QrCodePic extends StatefulWidget {
   @override
   State<QrCodePic> createState() => _QrCodePic();
-  Color? qrColor;
-  QrCodePic({super.key,required this.qrColor});
+  final Color? qrColor;
+  const QrCodePic({super.key,required this.qrColor});
 }
 
 class _QrCodePic extends State<QrCodePic> {

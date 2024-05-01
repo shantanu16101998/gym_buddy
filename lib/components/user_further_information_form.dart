@@ -30,7 +30,7 @@ class _UserFurtherInformationFormState
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endMonthController = TextEditingController();
-  final TextEditingController _chargesController = TextEditingController();
+  // final TextEditingController _chargesController = TextEditingController();
 
   String? ageError;
   String? genderError;

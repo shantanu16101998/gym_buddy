@@ -43,7 +43,7 @@ class _SubscriptionState extends State<Subscription> {
   }
 
   fetchSubscription() async {
-    var sharedPreferences = await SharedPreferences.getInstance();
+    // var sharedPreferences = await SharedPreferences.getInstance();
 
     SubscriptionDetailsResponse subscriptionDetailsResponse =
         SubscriptionDetailsResponse.fromJson(
