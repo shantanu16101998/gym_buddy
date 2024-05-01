@@ -1,14 +1,16 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
+import 'package:flutter/services.dart';
 
 class UserSignUpFormBasic extends StatefulWidget {
-  final Function(bool) onNeedFurtherInformationChanged;
+  final Function onPageToShowChange;
 
   const UserSignUpFormBasic(
-      {super.key, required this.onNeedFurtherInformationChanged});
+      {super.key, required this.onPageToShowChange});
 
   @override
   State<UserSignUpFormBasic> createState() => _UserSignUpFormBasicState();
@@ -36,7 +38,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
       await sharedPreferences.setString("userAddress", _addressController.text);
       await sharedPreferences.setBool("needFurtherInformation", true);
 
-      widget.onNeedFurtherInformationChanged(true);
+      widget.onPageToShowChange(PageToShow.futherInformationPage);
     }
   }
 
@@ -100,6 +102,8 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
+                  textInputType: TextInputType.number,
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
                   controller: _contactController,
                   errorText: _contactError)),
           Padding(

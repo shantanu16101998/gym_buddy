@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Header extends StatefulWidget {
   const Header({super.key});
@@ -9,9 +11,24 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
+  String ownerName = "User";
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  fetchOwnerName() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      ownerName = sharedPreferences.getString("ownerName") ?? "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
+      height: getScreenHeight(context) * 0.12,
       padding: EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,7 +50,7 @@ class _HeaderState extends State<Header> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(left: 17, bottom: 3),
-                      child: Text("Murali M",
+                      child: Text(ownerName,
                           style: GoogleFonts.inter(
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,

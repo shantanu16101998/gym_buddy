@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LabeledTextField extends StatelessWidget {
   final String labelText;
@@ -10,8 +11,11 @@ class LabeledTextField extends StatelessWidget {
   final Color cursorColor;
   final void Function()? onTap;
   final void Function(String)? onChange;
+  final Icon? prefixIcon;
+  final TextInputType? textInputType;
+  final List<TextInputFormatter>? textInputFormatter;
 
-  LabeledTextField.passwordField(
+  const LabeledTextField.passwordField(
       {required this.labelText,
       required this.controller,
       required this.errorText,
@@ -20,9 +24,12 @@ class LabeledTextField extends StatelessWidget {
       this.borderColor = Colors.white,
       this.cursorColor = Colors.white,
       this.onTap,
-      this.onChange});
+      this.onChange,
+      this.prefixIcon,
+      this.textInputType,
+      this.textInputFormatter});
 
-  LabeledTextField(
+  const LabeledTextField(
       {required this.labelText,
       required this.controller,
       required this.errorText,
@@ -31,9 +38,14 @@ class LabeledTextField extends StatelessWidget {
       this.cursorColor = Colors.white,
       this.borderColor = Colors.white,
       this.onTap,
-      this.onChange});
+      this.onChange,
+      this.prefixIcon,
+      this.textInputType,
+      this.textInputFormatter});
 
-  LabeledTextField.homepageText(
+  
+
+  const LabeledTextField.homepageText(
       {required this.labelText,
       required this.controller,
       required this.errorText,
@@ -42,9 +54,12 @@ class LabeledTextField extends StatelessWidget {
       this.borderColor = const Color(0xffD0D5DD),
       this.cursorColor = const Color(0xff667085),
       this.onTap,
-      this.onChange});
+      this.onChange,
+      this.prefixIcon,
+      this.textInputType,
+      this.textInputFormatter});
 
-  LabeledTextField.onTapOverride(
+  const LabeledTextField.onTapOverride(
       {required this.labelText,
       required this.controller,
       required this.errorText,
@@ -53,9 +68,12 @@ class LabeledTextField extends StatelessWidget {
       this.cursorColor = Colors.white,
       this.borderColor = Colors.white,
       required this.onTap,
-      this.onChange});
+      this.onChange,
+      this.prefixIcon,
+      this.textInputType,
+      this.textInputFormatter});
 
-  LabeledTextField.onChangeOverride(
+  const LabeledTextField.onChangeOverride(
       {required this.labelText,
       required this.controller,
       required this.errorText,
@@ -64,7 +82,10 @@ class LabeledTextField extends StatelessWidget {
       this.borderColor = const Color(0xffD0D5DD),
       this.cursorColor = const Color(0xff667085),
       this.onTap,
-      required this.onChange});
+      required this.onChange,
+      this.prefixIcon,
+      this.textInputType,
+      this.textInputFormatter});
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +97,12 @@ class LabeledTextField extends StatelessWidget {
             cursorColor: cursorColor,
             controller: controller,
             onTap: onTap,
+            inputFormatters: textInputFormatter,
+            keyboardType: textInputType,
             onChanged: onChange,
             obscureText: shouldObscure,
             decoration: InputDecoration(
+              prefixIcon: prefixIcon,
               labelText: labelText,
               labelStyle: TextStyle(color: textColour, fontSize: 18),
               errorText: errorText,

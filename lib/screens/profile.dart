@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/app_scaffold.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/subscription_dialog.dart';
 
 class Profile extends StatefulWidget {
-  final int userId;
+  final String userId;
   const Profile({super.key, required this.userId});
 
   @override
@@ -21,20 +23,26 @@ class _ProfileState extends State<Profile> {
       age: "age",
       phone: "phone",
       bloodGroup: "bloodGroup",
-      gender: "male");
+      gender: "Male");
+
+  bool isApiDataLoaded = false;
 
   fetchProfileDetails() async {
     var userProfileApiResponse = UserProfileResponse.fromJson(
-        await backendAPICall('/profile', {'userId': '1'}, 'POST', true));
+        await backendAPICall('/customer/getCustomerProfile/${widget.userId}',
+            null, 'GET', true));
 
     setState(() {
       userProfileResponse = userProfileApiResponse;
+      isApiDataLoaded = true;
     });
   }
 
-  _onDeleteUserPressed() {
-    backendAPICall("/user/delete", {'userId': '1'}, "DELETE", true);
-    Navigator.pop(context);
+  _onDeleteUserPressed() async {
+    await backendAPICall(
+        "/customer/deleteCustomer/${widget.userId}", null, "DELETE", true);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Subscription()));
   }
 
   @override
@@ -45,8 +53,9 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return AppScaffold.noHeader(
+      isApiDataLoaded: isApiDataLoaded,
+      child: Container(
           padding: EdgeInsets.only(top: getStatusBarHeight(context)),
           width: double.infinity,
           color: Colors.white,
@@ -82,7 +91,7 @@ class _ProfileState extends State<Profile> {
                                             fontSize: 22,
                                             color: Color(0xff004576))))),
                             Icon(
-                                userProfileResponse.gender == "male"
+                                userProfileResponse.gender == "Male"
                                     ? Icons.male
                                     : Icons.female,
                                 color: Color(0xff004576),
@@ -113,7 +122,9 @@ class _ProfileState extends State<Profile> {
                             showModalBottomSheet<void>(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return const SubscriptionDialog();
+                                  return SubscriptionDialog(
+                                      fetchSubscription: () => {},
+                                      userId: widget.userId);
                                 });
                           },
                           child: Text('Update Subscription',

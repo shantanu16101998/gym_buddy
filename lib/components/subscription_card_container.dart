@@ -3,13 +3,15 @@ import 'package:gym_buddy/components/subscription_card.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
   final bool showCurrentUsers;
+  final Function() fetchSubsription;
   final List<dynamic> currentUsers;
   final List<dynamic> expiredUsers;
   const SubscriptionCardContainer(
       {super.key,
       required this.showCurrentUsers,
       required this.currentUsers,
-      required this.expiredUsers});
+      required this.expiredUsers,
+      required this.fetchSubsription});
 
   @override
   State<SubscriptionCardContainer> createState() =>
@@ -33,6 +35,7 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
           .map((userSubscription) => Padding(
               padding: const EdgeInsets.all(5),
               child: SubscriptionCard(
+                fetchSubscription: widget.fetchSubsription,
                 userId: userSubscription.id,
                 name: userSubscription.name,
                 startDate: userSubscription.startDate,

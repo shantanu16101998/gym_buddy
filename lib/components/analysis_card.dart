@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/custom_text.dart';
 import 'package:gym_buddy/screens/expanded_analysis.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';

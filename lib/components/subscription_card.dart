@@ -9,7 +9,8 @@ class SubscriptionCard extends StatefulWidget {
   final String endDate;
   final int? expiringDay;
   final int? expiredDay;
-  final int userId;
+  final String userId;
+  final Function() fetchSubscription;
   const SubscriptionCard(
       {super.key,
       required this.name,
@@ -17,7 +18,8 @@ class SubscriptionCard extends StatefulWidget {
       required this.endDate,
       required this.expiringDay,
       required this.expiredDay,
-      required this.userId});
+      required this.userId,
+      required this.fetchSubscription});
 
   @override
   State<SubscriptionCard> createState() => _SubscriptionCardState();
@@ -131,7 +133,10 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                             showModalBottomSheet<void>(
                               context: context,
                               builder: (BuildContext context) {
-                                return SubscriptionDialog();
+                                return SubscriptionDialog(
+                                  userId: widget.userId,
+                                  fetchSubscription: widget.fetchSubscription,
+                                );
                               },
                             );
                           },

@@ -38,16 +38,23 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: widget.analysisHomepageResponse.averageMonth,
+                    value: widget.analysisHomepageResponse.averageMonth.toString(),
                     label: "Average",
                     icon: Icons.lock_clock),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: widget.analysisHomepageResponse.genderRatio,
-                    label: "Gender",
-                    icon: Icons.transgender),
+                    value: widget.analysisHomepageResponse.males.toString(),
+                    label: "Males",
+                    icon: Icons.male),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AnalysisCard(
+                    value: widget.analysisHomepageResponse.females.toString(),
+                    label: "Females",
+                    icon: Icons.female),
               ),
             ],
           ),

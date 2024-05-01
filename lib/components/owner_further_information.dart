@@ -1,10 +1,12 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
+import 'package:flutter/services.dart';
 
 class OwnerFurtherInformationForm extends StatefulWidget {
   final TextEditingController nameController;
@@ -21,10 +23,12 @@ class _OwnerFurtherInformationFormState
   final TextEditingController _gymNameController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _upiIdController = TextEditingController();
 
   String? gymNameError;
   String? addressError;
   String? contactError;
+  String? upiIdError;
 
   onSignUpButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -37,17 +41,21 @@ class _OwnerFurtherInformationFormState
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
       await sharedPreferences.setString("gymName", _gymNameController.text);
 
-      backendAPICall(
-          '/register',
+      OwnerRegistrationResponse ownerRegistrationResponse = OwnerRegistrationResponse.fromJson(await backendAPICall(
+          '/owner/signup',
           {
-            'name': ownerName,
+            'ownerName': ownerName,
             'email': ownerEmail,
             'password': ownerPassword,
             'gymName': _gymNameController.text,
             'contact': _contactController.text,
-            'address': _addressController.text
+            'address': _addressController.text,
+            'upiId' : _upiIdController.text
           },
-          'POST',true);
+          'POST',
+          true));
+
+        await sharedPreferences.setString("jwtToken", ownerRegistrationResponse.jwtToken ?? "");
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));
@@ -59,8 +67,12 @@ class _OwnerFurtherInformationFormState
       gymNameError = validateSimpleText(_gymNameController.text, "Gym Name");
       addressError = validateSimpleText(_addressController.text, "Address");
       contactError = validateSimpleText(_contactController.text, "Contact");
+      upiIdError = validateSimpleText(_contactController.text, "UPI Id");
     });
-    if (gymNameError != null || addressError != null || contactError != null) {
+    if (gymNameError != null ||
+        addressError != null ||
+        contactError != null ||
+        upiIdError != null) {
       return false;
     }
     return true;
@@ -103,6 +115,10 @@ class _OwnerFurtherInformationFormState
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
+                  textInputType: TextInputType.number,
+                      textInputFormatter: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                   controller: _contactController,
                   errorText: contactError)),
           Padding(
@@ -112,6 +128,13 @@ class _OwnerFurtherInformationFormState
                   labelText: "Address",
                   controller: _addressController,
                   errorText: addressError)),
+          Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
+              child: LabeledTextField(
+                  labelText: "UPI Id",
+                  controller: _upiIdController,
+                  errorText: upiIdError)),
           Align(
               alignment: Alignment.center,
               child: Padding(

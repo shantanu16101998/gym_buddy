@@ -37,12 +37,12 @@ class _LoginFormState extends State<LoginForm> {
 
     if (isInformationValidated) {
       LoginResponse loginResponse = LoginResponse.fromJson(await backendAPICall(
-          '/login',
+          '/owner/login',
           {
             'email': _emailController.text,
             'password': _passwordController.text,
           },
-          'POST',true));
+          'POST',false));
 
       if (loginResponse.jwtToken != null) {
         var sharedPreferences = await SharedPreferences.getInstance();

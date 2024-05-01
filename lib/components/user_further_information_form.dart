@@ -1,17 +1,23 @@
+import 'package:flutter/services.dart';
+import 'package:gym_buddy/components/custom_text.dart';
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 
+final List<String> genders = ["Male", "Female"];
+
 class UserFurtherInformationForm extends StatefulWidget {
-  final Function(bool) onNeedFurtherInformationChanged;
+  final Function onPageToShowChange;
 
   const UserFurtherInformationForm(
-      {super.key, required this.onNeedFurtherInformationChanged});
+      {super.key, required this.onPageToShowChange});
 
   @override
   State<UserFurtherInformationForm> createState() =>
@@ -21,10 +27,10 @@ class UserFurtherInformationForm extends StatefulWidget {
 class _UserFurtherInformationFormState
     extends State<UserFurtherInformationForm> {
   final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endMonthController = TextEditingController();
+  final TextEditingController _chargesController = TextEditingController();
 
   String? ageError;
   String? genderError;
@@ -32,6 +38,7 @@ class _UserFurtherInformationFormState
   String? startDateError;
   String? endMonthError;
 
+  String gender = genders[0];
   late String userName = "User's";
 
   void intialConfigs() async {
@@ -39,7 +46,7 @@ class _UserFurtherInformationFormState
     userName = sharedPreference.getString("userName") ?? "User" "'s";
   }
 
-  onSignUpButtonPressed() async {
+  onPayNowButtonPressed() async {
     bool isInformationValidated = validateForm();
 
     if (isInformationValidated) {
@@ -52,29 +59,29 @@ class _UserFurtherInformationFormState
       var gymName = sharedPreferences.getString("gymName") ?? "";
 
       backendAPICall(
-          '/user/register',
+          '/customer/registerCustomer',
           {
-            'name': userName,
+            'customerName': capitalizeFirstLetter(userName),
             'email': userEmail,
-            'contact': userContact,
+            'contact': int.parse(userContact),
             'gymName': gymName,
             'address': userAddress,
-            'age': _ageController.text,
-            'gender': _genderController.text,
-            'startDate': _startDateController.text,
-            'endMonth': _endMonthController.text
+            'age': int.parse(_ageController.text),
+            'gender': gender,
+            'currentBeginDate': _startDateController.text,
+            'bloodGroup': _bloodGroupController.text,
+            'validTill': int.parse(_endMonthController.text)
           },
-          "POST",true);
+          "POST",
+          true);
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Subscription()));
+      widget.onPageToShowChange(PageToShow.paymentPage);
     }
   }
 
   bool validateForm() {
     setState(() {
       ageError = validateSimpleText(_ageController.text, "Age");
-      genderError = validateSimpleText(_genderController.text, "Gender");
       bloodGroupError =
           validateSimpleText(_bloodGroupController.text, "Blood Group");
       startDateError =
@@ -96,12 +103,6 @@ class _UserFurtherInformationFormState
   void initState() {
     super.initState();
     intialConfigs();
-  }
-
-  Future<void> _setFurtherInformation() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.setBool("needFurtherInformation", false);
-    widget.onNeedFurtherInformationChanged(false);
   }
 
   DateTime selectedDate = DateTime.now();
@@ -143,15 +144,33 @@ class _UserFurtherInformationFormState
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Age",
+                  textInputType: TextInputType.number,
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
                   controller: _ageController,
                   errorText: ageError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Gender",
-                  controller: _genderController,
-                  errorText: genderError)),
+              child: DropdownButton(
+                value: gender,
+                onChanged: (value) {
+                  setState(() {
+                    gender = value!;
+                  });
+                },
+                items: genders.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    
+                    value: value,
+                    child: Container(
+                      width: getScreenWidth(context) * 0.6,
+                        child: CustomText(
+                      text: value,
+                      color: Colors.white,
+                    )),
+                  );
+                }).toList(),
+              )),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
@@ -267,7 +286,11 @@ class _UserFurtherInformationFormState
               child: Padding(
                   padding: EdgeInsets.all(30),
                   child: LabeledTextField(
+                      textInputType: TextInputType.number,
                       labelText: "Valid till Month",
+                      textInputFormatter: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                       controller: _endMonthController,
                       onTap: () => {
                             setState(() {
@@ -275,6 +298,29 @@ class _UserFurtherInformationFormState
                             })
                           },
                       errorText: endMonthError))),
+          // Align(
+          //     alignment: Alignment.center,
+          //     child: Padding(
+          //         padding:
+          //             EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+          //         child: LabeledTextField(
+          //           textInputType: TextInputType.number,
+          //           labelText: "Charges",
+          //           controller: _chargesController,
+          //           textInputFormatter: [
+          //             FilteringTextInputFormatter.digitsOnly
+          //           ],
+          //           onTap: () => {
+          //             setState(() {
+          //               _endMonthController.text = "";
+          //             })
+          //           },
+          //           errorText: endMonthError,
+          //           prefixIcon: Icon(
+          //             Icons.currency_rupee,
+          //             color: Colors.white,
+          //           ),
+          //         ))),
           Align(
               alignment: Alignment.center,
               child: Padding(
@@ -283,13 +329,13 @@ class _UserFurtherInformationFormState
                       height: 50,
                       width: 178,
                       child: ElevatedButton(
-                          onPressed: onSignUpButtonPressed,
+                          onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: const Color(0xFFD9D9D9)),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
-                              child: Text("Register",
+                              child: Text("Pay Now",
                                   style: TextStyle(
                                       color: Color(0xff004576),
                                       fontSize: 18,

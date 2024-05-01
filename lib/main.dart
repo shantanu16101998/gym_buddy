@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/user_payment_form.dart';
 import 'package:gym_buddy/screens/analysis_homepage.dart';
 import 'package:gym_buddy/screens/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/screens/profile.dart';
+import 'package:gym_buddy/screens/qr_page.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,8 +13,8 @@ import 'package:gym_buddy/utils/firebase_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseAPI().initNotification();
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await FirebaseAPI().initNotification();xp
   runApp(const MyApp());
 }
 
@@ -36,16 +38,17 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: Colors.red, primary: Color(0xff667085)),
+            .copyWith(secondary: Colors.red, primary: const Color(0xff667085)),
         primaryColor: Colors.black,
       ),
-      initialRoute: '/analysis-expanded',
+      home: const Subscription(),
       routes: {
         '/owner-sign-up': (context) => const OwnerForm(),
         '/user-sign-up': (context) => const UserSignUp(),
         '/subscription': (context) => const Subscription(),
-        '/profile': (context) => const Profile(userId: 1),
+        '/profile': (context) => const Profile(userId: '662424905b08738ce9cabe4d'),
         '/analysis': (context) => const AnalysisHomepage(),
+        'qr-page': (context) => const QrPage(),
         '/analysis-expanded': (context) =>
             const ExpandedAnalysis(label: "earnings")
       },

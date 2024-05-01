@@ -6,12 +6,28 @@ class LoginResponse {
   const LoginResponse({this.jwtToken});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    final String? jwtToken = json['jwtToken'];
+    final String? jwtToken = json['token'];
 
     if (jwtToken != null) {
       return LoginResponse(jwtToken: jwtToken);
     } else {
       return const LoginResponse(jwtToken: null);
+    }
+  }
+}
+
+class OwnerRegistrationResponse {
+  final String? jwtToken;
+
+  const OwnerRegistrationResponse({this.jwtToken});
+
+  factory OwnerRegistrationResponse.fromJson(Map<String, dynamic> json) {
+    final String? jwtToken = json['token'];
+
+    if (jwtToken != null) {
+      return OwnerRegistrationResponse(jwtToken: jwtToken);
+    } else {
+      return const OwnerRegistrationResponse(jwtToken: null);
     }
   }
 }
@@ -55,12 +71,12 @@ class UserProfileResponse {
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
     return UserProfileResponse(
-        name: json["name"] ?? "",
+        name: json["customerName"] ?? "",
         email: json["email"] ?? "",
         address: json["address"] ?? "",
-        age: json["age"] ?? "",
-        bloodGroup: json["blood group"] ?? "",
-        phone: json["phone"] ?? "",
+        age: json["age"].toString(),
+        bloodGroup: json["bloodGroup"] ?? "",
+        phone: json["contact"].toString(),
         gender: json["gender"] ?? "");
   }
 }
@@ -68,21 +84,25 @@ class UserProfileResponse {
 class AnalysisHomepageResponse {
   final int earnings;
   final int numberOfPeople;
-  final String averageMonth;
-  final String genderRatio;
+  final int averageMonth;
+  final int males;
+  final int females;
 
   const AnalysisHomepageResponse(
       {required this.earnings,
       required this.numberOfPeople,
       required this.averageMonth,
-      required this.genderRatio});
+      required this.males,
+      required this.females});
 
   factory AnalysisHomepageResponse.fromJson(Map<String, dynamic> json) {
     return AnalysisHomepageResponse(
-        earnings: json["earnings"],
-        numberOfPeople: json["numberOfPeople"],
-        averageMonth: json["averageMonth"],
-        genderRatio: json["genderRatio"]);
+      earnings: json["earnings"],
+      numberOfPeople: json["numberOfPeople"],
+      averageMonth: json["averageMonth"],
+      males: json["males"],
+      females: json["females"],
+    );
   }
 }
 

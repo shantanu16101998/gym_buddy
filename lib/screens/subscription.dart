@@ -34,11 +34,10 @@ class _SubscriptionState extends State<Subscription> {
 
   fetchSubscription() async {
     var sharedPreferences = await SharedPreferences.getInstance();
-    String jwtToken = sharedPreferences.getString("") ?? "";
 
     SubscriptionDetailsResponse subscriptionDetailsResponse =
-        SubscriptionDetailsResponse.fromJson(await backendAPICall(
-            '/demo', {'jwtToken': jwtToken}, "POST", true));
+        SubscriptionDetailsResponse.fromJson(
+            await backendAPICall('/customer/getCustomers', null, "GET", true));
 
     setState(() {
       currentUsers = subscriptionDetailsResponse.currentUsers;
@@ -81,7 +80,7 @@ class _SubscriptionState extends State<Subscription> {
                 child: Container(
                   // padding: EdgeInsets.all(10),
                   padding: EdgeInsets.only(
-                      top: getStatusBarHeight(context), left: 10, right: 10),
+                      top: getStatusBarHeight(context), left: 10, right: 10,bottom: 100),
                   child: Column(
                     children: [
                       const Header(),
@@ -99,6 +98,7 @@ class _SubscriptionState extends State<Subscription> {
                             errorText: null),
                       ),
                       SubscriptionCardContainer(
+                        fetchSubsription: fetchSubscription,
                         showCurrentUsers: showCurrentUsers,
                         currentUsers: currentUsers,
                         expiredUsers: expiredUsers,

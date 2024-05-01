@@ -1,5 +1,5 @@
 class UserSubscription {
-  int? id;
+  String? id;
   String? name;
   String? startDate;
   String? endDate;
@@ -9,12 +9,12 @@ class UserSubscription {
       this.expiredDays, this.id);
 
   factory UserSubscription.fromJson(Map<String, dynamic> json) {
-    final String? name = json["name"];
-    final String? startDate = json["startDate"];
-    final String? endDate = json["endDate"];
-    final int? expiringDays = json["expiringDays"];
-    final int? expiredDays = json["expiredDays"];
-    final int? id = json["id"];
+    final String? name = json["customerName"];
+    final String? startDate = json["currentBeginDate"];
+    final String? endDate = json["currentFinishDate"];
+    final int? expiringDays = json["expiring"];
+    final int? expiredDays = json["expired"];
+    final String? id = json["id"];
 
     return UserSubscription(
         name, startDate, endDate, expiringDays, expiredDays, id);

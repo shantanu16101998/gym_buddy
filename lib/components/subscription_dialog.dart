@@ -6,7 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 
 class SubscriptionDialog extends StatefulWidget {
-  const SubscriptionDialog({super.key});
+  final String userId;
+  final Function() fetchSubscription;
+  const SubscriptionDialog(
+      {super.key, required this.userId, required this.fetchSubscription});
 
   @override
   State<SubscriptionDialog> createState() => _SubscriptionDialogState();
@@ -31,18 +34,17 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
     return true;
   }
 
-  
-
   _onUpdatePressed() async {
     if (validateForm()) {
       await backendAPICall(
-          '/subscription/update',
+          '/customer/updateSubscription/${widget.userId}',
           {
-            'startDate': _startDateController.text,
-            'endMonth': _endMonthController.text
+            'currentBeginDate': _startDateController.text,
+            'validTill': _endMonthController.text
           },
           'PUT',
           true);
+      await widget.fetchSubscription();
       Navigator.pop(context);
     }
   }

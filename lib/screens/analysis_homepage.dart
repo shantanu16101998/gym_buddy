@@ -18,15 +18,19 @@ class _AnalysisHomepageState extends State<AnalysisHomepage> {
     fetchData();
   }
 
-  bool isApiDataLoaded = false;
+  bool isApiDataLoaded = true;
 
   AnalysisHomepageResponse analysisHomepageResponse =
       const AnalysisHomepageResponse(
-          earnings: 0, numberOfPeople: 0, averageMonth: "", genderRatio: "");
+          earnings: 0,
+          numberOfPeople: 0,
+          averageMonth: 2,
+          males: 0,
+          females: 2);
 
   fetchData() async {
     var _analysisHomepageResponse = AnalysisHomepageResponse.fromJson(
-        await backendAPICall('/analysis', {}, 'POST', true));
+        await backendAPICall('/owner/analysis', null, 'GET', true));
     setState(() {
       analysisHomepageResponse = _analysisHomepageResponse;
       isApiDataLoaded = true;
