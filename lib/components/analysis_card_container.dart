@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/analysis_card.dart';
 import 'package:gym_buddy/components/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/utils/custom.dart';
 
 class AnalysisCardContainer extends StatefulWidget {
   final AnalysisHomepageResponse analysisHomepageResponse;
@@ -24,7 +25,7 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: widget.analysisHomepageResponse.earnings.toString(),
+                    value: formatCurrency(widget.analysisHomepageResponse.earnings),
                     label: "Earnings",
                     icon: Icons.credit_card),
               ),

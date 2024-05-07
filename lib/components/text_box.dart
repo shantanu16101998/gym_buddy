@@ -30,7 +30,8 @@ class LabeledTextField extends StatelessWidget {
       this.textInputFormatter});
 
   const LabeledTextField(
-      {required this.labelText,
+      {
+        super.key,required this.labelText,
       required this.controller,
       required this.errorText,
       this.shouldObscure = false,
@@ -42,11 +43,10 @@ class LabeledTextField extends StatelessWidget {
       this.prefixIcon,
       this.textInputType,
       this.textInputFormatter});
-
-  
 
   const LabeledTextField.homepageText(
-      {required this.labelText,
+      {super.key,
+        required this.labelText,
       required this.controller,
       required this.errorText,
       this.shouldObscure = false,
@@ -59,33 +59,6 @@ class LabeledTextField extends StatelessWidget {
       this.textInputType,
       this.textInputFormatter});
 
-  const LabeledTextField.onTapOverride(
-      {required this.labelText,
-      required this.controller,
-      required this.errorText,
-      this.shouldObscure = false,
-      this.textColour = Colors.white,
-      this.cursorColor = Colors.white,
-      this.borderColor = Colors.white,
-      required this.onTap,
-      this.onChange,
-      this.prefixIcon,
-      this.textInputType,
-      this.textInputFormatter});
-
-  const LabeledTextField.onChangeOverride(
-      {required this.labelText,
-      required this.controller,
-      required this.errorText,
-      this.shouldObscure = false,
-      this.textColour = const Color(0xff667085),
-      this.borderColor = const Color(0xffD0D5DD),
-      this.cursorColor = const Color(0xff667085),
-      this.onTap,
-      required this.onChange,
-      this.prefixIcon,
-      this.textInputType,
-      this.textInputFormatter});
 
   @override
   Widget build(BuildContext context) {

@@ -51,6 +51,18 @@ class SubscriptionDetailsResponse {
   }
 }
 
+class OwnerDeeplinkResponse {
+  final String upiId;
+
+  const OwnerDeeplinkResponse(
+      {required this.upiId});
+
+  factory OwnerDeeplinkResponse.fromJson(Map<String, dynamic> json) {
+    return OwnerDeeplinkResponse(
+        upiId: json["upiId"]);
+  }
+}
+
 class UserProfileResponse {
   final String name;
   final String email;

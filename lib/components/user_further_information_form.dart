@@ -4,8 +4,6 @@ import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
-import 'package:gym_buddy/utils/backend_api_call.dart';
-import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -30,13 +28,14 @@ class _UserFurtherInformationFormState
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endMonthController = TextEditingController();
-  // final TextEditingController _chargesController = TextEditingController();
+  final TextEditingController _chargesController = TextEditingController();
 
   String? ageError;
   String? genderError;
   String? bloodGroupError;
   String? startDateError;
   String? endMonthError;
+  String? chargesError;
 
   String gender = genders[0];
   late String userName = "User's";
@@ -52,28 +51,13 @@ class _UserFurtherInformationFormState
     if (isInformationValidated) {
       var sharedPreferences = await SharedPreferences.getInstance();
 
-      var userName = sharedPreferences.getString("userName") ?? "";
-      var userEmail = sharedPreferences.getString("userEmail") ?? "";
-      var userContact = sharedPreferences.getString("userContact") ?? "";
-      var userAddress = sharedPreferences.getString("userAddress") ?? "";
-      var gymName = sharedPreferences.getString("gymName") ?? "";
-
-      backendAPICall(
-          '/customer/registerCustomer',
-          {
-            'customerName': capitalizeFirstLetter(userName),
-            'email': userEmail,
-            'contact': int.parse(userContact),
-            'gymName': gymName,
-            'address': userAddress,
-            'age': int.parse(_ageController.text),
-            'gender': gender,
-            'currentBeginDate': _startDateController.text,
-            'bloodGroup': _bloodGroupController.text,
-            'validTill': int.parse(_endMonthController.text)
-          },
-          "POST",
-          true);
+      await sharedPreferences.setString("charges", _chargesController.text);
+      await sharedPreferences.setString("age", _ageController.text);
+      await sharedPreferences.setString(
+          "bloodGroup", _bloodGroupController.text);
+      await sharedPreferences.setString("startDate", _startDateController.text);
+      await sharedPreferences.setString("validTill", _endMonthController.text);
+      await sharedPreferences.setString("gender", gender);
 
       widget.onPageToShowChange(PageToShow.paymentPage);
     }
@@ -88,12 +72,14 @@ class _UserFurtherInformationFormState
           validateSimpleText(_startDateController.text, "Start Date");
       endMonthError =
           validateSimpleText(_endMonthController.text, "Valid till");
+      chargesError = validateSimpleText(_chargesController.text, "charges");
     });
     if (ageError != null ||
         genderError != null ||
         bloodGroupError != null ||
         startDateError != null ||
-        endMonthError != null) {
+        endMonthError != null ||
+        chargesError != null) {
       return false;
     }
     return true;
@@ -160,14 +146,13 @@ class _UserFurtherInformationFormState
                 },
                 items: genders.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
-                    
                     value: value,
                     child: Container(
-                      width: getScreenWidth(context) * 0.6,
+                        width: getScreenWidth(context) * 0.6,
                         child: CustomText(
-                      text: value,
-                      color: Colors.white,
-                    )),
+                          text: value,
+                          color: Colors.white,
+                        )),
                   );
                 }).toList(),
               )),
@@ -194,7 +179,7 @@ class _UserFurtherInformationFormState
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField.onTapOverride(
+              child: LabeledTextField(
                   labelText: "Start Date",
                   controller: _startDateController,
                   errorText: startDateError,
@@ -298,29 +283,24 @@ class _UserFurtherInformationFormState
                             })
                           },
                       errorText: endMonthError))),
-          // Align(
-          //     alignment: Alignment.center,
-          //     child: Padding(
-          //         padding:
-          //             EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-          //         child: LabeledTextField(
-          //           textInputType: TextInputType.number,
-          //           labelText: "Charges",
-          //           controller: _chargesController,
-          //           textInputFormatter: [
-          //             FilteringTextInputFormatter.digitsOnly
-          //           ],
-          //           onTap: () => {
-          //             setState(() {
-          //               _endMonthController.text = "";
-          //             })
-          //           },
-          //           errorText: endMonthError,
-          //           prefixIcon: Icon(
-          //             Icons.currency_rupee,
-          //             color: Colors.white,
-          //           ),
-          //         ))),
+          Align(
+              alignment: Alignment.center,
+              child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 30, top: 15, bottom: 15, right: 30),
+                  child: LabeledTextField(
+                    textInputType: TextInputType.number,
+                    labelText: "Charges",
+                    controller: _chargesController,
+                    textInputFormatter: [
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    errorText: chargesError,
+                    prefixIcon: const Icon(
+                      Icons.currency_rupee,
+                      color: Colors.white,
+                    ),
+                  ))),
           Align(
               alignment: Alignment.center,
               child: Padding(

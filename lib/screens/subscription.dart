@@ -104,10 +104,13 @@ class _SubscriptionState extends State<Subscription> {
                           numberOfExpiredUsers: allExpiredUsers.length),
                       Container(
                         width: 340,
-                        child: LabeledTextField.onChangeOverride(
+                        child: LabeledTextField(
                             labelText: "Search members",
                             controller: _searchController,
                             onChange: _onSearchTextFieldChanged,
+                            textColour: const Color(0xff667085),
+                            borderColor: const Color(0xffD0D5DD),
+                            cursorColor: const Color(0xff667085),
                             errorText: null),
                       ),
                       SubscriptionCardContainer(

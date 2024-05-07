@@ -34,6 +34,7 @@ class _LoginFormState extends State<LoginForm> {
 
   onLoginButtonPressed() async {
     bool isInformationValidated = validateForm();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     if (isInformationValidated) {
       LoginResponse loginResponse = LoginResponse.fromJson(await backendAPICall(
@@ -41,8 +42,10 @@ class _LoginFormState extends State<LoginForm> {
           {
             'email': _emailController.text,
             'password': _passwordController.text,
+            'token': sharedPreferences.getString("fcmToken")
           },
-          'POST',false));
+          'POST',
+          false));
 
       if (loginResponse.jwtToken != null) {
         var sharedPreferences = await SharedPreferences.getInstance();

@@ -51,7 +51,7 @@ class _QrPageState extends State<QrPage> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: 10, left: 20, right: 20, bottom: 20),
-                          child: QrCodePic(qrColor: Colors.black),
+                          child: QrCodePic(qrColor: Colors.black,upiIntentLink: ""),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(0),

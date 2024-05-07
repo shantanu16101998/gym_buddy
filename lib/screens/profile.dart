@@ -153,41 +153,38 @@ class _ProfileState extends State<Profile> {
                       child: SizedBox(
                         height: 45,
                         width: 300,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                    width: 2, color: Color(0xffD0D5DD)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              textStyle: const TextStyle(
-                                fontSize: 22,
-                                color: Color(0xffB01D1D),
-                                fontWeight: FontWeight.bold,
-                              ),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 2, color: Color(0xffD0D5DD)),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: _openWhatsappLink,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment
-                                  .center, // Aligns children horizontally
-                              children: [
-                                Icon(FontAwesomeIcons.whatsapp,weight: 20,
-                                    color: Color.fromARGB(255, 29, 176, 93)),
-                                const SizedBox(width: 15),
-                                Text(
-                                  'Message',
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                      color: Color.fromARGB(255, 29, 176, 93),
-                                    ),
+                            textStyle: const TextStyle(
+                              fontSize: 22,
+                              color: Color(0xffB01D1D),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: _openWhatsappLink,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, // Aligns children horizontally
+                            children: [
+                              Icon(FontAwesomeIcons.whatsapp,weight: 20,
+                                  color: Color.fromARGB(255, 29, 176, 93)),
+                              const SizedBox(width: 15),
+                              Text(
+                                'Message',
+                                style: GoogleFonts.inter(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                    color: Color.fromARGB(255, 29, 176, 93),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       )),

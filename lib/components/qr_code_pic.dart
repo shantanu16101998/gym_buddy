@@ -10,14 +10,13 @@ class QrCodePic extends StatefulWidget {
   @override
   State<QrCodePic> createState() => _QrCodePic();
   final Color? qrColor;
-  const QrCodePic({super.key,required this.qrColor});
+  final String upiIntentLink;
+  const QrCodePic({super.key, required this.qrColor,required this.upiIntentLink});
 }
 
 class _QrCodePic extends State<QrCodePic> {
   @override
   Widget build(BuildContext context) {
-    const String message =
-        'Hey this is a QR code. Change this value in the main_screen.dart file.';
 
     final FutureBuilder<ui.Image> qrFutureBuilder = FutureBuilder<ui.Image>(
       future: _loadOverlayImage(),
@@ -29,7 +28,7 @@ class _QrCodePic extends State<QrCodePic> {
         return CustomPaint(
           size: const Size.square(size),
           painter: QrPainter(
-            data: message,
+            data: widget.upiIntentLink,
             version: QrVersions.auto,
             eyeStyle: QrEyeStyle(
               eyeShape: QrEyeShape.square,

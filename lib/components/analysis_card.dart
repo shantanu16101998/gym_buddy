@@ -23,10 +23,12 @@ class _AnalysisCardState extends State<AnalysisCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ExpandedAnalysis(label: widget.label)));
+        if (widget.label == "Earnings" || widget.label == "People") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ExpandedAnalysis(label: widget.label)));
+        }
       },
       child: Container(
         width: getScreenWidth(context) * 0.4,

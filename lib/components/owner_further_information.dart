@@ -41,6 +41,7 @@ class _OwnerFurtherInformationFormState
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
       await sharedPreferences.setString("gymName", _gymNameController.text);
 
+
       OwnerRegistrationResponse ownerRegistrationResponse = OwnerRegistrationResponse.fromJson(await backendAPICall(
           '/owner/signup',
           {
@@ -50,7 +51,8 @@ class _OwnerFurtherInformationFormState
             'gymName': _gymNameController.text,
             'contact': _contactController.text,
             'address': _addressController.text,
-            'upiId' : _upiIdController.text
+            'upiId' : _upiIdController.text,
+            'token': sharedPreferences.getString("fcmToken")
           },
           'POST',
           true));

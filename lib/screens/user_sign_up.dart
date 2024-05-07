@@ -5,6 +5,8 @@ import 'package:gym_buddy/components/user_further_information_form.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui';
 
+import 'package:gym_buddy/utils/ui_constants.dart';
+
 enum PageToShow { basicPage, futherInformationPage, paymentPage }
 
 class UserSignUp extends StatefulWidget {
@@ -38,11 +40,17 @@ class _UserSignUpState extends State<UserSignUp> {
     return Scaffold(
         body: Stack(children: <Widget>[
       Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-        image: AssetImage("assets/images/register.png"),
-        fit: BoxFit.fitWidth,
-      ))),
+        color: Colors.black,
+        child: Padding(
+          padding: EdgeInsets.only(top: getStatusBarHeight(context)),
+          child: Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+            image: AssetImage("assets/images/register.png"),
+            fit: BoxFit.fitWidth,
+          ))),
+        ),
+      ),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(

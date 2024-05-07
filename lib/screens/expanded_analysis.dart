@@ -24,7 +24,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
   fetchData() async {
     ExpandedAnalysisResponse _expandedAnalysisResponse =
         ExpandedAnalysisResponse.fromJson(await backendAPICall(
-            '/analysis/${widget.label.toLowerCase()}', {}, 'POST', true));
+            '/owner/analysis/${widget.label.toLowerCase()}', {}, 'POST', true));
     setState(() {
       expandedAnalysisResponse = _expandedAnalysisResponse;
       isApiDataLoaded = true;
@@ -84,12 +84,13 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const CustomText.bodyHeading(text: "Earnings"),
+                  CustomText.bodyHeading(text: widget.label),
                   SizedBox(
                     height: getScreenHeight(context) * 0.3,
                     child: BarChart(
                       BarChartData(
-                          maxY: expandedAnalysisResponse.maxLimitOfData.toDouble(),
+                          maxY: expandedAnalysisResponse.maxLimitOfData
+                              .toDouble(),
                           barGroups: makeData(),
                           borderData: FlBorderData(
                               border: const Border(
@@ -139,23 +140,23 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomText(
-                              text: "Average Earnings",
+                              text: "Average ${widget.label}",
                               color: Color(0xff344054),
                               fontSize: 20),
                           CustomText(
-                              text: "₹ ${expandedAnalysisResponse.average}",
+                              text: expandedAnalysisResponse.average,
                               color: Color(0xff344054),
                               fontSize: 20)
                         ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const CustomText(
-                            text: "Total Earnings",
+                        CustomText(
+                            text: "Total ${widget.label}",
                             color: Color(0xff344054),
                             fontSize: 20),
                         CustomText(
-                            text: "₹ ${expandedAnalysisResponse.total}",
+                            text: expandedAnalysisResponse.total,
                             color: Color(0xff344054),
                             fontSize: 20)
                       ],
