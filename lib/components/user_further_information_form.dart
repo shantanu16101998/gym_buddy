@@ -42,7 +42,9 @@ class _UserFurtherInformationFormState
 
   void intialConfigs() async {
     var sharedPreference = await SharedPreferences.getInstance();
-    userName = sharedPreference.getString("userName") ?? "User" "'s";
+    setState(() {
+      userName = sharedPreference.getString("userName") ?? "User" "'s";
+    });
   }
 
   onPayNowButtonPressed() async {
@@ -100,10 +102,26 @@ class _UserFurtherInformationFormState
       initialDate: selectedDate,
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: formPrimaryColor,
+              onPrimary: Colors.white,
+              onSurface: formPrimaryColor,
+            ),
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(color: Colors.white),
+              titleMedium: TextStyle(color: Colors.white),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null) {
       setState(() {
-        _dateController.text = DateFormat("d MMMM yyyy").format(pickedDate);
+        _dateController.text = DateFormat("d MMM yyyy").format(pickedDate);
       });
     }
   }
@@ -139,6 +157,7 @@ class _UserFurtherInformationFormState
                   left: 30, top: 15, bottom: 15, right: 30),
               child: DropdownButton(
                 value: gender,
+                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
                 onChanged: (value) {
                   setState(() {
                     gender = value!;
@@ -148,6 +167,7 @@ class _UserFurtherInformationFormState
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Container(
+                        // color: Colors.white,
                         width: getScreenWidth(context) * 0.6,
                         child: CustomText(
                           text: value,
@@ -214,10 +234,10 @@ class _UserFurtherInformationFormState
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "3"
-                              ? Color.fromARGB(255, 105, 105, 105)
-                              : Color.fromARGB(255, 105, 105, 105)
+                              ? const Color.fromARGB(255, 105, 105, 105)
+                              : const Color.fromARGB(255, 105, 105, 105)
                                   .withOpacity(0.2)),
-                      child: Padding(
+                      child: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Text("3",
                               style: TextStyle(
@@ -233,8 +253,8 @@ class _UserFurtherInformationFormState
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "6"
-                              ? Color.fromARGB(255, 105, 105, 105)
-                              : Color.fromARGB(255, 105, 105, 105)
+                              ? const Color.fromARGB(255, 105, 105, 105)
+                              : const Color.fromARGB(255, 105, 105, 105)
                                   .withOpacity(0.2)
                                   .withOpacity(0.2)),
                       child: const Padding(
@@ -253,8 +273,8 @@ class _UserFurtherInformationFormState
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "12"
-                              ? Color.fromARGB(255, 105, 105, 105)
-                              : Color.fromARGB(255, 105, 105, 105)
+                              ? const Color.fromARGB(255, 105, 105, 105)
+                              : const Color.fromARGB(255, 105, 105, 105)
                                   .withOpacity(0.2)
                                   .withOpacity(0.2)),
                       child: const Padding(
@@ -269,7 +289,7 @@ class _UserFurtherInformationFormState
           Align(
               alignment: Alignment.center,
               child: Padding(
-                  padding: EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(30),
                   child: LabeledTextField(
                       textInputType: TextInputType.number,
                       labelText: "Valid till Month",

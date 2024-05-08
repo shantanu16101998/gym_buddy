@@ -122,7 +122,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
     );
     if (pickedDate != null) {
       setState(() {
-        dateController.text = DateFormat("d MMMM yyyy").format(pickedDate);
+        dateController.text = DateFormat("d MMM yyyy").format(pickedDate);
       });
     }
   }
@@ -303,6 +303,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
             )
           : isApiDataLoaded
               ? Container(
+                color: Colors.white,
                   width: double.infinity,
                   child: Column(
                     children: [

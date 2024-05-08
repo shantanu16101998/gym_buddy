@@ -8,14 +8,15 @@ class OwnerFormForm extends StatefulWidget {
   final Function setShouldShowFurtherInformation;
   final TextEditingController nameController;
   const OwnerFormForm(
-      {super.key, required this.setShouldShowFurtherInformation,required this.nameController});
+      {super.key,
+      required this.setShouldShowFurtherInformation,
+      required this.nameController});
 
   @override
   State<OwnerFormForm> createState() => _OwnerFormFormState();
 }
 
 class _OwnerFormFormState extends State<OwnerFormForm> {
-  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -28,7 +29,8 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
 
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("ownerName", widget.nameController.text);
+      await sharedPreferences.setString(
+          "ownerName", widget.nameController.text);
       await sharedPreferences.setString("ownerEmail", _emailController.text);
       await sharedPreferences.setString(
           "ownerPassword", _passwordController.text);
@@ -38,7 +40,7 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
 
   bool validateForm() {
     setState(() {
-      emailError = validateSimpleText(_emailController.text, "Email");
+      emailError = validateEmailId(_emailController.text);
       passwordError = validateSimpleText(_passwordController.text, "Password");
       nameError = validateSimpleText(widget.nameController.text, "Name");
     });

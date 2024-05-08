@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/user_payment_form.dart';
 import 'package:gym_buddy/components/user_sign_up_form_basic.dart';
 import 'package:gym_buddy/components/user_further_information_form.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui';
 
 import 'package:gym_buddy/utils/ui_constants.dart';

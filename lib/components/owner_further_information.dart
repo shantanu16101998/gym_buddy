@@ -68,7 +68,7 @@ class _OwnerFurtherInformationFormState
     setState(() {
       gymNameError = validateSimpleText(_gymNameController.text, "Gym Name");
       addressError = validateSimpleText(_addressController.text, "Address");
-      contactError = validateSimpleText(_contactController.text, "Contact");
+      contactError = contactValidator(_contactController.text);
       upiIdError = validateSimpleText(_contactController.text, "UPI Id");
     });
     if (gymNameError != null ||

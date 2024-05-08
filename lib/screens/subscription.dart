@@ -42,6 +42,12 @@ class _SubscriptionState extends State<Subscription> {
     fetchSubscription();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchSubscription();
+  }
+
   fetchSubscription() async {
     // var sharedPreferences = await SharedPreferences.getInstance();
 
@@ -88,6 +94,7 @@ class _SubscriptionState extends State<Subscription> {
             SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Container(
+                  // color: Colors.white,
                   // padding: EdgeInsets.all(10),
                   padding: EdgeInsets.only(
                       top: getStatusBarHeight(context),
@@ -136,7 +143,7 @@ class _SubscriptionState extends State<Subscription> {
                               width: 340,
                               child: ElevatedButton(
                                   onPressed: () => {
-                                        Navigator.push(
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>

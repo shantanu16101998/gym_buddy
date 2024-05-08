@@ -1,24 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/screens/analysis_homepage.dart';
 import 'package:gym_buddy/screens/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner_form.dart';
 import 'package:gym_buddy/screens/profile.dart';
 import 'package:gym_buddy/screens/qr_page.dart';
 import 'package:gym_buddy/screens/splash_screen.dart';
-// import 'package:gym_buddy/screens/splash_screen.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:gym_buddy/services/local_notification.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-bool shouldEnableFirebase = true;
+bool shouldEnableFirebase = false;
 
 enum PlatForm { local, production }
 
@@ -54,6 +52,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Gym Buddy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.black,
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: Colors.red, primary: const Color(0xff667085)),
         primaryColor: Colors.black,

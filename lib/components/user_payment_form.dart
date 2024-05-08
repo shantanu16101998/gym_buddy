@@ -91,8 +91,10 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
         "POST",
         true);
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Subscription()));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Subscription()),
+        (route) => false);
   }
 
   @override
@@ -141,7 +143,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 20),
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 20, left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -152,11 +155,13 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                   labelText: "UPI Id",
                                   controller: _upiController,
                                   errorText: upiError))
-                          : CustomText(
-                              text: _upiController.text,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          : Flexible(
+                              child: CustomText(
+                                text: _upiController.text,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                       const SizedBox(width: 5),
                       InkWell(

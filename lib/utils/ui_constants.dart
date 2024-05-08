@@ -17,5 +17,9 @@ double getStatusBarHeight(context) {
 }
 
 double getEffectiveScreenHeight(context) {
-  return getScreenHeight(context) - getStatusBarHeight(context) - getHeaderHeight(context) ;
+  return getScreenHeight(context) -
+      getStatusBarHeight(context) -
+      getHeaderHeight(context);
 }
+
+Color formPrimaryColor = const Color.fromARGB(255, 85, 84, 84);

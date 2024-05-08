@@ -83,7 +83,7 @@ class UserProfileResponse {
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
     return UserProfileResponse(
-        name: json["customerName"] ?? "",
+        name: json["name"] ?? "",
         email: json["email"] ?? "",
         address: json["address"] ?? "",
         age: json["age"].toString(),

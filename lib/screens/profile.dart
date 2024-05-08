@@ -171,7 +171,8 @@ class _ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment
                                 .center, // Aligns children horizontally
                             children: [
-                              Icon(FontAwesomeIcons.whatsapp,weight: 20,
+                              Icon(FontAwesomeIcons.whatsapp,
+                                  weight: 20,
                                   color: Color.fromARGB(255, 29, 176, 93)),
                               const SizedBox(width: 15),
                               Text(
@@ -330,8 +331,8 @@ class _ProfileState extends State<Profile> {
                             width: 2,
                             color: const Color.fromARGB(255, 255, 255, 255)),
                         borderRadius: BorderRadius.circular(60),
-                        image: const DecorationImage(
-                            image: AssetImage("assets/images/profile_pic.png"),
+                        image: DecorationImage(
+                            image: AssetImage(userProfileResponse.gender == "Male" ?  "assets/images/bheem.jpg" : "assets/images/chutki.jpg"),
                             fit: BoxFit.fill),
                       ),
                     )
