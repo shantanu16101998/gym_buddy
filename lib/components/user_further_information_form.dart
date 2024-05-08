@@ -8,6 +8,7 @@ import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
+import 'package:gym_buddy/constants/url.dart';
 
 final List<String> genders = ["Male", "Female"];
 
@@ -29,6 +30,9 @@ class _UserFurtherInformationFormState
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endMonthController = TextEditingController();
   final TextEditingController _chargesController = TextEditingController();
+
+  bool showValidationError = false;
+
 
   String? ageError;
   String? genderError;
@@ -62,6 +66,11 @@ class _UserFurtherInformationFormState
       await sharedPreferences.setString("gender", gender);
 
       widget.onPageToShowChange(PageToShow.paymentPage);
+    }
+    else {
+      setState(() {
+        showValidationError = true;
+      });
     }
   }
 
@@ -100,7 +109,7 @@ class _UserFurtherInformationFormState
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2015, 8),
+      firstDate: DateTime.now().subtract(const Duration(days: 1)),
       lastDate: DateTime(2101),
       builder: (BuildContext context, Widget? child) {
         return Theme(
@@ -203,6 +212,7 @@ class _UserFurtherInformationFormState
                   labelText: "Start Date",
                   controller: _startDateController,
                   errorText: startDateError,
+                  readOnly: true,
                   onTap: () {
                     _selectDate(context, _startDateController);
                   })),
@@ -321,6 +331,17 @@ class _UserFurtherInformationFormState
                       color: Colors.white,
                     ),
                   ))),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: showValidationError
+                ? Text(formNotValidated,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 255, 17, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15))
+                : const SizedBox(),
+          ),
           Align(
               alignment: Alignment.center,
               child: Padding(

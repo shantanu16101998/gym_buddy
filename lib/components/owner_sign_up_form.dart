@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gym_buddy/constants/url.dart';
 
 class OwnerFormForm extends StatefulWidget {
   final Function setShouldShowFurtherInformation;
@@ -23,6 +24,7 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
   String? emailError;
   String? passwordError;
   String? nameError;
+  bool showValidationError = false;
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -35,6 +37,10 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
       await sharedPreferences.setString(
           "ownerPassword", _passwordController.text);
       widget.setShouldShowFurtherInformation(true);
+    } else {
+      setState(() {
+        showValidationError = true;
+      });
     }
   }
 
@@ -96,6 +102,17 @@ class _OwnerFormFormState extends State<OwnerFormForm> {
                   labelText: "Password",
                   controller: _passwordController,
                   errorText: passwordError)),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: showValidationError
+                ? Text(formNotValidated,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 255, 17, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15))
+                : const SizedBox(),
+          ),
           Align(
               alignment: Alignment.center,
               child: Padding(

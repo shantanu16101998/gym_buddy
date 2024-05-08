@@ -143,7 +143,7 @@ class _SubscriptionState extends State<Subscription> {
                               width: 340,
                               child: ElevatedButton(
                                   onPressed: () => {
-                                        Navigator.pushReplacement(
+                                        Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>

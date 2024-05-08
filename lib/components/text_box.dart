@@ -14,6 +14,7 @@ class LabeledTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? textInputFormatter;
+  final bool? readOnly;
 
   const LabeledTextField.passwordField(
       {required this.labelText,
@@ -27,11 +28,12 @@ class LabeledTextField extends StatelessWidget {
       this.onChange,
       this.prefixIcon,
       this.textInputType,
-      this.textInputFormatter});
+      this.textInputFormatter,
+      this.readOnly});
 
   const LabeledTextField(
-      {
-        super.key,required this.labelText,
+      {super.key,
+      required this.labelText,
       required this.controller,
       required this.errorText,
       this.shouldObscure = false,
@@ -42,11 +44,12 @@ class LabeledTextField extends StatelessWidget {
       this.onChange,
       this.prefixIcon,
       this.textInputType,
-      this.textInputFormatter});
+      this.textInputFormatter,
+      this.readOnly});
 
   const LabeledTextField.homepageText(
       {super.key,
-        required this.labelText,
+      required this.labelText,
       required this.controller,
       required this.errorText,
       this.shouldObscure = false,
@@ -57,8 +60,8 @@ class LabeledTextField extends StatelessWidget {
       this.onChange,
       this.prefixIcon,
       this.textInputType,
-      this.textInputFormatter});
-
+      this.textInputFormatter,
+      this.readOnly});
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +69,7 @@ class LabeledTextField extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(children: [
         TextFormField(
+            readOnly: readOnly ?? false,
             style: TextStyle(color: textColour),
             cursorColor: cursorColor,
             controller: controller,

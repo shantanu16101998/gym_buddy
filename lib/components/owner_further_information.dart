@@ -7,6 +7,7 @@ import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
+import 'package:gym_buddy/constants/url.dart';
 
 class OwnerFurtherInformationForm extends StatefulWidget {
   final TextEditingController nameController;
@@ -30,6 +31,8 @@ class _OwnerFurtherInformationFormState
   String? contactError;
   String? upiIdError;
 
+  bool showValidationError = false;
+
   onSignUpButtonPressed() async {
     bool isInformationValidated = validateForm();
 
@@ -41,26 +44,31 @@ class _OwnerFurtherInformationFormState
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
       await sharedPreferences.setString("gymName", _gymNameController.text);
 
+      OwnerRegistrationResponse ownerRegistrationResponse =
+          OwnerRegistrationResponse.fromJson(await backendAPICall(
+              '/owner/signup',
+              {
+                'ownerName': ownerName,
+                'email': ownerEmail,
+                'password': ownerPassword,
+                'gymName': _gymNameController.text,
+                'contact': _contactController.text,
+                'address': _addressController.text,
+                'upiId': _upiIdController.text,
+                'token': sharedPreferences.getString("fcmToken")
+              },
+              'POST',
+              true));
 
-      OwnerRegistrationResponse ownerRegistrationResponse = OwnerRegistrationResponse.fromJson(await backendAPICall(
-          '/owner/signup',
-          {
-            'ownerName': ownerName,
-            'email': ownerEmail,
-            'password': ownerPassword,
-            'gymName': _gymNameController.text,
-            'contact': _contactController.text,
-            'address': _addressController.text,
-            'upiId' : _upiIdController.text,
-            'token': sharedPreferences.getString("fcmToken")
-          },
-          'POST',
-          true));
-
-        await sharedPreferences.setString("jwtToken", ownerRegistrationResponse.jwtToken ?? "");
+      await sharedPreferences.setString(
+          "jwtToken", ownerRegistrationResponse.jwtToken ?? "");
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));
+    } else {
+      setState(() {
+        showValidationError = true;
+      });
     }
   }
 
@@ -118,9 +126,7 @@ class _OwnerFurtherInformationFormState
               child: LabeledTextField(
                   labelText: "Contact",
                   textInputType: TextInputType.number,
-                      textInputFormatter: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
                   controller: _contactController,
                   errorText: contactError)),
           Padding(
@@ -137,6 +143,17 @@ class _OwnerFurtherInformationFormState
                   labelText: "UPI Id",
                   controller: _upiIdController,
                   errorText: upiIdError)),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: showValidationError
+                ? Text(formNotValidated,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 255, 17, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15))
+                : const SizedBox(),
+          ),
           Align(
               alignment: Alignment.center,
               child: Padding(

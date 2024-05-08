@@ -1,6 +1,7 @@
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
@@ -22,6 +23,8 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
+  bool showValidationError = false;
+
   String? _nameError;
   String? _emailError;
   String? _contactError;
@@ -39,6 +42,10 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
       await sharedPreferences.setBool("needFurtherInformation", true);
 
       widget.onPageToShowChange(PageToShow.futherInformationPage);
+    } else {
+      setState(() {
+        showValidationError = true;
+      });
     }
   }
 
@@ -113,6 +120,17 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   labelText: "Address",
                   controller: _addressController,
                   errorText: _addressError)),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: showValidationError
+                ? Text(formNotValidated,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 255, 17, 0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15))
+                : const SizedBox(),
+          ),
           Align(
               alignment: Alignment.center,
               child: Padding(

@@ -117,7 +117,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2015, 8),
+      firstDate: DateTime.now().subtract(const Duration(days: 1)),
       lastDate: DateTime(2101),
     );
     if (pickedDate != null) {
@@ -153,6 +153,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                       child: LabeledTextField.homepageText(
                           labelText: "Start Date",
                           controller: _startDateController,
+                          readOnly: true,
                           onTap: () =>
                               {_selectDate(context, _startDateController)},
                           errorText: startDateError),

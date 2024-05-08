@@ -7,8 +7,7 @@ String capitalizeFirstLetter(String input) {
 }
 
 String formatCurrency(int number) {
-  var format =
-      NumberFormat.currency(locale: 'HI', symbol: '₹ ', decimalDigits: 0);
+  var format = NumberFormat.compact(locale: 'en_IN');
   return format.format(number);
 }
 
