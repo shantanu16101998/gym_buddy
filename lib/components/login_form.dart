@@ -52,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
 
         sharedPreferences.setString("jwtToken", loginResponse.jwtToken ?? "");
 
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Subscription()));
       } else {

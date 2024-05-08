@@ -17,7 +17,7 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomText.bodyHeading(text: "Current Month"),
+        const CustomText.bodyHeading(text: "Current Month"),
         Padding(
           padding: const EdgeInsets.only(top: 30),
           child: Wrap(

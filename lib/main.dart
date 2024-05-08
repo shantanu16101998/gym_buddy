@@ -12,6 +12,7 @@ import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
 import 'package:gym_buddy/services/local_notification.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
+import 'package:flutter/services.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -48,6 +49,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+
     return MaterialApp(
       title: 'Gym Buddy',
       debugShowCheckedModeBanner: false,

@@ -21,7 +21,7 @@ class _QrCodePic extends State<QrCodePic> {
     final FutureBuilder<ui.Image> qrFutureBuilder = FutureBuilder<ui.Image>(
       future: _loadOverlayImage(),
       builder: (BuildContext ctx, AsyncSnapshot<ui.Image> snapshot) {
-        const double size = 280.0;
+        const double size = 200.0;
         if (!snapshot.hasData) {
           return const SizedBox(width: size, height: size);
         }

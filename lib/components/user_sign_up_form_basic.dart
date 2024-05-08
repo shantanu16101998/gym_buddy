@@ -45,8 +45,8 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   bool validateForm() {
     setState(() {
       _nameError = validateSimpleText(_nameController.text, "Name");
-      _emailError = validateSimpleText(_emailController.text, "Email");
-      _contactError = validateSimpleText(_contactController.text, "Contact");
+      _emailError = validateEmailId(_emailController.text);
+      _contactError = contactValidator(_contactController.text);
       _addressError = validateSimpleText(_addressController.text, "Email");
     });
     if (_nameError != null ||

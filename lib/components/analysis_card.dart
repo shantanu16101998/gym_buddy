@@ -35,7 +35,7 @@ class _AnalysisCardState extends State<AnalysisCard> {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(blurRadius: 2, color: Colors.grey)]),
+            boxShadow: const [BoxShadow(blurRadius: 2, color: Colors.grey)]),
         height: 160,
         child: Column(
           children: [
@@ -45,7 +45,7 @@ class _AnalysisCardState extends State<AnalysisCard> {
                 text: widget.value,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff344054),
+                color: const Color(0xff344054),
               ),
             ),
             Align(
@@ -57,7 +57,7 @@ class _AnalysisCardState extends State<AnalysisCard> {
                     padding: const EdgeInsets.only(top: 10, left: 20),
                     child: Icon(
                       widget.icon,
-                      color: Color(0xff344054),
+                      color: const Color(0xff344054),
                     ),
                   ),
                   Padding(
@@ -66,7 +66,7 @@ class _AnalysisCardState extends State<AnalysisCard> {
                       text: widget.label,
                       fontSize: 20,
                       fontWeight: FontWeight.normal,
-                      color: Color(0xff667085),
+                      color: const Color(0xff667085),
                     ),
                   ),
                 ],

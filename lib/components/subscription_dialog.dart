@@ -137,7 +137,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
               color: Colors.white,
               child: Column(children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Text("Update Subscription",
                       style: GoogleFonts.inter(
                           textStyle: const TextStyle(
@@ -185,10 +185,10 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: _endMonthController.text == "3"
-                                  ? Color.fromARGB(255, 203, 203, 203)
+                                  ? const Color.fromARGB(255, 203, 203, 203)
                                   : Colors.white,
                               side: const BorderSide(
-                                  width: 1.0, color: const Color(0xffD0D5DD)),
+                                  width: 1.0, color: Color(0xffD0D5DD)),
                             ),
                             child: const Padding(
                                 padding: EdgeInsets.all(10),
@@ -205,7 +205,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                                 },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _endMonthController.text == "6"
-                                  ? Color.fromARGB(255, 203, 203, 203)
+                                  ? const Color.fromARGB(255, 203, 203, 203)
                                   : Colors.white,
                               elevation: 0,
                               side: const BorderSide(
@@ -229,11 +229,11 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: _endMonthController.text == "12"
-                                  ? Color.fromARGB(255, 203, 203, 203)
+                                  ? const Color.fromARGB(255, 203, 203, 203)
                                   : Colors.white,
-                              side: BorderSide(
+                              side: const BorderSide(
                                 width: 1.0,
-                                color: const Color(0xffD0D5DD),
+                                color: Color(0xffD0D5DD),
                               ),
                             ),
                             child: const Padding(
@@ -248,8 +248,8 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                 Align(
                     alignment: Alignment.center,
                     child: Padding(
-                        padding: EdgeInsets.all(1),
-                        child: Container(
+                        padding: const EdgeInsets.all(1),
+                        child: SizedBox(
                             width: 340,
                             child: LabeledTextField.homepageText(
                                 labelText: "Add Month",
@@ -308,7 +308,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                   child: Column(
                     children: [
                       const Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: CustomText(
                           text: "Please verify your upi id",
                           fontSize: 22,
@@ -317,7 +317,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(

@@ -21,7 +21,7 @@ class _HeaderState extends State<Header> {
     return Container(
       color: Colors.white,
       height: getScreenHeight(context) * 0.12,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -32,7 +32,7 @@ class _HeaderState extends State<Header> {
                 width: 50,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/profile_pic.png"),
+                    image: AssetImage("assets/images/logo-modified.png"),
                     fit: BoxFit.fill,
                   ),
                   shape: BoxShape.circle,

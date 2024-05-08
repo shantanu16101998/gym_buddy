@@ -158,7 +158,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                           : Flexible(
                               child: CustomText(
                                 text: _upiController.text,
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
