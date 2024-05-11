@@ -24,9 +24,9 @@ class _AnalysisHomepageState extends State<AnalysisHomepage> {
       const AnalysisHomepageResponse(
           earnings: 0,
           numberOfPeople: 0,
-          averageMonth: 2,
+          averageMonth: 0,
           males: 0,
-          females: 2);
+          females: 0);
 
   fetchData() async {
     var _analysisHomepageResponse = AnalysisHomepageResponse.fromJson(

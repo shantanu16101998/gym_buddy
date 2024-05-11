@@ -13,11 +13,10 @@ class OwnerForm extends StatefulWidget {
 }
 
 class _OwnerFormState extends State<OwnerForm> {
-  late bool shouldShowLoginPage = false;
+  late bool shouldShowLoginPage = true;
   late bool shouldShowFutherInformation = false;
 
   final TextEditingController nameController = TextEditingController();
-
 
   Future<void> setShouldShowLoginPage(bool value) async {
     var sharedPreference = await SharedPreferences.getInstance();
@@ -42,7 +41,7 @@ class _OwnerFormState extends State<OwnerForm> {
       return OwnerFurtherInformationForm(nameController: nameController);
     } else {
       return OwnerFormForm(
-        nameController: nameController,
+          nameController: nameController,
           setShouldShowFurtherInformation: setShouldShowFurtherInformation);
     }
   }
@@ -52,16 +51,15 @@ class _OwnerFormState extends State<OwnerForm> {
     return Scaffold(
         body: Stack(children: <Widget>[
       Container(
-        margin: EdgeInsets.only(top: getStatusBarHeight(context)),
+          margin: EdgeInsets.only(top: getStatusBarHeight(context)),
           decoration: const BoxDecoration(
               image: DecorationImage(
-        image: AssetImage("assets/images/register.png"),
-        fit: BoxFit.fitWidth,
-      ))),
+            image: AssetImage("assets/images/register.png"),
+            fit: BoxFit.fitWidth,
+          ))),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-
               color: Colors.transparent,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

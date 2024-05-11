@@ -4,11 +4,11 @@ import 'package:gym_buddy/components/side_bar.dart';
 import 'package:gym_buddy/components/subscription_card_container.dart';
 import 'package:gym_buddy/components/tab_bar.dart';
 import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/user_sign_up.dart';
-import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gym_buddy/models/responses.dart';
 
 class Subscription extends StatefulWidget {
   const Subscription({super.key});
@@ -19,10 +19,6 @@ class Subscription extends StatefulWidget {
 
 class _SubscriptionState extends State<Subscription> {
   final TextEditingController _searchController = TextEditingController();
-  List currentUsers = [];
-  List expiredUsers = [];
-  List allCurrentUsers = [];
-  List allExpiredUsers = [];
 
   String ownerName = "Owner";
 
@@ -39,41 +35,8 @@ class _SubscriptionState extends State<Subscription> {
   void initState() {
     super.initState();
     fetchOwnerName();
-    fetchSubscription();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    fetchSubscription();
-  }
-
-  fetchSubscription() async {
-    // var sharedPreferences = await SharedPreferences.getInstance();
-
-    SubscriptionDetailsResponse subscriptionDetailsResponse =
-        SubscriptionDetailsResponse.fromJson(
-            await backendAPICall('/customer/getCustomers', null, "GET", true));
-
-    setState(() {
-      currentUsers = subscriptionDetailsResponse.currentUsers;
-      expiredUsers = subscriptionDetailsResponse.expiredUsers;
-      allCurrentUsers = currentUsers;
-      allExpiredUsers = expiredUsers;
-    });
-  }
-
-  _onSearchTextFieldChanged(String currentText) {
-    setState(() {
-      currentUsers = allCurrentUsers
-          .where((currentUser) =>
-              currentUser.name.toLowerCase()!.contains(currentText))
-          .toList();
-      expiredUsers = allExpiredUsers
-          .where((expiredUser) =>
-              expiredUser.name.toLowerCase()!.contains(currentText))
-          .toList();
-    });
+    Provider.of<SubscriptionProvider>(context, listen: false)
+        .fetchSubscription();
   }
 
   Future<void> setShouldShowCurrent(bool value) async {
@@ -94,8 +57,6 @@ class _SubscriptionState extends State<Subscription> {
             SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Container(
-                  // color: Colors.white,
-                  // padding: EdgeInsets.all(10),
                   padding: EdgeInsets.only(
                       top: getStatusBarHeight(context),
                       left: 10,
@@ -107,24 +68,33 @@ class _SubscriptionState extends State<Subscription> {
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
                           showCurrentUsers: showCurrentUsers,
-                          numberOfCurrentUsers: allCurrentUsers.length,
-                          numberOfExpiredUsers: allExpiredUsers.length),
-                      Container(
+                          numberOfCurrentUsers: context
+                              .watch<SubscriptionProvider>()
+                              .allCurrentUsers
+                              .length,
+                          numberOfExpiredUsers: context
+                              .watch<SubscriptionProvider>()
+                              .allExpiredUsers
+                              .length),
+                      SizedBox(
                         width: 340,
                         child: LabeledTextField(
                             labelText: "Search members",
                             controller: _searchController,
-                            onChange: _onSearchTextFieldChanged,
+                            onChange: context
+                                .read<SubscriptionProvider>()
+                                .onSearchTextFieldChanged,
                             textColour: const Color(0xff667085),
                             borderColor: const Color(0xffD0D5DD),
                             cursorColor: const Color(0xff667085),
                             errorText: null),
                       ),
                       SubscriptionCardContainer(
-                        fetchSubsription: fetchSubscription,
                         showCurrentUsers: showCurrentUsers,
-                        currentUsers: currentUsers,
-                        expiredUsers: expiredUsers,
+                        currentUsers:
+                            context.watch<SubscriptionProvider>().currentUsers,
+                        expiredUsers:
+                            context.watch<SubscriptionProvider>().expiredUsers,
                       )
                     ],
                   ),

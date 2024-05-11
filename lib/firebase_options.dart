@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '238919553642',
     projectId: 'gym-buddy-57fc6',
     storageBucket: 'gym-buddy-57fc6.appspot.com',
-    iosBundleId: 'com.example.gymBuddy',
+    iosBundleId: 'com.gymbuddy.gymBuddy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '238919553642',
     projectId: 'gym-buddy-57fc6',
     storageBucket: 'gym-buddy-57fc6.appspot.com',
-    iosBundleId: 'com.example.gymBuddy',
+    iosBundleId: 'com.gymbuddy.gymBuddy',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

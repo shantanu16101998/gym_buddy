@@ -136,7 +136,6 @@ class _ProfileState extends State<Profile> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return SubscriptionDialog(
-                                      fetchSubscription: () => {},
                                       userId: widget.userId);
                                 });
                           },
@@ -332,7 +331,10 @@ class _ProfileState extends State<Profile> {
                             color: const Color.fromARGB(255, 255, 255, 255)),
                         borderRadius: BorderRadius.circular(60),
                         image: DecorationImage(
-                            image: AssetImage(userProfileResponse.gender == "Male" ?  "assets/images/bheem.jpg" : "assets/images/chutki.jpg"),
+                            image: AssetImage(
+                                userProfileResponse.gender == "Male"
+                                    ? "assets/images/bheem.jpg"
+                                    : "assets/images/chutki.jpg"),
                             fit: BoxFit.fill),
                       ),
                     )

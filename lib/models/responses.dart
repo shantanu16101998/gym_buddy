@@ -123,7 +123,7 @@ class ExpandedAnalysisResponse {
   final List<int> data;
   final String average;
   final String total;
-  final int maxLimitOfData;
+  final num maxLimitOfData;
 
   ExpandedAnalysisResponse(
       {required this.titles,

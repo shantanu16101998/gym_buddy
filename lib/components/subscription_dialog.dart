@@ -10,12 +10,13 @@ import 'package:gym_buddy/components/qr_code_pic.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/subscription_provider.dart';
+import 'package:provider/provider.dart';
 
 class SubscriptionDialog extends StatefulWidget {
   final String userId;
-  final Function() fetchSubscription;
   const SubscriptionDialog(
-      {super.key, required this.userId, required this.fetchSubscription});
+      {super.key, required this.userId});
 
   @override
   State<SubscriptionDialog> createState() => _SubscriptionDialogState();
@@ -87,8 +88,11 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
         },
         'PUT',
         true);
-    await widget.fetchSubscription();
-    Navigator.pop(context);
+    if (mounted) {
+      await Provider.of<SubscriptionProvider>(context, listen: false)
+          .fetchSubscription();
+      Navigator.pop(context);
+    }
   }
 
   _onPayNowPressed() async {
@@ -304,7 +308,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
             )
           : isApiDataLoaded
               ? Container(
-                color: Colors.white,
+                  color: Colors.white,
                   width: double.infinity,
                   child: Column(
                     children: [
