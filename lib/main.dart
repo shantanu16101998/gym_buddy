@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/analysis_homepage.dart';
@@ -72,6 +73,7 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
+          '/pic': (context) => const CustomImagePicker(),
           '/user-sign-up': (context) => const UserSignUp(),
           '/subscription': (context) => const Subscription(),
           '/profile': (context) => const Profile(

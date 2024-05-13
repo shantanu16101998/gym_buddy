@@ -1,3 +1,4 @@
+import 'package:gym_buddy/components/custom_image_picker.dart';
 import 'package:gym_buddy/components/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +11,7 @@ import 'package:flutter/services.dart';
 class UserSignUpFormBasic extends StatefulWidget {
   final Function onPageToShowChange;
 
-  const UserSignUpFormBasic(
-      {super.key, required this.onPageToShowChange});
+  const UserSignUpFormBasic({super.key, required this.onPageToShowChange});
 
   @override
   State<UserSignUpFormBasic> createState() => _UserSignUpFormBasicState();
@@ -90,6 +90,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                           color: Color(0xffFFFFFF),
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
+          const CustomImagePicker(),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 30, bottom: 15, right: 30),
