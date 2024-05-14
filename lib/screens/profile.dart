@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/app_scaffold.dart';
+import 'package:gym_buddy/components/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
@@ -28,6 +29,9 @@ class _ProfileState extends State<Profile> {
       gender: "Male");
 
   bool isApiDataLoaded = false;
+  bool isImageExpanded = false;
+  ImageProvider<Object> image = const AssetImage("assets/images/bheem.jpg");
+
 
   textToSend() {
     return "Hi ${userProfileResponse.name}, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
@@ -41,6 +45,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       userProfileResponse = userProfileApiResponse;
       isApiDataLoaded = true;
+      image = AssetImage(userProfileResponse.gender == "Male" ? "assets/images/bheem.jpg" : "assets/images/chutki.jpg");
     });
   }
 
@@ -65,12 +70,17 @@ class _ProfileState extends State<Profile> {
     fetchProfileDetails();
   }
 
+  void changeImage(ImageProvider<Object> newImage) {
+    setState(() {
+      image = newImage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold.noHeader(
       isApiDataLoaded: isApiDataLoaded,
       child: Container(
-          width: double.infinity,
           color: Colors.white,
           child: Stack(
             children: [
@@ -82,8 +92,7 @@ class _ProfileState extends State<Profile> {
                     height: getScreenHeight(context) * 0.2,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(
-                              "assets/images/mega_gym_background.png"),
+                          image: AssetImage("assets/images/gym_background.jpg"),
                           fit: BoxFit.fill),
                     ),
                   ),
@@ -313,6 +322,7 @@ class _ProfileState extends State<Profile> {
                                       color: Color(0xffB01D1D)))),
                         ),
                       )),
+                  const SizedBox(height: 50)
                 ],
               ),
               Padding(
@@ -322,20 +332,24 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: getScreenHeight(context) * 0.1,
-                      height: getScreenHeight(context) * 0.1,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 2,
-                            color: const Color.fromARGB(255, 255, 255, 255)),
-                        borderRadius: BorderRadius.circular(60),
-                        image: DecorationImage(
-                            image: AssetImage(
-                                userProfileResponse.gender == "Male"
-                                    ? "assets/images/bheem.jpg"
-                                    : "assets/images/chutki.jpg"),
-                            fit: BoxFit.fill),
+                    GestureDetector(
+                      onTap: () => {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => ImageDialog(
+                                image: image, changeImage: changeImage))
+                      },
+                      child: Container(
+                        width: getScreenHeight(context) * 0.1,
+                        height: getScreenHeight(context) * 0.1,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 2,
+                              color: const Color.fromARGB(255, 255, 255, 255)),
+                          borderRadius: BorderRadius.circular(60),
+                          image:
+                              DecorationImage(image: image, fit: BoxFit.fill),
+                        ),
                       ),
                     )
                   ],

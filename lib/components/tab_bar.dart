@@ -23,7 +23,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 170,
+          width: 180,
           height: 40,
           child: OutlinedButton(
             onPressed: () => {widget.setShouldShowCurrent(true)},
@@ -40,7 +40,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
           ),
         ),
         SizedBox(
-          width: 170,
+          width: 180,
           height: 40,
           child: OutlinedButton(
             onPressed: () => {widget.setShouldShowCurrent(false)},

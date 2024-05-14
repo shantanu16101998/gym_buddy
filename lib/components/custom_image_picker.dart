@@ -73,6 +73,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
+                    backgroundColor: Colors.white,
                     title: const Text('Choose an option'),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -121,7 +122,10 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             child: const Padding(
               padding: EdgeInsets.all(10.0),
               child: CustomText(
-                text: 'Crop Image',fontSize: 18,color: Color(0xff004576),
+                fontWeight: FontWeight.bold,
+                text: 'Crop Image',
+                fontSize: 18,
+                color: Color(0xff004576),
               ),
             ),
           ),

@@ -42,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
           {
             'email': _emailController.text,
             'password': _passwordController.text,
-            'token': sharedPreferences.getString("fcmToken")
+            'deviceToken': sharedPreferences.getString("fcmToken")
           },
           'POST',
           false));
@@ -51,6 +51,7 @@ class _LoginFormState extends State<LoginForm> {
         var sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString("jwtToken", loginResponse.jwtToken ?? "");
+        sharedPreferences.setString("ownerName", loginResponse.name ?? "Owner");
 
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,

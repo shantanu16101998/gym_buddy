@@ -2,16 +2,18 @@ import 'package:gym_buddy/models/user_subscription.dart';
 
 class LoginResponse {
   final String? jwtToken;
+  final String? name;
 
-  const LoginResponse({this.jwtToken});
+  const LoginResponse({this.jwtToken, this.name});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     final String? jwtToken = json['token'];
+    final String? name = json['name'];
 
     if (jwtToken != null) {
-      return LoginResponse(jwtToken: jwtToken);
+      return LoginResponse(jwtToken: jwtToken, name: name);
     } else {
-      return const LoginResponse(jwtToken: null);
+      return const LoginResponse();
     }
   }
 }
@@ -54,12 +56,10 @@ class SubscriptionDetailsResponse {
 class OwnerDeeplinkResponse {
   final String upiId;
 
-  const OwnerDeeplinkResponse(
-      {required this.upiId});
+  const OwnerDeeplinkResponse({required this.upiId});
 
   factory OwnerDeeplinkResponse.fromJson(Map<String, dynamic> json) {
-    return OwnerDeeplinkResponse(
-        upiId: json["upiId"]);
+    return OwnerDeeplinkResponse(upiId: json["upiId"]);
   }
 }
 

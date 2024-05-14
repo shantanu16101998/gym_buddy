@@ -52,15 +52,18 @@ class _AppScaffoldState extends State<AppScaffold> {
     return widget.isApiDataLoaded
         ? Scaffold(
             drawer: SideBar(ownerName: ownerName),
-            body: Container(
-              padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-              width: double.infinity,
-              color: widget.bodyColor ?? Colors.white,
-              child: Column(
-                children: [
-                  widget.showHeader ? Header(ownerName: ownerName) : const SizedBox(),
-                  Container(child: widget.child)
-                ],
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                padding: EdgeInsets.only(top: getStatusBarHeight(context)),
+                width: double.infinity,
+                color: widget.bodyColor ?? Colors.white,
+                child: Column(
+                  children: [
+                    widget.showHeader ? Header(ownerName: ownerName) : const SizedBox(),
+                    Container(child: widget.child)
+                  ],
+                ),
               ),
             ),
           )

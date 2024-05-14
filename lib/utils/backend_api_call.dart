@@ -23,7 +23,7 @@ Future<Map<String, dynamic>> backendAPICall(String path,
 
   if (needJwt) {
     var sharedPreferences = await SharedPreferences.getInstance();
-    var jwtToken = sharedPreferences.getString("jwtToken") ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjYzNTIyODgyMWE2MDViMzEyNzhiYzQ1IiwiZW1haWwiOiJvaHV6b29vckBnbWFpbC5jb20iLCJjb250YWN0IjoiMTIzMTJlMzEyMzIxMyIsImlhdCI6MTcxNDgwOTY1NCwiZXhwIjozNjAwMTcxNDgwOTY1NH0.1nN0YtFi393P-N8vzCAsmrJBKmdJPQHLmqHVXCwMM6Y";
+    var jwtToken = sharedPreferences.getString("jwtToken") ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY0MWUyNDcyYzEzOGI0MWMwM2QxNDIyIiwiZW1haWwiOiJ0eXBlc2NyaXB0QGdtYWlsLmNvbSIsImNvbnRhY3QiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzE1NjIxNjY2LCJleHAiOjM2MDAxNzE1NjIxNjY2fQ.tZ542FcQ7iET_c8CHiVdRv4pWTUHqF4z9v5rjIYx8cw";
     requestHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

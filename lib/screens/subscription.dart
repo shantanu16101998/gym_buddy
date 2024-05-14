@@ -77,7 +77,7 @@ class _SubscriptionState extends State<Subscription> {
                               .allExpiredUsers
                               .length),
                       SizedBox(
-                        width: 340,
+                        width: 360,
                         child: LabeledTextField(
                             labelText: "Search members",
                             controller: _searchController,

@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
               secondary: Colors.red, primary: const Color(0xff667085)),
           primaryColor: Colors.black,
         ),
-        home: const SplashScreen(),
+        home: const Subscription(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),

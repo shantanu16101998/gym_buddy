@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 
 class Header extends StatefulWidget {
   final String ownerName;
@@ -20,7 +19,6 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: getScreenHeight(context) * 0.12,
       padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
