@@ -39,6 +39,8 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
                 endDate: userSubscription.endDate,
                 expiredDay: userSubscription.expiredDays,
                 expiringDay: userSubscription.expiringDays,
+                profilePic: userSubscription.profilePic,
+                phone:  userSubscription.contact,
               )))
           .toList(),
     );

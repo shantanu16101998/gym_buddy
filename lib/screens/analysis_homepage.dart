@@ -40,6 +40,7 @@ class _AnalysisHomepageState extends State<AnalysisHomepage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      bodyColor: Colors.white,
       isApiDataLoaded: isApiDataLoaded,
       child: AnalysisCardContainer(
           analysisHomepageResponse: analysisHomepageResponse),

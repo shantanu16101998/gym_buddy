@@ -11,28 +11,29 @@ class AppScaffold extends StatefulWidget {
   final bool isApiDataLoaded;
   final bool showHeader;
   final Color? bodyColor;
+  final bool? noSpaceForStatusBar;
   const AppScaffold(
       {super.key,
       required this.isApiDataLoaded,
       required this.child,
       this.showHeader = true,
-      this.bodyColor});
+      this.bodyColor,
+      this.noSpaceForStatusBar});
 
   const AppScaffold.noHeader(
       {super.key,
       required this.isApiDataLoaded,
       required this.child,
       this.showHeader = false,
-      this.bodyColor});
+      this.bodyColor,
+      this.noSpaceForStatusBar});
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-
   String ownerName = "Owner";
-
 
   @override
   void initState() {
@@ -54,15 +55,25 @@ class _AppScaffoldState extends State<AppScaffold> {
             drawer: SideBar(ownerName: ownerName),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Container(
-                padding: EdgeInsets.only(top: getStatusBarHeight(context)),
-                width: double.infinity,
-                color: widget.bodyColor ?? Colors.white,
-                child: Column(
-                  children: [
-                    widget.showHeader ? Header(ownerName: ownerName) : const SizedBox(),
-                    Container(child: widget.child)
-                  ],
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: getScreenHeight(context),
+                ),
+                child: Container(
+                  padding: EdgeInsets.only(
+                      top: widget.noSpaceForStatusBar == true
+                          ? 0
+                          : getStatusBarHeight(context)),
+                  width: double.infinity,
+                  color: widget.bodyColor ?? Colors.white,
+                  child: Column(
+                    children: [
+                      widget.showHeader
+                          ? Header(ownerName: ownerName)
+                          : const SizedBox(),
+                      Container(child: widget.child)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -70,3 +81,39 @@ class _AppScaffoldState extends State<AppScaffold> {
         : const SizedBox(child: Loader());
   }
 }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return widget.isApiDataLoaded
+//         ? Scaffold(
+//             drawer: SideBar(ownerName: ownerName),
+//             body: SingleChildScrollView(
+//               physics: const BouncingScrollPhysics(),
+//               child: ConstrainedBox(
+//                 constraints: BoxConstraints(
+//                   minHeight:
+//                       getScreenHeight(context), // Set the minimum height here
+//                 ),
+//                 child: Container(
+//                   padding: EdgeInsets.only(
+//                     top: widget.noSpaceForStatusBar == true
+//                         ? 0
+//                         : getStatusBarHeight(context),
+//                   ),
+//                   width: double.infinity,
+//                   color: widget.bodyColor ?? Colors.white,
+//                   child: Column(
+//                     children: [
+//                       widget.showHeader
+//                           ? Header(ownerName: ownerName)
+//                           : const SizedBox(),
+//                       Container(child: widget.child)
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           )
+//         : const SizedBox(child: Loader());
+//   }
+// }

@@ -64,7 +64,6 @@ class _UserFurtherInformationFormState
       await sharedPreferences.setString("startDate", _startDateController.text);
       await sharedPreferences.setString("validTill", _endMonthController.text);
       await sharedPreferences.setString("gender", gender);
-
       widget.onPageToShowChange(PageToShow.paymentPage);
     }
     else {

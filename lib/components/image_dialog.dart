@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/custom_text.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
+import 'package:gym_buddy/providers/subscription_provider.dart';
+
 
 class ImageDialog extends StatefulWidget {
   final ImageProvider<Object> image;
   final Function changeImage;
+  final String customerId;
 
   const ImageDialog(
-      {super.key, required this.image, required this.changeImage});
+      {super.key,
+      required this.image,
+      required this.changeImage,
+      required this.customerId});
 
   @override
   State<ImageDialog> createState() => _ImageDialogState();
@@ -67,7 +75,16 @@ class _ImageDialogState extends State<ImageDialog> {
     }
   }
 
-  void _uploadImage() {
+  void _uploadImage() async {
+    if (_imageFile != null) {
+      await uploadImage('/aws/upload', _imageFile!, widget.customerId);
+    }
+
+    if (mounted) {
+      await Provider.of<SubscriptionProvider>(context, listen: false)
+          .fetchSubscription();
+    }
+
     widget.changeImage(Image.file(File(_imageFile!.path)).image);
     Navigator.pop(context);
   }

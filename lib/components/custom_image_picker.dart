@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/custom_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomImagePicker extends StatefulWidget {
   const CustomImagePicker({super.key});
@@ -23,9 +27,13 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
+    final sharedPreferences = await SharedPreferences.getInstance();
+
     if (pickedFile != null) {
+      var base64file = base64Encode(await pickedFile.readAsBytes());
       setState(() {
         _imageFile = pickedFile;
+        sharedPreferences.setString("profilePic", base64file);
       });
     }
   }
@@ -42,9 +50,11 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Crop Image',
-            toolbarColor: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+            toolbarColor:
+                const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
             toolbarWidgetColor: Colors.white,
-            activeControlsWidgetColor: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+            activeControlsWidgetColor:
+                const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
             initAspectRatio: CropAspectRatioPreset.original,
           ),
           IOSUiSettings(
@@ -54,6 +64,13 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
       );
 
       if (croppedFile != null) {
+        final sharedPreferences = await SharedPreferences.getInstance();
+
+        var base64file =
+            base64Encode(await XFile(croppedFile.path).readAsBytes());
+
+        sharedPreferences.setString("profilePic", base64file);
+
         setState(() {
           _imageFile = XFile(croppedFile.path);
         });

@@ -5,10 +5,10 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/subscription_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -26,16 +26,13 @@ class _ProfileState extends State<Profile> {
       age: "age",
       phone: "7424948001",
       bloodGroup: "bloodGroup",
-      gender: "Male");
+      gender: "Male",
+      profilePic: null);
 
   bool isApiDataLoaded = false;
   bool isImageExpanded = false;
-  ImageProvider<Object> image = const AssetImage("assets/images/bheem.jpg");
-
-
-  textToSend() {
-    return "Hi ${userProfileResponse.name}, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
-  }
+  ImageProvider<Object> image = const NetworkImage(
+      "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default");
 
   fetchProfileDetails() async {
     var userProfileApiResponse = UserProfileResponse.fromJson(
@@ -45,7 +42,12 @@ class _ProfileState extends State<Profile> {
     setState(() {
       userProfileResponse = userProfileApiResponse;
       isApiDataLoaded = true;
-      image = AssetImage(userProfileResponse.gender == "Male" ? "assets/images/bheem.jpg" : "assets/images/chutki.jpg");
+      image = userProfileResponse.profilePic == null
+          ? AssetImage(userProfileResponse.gender == "Male"
+              ? "assets/images/profile_default.png"
+              : "assets/images/profile_default.png") as ImageProvider<Object>
+          : NetworkImage(userProfileResponse.profilePic ??
+              "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default");
     });
   }
 
@@ -61,7 +63,7 @@ class _ProfileState extends State<Profile> {
         host: 'wa.me',
         path: '+91${userProfileResponse.phone}',
         scheme: 'https',
-        queryParameters: {'text': textToSend()}));
+        queryParameters: {'text': textToSend(userProfileResponse.name)}));
   }
 
   @override
@@ -80,6 +82,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return AppScaffold.noHeader(
       isApiDataLoaded: isApiDataLoaded,
+      noSpaceForStatusBar: true,
       child: Container(
           color: Colors.white,
           child: Stack(
@@ -89,36 +92,39 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: getScreenHeight(context) * 0.2,
+                    height: 150,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage("assets/images/gym_background.jpg"),
                           fit: BoxFit.fill),
                     ),
                   ),
-                  SizedBox(height: getScreenHeight(context) * 0.08),
+                  SizedBox(height: 70),
                   Column(
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(20.0, 16.0, 12.0, 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Flexible(
-                                child: Text(userProfileResponse.name,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22,
-                                            color: Color(0xff004576))))),
-                            Icon(
-                                userProfileResponse.gender == "Male"
-                                    ? Icons.male
-                                    : Icons.female,
-                                color: Color(0xff004576),
-                                size: 35),
-                          ],
+                            const EdgeInsets.fromLTRB(30.0, 16.0, 12.0, 24.0),
+                        child: SizedBox(
+                          width: 250,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                  child: Text(userProfileResponse.name,
+                                      style: GoogleFonts.inter(
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22,
+                                              color: Color(0xff004576))))),
+                              Icon(
+                                  userProfileResponse.gender == "Male"
+                                      ? Icons.male
+                                      : Icons.female,
+                                  color: Color(0xff004576),
+                                  size: 35),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -156,47 +162,7 @@ class _ProfileState extends State<Profile> {
                                       color: Color(0xff004576)))),
                         ),
                       )),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: SizedBox(
-                        height: 45,
-                        width: 300,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 2, color: Color(0xffD0D5DD)),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            textStyle: const TextStyle(
-                              fontSize: 22,
-                              color: Color(0xffB01D1D),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: _openWhatsappLink,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .center, // Aligns children horizontally
-                            children: [
-                              Icon(FontAwesomeIcons.whatsapp,
-                                  weight: 20,
-                                  color: Color.fromARGB(255, 29, 176, 93)),
-                              const SizedBox(width: 15),
-                              Text(
-                                'Message',
-                                style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    color: Color.fromARGB(255, 29, 176, 93),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )),
+                  
                   Container(
                     width: 250,
                     // color: Color.fromARGB(255, 1, 10, 26),
@@ -327,8 +293,7 @@ class _ProfileState extends State<Profile> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    top: getStatusBarHeight(context) +
-                        getScreenHeight(context) * 0.1),
+                    top: 100),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -337,16 +302,19 @@ class _ProfileState extends State<Profile> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => ImageDialog(
-                                image: image, changeImage: changeImage))
+                                  image: image,
+                                  changeImage: changeImage,
+                                  customerId: widget.userId,
+                                ))
                       },
                       child: Container(
-                        width: getScreenHeight(context) * 0.1,
-                        height: getScreenHeight(context) * 0.1,
+                        width: getScreenHeight(context) * 0.15,
+                        height: getScreenHeight(context) * 0.15,
                         decoration: BoxDecoration(
                           border: Border.all(
                               width: 2,
                               color: const Color.fromARGB(255, 255, 255, 255)),
-                          borderRadius: BorderRadius.circular(60),
+                          borderRadius: BorderRadius.circular(70),
                           image:
                               DecorationImage(image: image, fit: BoxFit.fill),
                         ),
