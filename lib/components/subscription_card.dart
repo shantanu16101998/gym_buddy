@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/subscription_dialog.dart';
 import 'package:gym_buddy/screens/profile.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 
 class SubscriptionCard extends StatefulWidget {
   final String name;
@@ -10,6 +11,7 @@ class SubscriptionCard extends StatefulWidget {
   final int? expiringDay;
   final int? expiredDay;
   final String userId;
+  final String? profilePic;
   const SubscriptionCard(
       {super.key,
       required this.name,
@@ -17,7 +19,8 @@ class SubscriptionCard extends StatefulWidget {
       required this.endDate,
       required this.expiringDay,
       required this.expiredDay,
-      required this.userId});
+      required this.userId,
+      required this.profilePic});
 
   @override
   State<SubscriptionCard> createState() => _SubscriptionCardState();
@@ -35,7 +38,6 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
             },
         child: Container(
           padding: const EdgeInsets.all(0),
-          // height: 140,
           width: 360,
           decoration: BoxDecoration(
               border: Border.all(width: 1, color: const Color(0xffDBDDE2)),
@@ -43,10 +45,15 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
           child: IntrinsicHeight(
             child: Row(
               children: [
-                Container(width: 100,decoration: const BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/images/bheem.jpg"),fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))
-                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: CircleAvatar(
+                      backgroundImage: widget.profilePic == null
+                          ? const AssetImage("assets/images/profile_default.png")
+                              as ImageProvider<Object>
+                          : NetworkImage(widget.profilePic ??
+                              "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default"),
+                      radius: getScreenHeight(context) * 0.045),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -75,25 +82,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_today,
-                                color: Color(0xff667085),
-                                size: 20,
-                              ),
-                              Container(
-                                width: 5,
-                              ),
-                              Text(widget.startDate,
-                                  style: GoogleFonts.inter(
-                                      textStyle: const TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          color: Color(0xff344054)))),
-                            ],
-                          ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(width: 10),
                           Row(children: [
                             const Icon(
                               Icons.calendar_today,
@@ -103,7 +92,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                             Container(
                               width: 5,
                             ),
-                            Text(widget.endDate,
+                            Text('due: ${widget.endDate}',
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -116,7 +105,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                         height: 8,
                       ),
                       widget.expiringDay != null
-                          ? Text("Expiring within ${widget.expiringDay} ${widget.expiringDay == 1 ? "day" : "day"} ",
+                          ? Text(
+                              "Expiring within ${widget.expiringDay} ${widget.expiringDay == 1 ? "day" : "days"} ",
                               style: GoogleFonts.inter(
                                   textStyle: const TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -124,7 +114,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                       color: Color(0xff8C6A13))))
                           : const SizedBox(),
                       widget.expiredDay != null
-                          ? Text("Expired ${widget.expiredDay} ${widget.expiredDay == 1 ? "day" : "days"} ago",
+                          ? Text(
+                              "Expired ${widget.expiredDay} ${widget.expiredDay == 1 ? "day" : "days"} ago",
                               style: GoogleFonts.inter(
                                   textStyle: const TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -153,7 +144,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                       side: const BorderSide(
                                           width: 1.0, color: Color(0xffD0D5DD)),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10))),
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
                                   child: Text("Update Subscription",
                                       style: GoogleFonts.inter(
                                           textStyle: const TextStyle(

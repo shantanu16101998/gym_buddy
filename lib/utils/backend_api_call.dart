@@ -1,12 +1,30 @@
 import 'package:gym_buddy/constants/url.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> uploadImage(
+    String path, XFile imageFile, String customerId) async {
+  try {
+    var sharedPreferences = await SharedPreferences.getInstance();
+
+    var request = http.MultipartRequest('POST', Uri.parse('$TEST_URL$path'));
+    var jwtToken = sharedPreferences.getString("jwtToken") ??
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY0MWUyNDcyYzEzOGI0MWMwM2QxNDIyIiwiZW1haWwiOiJ0eXBlc2NyaXB0QGdtYWlsLmNvbSIsImNvbnRhY3QiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzE1NjIxNjY2LCJleHAiOjM2MDAxNzE1NjIxNjY2fQ.tZ542FcQ7iET_c8CHiVdRv4pWTUHqF4z9v5rjIYx8cw";
+    request.headers['token'] = jwtToken;
+    request.files
+        .add(await http.MultipartFile.fromPath('file', imageFile.path));
+    request.fields['customerId'] = customerId;
+    await request.send();
+  } catch (e) {
+    print('Error uploading image: $e');
+  }
+}
 
 Future<Map<String, dynamic>> backendAPICall(String path,
     Map<String, dynamic>? requestBody, String method, bool needJwt) async {
   Map<String, String> requestHeaders;
-
 
   print('calling $TEST_URL$path');
   print('');
@@ -23,7 +41,8 @@ Future<Map<String, dynamic>> backendAPICall(String path,
 
   if (needJwt) {
     var sharedPreferences = await SharedPreferences.getInstance();
-    var jwtToken = sharedPreferences.getString("jwtToken") ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY0MWUyNDcyYzEzOGI0MWMwM2QxNDIyIiwiZW1haWwiOiJ0eXBlc2NyaXB0QGdtYWlsLmNvbSIsImNvbnRhY3QiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzE1NjIxNjY2LCJleHAiOjM2MDAxNzE1NjIxNjY2fQ.tZ542FcQ7iET_c8CHiVdRv4pWTUHqF4z9v5rjIYx8cw";
+    var jwtToken = sharedPreferences.getString("jwtToken") ??
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY0MWUyNDcyYzEzOGI0MWMwM2QxNDIyIiwiZW1haWwiOiJ0eXBlc2NyaXB0QGdtYWlsLmNvbSIsImNvbnRhY3QiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzE1NjIxNjY2LCJleHAiOjM2MDAxNzE1NjIxNjY2fQ.tZ542FcQ7iET_c8CHiVdRv4pWTUHqF4z9v5rjIYx8cw";
     requestHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

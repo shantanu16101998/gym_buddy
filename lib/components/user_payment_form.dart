@@ -71,7 +71,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
   onSignUpButtonClicked() async {
     var sharedPreferences = await SharedPreferences.getInstance();
 
-    backendAPICall(
+    await backendAPICall(
         '/customer/registerCustomer',
         {
           'customerName': capitalizeFirstLetter(
@@ -86,7 +86,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
           'bloodGroup': sharedPreferences.getString("bloodGroup"),
           'validTill':
               int.parse(sharedPreferences.getString("validTill") ?? "0"),
-          'charges': int.parse(sharedPreferences.getString("charges") ?? "0")
+          'charges': int.parse(sharedPreferences.getString("charges") ?? "0"),
+          'profilePic': sharedPreferences.getString('profilePic') ?? ""
         },
         "POST",
         true);

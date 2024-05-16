@@ -26,12 +26,13 @@ class _ProfileState extends State<Profile> {
       age: "age",
       phone: "7424948001",
       bloodGroup: "bloodGroup",
-      gender: "Male");
+      gender: "Male",
+      profilePic: null);
 
   bool isApiDataLoaded = false;
   bool isImageExpanded = false;
-  ImageProvider<Object> image = const AssetImage("assets/images/bheem.jpg");
-
+  ImageProvider<Object> image = const NetworkImage(
+      "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default");
 
   textToSend() {
     return "Hi ${userProfileResponse.name}, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
@@ -45,7 +46,12 @@ class _ProfileState extends State<Profile> {
     setState(() {
       userProfileResponse = userProfileApiResponse;
       isApiDataLoaded = true;
-      image = AssetImage(userProfileResponse.gender == "Male" ? "assets/images/bheem.jpg" : "assets/images/chutki.jpg");
+      image = userProfileResponse.profilePic == null
+          ? AssetImage(userProfileResponse.gender == "Male"
+              ? "assets/images/profile_default.png"
+              : "assets/images/profile_default.png") as ImageProvider<Object>
+          : NetworkImage(userProfileResponse.profilePic ??
+              "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default");
     });
   }
 
@@ -96,7 +102,7 @@ class _ProfileState extends State<Profile> {
                           fit: BoxFit.fill),
                     ),
                   ),
-                  SizedBox(height: getScreenHeight(context) * 0.08),
+                  SizedBox(height: getScreenHeight(context) * 0.12),
                   Column(
                     children: [
                       Padding(
@@ -337,16 +343,19 @@ class _ProfileState extends State<Profile> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) => ImageDialog(
-                                image: image, changeImage: changeImage))
+                                  image: image,
+                                  changeImage: changeImage,
+                                  customerId: widget.userId,
+                                ))
                       },
                       child: Container(
-                        width: getScreenHeight(context) * 0.1,
-                        height: getScreenHeight(context) * 0.1,
+                        width: getScreenHeight(context) * 0.15,
+                        height: getScreenHeight(context) * 0.15,
                         decoration: BoxDecoration(
                           border: Border.all(
                               width: 2,
                               color: const Color.fromARGB(255, 255, 255, 255)),
-                          borderRadius: BorderRadius.circular(60),
+                          borderRadius: BorderRadius.circular(70),
                           image:
                               DecorationImage(image: image, fit: BoxFit.fill),
                         ),

@@ -71,6 +71,7 @@ class UserProfileResponse {
   final String phone;
   final String bloodGroup;
   final String gender;
+  final String? profilePic;
 
   const UserProfileResponse(
       {required this.name,
@@ -79,7 +80,8 @@ class UserProfileResponse {
       required this.age,
       required this.phone,
       required this.bloodGroup,
-      required this.gender});
+      required this.gender,
+      required this.profilePic});
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
     return UserProfileResponse(
@@ -89,7 +91,8 @@ class UserProfileResponse {
         age: json["age"].toString(),
         bloodGroup: json["bloodGroup"] ?? "",
         phone: json["contact"].toString(),
-        gender: json["gender"] ?? "");
+        gender: json["gender"] ?? "",
+        profilePic: json["profilePic"]);
   }
 }
 
