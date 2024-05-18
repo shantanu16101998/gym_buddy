@@ -54,12 +54,13 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
       _nameError = validateSimpleText(_nameController.text, "Name");
       _emailError = validateEmailId(_emailController.text);
       _contactError = contactValidator(_contactController.text);
-      _addressError = validateSimpleText(_addressController.text, "Email");
+      // _addressError = validateSimpleText(_addressController.text, "Email");
     });
-    if (_nameError != null ||
-        _emailError != null ||
-        _contactError != null ||
-        _addressError != null) {
+    if (_nameError != null
+        || _emailError != null
+        || _contactError != null
+        // || _addressError != null
+        ) {
       return false;
     }
     return true;
@@ -111,7 +112,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
               child: LabeledTextField(
                   labelText: "Contact",
                   textInputType: TextInputType.number,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly,LengthLimitingTextInputFormatter(10)],
                   controller: _contactController,
                   errorText: _contactError)),
           Padding(

@@ -75,21 +75,22 @@ class _UserFurtherInformationFormState
 
   bool validateForm() {
     setState(() {
-      ageError = validateSimpleText(_ageController.text, "Age");
-      bloodGroupError =
-          validateSimpleText(_bloodGroupController.text, "Blood Group");
+      // ageError = validateSimpleText(_ageController.text, "Age");
+      // bloodGroupError =
+          // validateSimpleText(_bloodGroupController.text, "Blood Group");
       startDateError =
           validateSimpleText(_startDateController.text, "Start Date");
       endMonthError =
           validateSimpleText(_endMonthController.text, "Valid till");
       chargesError = validateSimpleText(_chargesController.text, "charges");
     });
-    if (ageError != null ||
-        genderError != null ||
-        bloodGroupError != null ||
-        startDateError != null ||
-        endMonthError != null ||
-        chargesError != null) {
+    if (
+      // ageError != null
+        genderError != null
+        // || bloodGroupError != null
+        || startDateError != null
+        || endMonthError != null
+        || chargesError != null) {
       return false;
     }
     return true;

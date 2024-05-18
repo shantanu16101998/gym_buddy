@@ -74,7 +74,12 @@ class LabeledTextField extends StatelessWidget {
             cursorColor: cursorColor,
             controller: controller,
             onTap: onTap,
-            inputFormatters: textInputFormatter,
+            inputFormatters: textInputFormatter ??
+                [
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^[\u0020-\u007E]+$'),
+                  )
+                ],
             keyboardType: textInputType,
             onChanged: onChange,
             obscureText: shouldObscure,

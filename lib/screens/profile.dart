@@ -162,31 +162,33 @@ class _ProfileState extends State<Profile> {
                                       color: Color(0xff004576)))),
                         ),
                       )),
-                  
                   Container(
                     width: 250,
                     // color: Color.fromARGB(255, 1, 10, 26),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.location_on,
-                                  color: Color(0xff004576)),
-                              SizedBox(width: getScreenWidth(context) * 0.03),
-                              Flexible(
-                                child: Text(userProfileResponse.address,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18,
-                                            color: Color(0xff544C4C)))),
+                        isTrueString(userProfileResponse.address)
+                            ? Padding(
+                                padding: const EdgeInsets.all(13),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.location_on,
+                                        color: Color(0xff004576)),
+                                    SizedBox(
+                                        width: getScreenWidth(context) * 0.03),
+                                    Flexible(
+                                      child: Text(userProfileResponse.address!,
+                                          style: GoogleFonts.inter(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 18,
+                                                  color: Color(0xff544C4C)))),
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
-                        ),
+                            : const SizedBox(),
                         Padding(
                           padding: const EdgeInsets.all(13),
                           child: Row(
@@ -223,44 +225,52 @@ class _ProfileState extends State<Profile> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.cake, color: Color(0xff004576)),
-                              SizedBox(width: getScreenWidth(context) * 0.03),
-                              Flexible(
-                                child: Text(
-                                    "${userProfileResponse.age} years old",
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18,
-                                            color: Color(0xff544C4C)))),
+                        isTrueString(userProfileResponse.age)
+                            ? Padding(
+                                padding: const EdgeInsets.all(13),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.cake,
+                                        color: Color(0xff004576)),
+                                    SizedBox(
+                                        width: getScreenWidth(context) * 0.03),
+                                    Flexible(
+                                      child: Text(
+                                          "${userProfileResponse.age} years old",
+                                          style: GoogleFonts.inter(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 18,
+                                                  color: Color(0xff544C4C)))),
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.bloodtype,
-                                  color: Color(0xff004576)),
-                              SizedBox(width: getScreenWidth(context) * 0.03),
-                              Flexible(
-                                child: Text(userProfileResponse.bloodGroup,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18,
-                                            color: Color(0xff544C4C)))),
+                            : const SizedBox(),
+                        isTrueString(userProfileResponse.bloodGroup)
+                            ? Padding(
+                                padding: const EdgeInsets.all(13),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.bloodtype,
+                                        color: Color(0xff004576)),
+                                    SizedBox(
+                                        width: getScreenWidth(context) * 0.03),
+                                    Flexible(
+                                      child: Text(
+                                          userProfileResponse.bloodGroup!,
+                                          style: GoogleFonts.inter(
+                                              textStyle: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 18,
+                                                  color: Color(0xff544C4C)))),
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
-                        ),
+                            : const SizedBox(),
                       ],
                     ),
                   ),
@@ -292,8 +302,7 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: 100),
+                padding: EdgeInsets.only(top: 100),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

@@ -68,26 +68,52 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     }
   }
 
-  onSignUpButtonClicked() async {
+  int? tryParseInt(String? value) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+    try {
+      return int.parse(value);
+    } catch (e) {
+      print("Error parsing integer: $e");
+      return null;
+    }
+  }
+
+  void onSignUpButtonClicked() async {
     var sharedPreferences = await SharedPreferences.getInstance();
+
+    var userAge = sharedPreferences.getString("age");
+    var userName = sharedPreferences.getString("userName") ?? "";
+    var userEmail = sharedPreferences.getString("userEmail");
+    var userContact = sharedPreferences.getString("userContact");
+    var userAddress = sharedPreferences.getString("userAddress");
+    var gender = sharedPreferences.getString("gender");
+    var startDate = sharedPreferences.getString("startDate");
+    var bloodGroup = sharedPreferences.getString("bloodGroup");
+    var validTillString = sharedPreferences.getString("validTill");
+    var chargesString = sharedPreferences.getString("charges");
+    var profilePic = sharedPreferences.getString('profilePic');
+    sharedPreferences.remove('profilePic');
+
+    int? validTill = tryParseInt(validTillString);
+    int? charges = tryParseInt(chargesString);
+    int? age = userAge != null ? tryParseInt(userAge) : null;
 
     await backendAPICall(
         '/customer/registerCustomer',
         {
-          'customerName': capitalizeFirstLetter(
-              sharedPreferences.getString("userName") ?? ""),
-          'email': sharedPreferences.getString("userEmail"),
-          'contact': sharedPreferences.getString("userContact"),
-          'gymName': sharedPreferences.getString("gymName"),
-          'address': sharedPreferences.getString("userAddress"),
-          'age': int.parse(sharedPreferences.getString("age") ?? "0"),
-          'gender': sharedPreferences.getString("gender"),
-          'currentBeginDate': sharedPreferences.getString("startDate"),
-          'bloodGroup': sharedPreferences.getString("bloodGroup"),
-          'validTill':
-              int.parse(sharedPreferences.getString("validTill") ?? "0"),
-          'charges': int.parse(sharedPreferences.getString("charges") ?? "0"),
-          'profilePic': sharedPreferences.getString('profilePic') ?? ""
+          'customerName': capitalizeFirstLetter(userName),
+          'email': userEmail,
+          'contact': userContact,
+          'address': userAddress,
+          'age': age,
+          'gender': gender,
+          'currentBeginDate': startDate,
+          'bloodGroup': bloodGroup,
+          'validTill': validTill ?? 0,
+          'charges': charges ?? 0,
+          'profilePic': profilePic
         },
         "POST",
         true);

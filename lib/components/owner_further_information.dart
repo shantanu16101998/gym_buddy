@@ -22,7 +22,8 @@ class OwnerFurtherInformationForm extends StatefulWidget {
 class _OwnerFurtherInformationFormState
     extends State<OwnerFurtherInformationForm> {
   final TextEditingController _gymNameController = TextEditingController();
-  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _contactController =
+      TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _upiIdController = TextEditingController();
 
@@ -126,7 +127,10 @@ class _OwnerFurtherInformationFormState
               child: LabeledTextField(
                   labelText: "Contact",
                   textInputType: TextInputType.number,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
                   controller: _contactController,
                   errorText: contactError)),
           Padding(

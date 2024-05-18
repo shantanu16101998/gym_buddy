@@ -66,10 +66,10 @@ class OwnerDeeplinkResponse {
 class UserProfileResponse {
   final String name;
   final String email;
-  final String address;
-  final String age;
+  final String? address;
+  final String? age;
   final String phone;
-  final String bloodGroup;
+  final String? bloodGroup;
   final String gender;
   final String? profilePic;
 
@@ -88,7 +88,7 @@ class UserProfileResponse {
         name: json["name"] ?? "",
         email: json["email"] ?? "",
         address: json["address"] ?? "",
-        age: json["age"].toString(),
+        age: json["age"]?.toString(),
         bloodGroup: json["bloodGroup"] ?? "",
         phone: json["contact"].toString(),
         gender: json["gender"] ?? "",

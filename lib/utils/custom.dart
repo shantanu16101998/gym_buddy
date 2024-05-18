@@ -16,5 +16,9 @@ generateUPIDeeplink(TextEditingController _upiController, String charges) {
 }
 
 textToSend(String name) {
-    return "Hi $name, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
-  }
+  return "Hi $name, we hope this message finds you well. We wanted to inform you that your gym subscription has ended. Please feel free to reach out to us if you have any questions or if you'd like to renew your subscription. Have a wonderful day!";
+}
+
+bool isTrueString(String? input) {
+  return input != null && input.isNotEmpty;
+}
