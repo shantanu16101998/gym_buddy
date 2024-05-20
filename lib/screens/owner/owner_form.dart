@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/login_form.dart';
-import 'package:gym_buddy/components/owner_sign_up_form.dart';
-import 'package:gym_buddy/components/owner_further_information.dart';
+import 'package:gym_buddy/components/owner/login_form.dart';
+import 'package:gym_buddy/components/owner/owner_sign_up_form.dart';
+import 'package:gym_buddy/components/owner/owner_further_information.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

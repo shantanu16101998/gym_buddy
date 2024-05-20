@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/custom_text.dart';
-import 'package:gym_buddy/screens/expanded_analysis.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class AnalysisCard extends StatefulWidget {

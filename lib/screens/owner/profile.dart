@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/app_scaffold.dart';
-import 'package:gym_buddy/components/image_dialog.dart';
+import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/components/subscription_dialog.dart';
+import 'package:gym_buddy/components/owner/subscription_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {

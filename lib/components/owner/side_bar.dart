@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/screens/analysis_homepage.dart';
-import 'package:gym_buddy/screens/splash_screen.dart';
-import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
+import 'package:gym_buddy/screens/owner/splash_screen.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

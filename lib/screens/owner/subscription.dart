@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/header.dart';
-import 'package:gym_buddy/components/side_bar.dart';
-import 'package:gym_buddy/components/subscription_card_container.dart';
-import 'package:gym_buddy/components/tab_bar.dart';
-import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/components/owner/header.dart';
+import 'package:gym_buddy/components/owner/side_bar.dart';
+import 'package:gym_buddy/components/owner/subscription_card_container.dart';
+import 'package:gym_buddy/components/owner/tab_bar.dart';
+import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
-import 'package:gym_buddy/screens/user_sign_up.dart';
+import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

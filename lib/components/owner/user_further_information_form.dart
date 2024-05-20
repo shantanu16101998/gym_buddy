@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
-import 'package:gym_buddy/components/custom_text.dart';
-import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/screens/user_sign_up.dart';
+import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';

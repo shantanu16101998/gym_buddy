@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/app_scaffold.dart';
-import 'package:gym_buddy/components/custom_text.dart';
-import 'package:gym_buddy/components/qr_code_pic.dart';
+import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 

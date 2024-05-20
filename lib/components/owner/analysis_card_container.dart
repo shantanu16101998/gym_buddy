@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/analysis_card.dart';
-import 'package:gym_buddy/components/custom_text.dart';
+import 'package:gym_buddy/components/owner/analysis_card.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/custom.dart';
 

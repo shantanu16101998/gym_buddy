@@ -1,8 +1,8 @@
-import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/subscription.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';

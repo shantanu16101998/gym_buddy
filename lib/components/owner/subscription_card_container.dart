@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/subscription_card.dart';
+import 'package:gym_buddy/components/owner/subscription_card.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
   final bool showCurrentUsers;

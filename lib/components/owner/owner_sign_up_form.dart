@@ -1,4 +1,4 @@
-import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/utils/validator.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/components/text_box.dart';
+import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
-import 'package:gym_buddy/components/custom_text.dart';
-import 'package:gym_buddy/components/qr_code_pic.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/models/responses.dart';
