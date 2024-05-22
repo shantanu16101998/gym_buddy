@@ -1,0 +1,1 @@
+enum OwnerFormState { basicDetails, additionalDetails, traineeDetails, loginPage }

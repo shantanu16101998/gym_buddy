@@ -46,7 +46,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
             onPressed: () => {widget.setShouldShowCurrent(false)},
             style: OutlinedButton.styleFrom(
                 backgroundColor:
-                    widget.showCurrentUsers ? Colors.white : Color(0xffD0D5DD),
+                    widget.showCurrentUsers ? Colors.white : const Color(0xffD0D5DD),
                 side: const BorderSide(width: 1.0, color: Color(0xffD0D5DD)),
                 shape: const RoundedRectangleBorder(
                   borderRadius:

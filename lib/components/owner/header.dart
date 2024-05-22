@@ -49,14 +49,7 @@ class _HeaderState extends State<Header> {
                               decoration: TextDecoration.none,
                             ),
                           ))),
-                  Text("Admin",
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 18,
-                        color: Color(0xff344054),
-                        decoration: TextDecoration.none,
-                      )))
+                  
                 ],
               ),
             ],

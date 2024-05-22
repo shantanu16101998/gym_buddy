@@ -81,39 +81,3 @@ class _AppScaffoldState extends State<AppScaffold> {
         : const SizedBox(child: Loader());
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return widget.isApiDataLoaded
-//         ? Scaffold(
-//             drawer: SideBar(ownerName: ownerName),
-//             body: SingleChildScrollView(
-//               physics: const BouncingScrollPhysics(),
-//               child: ConstrainedBox(
-//                 constraints: BoxConstraints(
-//                   minHeight:
-//                       getScreenHeight(context), // Set the minimum height here
-//                 ),
-//                 child: Container(
-//                   padding: EdgeInsets.only(
-//                     top: widget.noSpaceForStatusBar == true
-//                         ? 0
-//                         : getStatusBarHeight(context),
-//                   ),
-//                   width: double.infinity,
-//                   color: widget.bodyColor ?? Colors.white,
-//                   child: Column(
-//                     children: [
-//                       widget.showHeader
-//                           ? Header(ownerName: ownerName)
-//                           : const SizedBox(),
-//                       Container(child: widget.child)
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           )
-//         : const SizedBox(child: Loader());
-//   }
-// }

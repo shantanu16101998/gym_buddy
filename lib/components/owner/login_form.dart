@@ -16,17 +16,17 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
   bool showEmailPasswordNotMatchedError = false;
-  String? emailError;
+  String? contactError;
   String? passwordError;
 
   bool validateForm() {
     setState(() {
-      emailError = validateSimpleText(_emailController.text, "Email");
+      contactError = contactValidator(_contactController.text);
       passwordError = validateSimpleText(_passwordController.text, "Password");
     });
-    if (emailError != null || passwordError != null) {
+    if (contactError != null || passwordError != null) {
       return false;
     }
     return true;
@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
       LoginResponse loginResponse = LoginResponse.fromJson(await backendAPICall(
           '/owner/login',
           {
-            'email': _emailController.text,
+            'contact': _contactController.text,
             'password': _passwordController.text,
             'deviceToken': sharedPreferences.getString("fcmToken")
           },
@@ -104,9 +104,9 @@ class _LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.only(left: 30, top: 30, bottom: 15, right: 30),
             child: LabeledTextField(
-              labelText: "Email",
-              controller: _emailController,
-              errorText: emailError,
+              labelText: "Contact",
+              controller: _contactController,
+              errorText: contactError,
             ),
           ),
           Padding(
@@ -122,7 +122,7 @@ class _LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
             child: showEmailPasswordNotMatchedError
-                ? const Text("Email or password does not match",
+                ? const Text("Contact or password does not match",
                     style: TextStyle(
                         color: Colors.red,
                         fontWeight: FontWeight.bold,

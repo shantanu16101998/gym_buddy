@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/login_form.dart';
-import 'package:gym_buddy/components/owner/owner_sign_up_form.dart';
-import 'package:gym_buddy/components/owner/owner_further_information.dart';
+import 'package:gym_buddy/components/owner/owner_basic_details_form.dart';
+import 'package:gym_buddy/components/owner/owner_additional_details.dart';
+import 'package:gym_buddy/components/owner/trainee_form.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gym_buddy/utils/enums.dart';
 
 class OwnerForm extends StatefulWidget {
   const OwnerForm({super.key});
@@ -13,8 +15,7 @@ class OwnerForm extends StatefulWidget {
 }
 
 class _OwnerFormState extends State<OwnerForm> {
-  late bool shouldShowLoginPage = true;
-  late bool shouldShowFutherInformation = false;
+  OwnerFormState formState = OwnerFormState.loginPage;
 
   final TextEditingController nameController = TextEditingController();
 
@@ -22,28 +23,30 @@ class _OwnerFormState extends State<OwnerForm> {
     var sharedPreference = await SharedPreferences.getInstance();
     await sharedPreference.setBool("shouldShowLoginPage", value);
     setState(() {
-      shouldShowLoginPage = value;
+      formState = OwnerFormState.loginPage;
     });
   }
 
-  Future<void> setShouldShowFurtherInformation(bool value) async {
-    var sharedPreference = await SharedPreferences.getInstance();
-    await sharedPreference.setBool("shouldShowFurtherInformation", value);
+  Future<void> formStateChanger(nextFormState) async {
     setState(() {
-      shouldShowFutherInformation = value;
+      formState = nextFormState;
     });
   }
 
   Widget widgetDecider() {
-    if (shouldShowLoginPage) {
+    if (formState == OwnerFormState.loginPage) {
       return const LoginForm();
-    } else if (shouldShowFutherInformation) {
-      return OwnerFurtherInformationForm(nameController: nameController);
-    } else {
-      return OwnerFormForm(
-          nameController: nameController,
-          setShouldShowFurtherInformation: setShouldShowFurtherInformation);
+    } else if (formState == OwnerFormState.basicDetails) {
+      return OwnerBasicDetailsForm(
+          formStateChanger: formStateChanger, nameController: nameController);
+    } else if (formState == OwnerFormState.additionalDetails) {
+      return OwnerAdditionalDetails(
+          nameController: nameController, formStateChanger: formStateChanger);
+    } else if (formState == OwnerFormState.traineeDetails) {
+      return OwnerTraineeForm(
+          nameController: nameController, formStateChanger: formStateChanger);
     }
+    return const LoginForm();
   }
 
   @override
@@ -72,12 +75,14 @@ class _OwnerFormState extends State<OwnerForm> {
                         children: [
                           TextButton(
                               onPressed: () {
-                                setShouldShowLoginPage(true);
+                                setState(() {
+                                  formState = OwnerFormState.loginPage;
+                                });
                               },
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                    color: shouldShowLoginPage
+                                    color: formState == OwnerFormState.loginPage
                                         ? Color(0xffE7AA0F)
                                         : Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.bold,
@@ -92,12 +97,14 @@ class _OwnerFormState extends State<OwnerForm> {
                           ),
                           TextButton(
                               onPressed: () {
-                                setShouldShowLoginPage(false);
+                                setState(() {
+                                  formState = OwnerFormState.basicDetails;
+                                });
                               },
                               child: Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                    color: shouldShowLoginPage
+                                    color: formState == OwnerFormState.loginPage
                                         ? Color.fromARGB(255, 255, 255, 255)
                                         : Color(0xffE7AA0F),
                                     fontWeight: FontWeight.bold,
