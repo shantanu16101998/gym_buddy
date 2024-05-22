@@ -5,6 +5,7 @@ import 'package:gym_buddy/components/owner/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/examples/share_widget_as_image.dart';
+import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
@@ -71,7 +72,7 @@ class _MyAppState extends State<MyApp> {
               secondary: Colors.red, primary: const Color(0xff667085)),
           primaryColor: Colors.black,
         ),
-        home: UserSignUp(),
+        home: Homepage(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/owner/user_goal_form.dart';
 import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/components/owner/user_sign_up_form_basic.dart';
 import 'package:gym_buddy/components/owner/user_further_information_form.dart';
@@ -6,7 +7,7 @@ import 'dart:ui';
 
 import 'package:gym_buddy/utils/ui_constants.dart';
 
-enum PageToShow { basicPage,signUpDetails, futherInformationPage, paymentPage }
+enum PageToShow { basicPage, signUpDetails, futherInformationPage, paymentPage }
 
 class UserSignUp extends StatefulWidget {
   const UserSignUp({super.key});
@@ -16,7 +17,7 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  PageToShow pageToShow = PageToShow.signUpDetails;
+  PageToShow pageToShow = PageToShow.futherInformationPage;
 
   void intialRouteDecider() async {
     // var sharedPreference = await SharedPreferences.getInstance();
@@ -70,9 +71,14 @@ class _UserSignUpState extends State<UserSignUp> {
                                 : pageToShow == PageToShow.signUpDetails
                                     ? UserFurtherInformationForm(
                                         onPageToShowChange: onPageToShowChange)
-                                    : UserPaymentForm(
-                                        onPageToShowChange:
-                                            onPageToShowChange)))
+                                    : pageToShow ==
+                                            PageToShow.futherInformationPage
+                                        ? UserGoalForm(
+                                            onPageToShowChange:
+                                                onPageToShowChange)
+                                        : UserPaymentForm(
+                                            onPageToShowChange:
+                                                onPageToShowChange)))
                   ])))
     ]));
   }
