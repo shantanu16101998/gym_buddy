@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/subscription_card.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
@@ -32,15 +33,25 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
       children: listToShow()
           .map((userSubscription) => Padding(
               padding: const EdgeInsets.all(5),
-              child: SubscriptionCard(
-                userId: userSubscription.id,
-                name: userSubscription.name,
-                startDate: userSubscription.startDate,
-                endDate: userSubscription.endDate,
-                expiredDay: userSubscription.expiredDays,
-                expiringDay: userSubscription.expiringDays,
-                profilePic: userSubscription.profilePic,
-                phone:  userSubscription.contact,
+              child: Column(
+                children: [
+                  SubscriptionCard(
+                    userId: userSubscription.id,
+                    name: userSubscription.name,
+                    startDate: userSubscription.startDate,
+                    endDate: userSubscription.endDate,
+                    expiredDay: userSubscription.expiredDays,
+                    expiringDay: userSubscription.expiringDays,
+                    profilePic: userSubscription.profilePic,
+                    phone: userSubscription.contact,
+                  ),
+                  IdentityCard(
+                      dueDate: '24 March 2024',
+                      gymContact: '9319619778',
+                      gymName: 'Shantanu Gym',
+                      memberName: 'Suraj Kumar',
+                      validTillInMonths: '6'),
+                ],
               )))
           .toList(),
     );

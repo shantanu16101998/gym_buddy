@@ -6,7 +6,7 @@ import 'dart:ui';
 
 import 'package:gym_buddy/utils/ui_constants.dart';
 
-enum PageToShow { basicPage, futherInformationPage, paymentPage }
+enum PageToShow { basicPage,signUpDetails, futherInformationPage, paymentPage }
 
 class UserSignUp extends StatefulWidget {
   const UserSignUp({super.key});
@@ -16,7 +16,7 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  PageToShow pageToShow = PageToShow.basicPage;
+  PageToShow pageToShow = PageToShow.signUpDetails;
 
   void intialRouteDecider() async {
     // var sharedPreference = await SharedPreferences.getInstance();
@@ -67,7 +67,7 @@ class _UserSignUpState extends State<UserSignUp> {
                             child: pageToShow == PageToShow.basicPage
                                 ? UserSignUpFormBasic(
                                     onPageToShowChange: onPageToShowChange)
-                                : pageToShow == PageToShow.futherInformationPage
+                                : pageToShow == PageToShow.signUpDetails
                                     ? UserFurtherInformationForm(
                                         onPageToShowChange: onPageToShowChange)
                                     : UserPaymentForm(

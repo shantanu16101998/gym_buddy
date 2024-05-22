@@ -19,16 +19,17 @@ class UserSignUpFormBasic extends StatefulWidget {
 
 class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _confirmContactController =
+      TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
   bool showValidationError = false;
 
   String? _nameError;
-  String? _emailError;
   String? _contactError;
   String? _addressError;
+  String? _confirmContactError;
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -36,12 +37,11 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString("userName", _nameController.text);
-      await sharedPreferences.setString("userEmail", _emailController.text);
       await sharedPreferences.setString("userContact", _contactController.text);
       await sharedPreferences.setString("userAddress", _addressController.text);
       await sharedPreferences.setBool("needFurtherInformation", true);
 
-      widget.onPageToShowChange(PageToShow.futherInformationPage);
+      widget.onPageToShowChange(PageToShow.signUpDetails);
     } else {
       setState(() {
         showValidationError = true;
@@ -52,15 +52,18 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   bool validateForm() {
     setState(() {
       _nameError = validateSimpleText(_nameController.text, "Name");
-      _emailError = validateEmailId(_emailController.text);
       _contactError = contactValidator(_contactController.text);
+
+      if (_contactController.text == _confirmContactController.text) {
+        _confirmContactError = null;
+      } else {
+        _confirmContactError = "Contact do not match";
+      }
       // _addressError = validateSimpleText(_addressController.text, "Email");
     });
-    if (_nameError != null
-        || _emailError != null
-        || _contactError != null
-        // || _addressError != null
-        ) {
+    if (_nameError != null ||
+        _contactError != null ||
+        _confirmContactError != null) {
       return false;
     }
     return true;
@@ -102,19 +105,27 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Email",
-                  controller: _emailController,
-                  errorText: _emailError)),
+              child: LabeledTextField.passwordField(
+                  labelText: "Contact",
+                  textInputType: TextInputType.number,
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
+                  controller: _contactController,
+                  errorText: _contactError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Contact",
+                  labelText: "Confirm contact",
                   textInputType: TextInputType.number,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly,LengthLimitingTextInputFormatter(10)],
-                  controller: _contactController,
-                  errorText: _contactError)),
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
+                  controller: _confirmContactController,
+                  errorText: _confirmContactError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),

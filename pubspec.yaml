@@ -54,6 +54,8 @@ dependencies:
   provider: ^6.1.2
   image_picker: ^1.1.1
   image_cropper: ^6.0.0
+  share_plus: ^9.0.0
+  screenshot: ^2.5.0
 
 
 flutter_icons:

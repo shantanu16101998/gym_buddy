@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:gym_buddy/constants/url.dart';
 
-final List<String> genders = ["Male", "Female"];
+final List<String> timings = ["Regular Timings", "Special Timings"];
 
 class UserFurtherInformationForm extends StatefulWidget {
   final Function onPageToShowChange;
@@ -33,7 +33,6 @@ class _UserFurtherInformationFormState
 
   bool showValidationError = false;
 
-
   String? ageError;
   String? genderError;
   String? bloodGroupError;
@@ -41,7 +40,7 @@ class _UserFurtherInformationFormState
   String? endMonthError;
   String? chargesError;
 
-  String gender = genders[0];
+  String timing = timings[0];
   late String userName = "User's";
 
   void intialConfigs() async {
@@ -63,10 +62,9 @@ class _UserFurtherInformationFormState
           "bloodGroup", _bloodGroupController.text);
       await sharedPreferences.setString("startDate", _startDateController.text);
       await sharedPreferences.setString("validTill", _endMonthController.text);
-      await sharedPreferences.setString("gender", gender);
+      await sharedPreferences.setString("timing", timing);
       widget.onPageToShowChange(PageToShow.paymentPage);
-    }
-    else {
+    } else {
       setState(() {
         showValidationError = true;
       });
@@ -75,9 +73,6 @@ class _UserFurtherInformationFormState
 
   bool validateForm() {
     setState(() {
-      // ageError = validateSimpleText(_ageController.text, "Age");
-      // bloodGroupError =
-          // validateSimpleText(_bloodGroupController.text, "Blood Group");
       startDateError =
           validateSimpleText(_startDateController.text, "Start Date");
       endMonthError =
@@ -85,12 +80,13 @@ class _UserFurtherInformationFormState
       chargesError = validateSimpleText(_chargesController.text, "charges");
     });
     if (
-      // ageError != null
+        // ageError != null
         genderError != null
-        // || bloodGroupError != null
-        || startDateError != null
-        || endMonthError != null
-        || chargesError != null) {
+            // || bloodGroupError != null
+            ||
+            startDateError != null ||
+            endMonthError != null ||
+            chargesError != null) {
       return false;
     }
     return true;
@@ -152,46 +148,6 @@ class _UserFurtherInformationFormState
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 30, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Age",
-                  textInputType: TextInputType.number,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                  controller: _ageController,
-                  errorText: ageError)),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: DropdownButton(
-                value: gender,
-                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
-                onChanged: (value) {
-                  setState(() {
-                    gender = value!;
-                  });
-                },
-                items: genders.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        // color: Colors.white,
-                        width: getScreenWidth(context) * 0.6,
-                        child: CustomText(
-                          text: value,
-                          color: Colors.white,
-                        )),
-                  );
-                }).toList(),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Blood Group",
-                  controller: _bloodGroupController,
-                  errorText: bloodGroupError)),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -313,6 +269,30 @@ class _UserFurtherInformationFormState
                             })
                           },
                       errorText: endMonthError))),
+          Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
+              child: DropdownButton(
+                value: timing,
+                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                onChanged: (value) {
+                  setState(() {
+                    timing = value!;
+                  });
+                },
+                items: timings.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        // color: Colors.white,
+                        width: getScreenWidth(context) * 0.6,
+                        child: CustomText(
+                          text: value,
+                          color: Colors.white,
+                        )),
+                  );
+                }).toList(),
+              )),
           Align(
               alignment: Alignment.center,
               child: Padding(
