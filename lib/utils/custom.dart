@@ -41,6 +41,7 @@ int getDaysInMonth(int year, int month) {
 }
 
 List<String> monthNames = [
+  'December',
   'January',
   'February',
   'March',
@@ -54,3 +55,5 @@ List<String> monthNames = [
   'November',
   'December'
 ];
+
+List<String> weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

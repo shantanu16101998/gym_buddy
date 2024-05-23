@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/utils/custom.dart';
 
 class AttendanceCalendar extends StatefulWidget {
@@ -14,6 +15,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
   int year = DateTime.now().year;
   int currentMonth = DateTime.now().month;
+
   double mainAxisSpacing = 12.0;
 
   int getStartingDayOfMonth(int year, int month) {
@@ -35,150 +37,132 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double attendanceBoxSize =
-            (constraints.maxWidth - 8 * mainAxisSpacing) / 7;
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16),
+          child: SizedBox(
+            height: 400,
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  currentMonth = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                int displayMonth = (index % 12);
+                int displayYear = year + (index ~/ 12);
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                int startingDayOfMonth =
+                    getStartingDayOfMonth(displayYear, displayMonth);
+
+                int daysInMonth = getDaysInMonth(displayYear, displayMonth);
+
+
+                final List<Color> attendanceColors = [
+                  for (int i = 0; i < daysInMonth; i++) const Color(0xffD9D9D9)
+                ];
+                return Container(
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                      mainAxisSpacing: mainAxisSpacing,
+                      crossAxisSpacing: mainAxisSpacing,
+                    ),
+                    itemCount: 42,
+                    itemBuilder: (context, index) {
+                      if (index < 7) {
+                        return Container(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomText(text: weekDays[index]),
+                        );
+                      }
+                      // + 7 will be added as offset
+                      else if (index < startingDayOfMonth - 1 + 7 ||
+                          index >= startingDayOfMonth + daysInMonth + 6) {
+                        // Empty cells for the start and end of the calendar
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        );
+                      } else {
+                        int dayNumber = index -
+                            (startingDayOfMonth - 1) -
+                            6; // Adjusted for header
+
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: attendanceColors[dayNumber - 1],
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(monthNames[currentMonth],
+                  style: const TextStyle(
+                      color: Color(0xff004576),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold)),
+              Row(
                 children: [
-                  Text(monthNames[currentMonth - 1],
-                      style: const TextStyle(
-                          color: Color(0xff004576),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back,
-                            color: Color(0xff004576)),
-                        onPressed: () {
-                          setState(() {
-                            currentMonth--;
-                            if (currentMonth < 0) {
-                              currentMonth = 11;
-                              year--;
-                            }
-                            _pageController.animateToPage(
-                              currentMonth,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward,
-                            color: Color(0xff004576)),
-                        onPressed: () {
-                          setState(() {
-                            currentMonth++;
-                            if (currentMonth > 11) {
-                              currentMonth = 0;
-                              year++;
-                            }
-                            _pageController.animateToPage(
-                              currentMonth,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          });
-                        },
-                      ),
-                    ],
+                  IconButton(
+                    icon:
+                        const Icon(Icons.arrow_back, color: Color(0xff004576)),
+                    onPressed: () {
+                      setState(() {
+                        currentMonth--;
+                        if (currentMonth < 0) {
+                          currentMonth = 11;
+                          year--;
+                        }
+                        _pageController.animateToPage(
+                          currentMonth,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward,
+                        color: Color(0xff004576)),
+                    onPressed: () {
+                      setState(() {
+                        currentMonth++;
+                        if (currentMonth > 11) {
+                          currentMonth = 0;
+                          year++;
+                        }
+                        _pageController.animateToPage(
+                          currentMonth,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      });
+                    },
                   ),
                 ],
               ),
-            ),
-            Container(
-              width: 390,
-              color: Colors.black54,  
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: Center(child: Text('Mon'))),
-                    Expanded(child: Center(child: Text('Tue'))),
-                    Expanded(child: Center(child: Text('Wed'))),
-                    Expanded(child: Center(child: Text('Thu'))),
-                    Expanded(child: Center(child: Text('Fri'))),
-                    Expanded(child: Center(child: Text('Sat'))),
-                    Expanded(child: Center(child: Text('Sun'))),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0,right: 16),
-              child: Container(
-                color: Colors.brown,
-                height: 250,
-                width: 350,
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentMonth = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    int displayMonth = (index % 12);
-                    int displayYear = year + (index ~/ 12);
-
-                    int startingDayOfMonth =
-                        getStartingDayOfMonth(displayYear, displayMonth);
-                    int daysInMonth = getDaysInMonth(displayYear, displayMonth);
-
-                    final List<Color> attendanceColors = [
-                      for (int i = 0; i < daysInMonth; i++) const Color(0xffD9D9D9)
-                    ];
-
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 7,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: mainAxisSpacing,
-                      ),
-                      itemCount: 42, // 6 weeks to cover the full month
-                      itemBuilder: (context, index) {
-                        if (index < startingDayOfMonth - 1 ||
-                            index >= startingDayOfMonth + daysInMonth - 1) {
-                          // Empty cells for the start and end of the calendar
-                          return Container(
-                            height: attendanceBoxSize,
-                            width: attendanceBoxSize,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(233, 107, 7, 7),
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                          );
-                        } else {
-                          return Container(
-                            height: attendanceBoxSize,
-                            width: attendanceBoxSize,
-                            decoration: BoxDecoration(
-                              color: attendanceColors[
-                                  index - (startingDayOfMonth - 1)],
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
