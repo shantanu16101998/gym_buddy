@@ -42,6 +42,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       children: [
         Padding(
           padding: EdgeInsets.only(
+              top : 50,
               left: getScreenWidth(context) * 0.1,
               right: getScreenWidth(context) * 0.1),
           child: SizedBox(

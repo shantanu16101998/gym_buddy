@@ -9,7 +9,6 @@ import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
-import 'package:gym_buddy/screens/owner/profile.dart';
 import 'package:gym_buddy/screens/owner/qr_page.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
@@ -18,6 +17,7 @@ import 'package:gym_buddy/services/local_notification.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:gym_buddy/screens/member/profile.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -72,14 +72,13 @@ class _MyAppState extends State<MyApp> {
               secondary: Colors.red, primary: const Color(0xff667085)),
           primaryColor: Colors.black,
         ),
-        home: Homepage(),
+        home: Profile(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
           '/user-sign-up': (context) => const UserSignUp(),
           '/subscription': (context) => const Subscription(),
           '/profile': (context) => const Profile(
-                userId: '66325499462eb7c05506b543',
               ),
           '/analysis': (context) => const AnalysisHomepage(),
           'qr-page': (context) => const QrPage(),
