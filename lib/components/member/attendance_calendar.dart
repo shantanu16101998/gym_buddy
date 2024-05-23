@@ -48,7 +48,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(monthNames[currentMonth],
+                  Text(monthNames[currentMonth - 1],
                       style: const TextStyle(
                           color: Color(0xff004576),
                           fontSize: 24,
@@ -129,7 +129,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                     });
                   },
                   itemBuilder: (context, index) {
-                    int displayMonth = (index % 12) + 1;
+                    int displayMonth = (index % 12);
                     int displayYear = year + (index ~/ 12);
 
                     int startingDayOfMonth =

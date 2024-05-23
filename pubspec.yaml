@@ -56,6 +56,7 @@ dependencies:
   image_cropper: ^6.0.0
   share_plus: ^9.0.0
   screenshot: ^2.5.0
+  expandable_page_view: ^1.0.17
 
 
 flutter_icons:

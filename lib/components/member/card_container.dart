@@ -18,10 +18,10 @@ class _CardContainerState extends State<CardContainer> {
       padding: EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ExerciseCard(name: 'Lateral Raises'),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(8.0),
+          //   child: ExerciseCard(name: 'Lateral Raises'),
+          // ),
           AttendanceCalendar()
         ],
       ),
