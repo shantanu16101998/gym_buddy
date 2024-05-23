@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 
 class AttendanceCalendar extends StatefulWidget {
   const AttendanceCalendar({super.key});
@@ -40,9 +41,12 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16),
+          padding: EdgeInsets.only(
+              left: getScreenWidth(context) * 0.1,
+              right: getScreenWidth(context) * 0.1),
           child: SizedBox(
             height: 400,
+            width: 300,
             child: PageView.builder(
               controller: _pageController,
               onPageChanged: (index) {
@@ -59,50 +63,52 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
                 int daysInMonth = getDaysInMonth(displayYear, displayMonth);
 
-
                 final List<Color> attendanceColors = [
                   for (int i = 0; i < daysInMonth; i++) const Color(0xffD9D9D9)
                 ];
-                return Container(
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 7,
-                      mainAxisSpacing: mainAxisSpacing,
-                      crossAxisSpacing: mainAxisSpacing,
-                    ),
-                    itemCount: 42,
-                    itemBuilder: (context, index) {
-                      if (index < 7) {
-                        return Container(
-                          alignment: Alignment.bottomCenter,
-                          child: CustomText(text: weekDays[index]),
-                        );
-                      }
-                      // + 7 will be added as offset
-                      else if (index < startingDayOfMonth - 1 + 7 ||
-                          index >= startingDayOfMonth + daysInMonth + 6) {
-                        // Empty cells for the start and end of the calendar
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                        );
-                      } else {
-                        int dayNumber = index -
-                            (startingDayOfMonth - 1) -
-                            6; // Adjusted for header
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 7,
+                        mainAxisSpacing: mainAxisSpacing,
+                        crossAxisSpacing: mainAxisSpacing,
+                      ),
+                      itemCount: 42,
+                      itemBuilder: (context, index) {
+                        if (index < 7) {
+                          return Container(
+                            alignment: Alignment.bottomCenter,
+                            child: CustomText(text: weekDays[index]),
+                          );
+                        }
+                        // + 7 will be added as offset
+                        else if (index < startingDayOfMonth - 1 + 7 ||
+                            index >= startingDayOfMonth + daysInMonth + 6) {
+                          // Empty cells for the start and end of the calendar
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                          );
+                        } else {
+                          int dayNumber = index -
+                              (startingDayOfMonth - 1) -
+                              6; // Adjusted for header
 
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: attendanceColors[dayNumber - 1],
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                        );
-                      }
-                    },
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: attendanceColors[dayNumber - 1],
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 );
               },
