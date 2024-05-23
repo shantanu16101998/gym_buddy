@@ -22,3 +22,35 @@ textToSend(String name) {
 bool isTrueString(String? input) {
   return input != null && input.isNotEmpty;
 }
+
+int getStartingDayOfMonth(int year, int month) {
+  DateTime firstDayOfMonth = DateTime(year, month, 1);
+  return firstDayOfMonth.weekday;
+}
+
+int getDaysInMonth(int year, int month) {
+  DateTime firstDayNextMonth;
+  if (month == 12) {
+    // if December, go to next year's January
+    firstDayNextMonth = DateTime(year + 1, 1, 1);
+  } else {
+    firstDayNextMonth = DateTime(year, month + 1, 1);
+  }
+  DateTime lastDayOfMonth = firstDayNextMonth.subtract(const Duration(days: 1));
+  return lastDayOfMonth.day;
+}
+
+List<String> monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];

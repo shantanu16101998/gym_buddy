@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/member/attendance_calendar.dart';
 import 'package:gym_buddy/components/member/exercise_card.dart';
 
 class CardContainer extends StatefulWidget {
@@ -19,34 +20,9 @@ class _CardContainerState extends State<CardContainer> {
         children: [
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: ExerciseCard(
-              name: 'Lateral Raises',
-              sets: '2',
-              reps: '20',
-              weight: '10',
-              exerciseCompleted: true,
-            ),
+            child: ExerciseCard(name: 'Lateral Raises'),
           ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ExerciseCard(
-              name: 'Front Raise',
-              sets: '2',
-              reps: '20',
-              weight: '10',
-              exerciseCompleted: false,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ExerciseCard(
-              name: 'Bench Press',
-              sets: '2',
-              reps: '20',
-              weight: '10',
-              exerciseCompleted: false,
-            ),
-          )
+          AttendanceCalendar()
         ],
       ),
     );

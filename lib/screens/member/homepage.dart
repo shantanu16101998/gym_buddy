@@ -31,7 +31,33 @@ class _HomepageState extends State<Homepage> {
               padding: EdgeInsets.only(top: 10.0),
               child: AttendanceBar(),
             ),
-            const CardContainer()
+            const CardContainer(),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 100,
+                  color: Colors.white,
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10, top: 10),
+                          child: SizedBox(
+                              height: 50,
+                              width: 340,
+                              child: ElevatedButton(
+                                  onPressed: () => {},
+                                  style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      backgroundColor: const Color(0xFFD9D9D9)),
+                                  child: const Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text("Add Exercise",
+                                          style: TextStyle(
+                                              color: Color(0xff004576),
+                                              fontSize: 18,
+                                              fontWeight:
+                                                  FontWeight.bold))))))),
+                ))
           ],
         ));
   }

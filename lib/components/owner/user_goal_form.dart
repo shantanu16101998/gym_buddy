@@ -1,12 +1,9 @@
-import 'dart:html';
-
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 import 'package:gym_buddy/constants/url.dart';
 
 final List<String> goals = ["Select Goals", "Weight loss", "Muscle gain"];

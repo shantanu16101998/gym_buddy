@@ -11,3 +11,11 @@ class TableInformation {
   final List<TableRow> tableRows;
   TableInformation(this.tableRows);
 }
+
+class ExerciseInformation {
+  final String weight;
+  final String reps;
+  bool isCompleted = false;
+
+  ExerciseInformation(this.reps, this.weight);
+}
