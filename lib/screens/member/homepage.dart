@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/member/add_exercise.dart';
 import 'package:gym_buddy/components/member/attendance_bar.dart';
 import 'package:gym_buddy/components/member/card_container.dart';
 import 'package:gym_buddy/components/owner/app_scaffold.dart';
@@ -42,7 +43,13 @@ class _HomepageState extends State<Homepage> {
                               height: 50,
                               width: 340,
                               child: ElevatedButton(
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AddExercisedDialog();
+                                            })
+                                      },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
                                       backgroundColor: const Color(0xFFD9D9D9)),

@@ -115,13 +115,6 @@ class _ProfileState extends State<Profile> {
                                             fontSize: 18,
                                             color: Color(0xff544C4C)))),
                               )
-                              // const Text(
-                              //   'Shivendra Yadav',
-                              //   style: TextStyle(
-                              //       fontSize: 24,
-                              //       fontWeight: FontWeight.w400,
-                              //       color: Color(0xff544C4C)),
-                              // ),
                             ],
                           ),
                         ),
