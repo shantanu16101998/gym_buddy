@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
+import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/examples/share_widget_as_image.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
@@ -61,7 +62,8 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SubscriptionProvider())
+        ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
+        ChangeNotifierProvider(create: (context) => ExerciseProvider())
       ],
       child: MaterialApp(
         title: 'Gym Buddy',

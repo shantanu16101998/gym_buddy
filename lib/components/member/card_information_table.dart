@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/table_information.dart';
+import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:provider/provider.dart';
 
 class CardInformationTable extends StatefulWidget {
   final TableInformation tableInformation;
   final List<ExerciseInformation> exerciseInformationList;
+  final int exerciseIndex;
   final Function removeSet;
   final Function markStatus;
   final bool exerciseCompleted;
@@ -15,7 +18,8 @@ class CardInformationTable extends StatefulWidget {
       required this.exerciseInformationList,
       required this.removeSet,
       required this.markStatus,
-      required this.exerciseCompleted});
+      required this.exerciseCompleted,
+      required this.exerciseIndex});
 
   @override
   State<CardInformationTable> createState() => _CardInformationTableState();
@@ -26,33 +30,6 @@ class _CardInformationTableState extends State<CardInformationTable> {
   double interSetNoDistance = 20;
   double iconSize = 25;
   double circleWidth = 23;
-
-  List<double> weightForSet = [];
-  List<int> repsForSet = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeExerciseData();
-  }
-
-  void _initializeExerciseData() {
-    weightForSet.clear();
-    repsForSet.clear();
-    for (var exercise in widget.exerciseInformationList) {
-      weightForSet.add(exercise.weight);
-      repsForSet.add(exercise.reps);
-    }
-  }
-
-  @override
-  void didUpdateWidget(CardInformationTable oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    setState(() {
-      _initializeExerciseData();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,34 +96,40 @@ class _CardInformationTableState extends State<CardInformationTable> {
               color: Color(0xff667085),
               fontWeight: FontWeight.bold),
         ),
-        // for (var _exerciseInformation in widget.exerciseInformationList)
         for (var exerciseInformationEntry
             in widget.exerciseInformationList.asMap().entries)
           Padding(
             padding: EdgeInsets.all(interCellDistance),
             child: DropdownButton(
               menuMaxHeight: 250,
-              value: weightForSet[exerciseInformationEntry.key].toString(),
+              value: defaultExerciseWeights[widget
+                      .exerciseInformationList[exerciseInformationEntry.key]
+                      .weightIndex]
+                  .toString(), // Ensure this is a String since items are mapped to String
               dropdownColor: Colors.white,
               icon: const RotatedBox(
-                  quarterTurns: 3,
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: 10,
-                  )),
+                quarterTurns: 3,
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 10,
+                ),
+              ),
               onChanged: (value) {
-                setState(() {
-                  weights[exerciseInformationEntry.key] =
-                      double.parse(value!.toString());
-                });
+                Provider.of<ExerciseProvider>(context, listen: false)
+                    .updateExerciseInformationListWeight(
+                        widget.exerciseIndex,
+                        exerciseInformationEntry.key,
+                        double.parse(value!.toString()));
               },
-              items: weights.map<DropdownMenuItem<String>>((double value) {
+              items: defaultExerciseWeights
+                  .map<DropdownMenuItem<String>>((double value) {
                 return DropdownMenuItem<String>(
                   value: value.toString(),
                   child: SizedBox(
-                      child: CustomText(
-                    text: value.toString(),
-                  )),
+                    child: CustomText(
+                      text: value.toString(),
+                    ),
+                  ),
                 );
               }).toList(),
             ),
@@ -167,7 +150,9 @@ class _CardInformationTableState extends State<CardInformationTable> {
             padding: EdgeInsets.all(interCellDistance),
             child: DropdownButton(
               menuMaxHeight: 250,
-              value: repsForSet[exerciseInformationEntry.key].toString(),
+              value:
+                  defaultExerciseReps[exerciseInformationEntry.value.repIndex]
+                      .toString(),
               dropdownColor: Colors.white,
               icon: const RotatedBox(
                   quarterTurns: 3,
@@ -176,12 +161,14 @@ class _CardInformationTableState extends State<CardInformationTable> {
                     size: 10,
                   )),
               onChanged: (value) {
-                setState(() {
-                  repsForSet[exerciseInformationEntry.key] =
-                      int.parse(value!.toString());
-                });
+                Provider.of<ExerciseProvider>(context, listen: false)
+                    .updateExerciseInformationListReps(
+                        widget.exerciseIndex,
+                        exerciseInformationEntry.key,
+                        int.parse(value!.toString()));
               },
-              items: reps.map<DropdownMenuItem<String>>((int value) {
+              items: defaultExerciseReps
+                  .map<DropdownMenuItem<String>>((int value) {
                 return DropdownMenuItem<String>(
                   value: value.toString(),
                   child: SizedBox(

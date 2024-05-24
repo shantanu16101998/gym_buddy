@@ -1,10 +1,12 @@
+import 'package:gym_buddy/utils/ui_constants.dart';
+
 class TableRow {
   String? setNo;
-  String? previous;
+  bool? isSetCompleted;
   String? weight;
   String? reps;
 
-  TableRow(this.previous, this.reps, this.setNo, this.weight);
+  TableRow(this.isSetCompleted, this.reps, this.setNo, this.weight);
 }
 
 class TableInformation {
@@ -13,9 +15,9 @@ class TableInformation {
 }
 
 class ExerciseInformation {
-  final double weight;
-  final int reps;
+  int weightIndex = 0;
+  int repIndex = 0;
   bool isCompleted = false;
 
-  ExerciseInformation(this.weight,this.reps);
+  ExerciseInformation(this.weightIndex, this.repIndex);
 }

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/card_information_table.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/table_information.dart';
+import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:provider/provider.dart';
 
 class ExerciseCard extends StatefulWidget {
-  final String name;
+  final Exercise exercise;
+  final int exerciseIndex;
 
-  const ExerciseCard({
-    super.key,
-    required this.name,
-  });
+  const ExerciseCard(
+      {super.key, required this.exercise, required this.exerciseIndex});
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
@@ -19,60 +21,40 @@ class ExerciseCard extends StatefulWidget {
 class _ExerciseCardState extends State<ExerciseCard> {
   final TableInformation tableInformation = TableInformation([]);
 
-  bool exerciseCompleted = false;
+  List<ExerciseInformation> exerciseInformationList = [];
 
-  List<ExerciseInformation> exerciseInformationList = [
-    ExerciseInformation(
-      2.5,
-      10,
-    ),
-    ExerciseInformation(5, 20),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    exerciseInformationList = widget.exercise.exerciseInformationList;
+  }
 
   void _addSet() {
-    setState(() {
-      exerciseInformationList.add(ExerciseInformation(
-          exerciseInformationList.last.weight,
-          exerciseInformationList.last.reps));
-      exerciseCompleted = false;
-    });
+    Provider.of<ExerciseProvider>(context, listen: false)
+        .addSetToExercise(widget.exerciseIndex);
   }
 
   void _removeSet(int setNo) {
-    setState(() {
-      exerciseInformationList.removeAt(setNo);
-      exerciseCompleted = areAllExerciseCompleted();
-    });
+    Provider.of<ExerciseProvider>(context, listen: false)
+        .removeSetFromExercise(widget.exerciseIndex, setNo);
   }
 
   void markStatus(int setNo) {
-    setState(() {
-      exerciseInformationList[setNo].isCompleted =
-          !exerciseInformationList[setNo].isCompleted;
-    });
-
-    exerciseCompleted = areAllExerciseCompleted();
-  }
-
-  bool areAllExerciseCompleted() {
-    for (var exercise in exerciseInformationList) {
-      if (!exercise.isCompleted) {
-        return false;
-      }
-    }
-    return true;
+    Provider.of<ExerciseProvider>(context, listen: false)
+        .markStatusOfSet(widget.exerciseIndex, setNo);
   }
 
   @override
   Widget build(BuildContext context) {
+    final exerciseProvider = Provider.of<ExerciseProvider>(context);
     return Container(
       decoration: BoxDecoration(
-          color: exerciseCompleted == true
+          color: widget.exercise.exerciseCompleted == true
               ? const Color.fromARGB(255, 242, 247, 241)
               : const Color(0xffffffff),
           border: Border.all(
               width: 1,
-              color: exerciseCompleted == true
+              color: widget.exercise.exerciseCompleted == true
                   ? const Color(0xff3ABA2E)
                   : const Color(0xffDBDDE2)),
           borderRadius: BorderRadius.circular(12)),
@@ -89,34 +71,40 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     backgroundImage: AssetImage("assets/images/dumbbell.png"),
                     radius: 30),
                 CustomText(
-                    text: widget.name,
+                    text: widget.exercise.name,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: const Color(0xff344054)),
-                exerciseCompleted
+                widget.exercise.exerciseCompleted
                     ? const SizedBox()
-                    : Container(
-                        height: 24,
-                        width: 24,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 2, color: const Color(0xffC61212)),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(24))),
-                        child: const Icon(
-                          Icons.close,
-                          size: 20,
-                          color: Color(0xffC61212),
+                    : GestureDetector(
+                        onTap: () {
+                          exerciseProvider.removeExercise(widget.exerciseIndex);
+                        },
+                        child: Container(
+                          height: 24,
+                          width: 24,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 2, color: const Color(0xffC61212)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(24))),
+                          child: const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Color(0xffC61212),
+                          ),
                         ),
                       ),
               ],
             ),
             CardInformationTable(
+                exerciseIndex: widget.exerciseIndex,
                 tableInformation: tableInformation,
                 exerciseInformationList: exerciseInformationList,
                 removeSet: _removeSet,
                 markStatus: markStatus,
-                exerciseCompleted: exerciseCompleted),
+                exerciseCompleted: widget.exercise.exerciseCompleted),
             Padding(
               padding: const EdgeInsets.only(top: 26, bottom: 11),
               child: SizedBox(

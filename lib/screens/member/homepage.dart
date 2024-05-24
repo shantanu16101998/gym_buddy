@@ -11,8 +11,6 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
-enum CardsToShow { exercise, diet }
-
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
