@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/member/attendance_calendar.dart';
 import 'package:gym_buddy/components/member/exercise_card.dart';
 
 class CardContainer extends StatefulWidget {

@@ -3,7 +3,6 @@ import 'package:gym_buddy/components/member/attendance_bar.dart';
 import 'package:gym_buddy/components/member/card_container.dart';
 import 'package:gym_buddy/components/owner/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});

@@ -4,7 +4,6 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -118,13 +117,6 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
         },
         "POST",
         true);
-
-    Widget identityCard = IdentityCard(
-        dueDate: '',
-        gymContact: '',
-        gymName: '',
-        memberName: capitalizeFirstLetter(userName),
-        validTillInMonths: validTill.toString());
 
     captureAndShareWidget(
         IdentityCard(
