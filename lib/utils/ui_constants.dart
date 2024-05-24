@@ -23,3 +23,7 @@ double getEffectiveScreenHeight(context) {
 }
 
 Color formPrimaryColor = const Color.fromARGB(255, 85, 84, 84);
+
+List<double> weights = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 25, 30, 35, 40];
+
+List<int> reps = [for (int i = 1; i <= 30; i++) i];

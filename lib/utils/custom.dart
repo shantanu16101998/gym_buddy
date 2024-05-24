@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart' as intl;
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:screenshot/screenshot.dart';
 
 String capitalizeFirstLetter(String input) {
   if (input.isEmpty) return input;
@@ -7,7 +13,7 @@ String capitalizeFirstLetter(String input) {
 }
 
 String formatCurrency(int number) {
-  var format = NumberFormat.compact(locale: 'en_IN');
+  var format = intl.NumberFormat.compact(locale: 'en_IN');
   return format.format(number);
 }
 
@@ -57,3 +63,20 @@ List<String> monthNames = [
 ];
 
 List<String> weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+Future<void> captureAndShareWidget(
+    Widget widgetToShare, String textToShare) async {
+  ScreenshotController screenshotController = ScreenshotController();
+
+  screenshotController
+      .captureFromWidget(
+    Directionality(textDirection: TextDirection.ltr, child: widgetToShare),
+  )
+      .then((Uint8List image) async {
+    File file = await File('${(await getTemporaryDirectory()).path}/image.png')
+        .create();
+    file.writeAsBytesSync(image);
+
+    Share.shareXFiles([XFile(file.path)], text: textToShare);
+  });
+}

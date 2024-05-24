@@ -22,13 +22,18 @@ class _ExerciseCardState extends State<ExerciseCard> {
   bool exerciseCompleted = false;
 
   List<ExerciseInformation> exerciseInformationList = [
-    ExerciseInformation('10', '2kg'),
-    ExerciseInformation('20', '4kg'),
+    ExerciseInformation(
+      2.5,
+      10,
+    ),
+    ExerciseInformation(5, 20),
   ];
 
   void _addSet() {
     setState(() {
-      exerciseInformationList.add(ExerciseInformation('-', '-'));
+      exerciseInformationList.add(ExerciseInformation(
+          exerciseInformationList.last.weight,
+          exerciseInformationList.last.reps));
       exerciseCompleted = false;
     });
   }
@@ -36,6 +41,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
   void _removeSet(int setNo) {
     setState(() {
       exerciseInformationList.removeAt(setNo);
+      exerciseCompleted = areAllExerciseCompleted();
     });
   }
 
@@ -45,14 +51,16 @@ class _ExerciseCardState extends State<ExerciseCard> {
           !exerciseInformationList[setNo].isCompleted;
     });
 
-    bool allExerciseCompleted = true;
+    exerciseCompleted = areAllExerciseCompleted();
+  }
 
+  bool areAllExerciseCompleted() {
     for (var exercise in exerciseInformationList) {
       if (!exercise.isCompleted) {
-        allExerciseCompleted = false;
+        return false;
       }
     }
-    exerciseCompleted = allExerciseCompleted;
+    return true;
   }
 
   @override

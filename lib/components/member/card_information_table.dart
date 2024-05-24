@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/table_information.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 
 class CardInformationTable extends StatefulWidget {
   final TableInformation tableInformation;
@@ -24,24 +23,35 @@ class CardInformationTable extends StatefulWidget {
 
 class _CardInformationTableState extends State<CardInformationTable> {
   double interCellDistance = 8.0;
+  double interSetNoDistance = 20;
   double iconSize = 25;
   double circleWidth = 23;
-  /*
-  editingList = [(setNo,object)]
-  eg:
-    (1,'weight') means edit weight of set1
 
-  */
-  List editingList = [0, 'weight'];
-  TextEditingController editingController = TextEditingController();
+  List<double> weightForSet = [];
+  List<int> repsForSet = [];
 
-  bool isCurrentlyEditing(int setNo, String object) {
-    if (editingList.length == 2 &&
-        editingList.first == setNo &&
-        editingList.last == object) {
-      return true;
+  @override
+  void initState() {
+    super.initState();
+    _initializeExerciseData();
+  }
+
+  void _initializeExerciseData() {
+    weightForSet.clear();
+    repsForSet.clear();
+    for (var exercise in widget.exerciseInformationList) {
+      weightForSet.add(exercise.weight);
+      repsForSet.add(exercise.reps);
     }
-    return false;
+  }
+
+  @override
+  void didUpdateWidget(CardInformationTable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    setState(() {
+      _initializeExerciseData();
+    });
   }
 
   @override
@@ -65,7 +75,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
         ),
         for (int i = 0; i < widget.exerciseInformationList.length; i++)
           Padding(
-            padding: EdgeInsets.all(interCellDistance),
+            padding: EdgeInsets.all(interSetNoDistance),
             child: Row(
               children: [
                 widget.exerciseCompleted
@@ -104,7 +114,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
         Padding(
           padding: EdgeInsets.all(interCellDistance),
           child: const CustomText(
-              text: 'Weight',
+              text: 'Kg',
               fontSize: 16,
               color: Color(0xff667085),
               fontWeight: FontWeight.bold),
@@ -114,30 +124,31 @@ class _CardInformationTableState extends State<CardInformationTable> {
             in widget.exerciseInformationList.asMap().entries)
           Padding(
             padding: EdgeInsets.all(interCellDistance),
-            child: GestureDetector(
-              onTap: () => {
+            child: DropdownButton(
+              menuMaxHeight: 250,
+              value: weightForSet[exerciseInformationEntry.key].toString(),
+              dropdownColor: Colors.white,
+              icon: const RotatedBox(
+                  quarterTurns: 3,
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 10,
+                  )),
+              onChanged: (value) {
                 setState(() {
-                  editingList = [exerciseInformationEntry.key, 'weight'];
-                  editingController.text =
-                      exerciseInformationEntry.value.weight;
-                })
+                  weights[exerciseInformationEntry.key] =
+                      double.parse(value!.toString());
+                });
               },
-              child: Row(
-                children: [
-                  isCurrentlyEditing(exerciseInformationEntry.key, 'weight')
-                      ? CustomText(
-                          text: exerciseInformationEntry.value.weight,
-                          fontSize: 16,
-                          color: const Color(0xff667085),
-                          fontWeight: FontWeight.bold)
-                      : CustomText(
-                          text: exerciseInformationEntry.value.weight,
-                          fontSize: 16,
-                          color: const Color(0xff667085),
-                          fontWeight: FontWeight.bold),
-                  const Icon(Icons.arrow_drop_down)
-                ],
-              ),
+              items: weights.map<DropdownMenuItem<String>>((double value) {
+                return DropdownMenuItem<String>(
+                  value: value.toString(),
+                  child: SizedBox(
+                      child: CustomText(
+                    text: value.toString(),
+                  )),
+                );
+              }).toList(),
             ),
           )
       ]),
@@ -150,18 +161,35 @@ class _CardInformationTableState extends State<CardInformationTable> {
               color: Color(0xff667085),
               fontWeight: FontWeight.bold),
         ),
-        for (var exerciseInformation in widget.exerciseInformationList)
+        for (var exerciseInformationEntry
+            in widget.exerciseInformationList.asMap().entries)
           Padding(
             padding: EdgeInsets.all(interCellDistance),
-            child: Row(
-              children: [
-                CustomText(
-                    text: exerciseInformation.reps,
-                    fontSize: 16,
-                    color: const Color(0xff667085),
-                    fontWeight: FontWeight.bold),
-                const Icon(Icons.arrow_drop_down)
-              ],
+            child: DropdownButton(
+              menuMaxHeight: 250,
+              value: repsForSet[exerciseInformationEntry.key].toString(),
+              dropdownColor: Colors.white,
+              icon: const RotatedBox(
+                  quarterTurns: 3,
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 10,
+                  )),
+              onChanged: (value) {
+                setState(() {
+                  repsForSet[exerciseInformationEntry.key] =
+                      int.parse(value!.toString());
+                });
+              },
+              items: reps.map<DropdownMenuItem<String>>((int value) {
+                return DropdownMenuItem<String>(
+                  value: value.toString(),
+                  child: SizedBox(
+                      child: CustomText(
+                    text: value.toString(),
+                  )),
+                );
+              }).toList(),
             ),
           )
       ]),
@@ -176,7 +204,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
         ),
         for (int i = 0; i < widget.exerciseInformationList.length; i++)
           Padding(
-            padding: EdgeInsets.all(interCellDistance),
+            padding: EdgeInsets.all(interSetNoDistance),
             child: GestureDetector(
               onTap: () {
                 widget.markStatus(i);

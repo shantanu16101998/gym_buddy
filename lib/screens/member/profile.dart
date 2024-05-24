@@ -14,22 +14,18 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
     return AppScaffold.noHeader(
       isApiDataLoaded: true,
       child: Column(
         children: [
           Center(child: AttendanceCalendar()),
           Container(
-            // child : AttendanceCalendar(),
-            // margin: EdgeInsets.only(top: screenHeight / 3),
-            // color: const Color.fromARGB(255, 172, 239, 249),
             height: 480,
             decoration: const BoxDecoration(
                 border: Border(
               top: BorderSide(
-                color: Color(0xffDBDDE2), // Color of the border
-                width: 1.0, // Width of the border
+                color: Color(0xffDBDDE2), 
+                width: 1.0,
               ),
             )),
             // double padding = getScreenWidth(context * 0.25),

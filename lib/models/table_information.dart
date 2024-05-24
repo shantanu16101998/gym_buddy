@@ -13,9 +13,9 @@ class TableInformation {
 }
 
 class ExerciseInformation {
-  final String weight;
-  final String reps;
+  final double weight;
+  final int reps;
   bool isCompleted = false;
 
-  ExerciseInformation(this.reps, this.weight);
+  ExerciseInformation(this.weight,this.reps);
 }

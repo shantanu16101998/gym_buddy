@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
@@ -118,10 +119,26 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
         "POST",
         true);
 
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const Subscription()),
-        (route) => false);
+    Widget identityCard = IdentityCard(
+        dueDate: '',
+        gymContact: '',
+        gymName: '',
+        memberName: capitalizeFirstLetter(userName),
+        validTillInMonths: validTill.toString());
+
+    captureAndShareWidget(
+        IdentityCard(
+            dueDate: '',
+            gymContact: '',
+            gymName: '',
+            memberName: capitalizeFirstLetter(userName),
+            validTillInMonths: validTill.toString()),
+        'Hi Shantanu, This is your membership card');
+        
+    // Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const Subscription()),
+    //     (route) => false);
   }
 
   @override
@@ -209,7 +226,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                         padding: const EdgeInsets.only(bottom: 50, top: 30),
                         child: SizedBox(
                             height: 50,
-                            width: 178,
+                            width: 278,
                             child: ElevatedButton(
                                 onPressed: onSignUpButtonClicked,
                                 style: ElevatedButton.styleFrom(
@@ -217,7 +234,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                     backgroundColor: const Color(0xFFD9D9D9)),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
-                                    child: Text("Sign up",
+                                    child: Text("Sign up and share Id",
                                         style: TextStyle(
                                             color: Color(0xff004576),
                                             fontSize: 18,
