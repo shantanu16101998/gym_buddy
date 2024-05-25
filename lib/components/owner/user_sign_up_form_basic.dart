@@ -127,13 +127,6 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   controller: _confirmContactController,
                   errorText: _confirmContactError)),
           Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Address",
-                  controller: _addressController,
-                  errorText: _addressError)),
-          Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
             child: showValidationError

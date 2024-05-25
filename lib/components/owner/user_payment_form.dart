@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -100,37 +100,29 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     int? charges = tryParseInt(chargesString);
     int? age = userAge != null ? tryParseInt(userAge) : null;
 
-    await backendAPICall(
-        '/customer/registerCustomer',
-        {
-          'customerName': capitalizeFirstLetter(userName),
-          'email': userEmail,
-          'contact': userContact,
-          'address': userAddress,
-          'age': age,
-          'gender': gender,
-          'currentBeginDate': startDate,
-          'bloodGroup': bloodGroup,
-          'validTill': validTill ?? 0,
-          'charges': charges ?? 0,
-          'profilePic': profilePic
-        },
-        "POST",
-        true);
+    RegisterCustomerResponse _ =
+        RegisterCustomerResponse.fromJson(await backendAPICall(
+            '/customer/registerCustomer',
+            {
+              'name': capitalizeFirstLetter(userName),
+              'email': userEmail,
+              'contact': userContact,
+              'address': userAddress,
+              'age': age,
+              'gender': gender,
+              'currentBeginDate': startDate,
+              'bloodGroup': bloodGroup,
+              'validTill': validTill ?? 0,
+              'charges': charges ?? 0,
+              'profilePic': profilePic
+            },
+            "POST",
+            true));
 
-    captureAndShareWidget(
-        IdentityCard(
-            dueDate: '',
-            gymContact: '',
-            gymName: '',
-            memberName: capitalizeFirstLetter(userName),
-            validTillInMonths: validTill.toString()),
-        'Hi Shantanu, This is your membership card');
-        
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const Subscription()),
-    //     (route) => false);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const Subscription()),
+    );
   }
 
   @override

@@ -42,10 +42,17 @@ class ExerciseProvider extends ChangeNotifier {
     exerciseList[exerciseIndex]
         .exerciseInformationList
         .add(ExerciseInformation(0, 0));
+    areAllExerciseCompleted(exerciseIndex);
     notifyListeners();
   }
 
   void areAllExerciseCompleted(int exerciseIndex) {
+    if (exerciseList[exerciseIndex].exerciseInformationList.isEmpty) {
+      exerciseList[exerciseIndex].exerciseCompleted = false;
+      notifyListeners();
+      return;
+    }
+
     for (var exercise in exerciseList[exerciseIndex].exerciseInformationList) {
       if (!exercise.isCompleted) {
         exerciseList[exerciseIndex].exerciseCompleted = false;

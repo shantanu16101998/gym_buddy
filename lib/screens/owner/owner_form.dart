@@ -15,7 +15,7 @@ class OwnerForm extends StatefulWidget {
 }
 
 class _OwnerFormState extends State<OwnerForm> {
-  OwnerFormState formState = OwnerFormState.loginPage;
+  OwnerFormState formState = OwnerFormState.additionalDetails;
 
   final TextEditingController nameController = TextEditingController();
 
@@ -23,7 +23,7 @@ class _OwnerFormState extends State<OwnerForm> {
     var sharedPreference = await SharedPreferences.getInstance();
     await sharedPreference.setBool("shouldShowLoginPage", value);
     setState(() {
-      formState = OwnerFormState.loginPage;
+      formState = OwnerFormState.additionalDetails;
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
@@ -52,8 +53,10 @@ class _LoginFormState extends State<LoginForm> {
 
         sharedPreferences.setString("jwtToken", loginResponse.jwtToken ?? "");
         sharedPreferences.setString("ownerName", loginResponse.name ?? "Owner");
-
-        // ignore: use_build_context_synchronously
+        await sharedPreferences.setString(
+            "gymName", loginResponse.gymName ?? "Gym");
+        await sharedPreferences.setString(
+            'ownerContact', loginResponse.contact ?? "");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Subscription()));
       } else {
@@ -105,6 +108,8 @@ class _LoginFormState extends State<LoginForm> {
                 const EdgeInsets.only(left: 30, top: 30, bottom: 15, right: 30),
             child: LabeledTextField(
               labelText: "Contact",
+              textInputType: TextInputType.number,
+              textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
               controller: _contactController,
               errorText: contactError,
             ),

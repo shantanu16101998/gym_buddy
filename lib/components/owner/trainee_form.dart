@@ -2,8 +2,12 @@ import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/models/requests.dart';
+import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/constants/url.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnerTraineeForm extends StatefulWidget {
   final TextEditingController nameController;
@@ -24,25 +28,66 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
   bool showValidationError = false;
   int numberOfTrainee = 1;
 
-  final List<TextEditingController> _namesController = [
+  final List<TextEditingController> _namesControllers = [
     TextEditingController(),
   ];
-  final List<TextEditingController> _experienceController = [
+  final List<TextEditingController> _experienceControllers = [
     TextEditingController(),
   ];
 
   addTraineeCount() {
     setState(() {
       numberOfTrainee++;
-      _namesController.add(TextEditingController());
-      _experienceController.add(TextEditingController());
+      _namesControllers.add(TextEditingController());
+      _experienceControllers.add(TextEditingController());
     });
   }
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
 
+    List<TraineeDetails> traineeDetails = [];
+
     if (isInformationValidated) {
+      for (int i = 0; i < _namesControllers.length; i++) {
+        if (_namesControllers[i].text != '') {
+          traineeDetails.add(TraineeDetails(
+              name: _namesControllers[i].text,
+              experience: _experienceControllers[i].text));
+        }
+      }
+
+      var sharedPreferences = await SharedPreferences.getInstance();
+
+      var ownerName = sharedPreferences.getString("ownerName") ?? "";
+      var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
+      var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
+      var gymName = sharedPreferences.getString("gymName");
+      var address = sharedPreferences.getString("address");
+      var upiId = sharedPreferences.getString("upiId");
+
+      OwnerRegistrationResponse ownerRegistrationResponse =
+          OwnerRegistrationResponse.fromJson(await backendAPICall(
+              '/owner/signup',
+              {
+                'name': ownerName,
+                'password': ownerPassword,
+                'gymName': gymName,
+                'contact': ownerContact,
+                'address': address,
+                'upiId': upiId,
+                'token': sharedPreferences.getString("fcmToken"),
+                'trainees': traineeDetails.map((trainee) => trainee.toJson()).toList(),
+              },
+              'POST',
+              true));
+
+      await sharedPreferences.setString(
+          "jwtToken", ownerRegistrationResponse.jwtToken ?? "");
+
+      sharedPreferences.setString(
+          'gymName', ownerRegistrationResponse.gymName ?? "Gym");
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));
     } else {
@@ -97,7 +142,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         left: 30, top: 30, bottom: 15, right: 30),
                     child: LabeledTextField(
                         labelText: "Name",
-                        controller: _namesController[i],
+                        controller: _namesControllers[i],
                         errorText: null)),
                 Padding(
                     padding: const EdgeInsets.only(
@@ -108,7 +153,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         textInputFormatter: [
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        controller: _experienceController[i],
+                        controller: _experienceControllers[i],
                         errorText: null)),
               ],
             ),
@@ -156,7 +201,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                               backgroundColor: const Color(0xFFD9D9D9)),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
-                              child: Text("Next",
+                              child: Text("SignUp",
                                   style: TextStyle(
                                       color: Color(0xff004576),
                                       fontSize: 18,

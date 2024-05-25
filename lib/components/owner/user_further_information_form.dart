@@ -63,7 +63,7 @@ class _UserFurtherInformationFormState
       await sharedPreferences.setString("startDate", _startDateController.text);
       await sharedPreferences.setString("validTill", _endMonthController.text);
       await sharedPreferences.setString("timing", timing);
-      widget.onPageToShowChange(PageToShow.paymentPage);
+      widget.onPageToShowChange(PageToShow.futherInformationPage);
     } else {
       setState(() {
         showValidationError = true;
@@ -336,7 +336,7 @@ class _UserFurtherInformationFormState
                               backgroundColor: const Color(0xFFD9D9D9)),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
-                              child: Text("Pay Now",
+                              child: Text("Next",
                                   style: TextStyle(
                                       color: Color(0xff004576),
                                       fontSize: 18,

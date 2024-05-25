@@ -3,34 +3,36 @@ import 'package:gym_buddy/models/user_subscription.dart';
 class LoginResponse {
   final String? jwtToken;
   final String? name;
+  final String? gymName;
+  final String? contact;
 
-  const LoginResponse({this.jwtToken, this.name});
+  const LoginResponse({this.jwtToken, this.name, this.gymName, this.contact});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     final String? jwtToken = json['token'];
     final String? name = json['name'];
+    final String? gymName = json['gymName'];
+    final String? contact = json['contact'];
 
-    if (jwtToken != null) {
-      return LoginResponse(jwtToken: jwtToken, name: name);
-    } else {
-      return const LoginResponse();
-    }
+    return LoginResponse(
+        jwtToken: jwtToken, name: name, gymName: gymName, contact: contact);
   }
 }
 
 class OwnerRegistrationResponse {
   final String? jwtToken;
+  final String? gymName;
+  final String? contact;
 
-  const OwnerRegistrationResponse({this.jwtToken});
+  const OwnerRegistrationResponse({this.jwtToken, this.gymName, this.contact});
 
   factory OwnerRegistrationResponse.fromJson(Map<String, dynamic> json) {
     final String? jwtToken = json['token'];
+    final String? gymName = json['owner']['gymName'];
+    final String? contact = json['owner']['contact'];
 
-    if (jwtToken != null) {
-      return OwnerRegistrationResponse(jwtToken: jwtToken);
-    } else {
-      return const OwnerRegistrationResponse(jwtToken: null);
-    }
+    return OwnerRegistrationResponse(
+        jwtToken: jwtToken, gymName: gymName, contact: contact);
   }
 }
 
@@ -142,5 +144,25 @@ class ExpandedAnalysisResponse {
         data: List<int>.from(json["data"]),
         maxLimitOfData: json["maxLimitOfData"],
         total: json["total"]);
+  }
+}
+
+class DuplicateEmailCheckResponse {
+  final bool unique;
+
+  DuplicateEmailCheckResponse({required this.unique});
+
+  factory DuplicateEmailCheckResponse.fromJson(Map<String, dynamic> json) {
+    return DuplicateEmailCheckResponse(unique: json['unique']);
+  }
+}
+
+class RegisterCustomerResponse {
+  final String? profilePic;
+
+  RegisterCustomerResponse({this.profilePic});
+
+  factory RegisterCustomerResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterCustomerResponse(profilePic: json['profilePic']);
   }
 }

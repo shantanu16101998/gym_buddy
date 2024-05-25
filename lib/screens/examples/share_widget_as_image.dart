@@ -34,7 +34,8 @@ class _ShareWidgetImageState extends State<ShareWidgetImage> {
       Directionality(
         textDirection: TextDirection.ltr,
         child: IdentityCard(
-            dueDate: '24 March 2024',
+          profileUrl: '',
+            startDate: '24 March 2024',
             gymContact: '9319619778',
             gymName: 'Shantanu Gym',
             memberName: 'Suraj Kumar',

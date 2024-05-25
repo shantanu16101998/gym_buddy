@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +28,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
   String? contactError;
   String? passwordError;
   String? nameError;
-  bool showValidationError = false;
+  String? showValidationError;
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -39,10 +41,24 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
           "ownerContact", _contactController.text);
       await sharedPreferences.setString(
           "ownerPassword", _passwordController.text);
-      widget.formStateChanger(OwnerFormState.additionalDetails);
+
+      DuplicateEmailCheckResponse response =
+          DuplicateEmailCheckResponse.fromJson(await backendAPICall(
+              '/owner/contactDuplicateCheck/${_contactController.text}',
+              {},
+              'GET',
+              false));
+
+      if (response.unique) {
+        widget.formStateChanger(OwnerFormState.additionalDetails);
+      } else {
+        setState(() {
+          showValidationError = 'Contact already exists please log in';
+        });
+      }
     } else {
       setState(() {
-        showValidationError = true;
+        showValidationError = formNotValidated;
       });
     }
   }
@@ -97,7 +113,10 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField(
                   labelText: "Contact",
                   textInputType: TextInputType.number,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
                   controller: _contactController,
                   errorText: contactError)),
           Padding(
@@ -110,8 +129,8 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: showValidationError
-                ? Text(formNotValidated,
+            child: showValidationError != null
+                ? Text(showValidationError ?? "",
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 17, 0),
                         fontWeight: FontWeight.bold,

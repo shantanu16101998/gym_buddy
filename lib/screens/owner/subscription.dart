@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
@@ -6,6 +9,7 @@ import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +23,8 @@ class Subscription extends StatefulWidget {
 
 class _SubscriptionState extends State<Subscription> {
   final TextEditingController _searchController = TextEditingController();
+
+  bool ownerGivenLocation = false;
 
   String ownerName = "Owner";
 
@@ -37,6 +43,13 @@ class _SubscriptionState extends State<Subscription> {
     fetchOwnerName();
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
+  }
+
+  grantLocationPermission() async {
+    bool locationPermission = await isLocationPermissionGiven();
+    setState(() {
+      ownerGivenLocation = locationPermission;
+    });
   }
 
   Future<void> setShouldShowCurrent(bool value) async {
@@ -117,7 +130,7 @@ class _SubscriptionState extends State<Subscription> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    UserSignUp()))
+                                                    const UserSignUp()))
                                       },
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -130,7 +143,61 @@ class _SubscriptionState extends State<Subscription> {
                                               fontSize: 18,
                                               fontWeight:
                                                   FontWeight.bold))))))),
-                ))
+                )),
+            !ownerGivenLocation
+                ? Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 200,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            width: 1, color: const Color(0xffDBDDE2)),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(width: 40),
+                              const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: CustomText(
+                                    text: 'Grant permission',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              const SizedBox(width: 30),
+                              GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      ownerGivenLocation = true;
+                                    });
+                                  },
+                                  child: const Icon(Icons.close))
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          OutlinedButton(
+                              onPressed: grantLocationPermission,
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  side: const BorderSide(
+                                      width: 1, color: Colors.black)),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("Grant Location Permission",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold))))
+                        ],
+                      ),
+                    ))
+                : const SizedBox()
           ],
         ));
   }

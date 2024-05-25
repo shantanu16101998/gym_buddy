@@ -5,7 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:gym_buddy/constants/url.dart';
@@ -25,19 +28,34 @@ class OwnerAdditionalDetails extends StatefulWidget {
 
 enum HaveTrainee { yes, no }
 
+enum InsideGym { yes, no }
+
 class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
   final TextEditingController _gymNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _upiIdController = TextEditingController();
 
-  HaveTrainee? _haveTrainee = HaveTrainee.yes;
+  HaveTrainee? _haveTrainee;
+  InsideGym? _insideGym;
 
   String? gymNameError;
   String? addressError;
   String? contactError;
   String? upiIdError;
 
+  bool haveTraineeOptionValid = true;
+  bool insideGymOptionValid = true;
+
   bool showValidationError = false;
+
+  bool locationPermissionGivenWhenAsked = true;
+  bool isLocationPermissionNeeded = false;
+
+  onLocationPermissionPressed() {
+    setState(() {
+      locationPermissionGivenWhenAsked = isLocationPermissionGiven();
+    });
+  }
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -45,35 +63,45 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
     if (isInformationValidated) {
       var sharedPreferences = await SharedPreferences.getInstance();
 
-      var ownerName = sharedPreferences.getString("ownerName") ?? "";
-      var ownerEmail = sharedPreferences.getString("ownerEmail") ?? "";
-      var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
-      var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
-
-      await sharedPreferences.setString("gymName", _gymNameController.text);
-
-      OwnerRegistrationResponse ownerRegistrationResponse =
-          OwnerRegistrationResponse.fromJson(await backendAPICall(
-              '/owner/signup',
-              {
-                'ownerName': ownerName,
-                'email': ownerEmail,
-                'password': ownerPassword,
-                'gymName': _gymNameController.text,
-                'contact': ownerContact,
-                'address': _addressController.text,
-                'upiId': _upiIdController.text,
-                'token': sharedPreferences.getString("fcmToken")
-              },
-              'POST',
-              true));
-
-      await sharedPreferences.setString(
-          "jwtToken", ownerRegistrationResponse.jwtToken ?? "");
-
       if (_haveTrainee == HaveTrainee.yes) {
+        sharedPreferences.setString('gymName', _gymNameController.text);
+        sharedPreferences.setString('address', _addressController.text);
+        sharedPreferences.setString('upiId', _upiIdController.text);
+        sharedPreferences.setBool('insideGym', _insideGym == InsideGym.yes);
         widget.formStateChanger(OwnerFormState.traineeDetails);
       } else {
+        var ownerName = sharedPreferences.getString("ownerName") ?? "";
+        var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
+        var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
+
+        await sharedPreferences.setString("gymName", _gymNameController.text);
+        await sharedPreferences.setString("address", _addressController.text);
+        await sharedPreferences.setString("upiId", _upiIdController.text);
+
+        OwnerRegistrationResponse ownerRegistrationResponse =
+            OwnerRegistrationResponse.fromJson(await backendAPICall(
+                '/owner/signup',
+                {
+                  'name': ownerName,
+                  'password': ownerPassword,
+                  'gymName': _gymNameController.text,
+                  'contact': ownerContact,
+                  'address': _addressController.text,
+                  'upiId': _upiIdController.text,
+                  'token': sharedPreferences.getString("fcmToken"),
+                  'gymLatitude': sharedPreferences.getString("latitude"),
+                  'gymLongitude': sharedPreferences.getString("longitude"),
+                  'trainees': []
+                },
+                'POST',
+                true));
+
+        await sharedPreferences.setString(
+            "jwtToken", ownerRegistrationResponse.jwtToken ?? "");
+
+        sharedPreferences.setString(
+            'gymName', ownerRegistrationResponse.gymName ?? "Gym");
+
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const Subscription()));
       }
@@ -88,8 +116,15 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
     setState(() {
       gymNameError = validateSimpleText(_gymNameController.text, "Gym Name");
       addressError = validateSimpleText(_addressController.text, "Address");
+
+      haveTraineeOptionValid = _haveTrainee != null;
+      insideGymOptionValid = _insideGym != null;
     });
-    if (gymNameError != null || addressError != null) {
+    if (gymNameError != null ||
+        addressError != null ||
+        !haveTraineeOptionValid ||
+        !insideGymOptionValid ||
+        !locationPermissionGivenWhenAsked) {
       return false;
     }
     return true;
@@ -145,8 +180,10 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               padding: const EdgeInsets.only(left: 30),
               child: Text("Do you have trainee ?",
                   style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                          color: Color(0xffFFFFFF),
+                      textStyle: TextStyle(
+                          color: haveTraineeOptionValid
+                              ? Color(0xffFFFFFF)
+                              : Color.fromARGB(255, 255, 17, 0),
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
@@ -184,6 +221,77 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   ),
                 ],
               )),
+          Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: Text("Are you inside gym ?",
+                  style: GoogleFonts.inter(
+                      textStyle: TextStyle(
+                          color: insideGymOptionValid
+                              ? Color(0xffFFFFFF)
+                              : Color.fromARGB(255, 255, 17, 0),
+                          fontWeight: FontWeight.normal,
+                          fontSize: 18)))),
+          Padding(
+              padding:
+                  EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Radio<InsideGym>(
+                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      value: InsideGym.yes,
+                      groupValue: _insideGym,
+                      onChanged: (InsideGym? value) {
+                        setState(() {
+                          isLocationPermissionNeeded = true;
+                          locationPermissionGivenWhenAsked = false;
+                          _insideGym = value;
+                        });
+                      },
+                    ),
+                    title: const CustomText(
+                        text: 'Yes', fontSize: 18, color: Color(0xffFFFFFF)),
+                  ),
+                  ListTile(
+                    leading: Radio<InsideGym>(
+                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      value: InsideGym.no,
+                      groupValue: _insideGym,
+                      onChanged: (InsideGym? value) {
+                        setState(() {
+                          _insideGym = value;
+                        });
+                      },
+                    ),
+                    title: const CustomText(
+                        text: 'No', fontSize: 18, color: Color(0xffFFFFFF)),
+                  ),
+                ],
+              )),
+          _insideGym == InsideGym.yes && isLocationPermissionNeeded
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10, top: 30),
+                      child: SizedBox(
+                          child: ElevatedButton(
+                              onPressed: onLocationPermissionPressed,
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  side: BorderSide(
+                                      width: 1,
+                                      color: locationPermissionGivenWhenAsked
+                                          ? Colors.white
+                                          : Color.fromARGB(255, 255, 17, 0))),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text("Grant Location Permission",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)))))))
+              : const SizedBox(),
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/exercise.dart';
+import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:provider/provider.dart';
@@ -32,8 +33,15 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
 
   void _onAddPressed() {
     if (validateForm()) {
-      Provider.of<ExerciseProvider>(context, listen: false)
-          .addExercise(Exercise(_nameController.text, [], false));
+      Provider.of<ExerciseProvider>(context, listen: false).addExercise(
+          Exercise(
+              _nameController.text,
+              [
+                ExerciseInformation(0, 5),
+                ExerciseInformation(0, 5),
+                ExerciseInformation(0, 5)
+              ],
+              false));
       Navigator.pop(context);
     }
   }

@@ -11,7 +11,7 @@ Future<void> uploadImage(
 
     var request = http.MultipartRequest('POST', Uri.parse('$TEST_URL$path'));
     var jwtToken = sharedPreferences.getString("jwtToken") ??
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY0MWUyNDcyYzEzOGI0MWMwM2QxNDIyIiwiZW1haWwiOiJ0eXBlc2NyaXB0QGdtYWlsLmNvbSIsImNvbnRhY3QiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNzE1NjIxNjY2LCJleHAiOjM2MDAxNzE1NjIxNjY2fQ.tZ542FcQ7iET_c8CHiVdRv4pWTUHqF4z9v5rjIYx8cw";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY1MGJiYjBlZGYzNWExMmJhN2E0MTdkIiwiY29udGFjdCI6Ijk4NzY1NDMyMTAiLCJpYXQiOjE3MTY1NjY5NjAsImV4cCI6MzYwMDE3MTY1NjY5NjB9.oWL5FpS3CdmzpK6P8B1SJPPhoq69soMQH_cb7yFwjXw";
     request.headers['token'] = jwtToken;
     request.files
         .add(await http.MultipartFile.fromPath('file', imageFile.path));
