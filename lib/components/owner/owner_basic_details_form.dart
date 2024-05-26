@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +37,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString(
-          "ownerName", widget.nameController.text);
+          "userName", widget.nameController.text);
       await sharedPreferences.setString(
           "ownerContact", _contactController.text);
       await sharedPreferences.setString(
@@ -132,7 +133,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
             child: showValidationError != null
                 ? Text(showValidationError ?? "",
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 0),
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

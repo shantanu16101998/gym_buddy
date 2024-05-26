@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/add_exercise.dart';
 import 'package:gym_buddy/components/member/attendance_bar.dart';
 import 'package:gym_buddy/components/member/card_container.dart';
-import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 
 class Homepage extends StatefulWidget {

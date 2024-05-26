@@ -38,14 +38,6 @@ class _IdentityCardState extends State<IdentityCard> {
 
   @override
   void initState() {
-    print('init');
-
-    // if (widget.profilePicB64 != null) {
-    //   bytes = base64
-    //       .decode(const Base64Codec().normalize(widget.profilePicB64 ?? ""));
-
-    //   print('bytes are $bytes');
-    // }
 
     dueDate = addValidTillToCurrDate(
         widget.startDate, int.parse(widget.validTillInMonths));

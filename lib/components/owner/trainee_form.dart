@@ -7,6 +7,7 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnerTraineeForm extends StatefulWidget {
@@ -59,7 +60,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
 
       var sharedPreferences = await SharedPreferences.getInstance();
 
-      var ownerName = sharedPreferences.getString("ownerName") ?? "";
+      var userName = sharedPreferences.getString("userName") ?? "";
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
       var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
       var gymName = sharedPreferences.getString("gymName");
@@ -70,14 +71,15 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
           OwnerRegistrationResponse.fromJson(await backendAPICall(
               '/owner/signup',
               {
-                'name': ownerName,
+                'name': userName,
                 'password': ownerPassword,
                 'gymName': gymName,
                 'contact': ownerContact,
                 'address': address,
                 'upiId': upiId,
                 'token': sharedPreferences.getString("fcmToken"),
-                'trainees': traineeDetails.map((trainee) => trainee.toJson()).toList(),
+                'trainees':
+                    traineeDetails.map((trainee) => trainee.toJson()).toList(),
               },
               'POST',
               true));
@@ -163,7 +165,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
             child: showValidationError
                 ? Text(formNotValidated,
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 0),
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

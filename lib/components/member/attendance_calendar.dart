@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class AttendanceCalendar extends StatefulWidget {
-  const AttendanceCalendar({super.key});
+  const AttendanceCalendar({
+    super.key,
+  });
 
   @override
   State<AttendanceCalendar> createState() => _AttendanceCalendarState();
@@ -13,6 +18,37 @@ class AttendanceCalendar extends StatefulWidget {
 class _AttendanceCalendarState extends State<AttendanceCalendar> {
   final PageController _pageController =
       PageController(initialPage: DateTime.now().month);
+
+  int minMonth = 0;
+  int maxMonth = 12;
+  int minYear = 1900;
+  int maxYear = 2100;
+
+  AttendanceResponse? attendanceResponse;
+
+  fetchAttendance() async {
+    Map<String, dynamic> responseData = await backendAPICall(
+        '/customer/customerId/attendance', {}, 'GET', false);
+
+    setState(() {
+      attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
+      minMonth = getShortMonthNumber(
+              responseData['startMonth'].toString().toLowerCase()) ??
+          0;
+      maxMonth = getShortMonthNumber(
+              responseData['endMonth'].toString().toLowerCase()) ??
+          12;
+      minYear = responseData['startYear'];
+      maxYear = responseData['endYear'];
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAttendance();
+  }
 
   int year = DateTime.now().year;
   int currentMonth = DateTime.now().month;
@@ -42,7 +78,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       children: [
         Padding(
           padding: EdgeInsets.only(
-              top : 50,
+              top: 50,
               left: getScreenWidth(context) * 0.1,
               right: getScreenWidth(context) * 0.1),
           child: SizedBox(
@@ -64,9 +100,38 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
                 int daysInMonth = getDaysInMonth(displayYear, displayMonth);
 
-                final List<Color> attendanceColors = [
-                  for (int i = 0; i < daysInMonth; i++) const Color(0xffD9D9D9)
-                ];
+                List<Color> attendanceColors = [];
+
+                if (attendanceResponse != null) {
+                  MonthData? monthData = attendanceResponse!.attendanceData
+                      .firstWhere(
+                          (monthData) =>
+                              getShortMonthNumber(
+                                      monthData.month.toLowerCase()) ==
+                                  displayMonth &&
+                              displayYear == int.parse(monthData.year),
+                          orElse: () =>
+                              MonthData(year: '', month: '', days: []));
+
+                  int i = 0;
+
+                  for (i = 0; i < monthData.days.length; i++) {
+                    if (monthData.days[i] == 1) {
+                      attendanceColors.add(attendanceMarkPresent);
+                    } else {
+                      attendanceColors.add(attendanceMarkAbsent);
+                    }
+                  }
+
+                  for (; i < daysInMonth; i++) {
+                    attendanceColors.add(attendanceMarkNothing);
+                  }
+                } else {
+                  attendanceColors = [
+                    for (int i = 0; i < daysInMonth; i++) attendanceMarkNothing
+                  ];
+                }
+
                 return Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Container(
@@ -129,39 +194,47 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               Row(
                 children: [
                   IconButton(
-                    icon:
-                        const Icon(Icons.arrow_back, color: Color(0xff004576)),
+                    icon: Icon(Icons.arrow_back,
+                        color: (minYear < year || minMonth < currentMonth)
+                            ? Color(0xff004576)
+                            : Color.fromARGB(255, 116, 144, 163)),
                     onPressed: () {
-                      setState(() {
-                        currentMonth--;
-                        if (currentMonth < 0) {
-                          currentMonth = 11;
-                          year--;
-                        }
-                        _pageController.animateToPage(
-                          currentMonth,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      });
+                      if (minYear < year || minMonth < currentMonth) {
+                        setState(() {
+                          currentMonth--;
+                          if (currentMonth < 0) {
+                            currentMonth = 11;
+                            year--;
+                          }
+                          _pageController.animateToPage(
+                            currentMonth,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        });
+                      }
                     },
                   ),
                   IconButton(
-                    icon: const Icon(Icons.arrow_forward,
-                        color: Color(0xff004576)),
+                    icon: Icon(Icons.arrow_forward,
+                        color: (maxYear > year || maxMonth > currentMonth)
+                            ? Color(0xff004576)
+                            : Color.fromARGB(255, 116, 144, 163)),
                     onPressed: () {
-                      setState(() {
-                        currentMonth++;
-                        if (currentMonth > 11) {
-                          currentMonth = 0;
-                          year++;
-                        }
-                        _pageController.animateToPage(
-                          currentMonth,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      });
+                      if (maxMonth > currentMonth || maxYear > year) {
+                        setState(() {
+                          currentMonth++;
+                          if (currentMonth > 11) {
+                            currentMonth = 0;
+                            year++;
+                          }
+                          _pageController.animateToPage(
+                            currentMonth,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        });
+                      }
                     },
                   ),
                 ],

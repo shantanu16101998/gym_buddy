@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
         var sharedPreferences = await SharedPreferences.getInstance();
 
         sharedPreferences.setString("jwtToken", loginResponse.jwtToken ?? "");
-        sharedPreferences.setString("ownerName", loginResponse.name ?? "Owner");
+        sharedPreferences.setString("userName", loginResponse.name ?? "Owner");
         await sharedPreferences.setString(
             "gymName", loginResponse.gymName ?? "Gym");
         await sharedPreferences.setString(

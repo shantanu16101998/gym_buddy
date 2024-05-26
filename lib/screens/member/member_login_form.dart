@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/constants/url.dart';
+import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
@@ -15,17 +20,36 @@ class MemberLoginForm extends StatefulWidget {
 class _MemberLoginFormState extends State<MemberLoginForm> {
   final TextEditingController _contactController = TextEditingController();
   String? contactError;
+  String? showValidationError;
   bool validateForm() {
     setState(() {
-    contactError = contactValidator(_contactController.text);
-      
+      contactError = contactValidator(_contactController.text);
     });
 
     if (contactError != null) {
-      return true;
+      showValidationError = formNotValidated;
+      return false;
     }
 
-    return false;
+    return true;
+  }
+
+  onLoginButtonPressed() async {
+    if (validateForm()) {
+      MemberLoginResponse memberLoginResponse = MemberLoginResponse.fromJson(
+          await backendAPICall('/customer/login',
+              {'contact': _contactController.text}, 'POST', false));
+
+
+      if (memberLoginResponse.name == null) {
+        setState(() {
+          showValidationError = 'Contact not registered with any gym';
+        });
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Homepage()));
+      }
+    }
   }
 
   @override
@@ -57,7 +81,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                    color: Color(0xffE7AA0F),
+                                    color: formValidationErrorColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22),
                               )),
@@ -76,21 +100,8 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 30, top: 30, bottom: 12),
-                                child: Text(
-                                  "Customer login",
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                      color: Color(0xffFFFFFF),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
+                                padding:
+                                    const EdgeInsets.only(top: 30, left: 30),
                                 child: Text(
                                   "Welcome",
                                   style: GoogleFonts.inter(
@@ -116,18 +127,27 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                   errorText: contactError,
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 30, top: 15, bottom: 15, right: 30),
+                                child: showValidationError != null
+                                    ? Text(showValidationError ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xffFF8C00),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15))
+                                    : const SizedBox(),
+                              ),
                               Align(
                                 alignment: Alignment.center,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      bottom: 50, top: 30),
+                                      bottom: 50, top: 20),
                                   child: SizedBox(
                                     height: 50,
                                     width: 178,
                                     child: ElevatedButton(
-                                      onPressed: () {
-                                        validateForm();
-                                      },
+                                      onPressed: onLoginButtonPressed,
                                       style: ElevatedButton.styleFrom(
                                         elevation: 0,
                                         backgroundColor:

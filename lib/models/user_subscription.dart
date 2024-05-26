@@ -7,8 +7,17 @@ class UserSubscription {
   int? expiredDays;
   String? profilePic;
   String? contact;
-  UserSubscription(this.name, this.startDate, this.endDate, this.expiringDays,
-      this.expiredDays, this.id, this.profilePic, this.contact);
+  String? experience;
+  UserSubscription(
+      this.name,
+      this.startDate,
+      this.endDate,
+      this.expiringDays,
+      this.expiredDays,
+      this.id,
+      this.profilePic,
+      this.contact,
+      this.experience);
 
   factory UserSubscription.fromJson(Map<String, dynamic> json) {
     final String? name = json["customerName"];
@@ -19,8 +28,9 @@ class UserSubscription {
     final String? id = json["id"];
     final String? profilePic = json["profilePic"];
     final String? contact = json['contact'];
+    final String? experience = json['experience'];
 
     return UserSubscription(name, startDate, endDate, expiringDays, expiredDays,
-        id, profilePic, contact);
+        id, profilePic, contact, experience);
   }
 }

@@ -20,7 +20,6 @@ double radians(double degrees) {
   return degrees * (pi / 180);
 }
 
-
 String formatCurrency(int number) {
   var format = intl.NumberFormat.compact(locale: 'en_IN');
   return format.format(number);
@@ -140,6 +139,26 @@ String _getMonthName(int month) {
   return months[month - 1];
 }
 
+int? getShortMonthNumber(String month) {
+
+  final monthNumber = {
+    'jan': 1,
+    'feb': 2,
+    'mar': 3,
+    'apr': 4,
+    'may': 5,
+    'jun': 6,
+    'jul': 7,
+    'aug': 8,
+    'sep': 9,
+    'oct': 10,
+    'nov': 11,
+    'dec': 12
+  };
+
+  return monthNumber[month];
+}
+
 DateTime _addMonths(DateTime date, int monthsToAdd) {
   final year = (date.year + (date.month + monthsToAdd) ~/ 12);
   final month = (date.month + monthsToAdd) % 12;
@@ -168,7 +187,8 @@ String currentWeekDayCompact() {
   return days[currentDate.day];
 }
 
-double calculateDistanceInKm(double lat1, double lon1, double lat2, double lon2) {
+double calculateDistanceInKm(
+    double lat1, double lon1, double lat2, double lon2) {
   const R = 6371.0; // Radius of the earth in km
   double dLat = radians(lat2 - lat1);
   double dLon = radians(lon2 - lon1);

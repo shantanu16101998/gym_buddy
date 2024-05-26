@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
-import 'package:gym_buddy/screens/owner/splash_screen.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
+import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +18,7 @@ class _SideBarState extends State<SideBar> {
     sharedPreferences.remove("jwtToken");
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const SplashScreen()),
+        MaterialPageRoute(builder: (context) => const MemberLoginForm()),
         (route) => false);
   }
 
@@ -49,7 +48,7 @@ class _SideBarState extends State<SideBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Subscription()))
+                          builder: (context) => const Homepage()))
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -65,32 +64,6 @@ class _SideBarState extends State<SideBar> {
                           child: const Icon(Icons.home)),
                       const Text(
                         "Home",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                    ])),
-              ),
-              InkWell(
-                onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AnalysisHomepage()))
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: const Color(0xffDBDDE2))),
-                    child: Row(children: [
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: getScreenWidth(context) * 0.125,
-                              top: 10,
-                              right: 10,
-                              bottom: 10),
-                          child: const Icon(Icons.bar_chart)),
-                      const Text(
-                        "Analysis",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),

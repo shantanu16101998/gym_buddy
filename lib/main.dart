@@ -5,27 +5,22 @@ import 'package:gym_buddy/components/owner/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
-import 'package:gym_buddy/screens/examples/share_widget_as_image.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
 import 'package:gym_buddy/screens/owner/qr_page.dart';
-import 'package:gym_buddy/screens/owner/splash_screen.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/services/local_notification.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:gym_buddy/screens/member/profile.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 bool shouldEnableFirebase = false;
-
-enum PlatForm { local, production }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.black,
           colorScheme: ColorScheme.fromSwatch().copyWith(
               secondary: Colors.red, primary: const Color(0xff667085)),
-          primaryColor: Colors.black,
+          primaryColor: Color.fromARGB(255, 248, 248, 248),
         ),
         home: Homepage(),
         routes: {
@@ -80,8 +75,8 @@ class _MyAppState extends State<MyApp> {
           '/pic': (context) => const CustomImagePicker(),
           '/user-sign-up': (context) => const UserSignUp(),
           '/subscription': (context) => const Subscription(),
-          '/profile': (context) => const Profile(
-              ),
+          // '/profile': (context) => const Profile(
+          //     ),
           '/analysis': (context) => const AnalysisHomepage(),
           'qr-page': (context) => const QrPage(),
           '/analysis-expanded': (context) =>

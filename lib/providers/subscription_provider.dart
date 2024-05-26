@@ -8,6 +8,7 @@ class SubscriptionProvider extends ChangeNotifier {
   List currentUsers = [];
   List expiredUsers = [];
   bool searchFieldLoaded = false;
+  bool subcriptionAPIDataFetched = false;
 
   Future<void> fetchSubscription() async {
     SubscriptionDetailsResponse subscriptionDetailsResponse =
@@ -17,6 +18,7 @@ class SubscriptionProvider extends ChangeNotifier {
     allExpiredUsers = subscriptionDetailsResponse.expiredUsers;
     currentUsers = subscriptionDetailsResponse.currentUsers;
     expiredUsers = subscriptionDetailsResponse.expiredUsers;
+    subcriptionAPIDataFetched = true;
     notifyListeners();
   }
 

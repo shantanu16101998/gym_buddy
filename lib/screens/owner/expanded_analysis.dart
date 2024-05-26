@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gym_buddy/models/responses.dart';

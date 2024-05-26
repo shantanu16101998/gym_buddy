@@ -67,33 +67,16 @@ class OwnerDeeplinkResponse {
 
 class UserProfileResponse {
   final String name;
-  final String email;
-  final String? address;
-  final String? age;
   final String phone;
-  final String? bloodGroup;
-  final String gender;
   final String? profilePic;
 
   const UserProfileResponse(
-      {required this.name,
-      required this.email,
-      required this.address,
-      required this.age,
-      required this.phone,
-      required this.bloodGroup,
-      required this.gender,
-      required this.profilePic});
+      {required this.name, required this.phone, required this.profilePic});
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
     return UserProfileResponse(
         name: json["name"] ?? "",
-        email: json["email"] ?? "",
-        address: json["address"] ?? "",
-        age: json["age"]?.toString(),
-        bloodGroup: json["bloodGroup"] ?? "",
         phone: json["contact"].toString(),
-        gender: json["gender"] ?? "",
         profilePic: json["profilePic"]);
   }
 }
@@ -164,5 +147,42 @@ class RegisterCustomerResponse {
 
   factory RegisterCustomerResponse.fromJson(Map<String, dynamic> json) {
     return RegisterCustomerResponse(profilePic: json['profilePic']);
+  }
+}
+
+class MemberLoginResponse {
+  final String? name;
+
+  MemberLoginResponse({this.name});
+
+  factory MemberLoginResponse.fromJson(Map<String, dynamic> json) {
+    return MemberLoginResponse(name: json['name']);
+  }
+}
+
+class MonthData {
+  final String year;
+  final String month;
+  final List<int> days;
+
+  MonthData({required this.year, required this.month, required this.days});
+
+  factory MonthData.fromJson(Map<String, dynamic> json) {
+    return MonthData(
+      year: json['year'],
+      month: json['month'],
+      days: List<int>.from(json['days']),
+    );
+  }
+}
+
+class AttendanceResponse {
+  final List<MonthData> attendanceData;
+
+  AttendanceResponse({required this.attendanceData});
+
+  factory AttendanceResponse.fromJson(List<dynamic> json) {
+    List<MonthData> data = json.map((monthJson) => MonthData.fromJson(monthJson)).toList();
+    return AttendanceResponse(attendanceData: data);
   }
 }

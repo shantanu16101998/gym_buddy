@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,6 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
 
   String? _nameError;
   String? _contactError;
-  String? _addressError;
   String? _confirmContactError;
 
   onNextButtonPressed() async {
@@ -132,7 +132,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
             child: showValidationError
                 ? Text(formNotValidated,
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 0),
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

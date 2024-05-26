@@ -5,10 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
-import 'package:location/location.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:gym_buddy/constants/url.dart';
@@ -70,7 +69,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
         sharedPreferences.setBool('insideGym', _insideGym == InsideGym.yes);
         widget.formStateChanger(OwnerFormState.traineeDetails);
       } else {
-        var ownerName = sharedPreferences.getString("ownerName") ?? "";
+        var userName = sharedPreferences.getString("userName") ?? "";
         var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
         var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
 
@@ -82,7 +81,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             OwnerRegistrationResponse.fromJson(await backendAPICall(
                 '/owner/signup',
                 {
-                  'name': ownerName,
+                  'name': userName,
                   'password': ownerPassword,
                   'gymName': _gymNameController.text,
                   'contact': ownerContact,
@@ -182,13 +181,13 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   style: GoogleFonts.inter(
                       textStyle: TextStyle(
                           color: haveTraineeOptionValid
-                              ? Color(0xffFFFFFF)
-                              : Color.fromARGB(255, 255, 17, 0),
+                              ? const Color(0xffFFFFFF)
+                              : formValidationErrorColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
               padding:
-                  EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+                  const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
               child: Column(
                 children: [
                   ListTile(
@@ -227,13 +226,13 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   style: GoogleFonts.inter(
                       textStyle: TextStyle(
                           color: insideGymOptionValid
-                              ? Color(0xffFFFFFF)
-                              : Color.fromARGB(255, 255, 17, 0),
+                              ? const Color(0xffFFFFFF)
+                              : formValidationErrorColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
               padding:
-                  EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+                  const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
               child: Column(
                 children: [
                   ListTile(
@@ -283,7 +282,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                                       width: 1,
                                       color: locationPermissionGivenWhenAsked
                                           ? Colors.white
-                                          : Color.fromARGB(255, 255, 17, 0))),
+                                          : formValidationErrorColor)),
                               child: const Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text("Grant Location Permission",
@@ -298,7 +297,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             child: showValidationError
                 ? Text(formNotValidated,
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 0),
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

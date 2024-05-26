@@ -2,6 +2,7 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/constants/url.dart';
@@ -91,7 +92,6 @@ class _UserGoalFormState extends State<UserGoalForm> {
     super.initState();
     intialConfigs();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +202,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
             child: showValidationError
                 ? Text(formNotValidated,
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 0),
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

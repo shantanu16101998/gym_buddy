@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/attendance_calendar.dart';
-import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -127,7 +127,6 @@ class _ProfileState extends State<Profile> {
                             height : 41,
                             child: ElevatedButton(
                               onPressed: () {
-                                print('Button pressed!');
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white, // Background color

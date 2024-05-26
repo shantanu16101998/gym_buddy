@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Header extends StatefulWidget {
-  final String ownerName;
+  final String userName;
 
-  const Header({super.key,required this.ownerName});
+  const Header({super.key,required this.userName});
 
   @override
   State<Header> createState() => _HeaderState();
@@ -40,7 +40,7 @@ class _HeaderState extends State<Header> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(left: 17, bottom: 3),
-                      child: Text(widget.ownerName,
+                      child: Text(widget.userName,
                           style: GoogleFonts.inter(
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,

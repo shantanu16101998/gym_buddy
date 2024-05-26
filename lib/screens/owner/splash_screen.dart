@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:shared_preferences/shared_preferences.dart';

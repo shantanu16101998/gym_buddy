@@ -32,7 +32,6 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     if (pickedFile != null) {
       var base64file = base64Encode(await pickedFile.readAsBytes());
 
-        print(base64file);
 
       setState(() {
         _imageFile = pickedFile;

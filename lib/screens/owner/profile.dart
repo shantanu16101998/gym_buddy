@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/owner/app_scaffold.dart';
+import 'package:gym_buddy/components/member/attendance_calendar.dart';
+import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
@@ -20,14 +21,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   UserProfileResponse userProfileResponse = const UserProfileResponse(
-      name: "Suraj Kumar",
-      email: "email",
-      address: "address",
-      age: "age",
-      phone: "7424948001",
-      bloodGroup: "bloodGroup",
-      gender: "Male",
-      profilePic: null);
+      name: "Suraj Kumar", phone: "7424948001", profilePic: null);
 
   bool isApiDataLoaded = false;
   bool isImageExpanded = false;
@@ -43,9 +37,8 @@ class _ProfileState extends State<Profile> {
       userProfileResponse = userProfileApiResponse;
       isApiDataLoaded = true;
       image = userProfileResponse.profilePic == null
-          ? AssetImage(userProfileResponse.gender == "Male"
-              ? "assets/images/profile_default.png"
-              : "assets/images/profile_default.png") as ImageProvider<Object>
+          ? const AssetImage("assets/images/profile_default.png")
+              as ImageProvider<Object>
           : NetworkImage(userProfileResponse.profilePic ??
               "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default");
     });
@@ -80,260 +73,162 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold.noHeader(
+    return AppScaffold(
       isApiDataLoaded: isApiDataLoaded,
-      noSpaceForStatusBar: true,
+      noSpaceForStatusBar: false,
       child: Container(
-          color: Colors.white,
           child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 150,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/gym_background.jpg"),
-                          fit: BoxFit.fill),
-                    ),
-                  ),
-                  SizedBox(height: 70),
-                  Column(
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(30.0, 16.0, 12.0, 24.0),
-                        child: SizedBox(
-                          width: 250,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                  child: Text(userProfileResponse.name,
-                                      style: GoogleFonts.inter(
-                                          textStyle: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22,
-                                              color: Color(0xff004576))))),
-                              Icon(
-                                  userProfileResponse.gender == "Male"
-                                      ? Icons.male
-                                      : Icons.female,
-                                  color: Color(0xff004576),
-                                  size: 35),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 25),
-                      child: SizedBox(
-                        height: 45,
-                        width: 300,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                    width: 2, color: Color(0xffD0D5DD)),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              textStyle: const TextStyle(
-                                fontSize: 22,
-                                color: Color(0xffB01D1D),
-                                fontWeight: FontWeight.bold,
-                              )),
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SubscriptionDialog(
-                                      userId: widget.userId);
-                                });
-                          },
-                          child: Text('Update Subscription',
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: Color(0xff004576)))),
-                        ),
-                      )),
-                  Container(
-                    width: 250,
-                    // color: Color.fromARGB(255, 1, 10, 26),
-                    child: Column(
-                      children: [
-                        isTrueString(userProfileResponse.address)
-                            ? Padding(
-                                padding: const EdgeInsets.all(13),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.location_on,
-                                        color: Color(0xff004576)),
-                                    SizedBox(
-                                        width: getScreenWidth(context) * 0.03),
-                                    Flexible(
-                                      child: Text(userProfileResponse.address!,
-                                          style: GoogleFonts.inter(
-                                              textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
-                                                  color: Color(0xff544C4C)))),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.email, color: Color(0xff004576)),
-                              SizedBox(width: getScreenWidth(context) * 0.03),
-                              Flexible(
-                                child: Text(userProfileResponse.email,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18,
-                                            color: Color(0xff544C4C)))),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.phone, color: Color(0xff004576)),
-                              SizedBox(width: getScreenWidth(context) * 0.03),
-                              Flexible(
-                                child: Text(userProfileResponse.phone,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 18,
-                                            color: Color(0xff544C4C)))),
-                              )
-                            ],
-                          ),
-                        ),
-                        isTrueString(userProfileResponse.age)
-                            ? Padding(
-                                padding: const EdgeInsets.all(13),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.cake,
-                                        color: Color(0xff004576)),
-                                    SizedBox(
-                                        width: getScreenWidth(context) * 0.03),
-                                    Flexible(
-                                      child: Text(
-                                          "${userProfileResponse.age} years old",
-                                          style: GoogleFonts.inter(
-                                              textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
-                                                  color: Color(0xff544C4C)))),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                        isTrueString(userProfileResponse.bloodGroup)
-                            ? Padding(
-                                padding: const EdgeInsets.all(13),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.bloodtype,
-                                        color: Color(0xff004576)),
-                                    SizedBox(
-                                        width: getScreenWidth(context) * 0.03),
-                                    Flexible(
-                                      child: Text(
-                                          userProfileResponse.bloodGroup!,
-                                          style: GoogleFonts.inter(
-                                              textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 18,
-                                                  color: Color(0xff544C4C)))),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: SizedBox(
-                        height: 45,
-                        width: 300,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 2, color: Color(0xffD0D5DD)),
-                                  borderRadius: BorderRadius.circular(20)),
-                              textStyle: const TextStyle(
-                                  fontSize: 22,
-                                  color: Color(0xffB01D1D),
-                                  fontWeight: FontWeight.bold)),
-                          onPressed: _onDeleteUserPressed,
-                          child: Text('Delete user',
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: Color(0xffB01D1D)))),
-                        ),
-                      )),
-                  const SizedBox(height: 50)
-                ],
+              Container(
+                width: double.infinity,
+                height: 450,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            width: 1, color: const Color(0xffD9D9D9)))),
+                child: const AttendanceCalendar(),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: 70),
+              Container(
+                child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () => {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => ImageDialog(
-                                  image: image,
-                                  changeImage: changeImage,
-                                  customerId: widget.userId,
-                                ))
-                      },
-                      child: Container(
-                        width: getScreenHeight(context) * 0.15,
-                        height: getScreenHeight(context) * 0.15,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 2,
-                              color: const Color.fromARGB(255, 255, 255, 255)),
-                          borderRadius: BorderRadius.circular(70),
-                          image:
-                              DecorationImage(image: image, fit: BoxFit.fill),
+                    Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(30.0, 16.0, 12.0, 24.0),
+                      child: SizedBox(
+                        width: 250,
+                        height: 100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                                child: Text(userProfileResponse.name,
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22,
+                                            color: Color(0xff004576))))),
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.phone,
+                                      color: Color(0xff004576)),
+                                  SizedBox(
+                                      width: getScreenWidth(context) * 0.03),
+                                  Flexible(
+                                    child: Text(userProfileResponse.phone,
+                                        style: GoogleFonts.inter(
+                                            textStyle: const TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 18,
+                                                color: Color(0xff544C4C)))),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: SizedBox(
+                    height: 45,
+                    width: 300,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 2, color: Color(0xffD0D5DD)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 22,
+                            color: Color(0xffB01D1D),
+                            fontWeight: FontWeight.bold,
+                          )),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SubscriptionDialog(userId: widget.userId);
+                            });
+                      },
+                      child: Text('Update Subscription',
+                          style: GoogleFonts.inter(
+                              textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: Color(0xff004576)))),
+                    ),
+                  )),
+              Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: SizedBox(
+                    height: 45,
+                    width: 300,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 2, color: Color(0xffD0D5DD)),
+                              borderRadius: BorderRadius.circular(20)),
+                          textStyle: const TextStyle(
+                              fontSize: 22,
+                              color: Color(0xffB01D1D),
+                              fontWeight: FontWeight.bold)),
+                      onPressed: _onDeleteUserPressed,
+                      child: Text('Delete user',
+                          style: GoogleFonts.inter(
+                              textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: Color(0xffB01D1D)))),
+                    ),
+                  )),
+              const SizedBox(height: 50)
             ],
-          )),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 400),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () => {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => ImageDialog(
+                              image: image,
+                              changeImage: changeImage,
+                              customerId: widget.userId,
+                            ))
+                  },
+                  child: Container(
+                    width: getScreenHeight(context) * 0.15,
+                    height: getScreenHeight(context) * 0.15,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(width: 2, color: const Color(0xffD9D9D9)),
+                      borderRadius: BorderRadius.circular(70),
+                      image: DecorationImage(image: image, fit: BoxFit.fill),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      )),
     );
   }
 }

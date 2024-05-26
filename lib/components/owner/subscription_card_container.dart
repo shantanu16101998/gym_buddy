@@ -43,6 +43,7 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
                     expiredDay: userSubscription.expiredDays,
                     expiringDay: userSubscription.expiringDays,
                     profilePic: userSubscription.profilePic,
+                    experience: userSubscription.experience,
                     phone: userSubscription.contact,
                   ),
                   // IdentityCard(

@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
 import 'package:gym_buddy/screens/owner/profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gym_buddy/utils/custom.dart';
-
 
 class SubscriptionCard extends StatefulWidget {
   final String name;
@@ -16,6 +16,7 @@ class SubscriptionCard extends StatefulWidget {
   final String userId;
   final String? profilePic;
   final String phone;
+  final String? experience;
   const SubscriptionCard(
       {super.key,
       required this.name,
@@ -25,7 +26,8 @@ class SubscriptionCard extends StatefulWidget {
       required this.expiredDay,
       required this.userId,
       required this.phone,
-      required this.profilePic});
+      required this.profilePic,
+      this.experience});
 
   @override
   State<SubscriptionCard> createState() => _SubscriptionCardState();
@@ -52,7 +54,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
         child: Container(
           width: 360,
           decoration: BoxDecoration(
-              border: Border.all(width: 1, color: const Color(0xffDBDDE2)),
+              border: Border.all(width: 1, color: widget.experience == 'newbie' ? subscriptionCardNewbie : const Color(0xffDBDDE2)),
+              color: widget.experience == 'newbie' ? subscriptionCardNewbie.withOpacity(0.15) : Colors.white,
               borderRadius: BorderRadius.circular(12)),
           child: IntrinsicHeight(
             child: Column(
@@ -63,7 +66,6 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: CircleAvatar(
-                        
                           backgroundImage: widget.profilePic == null
                               ? const AssetImage(
                                       "assets/images/profile_default.png")
@@ -81,7 +83,6 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                           Container(
                             height: 20,
                           ),
-                          
                           SizedBox(
                             width: 200,
                             child: Row(
@@ -97,7 +98,6 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                               ],
                             ),
                           ),
-                          
                           Container(
                             height: 8,
                           ),
@@ -213,7 +213,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             GestureDetector(
-                              onTap: () => launchUrl(Uri.parse("tel:${widget.phone}")),
+                              onTap: () =>
+                                  launchUrl(Uri.parse("tel:${widget.phone}")),
                               child: const Icon(Icons.phone_outlined,
                                   color: Color(0xff667085), size: 30),
                             ),

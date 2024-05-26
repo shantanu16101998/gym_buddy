@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
+import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/tab_bar.dart';
@@ -24,14 +23,13 @@ class Subscription extends StatefulWidget {
 class _SubscriptionState extends State<Subscription> {
   final TextEditingController _searchController = TextEditingController();
 
-  bool ownerGivenLocation = false;
-
-  String ownerName = "Owner";
+  bool ownerGivenLocation = true;
+  String userName = "Owner";
 
   fetchOwnerName() async {
     var sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      ownerName = sharedPreferences.getString("ownerName") ?? "Owner";
+      userName = sharedPreferences.getString("userName") ?? "Owner";
     });
   }
 
@@ -63,7 +61,7 @@ class _SubscriptionState extends State<Subscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SideBar(ownerName: ownerName),
+        drawer: SideBar(userName: userName),
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
@@ -77,7 +75,7 @@ class _SubscriptionState extends State<Subscription> {
                       bottom: 100),
                   child: Column(
                     children: [
-                      Header(ownerName: ownerName),
+                      Header(userName: userName),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
                           showCurrentUsers: showCurrentUsers,
@@ -102,13 +100,14 @@ class _SubscriptionState extends State<Subscription> {
                             cursorColor: const Color(0xff667085),
                             errorText: null),
                       ),
+                      context.watch<SubscriptionProvider>().subcriptionAPIDataFetched ?
                       SubscriptionCardContainer(
                         showCurrentUsers: showCurrentUsers,
                         currentUsers:
                             context.watch<SubscriptionProvider>().currentUsers,
                         expiredUsers:
                             context.watch<SubscriptionProvider>().expiredUsers,
-                      )
+                      ) : const SizedBox(child: Loader())
                     ],
                   ),
                 )),

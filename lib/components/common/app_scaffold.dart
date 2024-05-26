@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/header.dart';
-import 'package:gym_buddy/components/owner/side_bar.dart';
+import 'package:gym_buddy/components/owner/side_bar.dart' as owner_side_bar;
+import 'package:gym_buddy/components/member/side_bar.dart' as member_side_bar;
 import 'package:gym_buddy/components/owner/loader.dart';
+import 'package:gym_buddy/constants/environment.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class AppScaffold extends StatefulWidget {
   final Widget child;
@@ -33,7 +35,7 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-  String ownerName = "Owner";
+  String userName = "Owner";
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _AppScaffoldState extends State<AppScaffold> {
   fetchOwnerName() async {
     var sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      ownerName = sharedPreferences.getString("ownerName") ?? "Owner";
+      userName = sharedPreferences.getString("userName") ?? "User";
     });
   }
 
@@ -52,7 +54,7 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     return widget.isApiDataLoaded
         ? Scaffold(
-            drawer: SideBar(ownerName: ownerName),
+            drawer: appEnvironment == AppEnvironment.owner ? owner_side_bar.SideBar(userName: userName) : member_side_bar.SideBar(userName: userName),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: ConstrainedBox(
@@ -69,7 +71,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                   child: Column(
                     children: [
                       widget.showHeader
-                          ? Header(ownerName: ownerName)
+                          ? Header(userName: userName)
                           : const SizedBox(),
                       Container(child: widget.child)
                     ],
