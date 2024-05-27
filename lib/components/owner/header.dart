@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/constants/environment.dart';
+import 'package:gym_buddy/screens/member/profile.dart';
+import 'package:gym_buddy/utils/enums.dart';
 
 class Header extends StatefulWidget {
   final String userName;
 
-  const Header({super.key,required this.userName});
+  const Header({super.key, required this.userName});
 
   @override
   State<Header> createState() => _HeaderState();
 }
 
 class _HeaderState extends State<Header> {
-  
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,15 +25,25 @@ class _HeaderState extends State<Header> {
         children: [
           Row(
             children: [
-              Container(
-                height: 50,
-                width: 50,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/logo-modified.png"),
-                    fit: BoxFit.fill,
+              GestureDetector(
+                onTap: () {
+                  if (appEnvironment == AppEnvironment.member) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Profile()));
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/logo-modified.png"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: BoxShape.circle,
                   ),
-                  shape: BoxShape.circle,
                 ),
               ),
               Column(
@@ -49,7 +59,6 @@ class _HeaderState extends State<Header> {
                               decoration: TextDecoration.none,
                             ),
                           ))),
-                  
                 ],
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
@@ -21,7 +22,12 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   UserProfileResponse userProfileResponse = const UserProfileResponse(
-      name: "Suraj Kumar", phone: "7424948001", profilePic: null);
+      name: "Suraj Kumar",
+      phone: "7424948001",
+      profilePic: null,
+      validTill: null,
+      startDate: null,
+      traineeName: null);
 
   bool isApiDataLoaded = false;
   bool isImageExpanded = false;
@@ -76,8 +82,7 @@ class _ProfileState extends State<Profile> {
     return AppScaffold(
       isApiDataLoaded: isApiDataLoaded,
       noSpaceForStatusBar: false,
-      child: Container(
-          child: Stack(
+      child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,59 +90,86 @@ class _ProfileState extends State<Profile> {
               Container(
                 width: double.infinity,
                 height: 450,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(
-                            width: 1, color: const Color(0xffD9D9D9)))),
+                        bottom:
+                            BorderSide(width: 1, color: Color(0xffD9D9D9)))),
                 child: const AttendanceCalendar(),
               ),
-              SizedBox(height: 70),
-              Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.fromLTRB(30.0, 16.0, 12.0, 24.0),
-                      child: SizedBox(
-                        width: 250,
-                        height: 100,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+              const SizedBox(height: 70),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 12.0, 24.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Flexible(
-                                child: Text(userProfileResponse.name,
-                                    style: GoogleFonts.inter(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22,
-                                            color: Color(0xff004576))))),
-                            Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.phone,
-                                      color: Color(0xff004576)),
-                                  SizedBox(
-                                      width: getScreenWidth(context) * 0.03),
-                                  Flexible(
-                                    child: Text(userProfileResponse.phone,
-                                        style: GoogleFonts.inter(
-                                            textStyle: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 18,
-                                                color: Color(0xff544C4C)))),
-                                  )
-                                ],
-                              ),
-                            ),
+                            CustomText(
+                                text: 'Name:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff004576)),
+                            SizedBox(height: 20),
+                            CustomText(
+                                text: 'Contact:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff004576)),
+                            SizedBox(height: 20),
+                            CustomText(
+                                text: 'Mentor:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff004576)),
+                            SizedBox(height: 20),
+                            CustomText(
+                                text: 'Start Date:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff004576)),
+                            SizedBox(height: 20),
+                            CustomText(
+                                text: 'Plan:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff004576)),
                           ],
                         ),
-                      ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(userProfileResponse.name,
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(fontSize: 22))),
+                            SizedBox(height: 20),
+                            Text(userProfileResponse.phone,
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(fontSize: 22))),
+                            SizedBox(height: 20),
+                            Text(userProfileResponse.traineeName ?? "",
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(fontSize: 22))),
+                            SizedBox(height: 20),
+                            Text(userProfileResponse.startDate ?? "",
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(fontSize: 22))),
+                            SizedBox(height: 20),
+                            Text('${userProfileResponse.validTill ?? 0} months',
+                                style: GoogleFonts.inter(
+                                    textStyle: const TextStyle(fontSize: 22))),
+                          ],
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Padding(
                   padding: const EdgeInsets.only(bottom: 25),
@@ -199,7 +231,7 @@ class _ProfileState extends State<Profile> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 400),
+            padding: const EdgeInsets.only(top: 400),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -228,7 +260,7 @@ class _ProfileState extends State<Profile> {
             ),
           )
         ],
-      )),
+      ),
     );
   }
 }

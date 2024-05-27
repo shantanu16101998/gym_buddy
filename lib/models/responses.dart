@@ -69,14 +69,25 @@ class UserProfileResponse {
   final String name;
   final String phone;
   final String? profilePic;
+  final String? startDate;
+  final int? validTill;
+  final String? traineeName;
 
   const UserProfileResponse(
-      {required this.name, required this.phone, required this.profilePic});
+      {required this.name,
+      required this.phone,
+      required this.profilePic,
+      required this.validTill,
+      required this.startDate,
+      required this.traineeName});
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
     return UserProfileResponse(
         name: json["name"] ?? "",
         phone: json["contact"].toString(),
+        validTill: json["validTill"],
+        startDate: json["currentBeginDate"],
+        traineeName: json["trainerName"],
         profilePic: json["profilePic"]);
   }
 }
@@ -152,11 +163,12 @@ class RegisterCustomerResponse {
 
 class MemberLoginResponse {
   final String? name;
+  final String token;
 
-  MemberLoginResponse({this.name});
+  MemberLoginResponse({this.name, required this.token});
 
   factory MemberLoginResponse.fromJson(Map<String, dynamic> json) {
-    return MemberLoginResponse(name: json['name']);
+    return MemberLoginResponse(name: json['name'], token: json['token']);
   }
 }
 
@@ -219,7 +231,6 @@ class OwnerDetails {
   });
 
   factory OwnerDetails.fromJson(Map<String, dynamic> json) {
-    // Handling null or missing values in JSON
     final List<TraineeDetailsResponse> trainees =
         (json['trainees'] as List<dynamic>?)
                 ?.map((e) =>
@@ -233,5 +244,28 @@ class OwnerDetails {
       contact: json['contact'] as String,
       traineeDetails: trainees,
     );
+  }
+}
+
+class MemberProfileResponse {
+  final String name;
+  final String contact;
+  final String startDate;
+  final int validTill;
+  final String trainerName;
+  MemberProfileResponse(
+      {required this.name,
+      required this.contact,
+      required this.startDate,
+      required this.validTill,
+      required this.trainerName});
+
+  factory MemberProfileResponse.fromJson(Map<String, dynamic> json) {
+    return MemberProfileResponse(
+        name: json['name'] ?? "",
+        contact: json['contact'] ?? "",
+        startDate: json['currentBeginDate'] ?? "",
+        trainerName: json['trainerName'] ?? "None",
+        validTill: json['validTill'] ?? 0);
   }
 }
