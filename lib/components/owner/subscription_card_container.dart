@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/subscription_card.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
