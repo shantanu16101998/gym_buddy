@@ -123,7 +123,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
         addressError != null ||
         !haveTraineeOptionValid ||
         !insideGymOptionValid ||
-        !locationPermissionGivenWhenAsked) {
+        (isLocationPermissionNeeded && !locationPermissionGivenWhenAsked)) {
       return false;
     }
     return true;
@@ -186,8 +186,8 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
-              padding:
-                  const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
               child: Column(
                 children: [
                   ListTile(
@@ -231,8 +231,8 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
-              padding:
-                  const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
               child: Column(
                 children: [
                   ListTile(

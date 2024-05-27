@@ -1,7 +1,9 @@
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +16,6 @@ final List<String> experiences = [
   "Intermediate",
   "Experienced"
 ];
-final List<String> mentors = ["Select Mentor", "Motu", "Patlu", "Mr Karnataka"];
 
 class UserGoalForm extends StatefulWidget {
   final Function onPageToShowChange;
@@ -34,14 +35,31 @@ class _UserGoalFormState extends State<UserGoalForm> {
 
   String goal = goals[0];
   String experience = experiences[0];
-  String mentor = mentors[0];
+  List<List<String>> mentors = [];
+  List<String> mentor = ['default', 'Select Mentor'];
   late String userName = "User's";
 
   void intialConfigs() async {
-    var sharedPreference = await SharedPreferences.getInstance();
-    setState(() {
-      userName = sharedPreference.getString("userName") ?? "User" "'s";
-    });
+    try {
+      var sharedPreference = await SharedPreferences.getInstance();
+
+      OwnerDetails ownerDetails = OwnerDetails.fromJson(
+          await backendAPICall('/owner/details', {}, 'GET', true));
+
+      List<List<String>> gymTrainee = [['default', 'Select Mentor']];
+
+      for (var trainee in ownerDetails.traineeDetails) {
+        gymTrainee.add([trainee.id, trainee.name]);
+      }
+
+      setState(() {
+        userName = sharedPreference.getString("userName") ?? "User's";
+        mentors = gymTrainee;
+        mentor = mentors.isNotEmpty ? mentors[0] : ['', ''];
+      });
+    } catch (e) {
+      print('Exception: $e');
+    }
   }
 
   onPayNowButtonPressed() async {
@@ -52,7 +70,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
 
       await sharedPreferences.setString("goal", goal);
       await sharedPreferences.setString("experience", experience);
-      await sharedPreferences.setString("mentor", mentor);
+      await sharedPreferences.setString("mentorId", mentor.first);
       widget.onPageToShowChange(PageToShow.paymentPage);
     } else {
       setState(() {
@@ -169,33 +187,37 @@ class _UserGoalFormState extends State<UserGoalForm> {
                 ),
               )),
           Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: Center(
-                child: DropdownButton(
-                  value: mentor,
-                  dropdownColor: const Color.fromARGB(255, 105, 105, 105),
-                  onChanged: (value) {
-                    setState(() {
-                      mentor = value!;
-                      mentorError = null;
-                    });
-                  },
-                  items: mentors.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: SizedBox(
-                          // color: Colors.white,
-                          width: getScreenWidth(context) * 0.6,
-                          child: CustomText(
-                            text: value,
-                            color:
-                                mentorError != null ? Colors.red : Colors.white,
-                          )),
-                    );
-                  }).toList(),
-                ),
-              )),
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: Center(
+              child: DropdownButton<List<String>>(
+                value: mentor,
+                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                onChanged: (List<String>? value) {
+                  setState(() {
+                    mentor = value ??
+                        ['', '']; // Ensure a default value if value is null
+                    mentorError = null;
+                  });
+                },
+                items: mentors
+                    .map<DropdownMenuItem<List<String>>>((List<String> value) {
+                  return DropdownMenuItem<List<String>>(
+                    value: value,
+                    child: SizedBox(
+                      // color: Colors.white,
+                      width: getScreenWidth(context) * 0.6,
+                      child: CustomText(
+                        text: value
+                            .last, // Assuming the last string is the mentor's name
+                        color: mentorError != null ? Colors.red : Colors.white,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),

@@ -84,7 +84,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     var sharedPreferences = await SharedPreferences.getInstance();
 
     var userAge = sharedPreferences.getString("age");
-    var userName = sharedPreferences.getString("userName") ?? "";
+    var memberName = sharedPreferences.getString("memberName") ?? "";
     var userEmail = sharedPreferences.getString("userEmail");
     var userContact = sharedPreferences.getString("userContact");
     var userAddress = sharedPreferences.getString("userAddress");
@@ -94,6 +94,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     var validTillString = sharedPreferences.getString("validTill");
     var chargesString = sharedPreferences.getString("charges");
     var profilePic = sharedPreferences.getString('profilePic');
+    var mentorId = sharedPreferences.getString('mentorId');
     sharedPreferences.remove('profilePic');
 
     int? validTill = tryParseInt(validTillString);
@@ -104,7 +105,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
         RegisterCustomerResponse.fromJson(await backendAPICall(
             '/customer/registerCustomer',
             {
-              'name': capitalizeFirstLetter(userName),
+              'name': capitalizeFirstLetter(memberName),
               'email': userEmail,
               'contact': userContact,
               'address': userAddress,
@@ -114,7 +115,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
               'bloodGroup': bloodGroup,
               'validTill': validTill ?? 0,
               'charges': charges ?? 0,
-              'profilePic': profilePic
+              'profilePic': profilePic,
+              'mentorId': mentorId
             },
             "POST",
             true));

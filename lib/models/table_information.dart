@@ -1,4 +1,3 @@
-import 'package:gym_buddy/utils/ui_constants.dart';
 
 class TableRow {
   String? setNo;

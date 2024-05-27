@@ -134,47 +134,45 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
                 return Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Container(
-                    child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 7,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: mainAxisSpacing,
-                      ),
-                      itemCount: 42,
-                      itemBuilder: (context, index) {
-                        if (index < 7) {
-                          return Container(
-                            alignment: Alignment.bottomCenter,
-                            child: CustomText(text: weekDays[index]),
-                          );
-                        }
-                        // + 7 will be added as offset
-                        else if (index < startingDayOfMonth - 1 + 7 ||
-                            index >= startingDayOfMonth + daysInMonth + 6) {
-                          // Empty cells for the start and end of the calendar
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                          );
-                        } else {
-                          int dayNumber = index -
-                              (startingDayOfMonth - 1) -
-                              6; // Adjusted for header
-
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: attendanceColors[dayNumber - 1],
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                          );
-                        }
-                      },
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                      mainAxisSpacing: mainAxisSpacing,
+                      crossAxisSpacing: mainAxisSpacing,
                     ),
+                    itemCount: 42,
+                    itemBuilder: (context, index) {
+                      if (index < 7) {
+                        return Container(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomText(text: weekDays[index]),
+                        );
+                      }
+                      // + 7 will be added as offset
+                      else if (index < startingDayOfMonth - 1 + 7 ||
+                          index >= startingDayOfMonth + daysInMonth + 6) {
+                        // Empty cells for the start and end of the calendar
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        );
+                      } else {
+                        int dayNumber = index -
+                            (startingDayOfMonth - 1) -
+                            6; // Adjusted for header
+                  
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: attendanceColors[dayNumber - 1],
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 );
               },

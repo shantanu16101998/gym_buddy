@@ -7,12 +7,12 @@ class ScrollableDropdown<T> extends StatelessWidget {
   final Widget Function(T) itemBuilder;
 
   const ScrollableDropdown({
-    Key? key,
+    super.key,
     required this.items,
     this.value,
     this.onChanged,
     required this.itemBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

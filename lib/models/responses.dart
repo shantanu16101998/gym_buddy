@@ -182,7 +182,56 @@ class AttendanceResponse {
   AttendanceResponse({required this.attendanceData});
 
   factory AttendanceResponse.fromJson(List<dynamic> json) {
-    List<MonthData> data = json.map((monthJson) => MonthData.fromJson(monthJson)).toList();
+    List<MonthData> data =
+        json.map((monthJson) => MonthData.fromJson(monthJson)).toList();
     return AttendanceResponse(attendanceData: data);
+  }
+}
+
+class TraineeDetailsResponse {
+  final String name;
+  final int experience;
+  final String id;
+
+  TraineeDetailsResponse(
+      {required this.name, required this.experience, required this.id});
+
+  factory TraineeDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return TraineeDetailsResponse(
+      name: json['name'] as String,
+      experience: json['experience'] as int,
+      id: json['_id'] as String,
+    );
+  }
+}
+
+class OwnerDetails {
+  final String name;
+  final String gymName;
+  final String contact;
+  final List<TraineeDetailsResponse> traineeDetails;
+
+  OwnerDetails({
+    required this.name,
+    required this.contact,
+    required this.gymName,
+    required this.traineeDetails,
+  });
+
+  factory OwnerDetails.fromJson(Map<String, dynamic> json) {
+    // Handling null or missing values in JSON
+    final List<TraineeDetailsResponse> trainees =
+        (json['trainees'] as List<dynamic>?)
+                ?.map((e) =>
+                    TraineeDetailsResponse.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [];
+
+    return OwnerDetails(
+      name: json['name'] as String,
+      gymName: json['gymName'] as String,
+      contact: json['contact'] as String,
+      traineeDetails: trainees,
+    );
   }
 }

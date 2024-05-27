@@ -37,11 +37,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
           77.614341250971);
 
       if (distanceBetweenGymAndPerson < 0.05) {
-        Navigator.of(context).pop();
-      } else {
-        
-      }
-
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      } else {}
 
       print(
           'Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}');
@@ -77,7 +76,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 // Close the dialog
                 Navigator.of(context).pop();
               },
-              child: Text("Close"),
+              child: const Text("Close"),
             ),
           ],
         );
@@ -106,7 +105,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
               decoration: BoxDecoration(
                   color: currentWeekDay == 1
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241),
+                      : const Color.fromARGB(255, 235, 238, 241),
                   borderRadius:
                       const BorderRadius.horizontal(left: Radius.circular(10)),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
@@ -135,7 +134,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
               decoration: BoxDecoration(
                   color: currentWeekDay == 2
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241),
+                      : const Color.fromARGB(255, 235, 238, 241),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
                 // Centering the inner container
@@ -171,7 +170,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD)),
                   color: currentWeekDay == 3
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241)),
+                      : const Color.fromARGB(255, 235, 238, 241)),
               child: Center(
                 // Centering the inner container
                 child: Container(
@@ -203,7 +202,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
               decoration: BoxDecoration(
                   color: currentWeekDay == 4
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241),
+                      : const Color.fromARGB(255, 235, 238, 241),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
                 // Centering the inner container
@@ -236,7 +235,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
               decoration: BoxDecoration(
                   color: currentWeekDay == 5
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241),
+                      : const Color.fromARGB(255, 235, 238, 241),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
                 // Centering the inner container
@@ -273,7 +272,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 decoration: BoxDecoration(
                     color: currentWeekDay == 6
                         ? Colors.white
-                        : Color.fromARGB(255, 235, 238, 241),
+                        : const Color.fromARGB(255, 235, 238, 241),
                     border:
                         Border.all(width: 1, color: const Color(0xffD0D5DD))),
                 child: Center(
@@ -308,7 +307,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
               decoration: BoxDecoration(
                   color: currentWeekDay == 7
                       ? Colors.white
-                      : Color.fromARGB(255, 235, 238, 241),
+                      : const Color.fromARGB(255, 235, 238, 241),
                   borderRadius:
                       const BorderRadius.horizontal(right: Radius.circular(10)),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
