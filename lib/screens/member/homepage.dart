@@ -172,9 +172,19 @@ class _HomepageState extends State<Homepage> {
                                       onPressed: () => {
                                             showModalBottomSheet(
                                                 context: context,
+                                                isScrollControlled: true,
                                                 builder:
                                                     (BuildContext context) {
-                                                  return AddExercisedDialog();
+                                                  return SingleChildScrollView(
+                                                      child: Container(
+                                                          child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: AddExercisedDialog(),
+                                                  )));
                                                 })
                                           },
                                       style: ElevatedButton.styleFrom(
