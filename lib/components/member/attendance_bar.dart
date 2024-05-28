@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
-import 'package:location/location.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceBar extends StatefulWidget {
   const AttendanceBar({super.key});
@@ -20,45 +22,40 @@ class _AttendanceBarState extends State<AttendanceBar> {
   final iconSize = 30.0;
 
   int currentWeekDay = DateTime.now().weekday;
+  AttendanceStatus attendanceStatus =
+      AttendanceStatus.notLocationPermissionGiven;
 
-  String locationAlertPrompt =
-      "Please give location permission to mark attendance";
+  Widget grantLocationPermissionWidget() {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: CustomText(
+            text: 'Please grant location permission for attendance',
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: headingColor,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: OutlinedButton(
+              onPressed: () async {
+                bool verdict = await getCurrentLocationSuccess();
 
-  locationPermission() async {
-    var status = await Permission.location.request();
-
-    if (status.isGranted) {
-      LocationData locationData = await Location().getLocation();
-
-      double distanceBetweenGymAndPerson = calculateDistanceInKm(
-          12.932206048757998,
-          77.61528538850291,
-          12.934171901523671,
-          77.614341250971);
-
-      if (distanceBetweenGymAndPerson < 0.05) {
-        if (mounted) {
-          Navigator.of(context).pop();
-        }
-      } else {}
-
-      print(
-          'Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}');
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void _showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(locationAlertPrompt),
-          backgroundColor: Colors.white,
-          content: OutlinedButton(
-              onPressed: locationPermission,
+                if (verdict) {
+                  if (await userInGym()) {
+                    setState(() {
+                      attendanceStatus = AttendanceStatus.present;
+                    });
+                  } else {
+                    setState(() {
+                      attendanceStatus = AttendanceStatus.notInsideGym;
+                    });
+                  }
+                  Navigator.pop(context);
+                }
+              },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
@@ -70,18 +67,141 @@ class _AttendanceBarState extends State<AttendanceBar> {
                           color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.bold)))),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                // Close the dialog
-                Navigator.of(context).pop();
-              },
-              child: const Text("Close"),
-            ),
-          ],
-        );
-      },
+        )
+      ],
     );
+  }
+
+  Widget attendanceMarkedWidget() {
+    return Container(
+      height: 90,
+      child: const Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: CustomText(
+              text: 'Attendance is marked successfully',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: headingColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget userNotInLocationWidget() {
+    return const SizedBox(
+      height: 100,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: CustomText(
+              text: 'Please go inside gym to mark attendance',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: headingColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  userInGym() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    var locationLat = sharedPreferences.getDouble('latitude') ?? 0;
+    var locationLon = sharedPreferences.getDouble('longitude') ?? 0;
+
+    double distanceBetweenGymAndPerson = calculateDistanceInKm(
+        locationLat, locationLon, 12.934171901523671, 77.614341250971);
+
+    if (distanceBetweenGymAndPerson < 0.05) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onAttendanceButtonClicked(int weekDay, BuildContext context) async {
+    if (weekDay == currentWeekDay) {
+      bool verdict = await getCurrentLocationSuccess();
+
+      if (verdict) {
+        if (attendanceStatus != AttendanceStatus.present) {
+          if (await userInGym()) {
+            setState(() {
+              attendanceStatus = AttendanceStatus.present;
+            });
+          } else {
+            setState(() {
+              attendanceStatus = AttendanceStatus.notInsideGym;
+            });
+          }
+        }
+      } else {
+        setState(() {
+          attendanceStatus = AttendanceStatus.notLocationPermissionGiven;
+        });
+      }
+      if (mounted) {
+        _showAlertDialog();
+      }
+    }
+  }
+
+  void _showAlertDialog() async {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              width: double.infinity,
+              color: Colors.white,
+              child: attendanceStatus ==
+                      AttendanceStatus.notLocationPermissionGiven
+                  ? grantLocationPermissionWidget()
+                  : attendanceStatus == AttendanceStatus.present
+                      ? attendanceMarkedWidget()
+                      : userNotInLocationWidget());
+        });
+  }
+
+// for absent
+
+// Container(
+//                     height: circleWidth,
+//                     width: circleWidth,
+//                     decoration: BoxDecoration(
+//                         color: const Color(0xffE46A6A),
+//                         borderRadius:
+//                             BorderRadius.all(Radius.circular(circleWidth))),
+//                     child: const Icon(
+//                       Icons.close,
+//                       color: Colors.white,
+//                     ),
+//                   ),
+
+  Widget decideIcon(int weekDay) {
+    if (weekDay == currentWeekDay) {
+      if (attendanceStatus == AttendanceStatus.present) {
+        return Icon(
+          Icons.check_circle,
+          size: iconSize,
+          color: const Color(0xff3ABA2E),
+        );
+      }
+    }
+    return Container(
+        width: circleWidth,
+        height: circleWidth,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.black),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(circleWidth))),
+        child: const Icon(Icons.check));
   }
 
   @override
@@ -109,13 +229,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   borderRadius:
                       const BorderRadius.horizontal(left: Radius.circular(10)),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(
-                child: Icon(
-                  Icons.check_circle,
-                  size: iconSize,
-                  color: const Color(0xff3ABA2E),
-                ),
-              ),
+              child: Center(child: decideIcon(1)),
             ),
           ],
         ),
@@ -128,30 +242,20 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  color: currentWeekDay == 2
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241),
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(
-                // Centering the inner container
+            GestureDetector(
+                onTap: () {
+                  onAttendanceButtonClicked(2, context);
+                },
                 child: Container(
-                  height: circleWidth,
-                  width: circleWidth,
-                  decoration: BoxDecoration(
-                      color: const Color(0xffE46A6A),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(circleWidth))),
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+                    width: getScreenWidth(context) * 0.12,
+                    height: tabBarHeight,
+                    decoration: BoxDecoration(
+                        color: currentWeekDay == 2
+                            ? Colors.white
+                            : const Color.fromARGB(255, 235, 238, 241),
+                        border: Border.all(
+                            width: 1, color: const Color(0xffD0D5DD))),
+                    child: Center(child: decideIcon(2)))),
           ],
         ),
         Column(
@@ -172,18 +276,8 @@ class _AttendanceBarState extends State<AttendanceBar> {
                       ? Colors.white
                       : const Color.fromARGB(255, 235, 238, 241)),
               child: Center(
-                // Centering the inner container
-                child: Container(
-                  width: circleWidth,
-                  height: circleWidth,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(circleWidth))),
-                  child: const Icon(Icons.check),
-                ),
-              ),
+                  // Centering the inner container
+                  child: decideIcon(3)),
             ),
           ],
         ),
@@ -206,16 +300,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
                 // Centering the inner container
-                child: Container(
-                  width: circleWidth,
-                  height: circleWidth,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(circleWidth))),
-                  child: const Icon(Icons.check),
-                ),
+                child: decideIcon(4),
               ),
             ),
           ],
@@ -238,18 +323,8 @@ class _AttendanceBarState extends State<AttendanceBar> {
                       : const Color.fromARGB(255, 235, 238, 241),
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
-                // Centering the inner container
-                child: Container(
-                  width: circleWidth,
-                  height: circleWidth,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(circleWidth))),
-                  child: const Icon(Icons.check),
-                ),
-              ),
+                  // Centering the inner container
+                  child: decideIcon(5)),
             ),
           ],
         ),
@@ -264,7 +339,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
             ),
             GestureDetector(
               onTap: () {
-                _showAlertDialog(context);
+                onAttendanceButtonClicked(6, context);
               },
               child: Container(
                 width: getScreenWidth(context) * 0.12,
@@ -277,16 +352,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                         Border.all(width: 1, color: const Color(0xffD0D5DD))),
                 child: Center(
                   // Centering the inner container
-                  child: Container(
-                    width: circleWidth,
-                    height: circleWidth,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Colors.black),
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(circleWidth))),
-                    child: const Icon(Icons.check),
-                  ),
+                  child: decideIcon(6),
                 ),
               ),
             ),
@@ -313,16 +379,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
               child: Center(
                 // Centering the inner container
-                child: Container(
-                  width: circleWidth,
-                  height: circleWidth,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(circleWidth))),
-                  child: const Icon(Icons.check),
-                ),
+                child: decideIcon(7),
               ),
             ),
           ],

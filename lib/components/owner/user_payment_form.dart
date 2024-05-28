@@ -95,6 +95,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     var chargesString = sharedPreferences.getString("charges");
     var profilePic = sharedPreferences.getString('profilePic');
     var mentorId = sharedPreferences.getString('mentorId');
+    var goal = sharedPreferences.getString('goal');
+    var experience = sharedPreferences.getString('experience');
     sharedPreferences.remove('profilePic');
 
     int? validTill = tryParseInt(validTillString);
@@ -116,7 +118,9 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
               'validTill': validTill ?? 0,
               'charges': charges ?? 0,
               'profilePic': profilePic,
-              'mentorId': mentorId
+              'mentorId': mentorId,
+              'goal': goal,
+              'experience': experience
             },
             "POST",
             true));

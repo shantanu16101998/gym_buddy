@@ -78,6 +78,8 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                 'address': address,
                 'upiId': upiId,
                 'token': sharedPreferences.getString("fcmToken"),
+                'lat': sharedPreferences.getString("latitude"),
+                'lon': sharedPreferences.getString("longitude"),
                 'trainees':
                     traineeDetails.map((trainee) => trainee.toJson()).toList(),
               },

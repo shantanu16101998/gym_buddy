@@ -5,17 +5,32 @@ class LoginResponse {
   final String? name;
   final String? gymName;
   final String? contact;
+  final String? lat;
+  final String? lon;
 
-  const LoginResponse({this.jwtToken, this.name, this.gymName, this.contact});
+  const LoginResponse(
+      {this.jwtToken,
+      this.name,
+      this.gymName,
+      this.contact,
+      this.lat,
+      this.lon});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     final String? jwtToken = json['token'];
     final String? name = json['name'];
     final String? gymName = json['gymName'];
     final String? contact = json['contact'];
+    final String? lat = json['lat'];
+    final String? lon = json['lon'];
 
     return LoginResponse(
-        jwtToken: jwtToken, name: name, gymName: gymName, contact: contact);
+        jwtToken: jwtToken,
+        name: name,
+        gymName: gymName,
+        contact: contact,
+        lat: lat,
+        lon: lon);
   }
 }
 

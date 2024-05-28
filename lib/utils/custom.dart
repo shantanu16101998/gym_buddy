@@ -140,7 +140,6 @@ String _getMonthName(int month) {
 }
 
 int? getShortMonthNumber(String month) {
-
   final monthNumber = {
     'jan': 1,
     'feb': 2,
@@ -166,14 +165,14 @@ DateTime _addMonths(DateTime date, int monthsToAdd) {
   return DateTime(year, month, day);
 }
 
-isLocationPermissionGiven() async {
+Future<bool> getCurrentLocationSuccess() async {
   var status = await Permission.location.request();
 
   if (status.isGranted) {
     LocationData locationData = await Location().getLocation();
     var sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('latitude', locationData.latitude.toString());
-    sharedPreferences.setString('longitude', locationData.longitude.toString());
+    sharedPreferences.setDouble('latitude', locationData.latitude ?? 0);
+    sharedPreferences.setDouble('longitude', locationData.longitude ?? 0);
     print(
         'Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}');
     return true;

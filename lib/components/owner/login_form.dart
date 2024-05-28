@@ -57,6 +57,9 @@ class _LoginFormState extends State<LoginForm> {
             "gymName", loginResponse.gymName ?? "Gym");
         await sharedPreferences.setString(
             'ownerContact', loginResponse.contact ?? "");
+        if (loginResponse.lat != null) {
+          sharedPreferences.setBool('isLocationPermissionGiven', true);
+        }
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Subscription()));
       } else {

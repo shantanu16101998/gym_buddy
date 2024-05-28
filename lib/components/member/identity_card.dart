@@ -11,7 +11,7 @@ class IdentityCard extends StatefulWidget {
   final String memberName;
   final String validTillInMonths;
   final String gymContact;
-  final String profileUrl;
+  final String? profileUrl;
 
   const IdentityCard(
       {super.key,
@@ -38,7 +38,6 @@ class _IdentityCardState extends State<IdentityCard> {
 
   @override
   void initState() {
-
     dueDate = addValidTillToCurrDate(
         widget.startDate, int.parse(widget.validTillInMonths));
 
@@ -114,16 +113,14 @@ class _IdentityCardState extends State<IdentityCard> {
                       child: Container(
                         height: 80,
                         width: 80,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.black54,
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                           image: DecorationImage(
-                            image:
-
-                                // widget.profilePicB64 != null
-                                // ?
-
-                                AssetImage('assets/images/profile_default.png')
+                            image: widget.profileUrl != null
+                                ? NetworkImage(widget.profileUrl!)
+                                : const AssetImage(
+                                        'assets/images/profile_default.png')
                                     as ImageProvider<
                                         Object>, // Use AssetImage for local assets
                             fit: BoxFit

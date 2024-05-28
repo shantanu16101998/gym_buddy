@@ -36,7 +36,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
 
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("memberName", _nameController.text);
+      await sharedPreferences.setString("newMemberName", _nameController.text);
       await sharedPreferences.setString("userContact", _contactController.text);
       await sharedPreferences.setString("userAddress", _addressController.text);
       await sharedPreferences.setBool("needFurtherInformation", true);

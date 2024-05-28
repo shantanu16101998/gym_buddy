@@ -50,9 +50,12 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
   bool locationPermissionGivenWhenAsked = true;
   bool isLocationPermissionNeeded = false;
 
-  onLocationPermissionPressed() {
+  onLocationPermissionPressed() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool verdict = await getCurrentLocationSuccess();
+    sharedPreferences.setBool('isLocationPermissionGiven', verdict);
     setState(() {
-      locationPermissionGivenWhenAsked = isLocationPermissionGiven();
+      locationPermissionGivenWhenAsked = verdict;
     });
   }
 
@@ -88,8 +91,8 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   'address': _addressController.text,
                   'upiId': _upiIdController.text,
                   'token': sharedPreferences.getString("fcmToken"),
-                  'gymLatitude': sharedPreferences.getString("latitude"),
-                  'gymLongitude': sharedPreferences.getString("longitude"),
+                  'lat': sharedPreferences.getDouble("latitude"),
+                  'lon': sharedPreferences.getDouble("longitude"),
                   'trainees': []
                 },
                 'POST',

@@ -8,6 +8,7 @@ import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,13 @@ class _SubscriptionState extends State<Subscription> {
   bool ownerGivenLocation = true;
   String userName = "Owner";
 
-  fetchOwnerName() async {
+  initialConfigs() async {
     var sharedPreferences = await SharedPreferences.getInstance();
+
     setState(() {
       userName = sharedPreferences.getString("userName") ?? "Owner";
+      ownerGivenLocation =
+          sharedPreferences.getBool('isLocationPermissionGiven') ?? false;
     });
   }
 
@@ -38,13 +42,27 @@ class _SubscriptionState extends State<Subscription> {
   @override
   void initState() {
     super.initState();
-    fetchOwnerName();
+    initialConfigs();
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
   }
 
   grantLocationPermission() async {
-    bool locationPermission = await isLocationPermissionGiven();
+    bool locationPermission = await getCurrentLocationSuccess();
+
+    if (locationPermission) {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      backendAPICall(
+          '/owner/updateLocation',
+          {
+            'lat': sharedPreferences.getDouble('latitude'),
+            'lon': sharedPreferences.getDouble('longitude')
+          },
+          'PUT',
+          true);
+    }
+
     setState(() {
       ownerGivenLocation = locationPermission;
     });
@@ -100,14 +118,19 @@ class _SubscriptionState extends State<Subscription> {
                             cursorColor: const Color(0xff667085),
                             errorText: null),
                       ),
-                      context.watch<SubscriptionProvider>().subcriptionAPIDataFetched ?
-                      SubscriptionCardContainer(
-                        showCurrentUsers: showCurrentUsers,
-                        currentUsers:
-                            context.watch<SubscriptionProvider>().currentUsers,
-                        expiredUsers:
-                            context.watch<SubscriptionProvider>().expiredUsers,
-                      ) : const SizedBox(child: Loader())
+                      context
+                              .watch<SubscriptionProvider>()
+                              .subcriptionAPIDataFetched
+                          ? SubscriptionCardContainer(
+                              showCurrentUsers: showCurrentUsers,
+                              currentUsers: context
+                                  .watch<SubscriptionProvider>()
+                                  .currentUsers,
+                              expiredUsers: context
+                                  .watch<SubscriptionProvider>()
+                                  .expiredUsers,
+                            )
+                          : const SizedBox(child: Loader())
                     ],
                   ),
                 )),
@@ -148,7 +171,7 @@ class _SubscriptionState extends State<Subscription> {
                     alignment: Alignment.center,
                     child: Container(
                       height: 200,
-                      width: 300,
+                      width: 340,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -162,9 +185,9 @@ class _SubscriptionState extends State<Subscription> {
                             children: [
                               const SizedBox(width: 40),
                               const Padding(
-                                  padding: EdgeInsets.all(20.0),
+                                  padding: EdgeInsets.only(top: 20.0),
                                   child: CustomText(
-                                    text: 'Grant permission',
+                                    text: 'Required for attendance',
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   )),

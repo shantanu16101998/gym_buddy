@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_buddy/utils/validator.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberLoginForm extends StatefulWidget {

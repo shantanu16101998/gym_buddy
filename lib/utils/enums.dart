@@ -7,4 +7,6 @@ enum OwnerFormState {
 
 enum ExerciseComponent { weight, reps }
 
+enum AttendanceStatus { present, notInsideGym, notLocationPermissionGiven }
+
 enum AppEnvironment { owner, member }
