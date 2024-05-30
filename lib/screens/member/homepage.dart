@@ -5,6 +5,8 @@ import 'package:gym_buddy/components/member/card_container.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -20,12 +22,14 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   void _showIdentityCardDialog(BuildContext context) {
-    ScreenshotController _screenshotController = ScreenshotController();
+    ScreenshotController screenshotController = ScreenshotController();
     bool isDowloaded = false;
+
+    
 
     void captureAndSave() async {
       try {
-        Uint8List? image = await _screenshotController.capture();
+        Uint8List? image = await screenshotController.capture();
         if (image != null) {
           var status = await Permission.storage.request();
           if (status.isGranted) {
@@ -68,7 +72,7 @@ class _HomepageState extends State<Homepage> {
                       ),
                     ),
                     Screenshot(
-                      controller: _screenshotController,
+                      controller: screenshotController,
                       child: const IdentityCard(
                         gymContact: 'gymContact',
                         startDate: '24 Mar 2024',
@@ -131,15 +135,37 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _showIdentityCardDialog(context);
+    });
+    fetchCustomerDetails();
+  }
+
+  MemberProfileResponse memberProfileResponse = MemberProfileResponse(
+        name: '',
+        contact: '',
+        startDate: '',
+        validTill: 0,
+        trainerName: '',
+        currentWeekAttendance: '');
+  
+  bool isApiDataLoaded = false;
+
+  fetchCustomerDetails() async {
+    MemberProfileResponse memberProfileResponseAPI =
+        MemberProfileResponse.fromJson(
+            await backendAPICall('/customer/details', {}, 'GET', true));
+
+    setState(() {
+      memberProfileResponse = memberProfileResponseAPI;
+      isApiDataLoaded = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        isApiDataLoaded: true,
+        isApiDataLoaded: isApiDataLoaded,
         child: Stack(
           children: [
             Column(
@@ -150,21 +176,21 @@ class _HomepageState extends State<Homepage> {
                   fontSize: 20,
                   color: Color(0xff344054),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: AttendanceBar(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: AttendanceBar(attendanceString: memberProfileResponse.currentWeekAttendance),
                 ),
                 const CardContainer(),
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 100,
+                      // height: 200,
                       color: Colors.white,
                       child: Align(
                           alignment: Alignment.center,
                           child: Padding(
                               padding:
-                                  const EdgeInsets.only(bottom: 10, top: 10),
+                                  const EdgeInsets.only(bottom: 70, top: 10),
                               child: SizedBox(
                                   height: 50,
                                   width: 340,
@@ -176,15 +202,15 @@ class _HomepageState extends State<Homepage> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SingleChildScrollView(
-                                                      child: Container(
-                                                          child: Padding(
+                                                      child: Padding(
                                                     padding: EdgeInsets.only(
                                                         bottom: MediaQuery.of(
                                                                 context)
                                                             .viewInsets
                                                             .bottom),
-                                                    child: AddExercisedDialog(),
-                                                  )));
+                                                    child:
+                                                        const AddExercisedDialog(),
+                                                  ));
                                                 })
                                           },
                                       style: ElevatedButton.styleFrom(

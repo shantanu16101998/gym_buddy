@@ -8,7 +8,8 @@ import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceBar extends StatefulWidget {
-  const AttendanceBar({super.key});
+  final String attendanceString;
+  const AttendanceBar({super.key, required this.attendanceString});
 
   @override
   State<AttendanceBar> createState() => _AttendanceBarState();
@@ -20,6 +21,23 @@ class _AttendanceBarState extends State<AttendanceBar> {
 
   final circleWidth = 25.0;
   final iconSize = 30.0;
+
+  List<int> attendanceList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (int i = 0; i < 7; i++) {
+      if (i > widget.attendanceString.length - 1) {
+        attendanceList.add(0);
+      } else if (widget.attendanceString[i] == '0') {
+        attendanceList.add(-1);
+      } else {
+        attendanceList.add(1);
+      }
+    }
+  }
 
   int currentWeekDay = DateTime.now().weekday;
   AttendanceStatus attendanceStatus =
@@ -53,7 +71,9 @@ class _AttendanceBarState extends State<AttendanceBar> {
                       attendanceStatus = AttendanceStatus.notInsideGym;
                     });
                   }
-                  Navigator.pop(context);
+                  if (mounted) {
+                    Navigator.pop(context);
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -171,29 +191,29 @@ class _AttendanceBarState extends State<AttendanceBar> {
 
 // for absent
 
-// Container(
-//                     height: circleWidth,
-//                     width: circleWidth,
-//                     decoration: BoxDecoration(
-//                         color: const Color(0xffE46A6A),
-//                         borderRadius:
-//                             BorderRadius.all(Radius.circular(circleWidth))),
-//                     child: const Icon(
-//                       Icons.close,
-//                       color: Colors.white,
-//                     ),
-//                   ),
+  Widget absentContainer() {
+    return Container(
+      height: circleWidth,
+      width: circleWidth,
+      decoration: BoxDecoration(
+          color: const Color(0xffE46A6A),
+          borderRadius: BorderRadius.all(Radius.circular(circleWidth))),
+      child: const Icon(
+        Icons.close,
+        color: Colors.white,
+      ),
+    );
+  }
 
-  Widget decideIcon(int weekDay) {
-    if (weekDay == currentWeekDay) {
-      if (attendanceStatus == AttendanceStatus.present) {
-        return Icon(
-          Icons.check_circle,
-          size: iconSize,
-          color: const Color(0xff3ABA2E),
-        );
-      }
-    }
+  Widget presentContainer() {
+    return Icon(
+      Icons.check_circle,
+      size: iconSize,
+      color: const Color(0xff3ABA2E),
+    );
+  }
+
+  Widget notGivenContainer() {
     return Container(
         width: circleWidth,
         height: circleWidth,
@@ -202,6 +222,27 @@ class _AttendanceBarState extends State<AttendanceBar> {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(circleWidth))),
         child: const Icon(Icons.check));
+  }
+
+  Widget containerDeciderForAttendance(int index) {
+    if (attendanceList[index] == 0) {
+      return notGivenContainer();
+    } else if (attendanceList[index] == 1) {
+      return presentContainer();
+    } else {
+      return absentContainer();
+    }
+  }
+
+//
+
+  Widget decideIcon(int weekDay) {
+    if (weekDay == currentWeekDay) {
+      if (attendanceStatus == AttendanceStatus.present) {
+        return presentContainer();
+      }
+    }
+    return containerDeciderForAttendance(weekDay - 1);
   }
 
   @override
@@ -219,17 +260,23 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  color: currentWeekDay == 1
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241),
-                  borderRadius:
-                      const BorderRadius.horizontal(left: Radius.circular(10)),
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(child: decideIcon(1)),
+            GestureDetector(
+              onTap: () {
+                onAttendanceButtonClicked(1, context);
+              },
+              child: Container(
+                width: getScreenWidth(context) * 0.12,
+                height: tabBarHeight,
+                decoration: BoxDecoration(
+                    color: currentWeekDay == 1
+                        ? Colors.white
+                        : const Color.fromARGB(255, 235, 238, 241),
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(10)),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
+                child: Center(child: decideIcon(1)),
+              ),
             ),
           ],
         ),
@@ -267,17 +314,23 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD)),
-                  color: currentWeekDay == 3
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241)),
-              child: Center(
-                  // Centering the inner container
-                  child: decideIcon(3)),
+            GestureDetector(
+              onTap: () {
+                onAttendanceButtonClicked(3, context);
+              },
+              child: Container(
+                width: getScreenWidth(context) * 0.12,
+                height: tabBarHeight,
+                decoration: BoxDecoration(
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                    color: currentWeekDay == 3
+                        ? Colors.white
+                        : const Color.fromARGB(255, 235, 238, 241)),
+                child: Center(
+                    // Centering the inner container
+                    child: decideIcon(3)),
+              ),
             ),
           ],
         ),
@@ -290,17 +343,23 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  color: currentWeekDay == 4
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241),
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(
-                // Centering the inner container
-                child: decideIcon(4),
+            GestureDetector(
+              onTap: () {
+                onAttendanceButtonClicked(4, context);
+              },
+              child: Container(
+                width: getScreenWidth(context) * 0.12,
+                height: tabBarHeight,
+                decoration: BoxDecoration(
+                    color: currentWeekDay == 4
+                        ? Colors.white
+                        : const Color.fromARGB(255, 235, 238, 241),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
+                child: Center(
+                  // Centering the inner container
+                  child: decideIcon(4),
+                ),
               ),
             ),
           ],
@@ -314,17 +373,23 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  color: currentWeekDay == 5
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241),
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(
-                  // Centering the inner container
-                  child: decideIcon(5)),
+            GestureDetector(
+              onTap: () {
+                onAttendanceButtonClicked(5, context);
+              },
+              child: Container(
+                width: getScreenWidth(context) * 0.12,
+                height: tabBarHeight,
+                decoration: BoxDecoration(
+                    color: currentWeekDay == 5
+                        ? Colors.white
+                        : const Color.fromARGB(255, 235, 238, 241),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
+                child: Center(
+                    // Centering the inner container
+                    child: decideIcon(5)),
+              ),
             ),
           ],
         ),
@@ -367,19 +432,25 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Container(
-              width: getScreenWidth(context) * 0.12,
-              height: tabBarHeight,
-              decoration: BoxDecoration(
-                  color: currentWeekDay == 7
-                      ? Colors.white
-                      : const Color.fromARGB(255, 235, 238, 241),
-                  borderRadius:
-                      const BorderRadius.horizontal(right: Radius.circular(10)),
-                  border: Border.all(width: 1, color: const Color(0xffD0D5DD))),
-              child: Center(
-                // Centering the inner container
-                child: decideIcon(7),
+            GestureDetector(
+              onTap: () {
+                onAttendanceButtonClicked(7, context);
+              },
+              child: Container(
+                width: getScreenWidth(context) * 0.12,
+                height: tabBarHeight,
+                decoration: BoxDecoration(
+                    color: currentWeekDay == 7
+                        ? Colors.white
+                        : const Color.fromARGB(255, 235, 238, 241),
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(10)),
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
+                child: Center(
+                  // Centering the inner container
+                  child: decideIcon(7),
+                ),
               ),
             ),
           ],

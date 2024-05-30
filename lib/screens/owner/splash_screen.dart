@@ -27,19 +27,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (appEnvironment == AppEnvironment.owner) {
       if (sharedPreferences.getString("jwtToken") == null) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const OwnerForm()));
+        if (mounted) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const OwnerForm()));
+        }
       } else {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Subscription()));
+        if (mounted) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Subscription()));
+        }
       }
     } else if (appEnvironment == AppEnvironment.member) {
       if (sharedPreferences.getString("jwtToken") == null) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const MemberLoginForm()));
+        if (mounted) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MemberLoginForm()));
+        }
       } else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const Homepage()));
+        if (mounted) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Homepage()));
+        }
       }
     }
   }

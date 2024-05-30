@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 
-
 class ImageDialog extends StatefulWidget {
   final ImageProvider<Object> image;
   final Function changeImage;
@@ -86,7 +85,9 @@ class _ImageDialogState extends State<ImageDialog> {
     }
 
     widget.changeImage(Image.file(File(_imageFile!.path)).image);
-    Navigator.pop(context);
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -125,7 +126,7 @@ class _ImageDialogState extends State<ImageDialog> {
                             color: Colors.black,
                             fontSize: 22),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 _imageFile == null
                     ? TextButton(
                         style:

@@ -79,7 +79,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [BoxShadow(blurRadius: 2, color: Colors.grey)]),
+                boxShadow: const [BoxShadow(blurRadius: 2, color: Colors.grey)]),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -125,12 +125,12 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(blurRadius: 2, color: Colors.grey)]),
+                  boxShadow: const [BoxShadow(blurRadius: 2, color: Colors.grey)]),
               width: getScreenWidth(context) * 0.9,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -141,11 +141,11 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                         children: [
                           CustomText(
                               text: "Average ${widget.label}",
-                              color: Color(0xff344054),
+                              color: const Color(0xff344054),
                               fontSize: 20),
                           CustomText(
                               text: expandedAnalysisResponse.average,
-                              color: Color(0xff344054),
+                              color: const Color(0xff344054),
                               fontSize: 20)
                         ]),
                     Row(
@@ -153,11 +153,11 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                       children: [
                         CustomText(
                             text: "Total ${widget.label}",
-                            color: Color(0xff344054),
+                            color: const Color(0xff344054),
                             fontSize: 20),
                         CustomText(
                             text: expandedAnalysisResponse.total,
-                            color: Color(0xff344054),
+                            color: const Color(0xff344054),
                             fontSize: 20)
                       ],
                     )

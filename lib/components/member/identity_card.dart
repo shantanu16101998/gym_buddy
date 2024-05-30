@@ -115,7 +115,7 @@ class _IdentityCardState extends State<IdentityCard> {
                         width: 80,
                         decoration: BoxDecoration(
                           color: Colors.black54,
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          borderRadius: const BorderRadius.all(Radius.circular(40)),
                           image: DecorationImage(
                             image: widget.profileUrl != null
                                 ? NetworkImage(widget.profileUrl!)

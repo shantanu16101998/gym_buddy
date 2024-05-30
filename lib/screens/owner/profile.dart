@@ -7,10 +7,8 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
-import 'package:gym_buddy/utils/custom.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -53,16 +51,10 @@ class _ProfileState extends State<Profile> {
   _onDeleteUserPressed() async {
     await backendAPICall(
         "/customer/deleteCustomer/${widget.userId}", null, "DELETE", true);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Subscription()));
-  }
-
-  _openWhatsappLink() async {
-    await launchUrl(Uri(
-        host: 'wa.me',
-        path: '+91${userProfileResponse.phone}',
-        scheme: 'https',
-        queryParameters: {'text': textToSend(userProfileResponse.name)}));
+    if (mounted) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Subscription()));
+    }
   }
 
   @override
@@ -148,19 +140,19 @@ class _ProfileState extends State<Profile> {
                             Text(userProfileResponse.name,
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(fontSize: 22))),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(userProfileResponse.phone,
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(fontSize: 22))),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(userProfileResponse.traineeName ?? "",
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(fontSize: 22))),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(userProfileResponse.startDate ?? "",
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(fontSize: 22))),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text('${userProfileResponse.validTill ?? 0} months',
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(fontSize: 22))),

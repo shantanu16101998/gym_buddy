@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/member/profile.dart';

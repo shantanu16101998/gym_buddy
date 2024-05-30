@@ -16,10 +16,13 @@ class _SideBarState extends State<SideBar> {
   logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove("jwtToken");
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const MemberLoginForm()),
-        (route) => false);
+
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MemberLoginForm()),
+          (route) => false);
+    }
   }
 
   @override
@@ -45,10 +48,8 @@ class _SideBarState extends State<SideBar> {
             children: [
               InkWell(
                 onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Homepage()))
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Homepage()))
                 },
                 child: Container(
                     decoration: BoxDecoration(

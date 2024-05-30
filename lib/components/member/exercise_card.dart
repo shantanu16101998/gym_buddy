@@ -70,11 +70,15 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     backgroundColor: Colors.white,
                     backgroundImage: AssetImage("assets/images/dumbbell.png"),
                     radius: 30),
-                CustomText(
-                    text: widget.exercise.name,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                    color: const Color(0xff344054)),
+                Container(
+                  alignment: Alignment.center,
+                  width: getScreenWidth(context) * 0.5,
+                  child: CustomText(
+                      text: widget.exercise.name,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: const Color(0xff344054)),
+                ),
                 widget.exercise.exerciseCompleted
                     ? const SizedBox()
                     : GestureDetector(

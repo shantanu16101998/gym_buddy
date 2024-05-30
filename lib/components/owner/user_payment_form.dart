@@ -124,11 +124,12 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
             },
             "POST",
             true));
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Subscription()),
-    );
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Subscription()),
+      );
+    }
   }
 
   @override
@@ -144,7 +145,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
           : Column(
               children: [
                 const Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: CustomText(
                     text: "Please verify your upi id",
                     fontSize: 22,
@@ -153,7 +154,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white),

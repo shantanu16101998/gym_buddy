@@ -135,7 +135,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 7,
@@ -164,7 +164,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                         int dayNumber = index -
                             (startingDayOfMonth - 1) -
                             6; // Adjusted for header
-                  
+
                         return Container(
                           decoration: BoxDecoration(
                             color: attendanceColors[dayNumber - 1],
@@ -194,8 +194,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_back,
                         color: (minYear < year || minMonth < currentMonth)
-                            ? Color(0xff004576)
-                            : Color.fromARGB(255, 116, 144, 163)),
+                            ? const Color(0xff004576)
+                            : const Color.fromARGB(255, 116, 144, 163)),
                     onPressed: () {
                       if (minYear < year || minMonth < currentMonth) {
                         setState(() {
@@ -216,8 +216,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_forward,
                         color: (maxYear > year || maxMonth > currentMonth)
-                            ? Color(0xff004576)
-                            : Color.fromARGB(255, 116, 144, 163)),
+                            ? const Color(0xff004576)
+                            : const Color.fromARGB(255, 116, 144, 163)),
                     onPressed: () {
                       if (maxMonth > currentMonth || maxYear > year) {
                         setState(() {

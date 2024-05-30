@@ -15,7 +15,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   MemberProfileResponse memberProfileResponse = MemberProfileResponse(
-      name: '', contact: '', startDate: '', validTill: 0, trainerName: '');
+      name: '', contact: '', startDate: '', validTill: 0, trainerName: '',currentWeekAttendance: '');
 
   bool isApiDataLoaded = false;
 
@@ -52,76 +52,74 @@ class _ProfileState extends State<Profile> {
               ),
             )),
             child: Center(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CustomText(
-                              text: 'Name:',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)),
-                          SizedBox(height: 20),
-                          CustomText(
-                              text: 'Contact:',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)),
-                          SizedBox(height: 20),
-                          CustomText(
-                              text: 'Mentor:',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)),
-                          SizedBox(height: 20),
-                          CustomText(
-                              text: 'Start Date:',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)),
-                          SizedBox(height: 20),
-                          CustomText(
-                              text: 'Plan:',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff004576)),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(memberProfileResponse.name,
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(fontSize: 22))),
-                          SizedBox(height: 20),
-                          Text(memberProfileResponse.contact,
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(fontSize: 22))),
-                          SizedBox(height: 20),
-                          Text(memberProfileResponse.trainerName,
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(fontSize: 22))),
-                          SizedBox(height: 20),
-                          Text(memberProfileResponse.startDate,
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(fontSize: 22))),
-                          SizedBox(height: 20),
-                          Text(
-                              '${memberProfileResponse.validTill.toString()} months',
-                              style: GoogleFonts.inter(
-                                  textStyle: const TextStyle(fontSize: 22))),
-                        ],
-                      )
-                    ],
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CustomText(
+                            text: 'Name:',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Color(0xff004576)),
+                        SizedBox(height: 20),
+                        CustomText(
+                            text: 'Contact:',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Color(0xff004576)),
+                        SizedBox(height: 20),
+                        CustomText(
+                            text: 'Mentor:',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Color(0xff004576)),
+                        SizedBox(height: 20),
+                        CustomText(
+                            text: 'Start Date:',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Color(0xff004576)),
+                        SizedBox(height: 20),
+                        CustomText(
+                            text: 'Plan:',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Color(0xff004576)),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(memberProfileResponse.name,
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(fontSize: 22))),
+                        const SizedBox(height: 20),
+                        Text(memberProfileResponse.contact,
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(fontSize: 22))),
+                        const SizedBox(height: 20),
+                        Text(memberProfileResponse.trainerName,
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(fontSize: 22))),
+                        const SizedBox(height: 20),
+                        Text(memberProfileResponse.startDate,
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(fontSize: 22))),
+                        const SizedBox(height: 20),
+                        Text(
+                            '${memberProfileResponse.validTill.toString()} months',
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(fontSize: 22))),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),

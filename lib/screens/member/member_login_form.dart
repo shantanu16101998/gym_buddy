@@ -50,9 +50,10 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
             await SharedPreferences.getInstance();
 
         sharedPreferences.setString('jwtToken', memberLoginResponse.token);
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const Homepage()));
+        if (mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Homepage()));
+        }
       }
     }
   }
@@ -94,7 +95,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),

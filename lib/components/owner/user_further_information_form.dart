@@ -102,7 +102,7 @@ class _UserFurtherInformationFormState
   DateTime selectedDate = DateTime.now();
 
   _selectDate(
-      BuildContext context, TextEditingController _dateController) async {
+      BuildContext context, TextEditingController dateController) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -127,7 +127,7 @@ class _UserFurtherInformationFormState
     );
     if (pickedDate != null) {
       setState(() {
-        _dateController.text = DateFormat("d MMM yyyy").format(pickedDate);
+        dateController.text = DateFormat("d MMM yyyy").format(pickedDate);
       });
     }
   }
@@ -181,7 +181,7 @@ class _UserFurtherInformationFormState
                 child: Text('Valid Till in Months',
                     style: GoogleFonts.roboto(
                         textStyle: TextStyle(
-                      color: Color(0xffFFFFFF).withOpacity(0.9),
+                      color: const Color(0xffFFFFFF).withOpacity(0.9),
                       fontWeight: FontWeight.normal,
                       fontSize: 15,
                     )))),
@@ -284,7 +284,7 @@ class _UserFurtherInformationFormState
                 items: timings.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Container(
+                    child: SizedBox(
                         // color: Colors.white,
                         width: getScreenWidth(context) * 0.6,
                         child: CustomText(

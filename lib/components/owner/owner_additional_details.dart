@@ -103,9 +103,10 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
 
         sharedPreferences.setString(
             'gymName', ownerRegistrationResponse.gymName ?? "Gym");
-
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Subscription()));
+        if (mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Subscription()));
+        }
       }
     } else {
       setState(() {

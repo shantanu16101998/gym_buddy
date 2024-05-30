@@ -18,7 +18,7 @@ class ExerciseProvider extends ChangeNotifier {
 
   void initDefaultExercise() {
     exerciseList
-        .add(Exercise('Lateral Raise', [ExerciseInformation(0, 0)], false));
+        .add(Exercise('Incline Bench Press (dumbbell)', [ExerciseInformation(0, 0)], false));
     exerciseList
         .add(Exercise('Front Raise', [ExerciseInformation(0, 0)], false));
     // notifyListeners();

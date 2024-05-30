@@ -17,7 +17,8 @@ class LabeledTextField extends StatelessWidget {
   final bool? readOnly;
 
   const LabeledTextField.passwordField(
-      {required this.labelText,
+      {super.key,
+      required this.labelText,
       required this.controller,
       required this.errorText,
       this.shouldObscure = true,
@@ -62,7 +63,6 @@ class LabeledTextField extends StatelessWidget {
       this.textInputType,
       this.textInputFormatter,
       this.readOnly});
-
 
   @override
   Widget build(BuildContext context) {

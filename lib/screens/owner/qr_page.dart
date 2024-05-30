@@ -17,10 +17,10 @@ class _QrPageState extends State<QrPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
         isApiDataLoaded: true,
-        bodyColor: Color(0xff172B76),
+        bodyColor: const Color(0xff172B76),
         child: Stack(children: [
           Container(
-            color: Color(0xff00BDF1),
+            color: const Color(0xff00BDF1),
             height: getEffectiveScreenHeight(context) * 0.5,
           ),
           Container(
@@ -48,7 +48,7 @@ class _QrPageState extends State<QrPage> {
                               fontWeight: FontWeight.bold,
                               color: Color(0xff344054)),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(
                               top: 10, left: 20, right: 20, bottom: 20),
                           child: QrCodePic(qrColor: Colors.black,upiIntentLink: ""),
@@ -93,7 +93,7 @@ class _QrPageState extends State<QrPage> {
                       width: 300,
                       child: TextButton(
                         style: TextButton.styleFrom(
-                          backgroundColor: Color(0xffF2F4F7),
+                          backgroundColor: const Color(0xffF2F4F7),
                           shape: RoundedRectangleBorder(
                             side: const BorderSide(
                                 width: 2, color: Color(0xffD0D5DD)),

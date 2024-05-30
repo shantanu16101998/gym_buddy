@@ -15,8 +15,7 @@ import 'package:provider/provider.dart';
 
 class SubscriptionDialog extends StatefulWidget {
   final String userId;
-  const SubscriptionDialog(
-      {super.key, required this.userId});
+  const SubscriptionDialog({super.key, required this.userId});
 
   @override
   State<SubscriptionDialog> createState() => _SubscriptionDialogState();
@@ -91,7 +90,9 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
     if (mounted) {
       await Provider.of<SubscriptionProvider>(context, listen: false)
           .fetchSubscription();
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     }
   }
 

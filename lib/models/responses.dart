@@ -268,12 +268,14 @@ class MemberProfileResponse {
   final String startDate;
   final int validTill;
   final String trainerName;
+  final String currentWeekAttendance;
   MemberProfileResponse(
       {required this.name,
       required this.contact,
       required this.startDate,
       required this.validTill,
-      required this.trainerName});
+      required this.trainerName,
+      required this.currentWeekAttendance});
 
   factory MemberProfileResponse.fromJson(Map<String, dynamic> json) {
     return MemberProfileResponse(
@@ -281,6 +283,7 @@ class MemberProfileResponse {
         contact: json['contact'] ?? "",
         startDate: json['currentBeginDate'] ?? "",
         trainerName: json['trainerName'] ?? "None",
-        validTill: json['validTill'] ?? 0);
+        validTill: json['validTill'] ?? 0,
+        currentWeekAttendance: json['currentWeekAttendance']);
   }
 }

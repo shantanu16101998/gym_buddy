@@ -173,7 +173,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                       experiences.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Container(
+                      child: SizedBox(
                           // color: Colors.white,
                           width: getScreenWidth(context) * 0.6,
                           child: CustomText(

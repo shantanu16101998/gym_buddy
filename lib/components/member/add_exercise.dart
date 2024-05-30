@@ -1,9 +1,13 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
+import 'package:gym_buddy/utils/exercise_constant.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +24,9 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
 
   String? nameError;
   String? bodyPartError;
+  bool isNewExercise = false;
+  TextEditingController searchController = TextEditingController();
+  int exerciseIndex = 0;
 
   bool validateForm() {
     setState(() {
@@ -32,7 +39,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
   }
 
   void _onAddPressed() {
-    if (validateForm()) {
+    if (!isNewExercise || validateForm()) {
       Provider.of<ExerciseProvider>(context, listen: false).addExercise(
           Exercise(
               _nameController.text,
@@ -63,24 +70,112 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                           fontSize: 22,
                           color: Color(0xff344054)))),
             ),
-            Padding(
-                padding: const EdgeInsets.only(left: 30, top: 15, right: 30),
-                child: SizedBox(
-                  width: 340,
-                  child: LabeledTextField.homepageText(
-                      labelText: "Name",
-                      controller: _nameController,
-                      errorText: nameError),
-                )),
-            Padding(
-                padding: const EdgeInsets.only(left: 30, top: 15, right: 30),
-                child: SizedBox(
-                  width: 340,
-                  child: LabeledTextField.homepageText(
-                      labelText: "Body Part",
-                      controller: _bodyPartController,
-                      errorText: bodyPartError),
-                )),
+            isNewExercise == true
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 15, right: 30),
+                    child: SizedBox(
+                      width: 340,
+                      child: LabeledTextField.homepageText(
+                          labelText: "Name",
+                          controller: _nameController,
+                          errorText: nameError),
+                    ))
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton2(
+                      buttonStyleData: ButtonStyleData(width: 250),
+                      dropdownSearchData: DropdownSearchData(
+                        searchMatchFn: (item, searchValue) {
+                          if (item.value == 'Not in the list') {
+                            return true;
+                          } else {
+                            return item.value!
+                                .toString()
+                                .toLowerCase()
+                                .contains(searchValue.toLowerCase());
+                          }
+                        },
+                        searchController: searchController,
+                        searchInnerWidgetHeight: 50,
+                        searchInnerWidget: Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              bottom: 4,
+                              right: 8,
+                              left: 8,
+                            ),
+                            child: TextFormField(
+                              expands: true,
+                              maxLines: null,
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 8,
+                                ),
+                                hintText: 'Search',
+                                hintStyle: const TextStyle(fontSize: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            )),
+                      ),
+                      iconStyleData: const IconStyleData(
+                          icon: RotatedBox(
+                        quarterTurns: 3,
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 10,
+                        ),
+                      )),
+                      dropdownStyleData: DropdownStyleData(
+                          // maxHeight: 250,
+                          width: getScreenWidth(context) * 0.6,
+                          decoration: const BoxDecoration(color: Colors.white)),
+                      value: allExerciseList[exerciseIndex],
+                      onChanged: (value) {
+                        if (value == 'Not in the list') {
+                          setState(() {
+                            isNewExercise = true;
+                          });
+                        } else {
+                          setState(() {
+                            exerciseIndex =
+                                allExerciseList.indexOf(value.toString());
+                            _nameController.text = allExerciseList[
+                                allExerciseList.indexOf(value.toString())];
+                          });
+                        }
+                      },
+                      items: allExerciseList
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value.toString(),
+                          child: SizedBox(
+                              width: getScreenWidth(context) * 0.6,
+                              child: CustomText(
+                                text: value,
+                              )),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+            isNewExercise == true
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 15, right: 30),
+                    child: SizedBox(
+                      width: 340,
+                      child: LabeledTextField.homepageText(
+                          labelText: "Body Part",
+                          controller: _bodyPartController,
+                          errorText: bodyPartError),
+                    ))
+                : const SizedBox(),
             Align(
                 alignment: Alignment.center,
                 child: Padding(

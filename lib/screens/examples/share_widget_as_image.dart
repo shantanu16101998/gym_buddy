@@ -9,6 +9,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class ShareWidgetImage extends StatefulWidget {
+  const ShareWidgetImage({super.key});
+
   @override
   _ShareWidgetImageState createState() => _ShareWidgetImageState();
 }
@@ -62,7 +64,7 @@ class _ShareWidgetImageState extends State<ShareWidgetImage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _captureAndSharePng,
-              child: Text('Share Widget as Image'),
+              child: const Text('Share Widget as Image'),
             ),
           ],
         ),

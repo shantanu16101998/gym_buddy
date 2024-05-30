@@ -71,8 +71,6 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
         var base64file =
             base64Encode(await XFile(croppedFile.path).readAsBytes());
 
-        print(base64file);
-
         sharedPreferences.setString("profilePic", base64file);
 
         setState(() {

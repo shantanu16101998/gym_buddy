@@ -22,12 +22,12 @@ class _CardContainerState extends State<CardContainer> {
     final exerciseProvider = context.watch<ExerciseProvider>();
 
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
           for (var exercise in exerciseProvider.exerciseList.asMap().entries)
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: ExerciseCard(
                 exercise: exercise.value,
                 exerciseIndex: exercise.key,

@@ -4,6 +4,7 @@ import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class CardInformationTable extends StatefulWidget {
   final TableInformation tableInformation;
@@ -30,6 +31,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
   double interSetNoDistance = 20;
   double iconSize = 25;
   double circleWidth = 23;
+
+  final TextEditingController weightSearchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -100,19 +103,59 @@ class _CardInformationTableState extends State<CardInformationTable> {
             in widget.exerciseInformationList.asMap().entries)
           Padding(
             padding: EdgeInsets.all(interCellDistance),
-            child: DropdownButton(
-              menuMaxHeight: 250,
+            child: DropdownButton2(
+              onMenuStateChange: (isOpen) {
+                if (!isOpen) {
+                  weightSearchController.clear();
+                }
+              },
+              dropdownStyleData: const DropdownStyleData(
+                  maxHeight: 250,
+                  width: 100,
+                  decoration: BoxDecoration(color: Colors.white)),
+
               value: defaultExerciseWeights[widget
                       .exerciseInformationList[exerciseInformationEntry.key]
                       .weightIndex]
                   .toString(), // Ensure this is a String since items are mapped to String
-              dropdownColor: Colors.white,
-              icon: const RotatedBox(
+              // dropdownColor: Colors.white,
+              buttonStyleData: const ButtonStyleData(),
+              iconStyleData: const IconStyleData(
+                  icon: RotatedBox(
                 quarterTurns: 3,
                 child: Icon(
                   Icons.arrow_back_ios,
                   size: 10,
                 ),
+              )),
+              dropdownSearchData: DropdownSearchData(
+                searchController: weightSearchController,
+                searchInnerWidgetHeight: 50,
+                searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: TextFormField(
+                      expands: true,
+                      maxLines: null,
+                      controller: weightSearchController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 8,
+                        ),
+                        hintText: 'Search',
+                        hintStyle: const TextStyle(fontSize: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )),
               ),
               onChanged: (value) {
                 Provider.of<ExerciseProvider>(context, listen: false)
@@ -122,7 +165,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                         double.parse(value!.toString()));
               },
               items: defaultExerciseWeights
-                  .map<DropdownMenuItem<String>>((double value) {
+                  .map<DropdownMenuItem<String>>((num value) {
                 return DropdownMenuItem<String>(
                   value: value.toString(),
                   child: SizedBox(
@@ -148,18 +191,51 @@ class _CardInformationTableState extends State<CardInformationTable> {
             in widget.exerciseInformationList.asMap().entries)
           Padding(
             padding: EdgeInsets.all(interCellDistance),
-            child: DropdownButton(
-              menuMaxHeight: 250,
+            child: DropdownButton2(
+              dropdownSearchData: DropdownSearchData(
+                searchController: weightSearchController,
+                searchInnerWidgetHeight: 50,
+                searchInnerWidget: Container(
+                    height: 50,
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 4,
+                      right: 8,
+                      left: 8,
+                    ),
+                    child: TextFormField(
+                      expands: true,
+                      maxLines: null,
+                      controller: weightSearchController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 8,
+                        ),
+                        hintText: 'Search',
+                        hintStyle: const TextStyle(fontSize: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )),
+              ),
+              iconStyleData: const IconStyleData(
+                  icon: RotatedBox(
+                quarterTurns: 3,
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 10,
+                ),
+              )),
+              dropdownStyleData: const DropdownStyleData(
+                  maxHeight: 250,
+                  width: 100,
+                  decoration: BoxDecoration(color: Colors.white)),
               value:
                   defaultExerciseReps[exerciseInformationEntry.value.repIndex]
                       .toString(),
-              dropdownColor: Colors.white,
-              icon: const RotatedBox(
-                  quarterTurns: 3,
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: 10,
-                  )),
               onChanged: (value) {
                 Provider.of<ExerciseProvider>(context, listen: false)
                     .updateExerciseInformationListReps(

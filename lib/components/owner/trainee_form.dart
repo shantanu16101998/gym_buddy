@@ -91,9 +91,10 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
 
       sharedPreferences.setString(
           'gymName', ownerRegistrationResponse.gymName ?? "Gym");
-
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Subscription()));
+      if (mounted) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Subscription()));
+      }
     } else {
       setState(() {
         showValidationError = true;
