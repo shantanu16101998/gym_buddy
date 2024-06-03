@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
-import 'package:gym_buddy/utils/exercise_constant.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutAnalayis extends StatefulWidget {
   const WorkoutAnalayis({super.key});
@@ -32,11 +33,26 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
       growthData: GrowthData(
           titles: [], data: [], maxLimitOfData: 0, minLimitOfData: 0));
 
+  fetchAllExercises() async {
+    await Provider.of<ExerciseListProvider>(context, listen: false)
+        .fetchExercise();
+  }
+
+  fetchExerciseAndData() async {
+    await fetchAllExercises();
+    await fetchData();
+  }
+
   fetchData() async {
     WorkoutAnalysisResponse workoutAnalysisResponseFromAPI =
         WorkoutAnalysisResponse.fromJson(await backendAPICall(
             '/customer/workoutAnalysis',
-            {'exerciseName': allExerciseList[comparisionExerciseIndex]},
+            {
+              'exerciseName':
+                  Provider.of<ExerciseListProvider>(context, listen: false)
+                      .exercisesTableInformation[comparisionExerciseIndex]
+                      .name
+            },
             'POST',
             true));
 
@@ -49,7 +65,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    fetchExerciseAndData();
   }
 
   List<BarChartGroupData> makeData() {
@@ -132,7 +148,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                 padding: const EdgeInsets.only(bottom: 40, top: 20),
                 child: SizedBox(
                   width: 300,
-                  child: DropdownButton2(
+                  child: DropdownButton2<ExercisesTableInformation>(
                     dropdownSearchData: DropdownSearchData(
                       searchController: _comparisionSearchController,
                       searchInnerWidgetHeight: 50,
@@ -173,21 +189,34 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     dropdownStyleData: const DropdownStyleData(
                         maxHeight: 250,
                         decoration: BoxDecoration(color: Colors.white)),
-                    value: allExerciseList[comparisionExerciseIndex].toString(),
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        comparisionExerciseIndex =
-                            allExerciseList.indexOf(value);
-                      });
+                    value: context
+                        .watch<ExerciseListProvider>()
+                        .exercisesTableInformation[comparisionExerciseIndex],
+                    onChanged: (ExercisesTableInformation? value) {
+                      if (value != null) {
+                        print(value.name);
+                        setState(() {
+                          comparisionExerciseIndex =
+                              Provider.of<ExerciseListProvider>(context,
+                                      listen: false)
+                                  .exercisesTableInformation
+                                  .indexOf(value);
+                          // print('comparision index is' +
+                          //     comparisionExerciseIndex.toString());
+                          fetchData();
+                        });
+                      }
                     },
-                    items: allExerciseList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value.toString(),
+                    items: context
+                        .watch<ExerciseListProvider>()
+                        .exercisesTableInformation
+                        .map<DropdownMenuItem<ExercisesTableInformation>>(
+                            (ExercisesTableInformation value) {
+                      return DropdownMenuItem<ExercisesTableInformation>(
+                        value: value,
                         child: SizedBox(
                             child: CustomText(
-                          text: value.toString(),
+                          text: value.name.toString(),
                         )),
                       );
                     }).toList(),

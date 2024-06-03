@@ -5,10 +5,8 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
-import 'package:gym_buddy/utils/exercise_constant.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +20,7 @@ class AddExercisedDialog extends StatefulWidget {
 
 class _AddExercisedDialogState extends State<AddExercisedDialog> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _exerciseIdController = TextEditingController();
   final TextEditingController _bodyPartController = TextEditingController();
 
   String? nameError;
@@ -50,13 +49,14 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
     if (!isNewExercise || validateForm()) {
       Provider.of<ExerciseProvider>(context, listen: false)
           .addExercise(Exercise(
-              _nameController.text,
-              [
-                ExerciseInformation(0, 5, false),
-                ExerciseInformation(0, 5, false),
-                ExerciseInformation(0, 5, false)
+              name: _nameController.text,
+              id: _exerciseIdController.text,
+              exerciseInformationList: [
+                // ExerciseInformation(0, 5, false),
+                // ExerciseInformation(0, 5, false),
+                // ExerciseInformation(0, 5, false)
               ],
-              false));
+              exerciseCompleted: false));
       Navigator.pop(context);
     }
   }
@@ -150,12 +150,21 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       onChanged: (ExercisesTableInformation? value) {
                         if (value != null) {
                           setState(() {
-                            exerciseIndex = context
-                                .watch<ExerciseListProvider>()
+                            exerciseIndex = Provider.of<ExerciseListProvider>(
+                                    context,
+                                    listen: false)
                                 .exercisesTableInformation
                                 .indexOf(value);
-                            _nameController.text = allExerciseList[
-                                allExerciseList.indexOf(value.toString())];
+
+                            _nameController.text =
+                                Provider.of<ExerciseListProvider>(context,
+                                        listen: false)
+                                    .exercisesTableInformation[exerciseIndex]
+                                    .name;
+                            _exerciseIdController.text = Provider.of<ExerciseListProvider>(context,
+                                        listen: false)
+                                    .exercisesTableInformation[exerciseIndex]
+                                    .id;
                           });
                         }
                       },

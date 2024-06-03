@@ -17,11 +17,11 @@ class ExerciseProvider extends ChangeNotifier {
   }
 
   void initDefaultExercise() {
-    exerciseList.add(Exercise('Incline Bench Press (dumbbell)',
-        [ExerciseInformation(0, 0, false)], false));
-    exerciseList.add(
-        Exercise('Front Raise', [ExerciseInformation(0, 0, false)], false));
-    // notifyListeners();
+    exerciseList.add(Exercise(
+        name: 'Incline Bench Press (dumbbell)',
+        id: '1',
+        exerciseInformationList: [ExerciseInformation(0, 0, false)],
+        exerciseCompleted: false));
   }
 
   void updateExerciseInformationListWeight(

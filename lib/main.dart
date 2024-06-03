@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
               secondary: Colors.red, primary: const Color(0xff667085)),
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
-        home: const Homepage(),
+        home: const WorkoutAnalayis(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
