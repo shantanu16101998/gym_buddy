@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/exercise.dart';
+import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
+import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/utils/exercise_constant.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
@@ -28,6 +30,12 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
   TextEditingController searchController = TextEditingController();
   int exerciseIndex = 0;
 
+  @override
+  void initState() {
+    Provider.of<ExerciseListProvider>(context, listen: false).fetchExercise();
+    super.initState();
+  }
+
   bool validateForm() {
     setState(() {
       nameError = validateSimpleText(_nameController.text, "Name");
@@ -40,13 +48,13 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
 
   void _onAddPressed() {
     if (!isNewExercise || validateForm()) {
-      Provider.of<ExerciseProvider>(context, listen: false).addExercise(
-          Exercise(
+      Provider.of<ExerciseProvider>(context, listen: false)
+          .addExercise(Exercise(
               _nameController.text,
               [
-                ExerciseInformation(0, 5),
-                ExerciseInformation(0, 5),
-                ExerciseInformation(0, 5)
+                ExerciseInformation(0, 5, false),
+                ExerciseInformation(0, 5, false),
+                ExerciseInformation(0, 5, false)
               ],
               false));
       Navigator.pop(context);
@@ -83,8 +91,8 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                     ))
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: DropdownButton2(
-                      buttonStyleData: ButtonStyleData(width: 250),
+                    child: DropdownButton2<ExercisesTableInformation>(
+                      buttonStyleData: ButtonStyleData(width: 350),
                       dropdownSearchData: DropdownSearchData(
                         searchMatchFn: (item, searchValue) {
                           if (item.value == 'Not in the list') {
@@ -136,29 +144,32 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                           // maxHeight: 250,
                           width: getScreenWidth(context) * 0.6,
                           decoration: const BoxDecoration(color: Colors.white)),
-                      value: allExerciseList[exerciseIndex],
-                      onChanged: (value) {
-                        if (value == 'Not in the list') {
+                      value: context
+                          .watch<ExerciseListProvider>()
+                          .exercisesTableInformation[exerciseIndex],
+                      onChanged: (ExercisesTableInformation? value) {
+                        if (value != null) {
                           setState(() {
-                            isNewExercise = true;
-                          });
-                        } else {
-                          setState(() {
-                            exerciseIndex =
-                                allExerciseList.indexOf(value.toString());
+                            exerciseIndex = context
+                                .watch<ExerciseListProvider>()
+                                .exercisesTableInformation
+                                .indexOf(value);
                             _nameController.text = allExerciseList[
                                 allExerciseList.indexOf(value.toString())];
                           });
                         }
                       },
-                      items: allExerciseList
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value.toString(),
+                      items: context
+                          .watch<ExerciseListProvider>()
+                          .exercisesTableInformation
+                          .map<DropdownMenuItem<ExercisesTableInformation>>(
+                              (ExercisesTableInformation value) {
+                        return DropdownMenuItem<ExercisesTableInformation>(
+                          value: value,
                           child: SizedBox(
                               width: getScreenWidth(context) * 0.6,
                               child: CustomText(
-                                text: value,
+                                text: value.name,
                               )),
                         );
                       }).toList(),

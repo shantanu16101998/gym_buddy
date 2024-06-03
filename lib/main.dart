@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
+import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/workout_analysis.dart';
 // import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
@@ -61,7 +63,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
-        ChangeNotifierProvider(create: (context) => ExerciseProvider())
+        ChangeNotifierProvider(create: (context) => ExerciseProvider()),
+        ChangeNotifierProvider(create: (context) => ExerciseListProvider())
       ],
       child: MaterialApp(
         title: 'Gym Buddy',

@@ -37,7 +37,7 @@ class _ShareWidgetImageState extends State<ShareWidgetImage> {
         textDirection: TextDirection.ltr,
         child: IdentityCard(
           profileUrl: '',
-            startDate: '24 March 2024',
+            dueDate: '24 March 2024',
             gymContact: '9319619778',
             gymName: 'Shantanu Gym',
             memberName: 'Suraj Kumar',

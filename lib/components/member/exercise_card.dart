@@ -79,27 +79,27 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       fontSize: 22,
                       color: const Color(0xff344054)),
                 ),
-                widget.exercise.exerciseCompleted
-                    ? const SizedBox()
-                    : GestureDetector(
-                        onTap: () {
-                          exerciseProvider.removeExercise(widget.exerciseIndex);
-                        },
-                        child: Container(
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2, color: const Color(0xffC61212)),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(24))),
-                          child: const Icon(
-                            Icons.close,
-                            size: 20,
-                            color: Color(0xffC61212),
-                          ),
-                        ),
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    if (!widget.exercise.exerciseCompleted) {
+                      exerciseProvider.removeExercise(widget.exerciseIndex);
+                    }
+                  },
+                  child: Container(
+                    height: 24,
+                    width: 24,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 2, color: !widget.exercise.exerciseCompleted ? const Color(0xffC61212) : Colors.transparent),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24))),
+                    child: Icon(
+                      Icons.close,
+                      size: 20,
+                      color: !widget.exercise.exerciseCompleted ? Color(0xffC61212)  : Colors.transparent,
+                    ),
+                  ),
+                ),
               ],
             ),
             CardInformationTable(

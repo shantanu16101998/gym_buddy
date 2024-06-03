@@ -6,12 +6,14 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/examples/share_widget_as_image.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -21,11 +23,12 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  void _showIdentityCardDialog(BuildContext context) {
+  void _showIdentityCardDialog(BuildContext context) async {
     ScreenshotController screenshotController = ScreenshotController();
     bool isDowloaded = false;
 
-    
+    IdCardResponse idCardResponse = IdCardResponse.fromJson(
+        await backendAPICall('/customer/idCard', {}, 'GET', true));
 
     void captureAndSave() async {
       try {
@@ -51,85 +54,92 @@ class _HomepageState extends State<Homepage> {
       }
     }
 
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return !isDowloaded
-            ? Container(
-                decoration: const BoxDecoration(color: Colors.white),
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        'Your gym Id card is generated',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    if (idCardResponse.planid != sharedPreferences.getString("currentPlanId")) {
+      sharedPreferences.setString("currentPlanId", idCardResponse.planid);
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return !isDowloaded
+              ? Container(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Your gym Id card is generated',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    Screenshot(
-                      controller: screenshotController,
-                      child: const IdentityCard(
-                        gymContact: 'gymContact',
-                        startDate: '24 Mar 2024',
-                        gymName: 'gymName',
-                        memberName: 'memberName',
-                        validTillInMonths: '2',
-                        profileUrl:
-                            'https://appcraft.s3.ap-south-1.amazonaws.com/6654baf866f7e7a6a867ef6b?time=1716828996270',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: OutlinedButton(
-                        onPressed: captureAndSave,
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          side: const BorderSide(width: 1, color: Colors.black),
+                      Screenshot(
+                        controller: screenshotController,
+                        child: IdentityCard(
+                          gymContact: idCardResponse.gymContact,
+                          dueDate: idCardResponse.planDue,
+                          gymName: idCardResponse.gymName,
+                          memberName: idCardResponse.memberName,
+                          validTillInMonths:
+                              idCardResponse.planDuration.toString(),
+                          profileUrl: idCardResponse.customerPic,
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Save in gallary",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: OutlinedButton(
+                          onPressed: captureAndSave,
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            side:
+                                const BorderSide(width: 1, color: Colors.black),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Save in gallary",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : Container(
-                width: double.infinity,
-                color: Colors.white,
-                child: const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CustomText(
-                          text:
-                              'Your id card is downloaded successfully in gallery',
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor,
-                        ),
-                      ),
                     ],
                   ),
-                ),
-              );
-      },
-    );
+                )
+              : Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text:
+                                'Your id card is downloaded successfully in gallery',
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: headingColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+        },
+      );
+    }
   }
 
   @override
@@ -142,14 +152,14 @@ class _HomepageState extends State<Homepage> {
   }
 
   MemberProfileResponse memberProfileResponse = MemberProfileResponse(
-        name: '',
-        contact: '',
-        startDate: '',
-        validTill: 0,
-        trainerName: '',
-        currentWeekAttendance: '');
-  
-  bool isApiDataLoaded = false;
+      name: '',
+      contact: '',
+      startDate: '',
+      validTill: 0,
+      trainerName: '',
+      currentWeekAttendance: '');
+
+  bool isApiDataLoaded = true;
 
   fetchCustomerDetails() async {
     MemberProfileResponse memberProfileResponseAPI =
@@ -178,7 +188,9 @@ class _HomepageState extends State<Homepage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: AttendanceBar(attendanceString: memberProfileResponse.currentWeekAttendance),
+                  child: AttendanceBar(
+                      attendanceString:
+                          memberProfileResponse.currentWeekAttendance),
                 ),
                 const CardContainer(),
                 Align(

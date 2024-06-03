@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart' as owner_side_bar;
@@ -7,6 +6,7 @@ import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/member/profile.dart';
+import 'package:gym_buddy/screens/member/workout_analysis.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -107,7 +107,8 @@ class _AppScaffoldState extends State<AppScaffold> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
                                     onTap: () {
                                       Navigator.push(
@@ -119,19 +120,21 @@ class _AppScaffoldState extends State<AppScaffold> {
                                     child: const Icon(Icons.home)),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             const Profile()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const WorkoutAnalayis()));
                                     },
                                     child: const Icon(Icons.auto_graph)),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
                                     onTap: () {
                                       Navigator.push(

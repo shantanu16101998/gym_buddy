@@ -54,8 +54,8 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
         child: Container(
           width: 360,
           decoration: BoxDecoration(
-              border: Border.all(width: 1, color: widget.experience == 'newbie' ? subscriptionCardNewbie : const Color(0xffDBDDE2)),
-              color: widget.experience == 'Newbie' ? subscriptionCardNewbie.withOpacity(0.15) : Colors.white,
+              border: Border.all(width: 1, color: widget.experience == 'Beginner' ? subscriptionCardNewbie : const Color(0xffDBDDE2)),
+              color: widget.experience == 'Beginner' ? subscriptionCardNewbie.withOpacity(0.15) : Colors.white,
               borderRadius: BorderRadius.circular(12)),
           child: IntrinsicHeight(
             child: Column(

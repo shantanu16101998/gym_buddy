@@ -287,3 +287,124 @@ class MemberProfileResponse {
         currentWeekAttendance: json['currentWeekAttendance']);
   }
 }
+
+class ComparisionData {
+  List<String> titles;
+  List<int> data;
+  int maxLimitOfData;
+  int minLimitOfData;
+  double top;
+  int highlightTitle;
+
+  ComparisionData(
+      {required this.titles,
+      required this.data,
+      required this.maxLimitOfData,
+      required this.top,
+      required this.minLimitOfData,
+      required this.highlightTitle});
+
+  factory ComparisionData.fromJson(Map<String, dynamic> json) {
+    return ComparisionData(
+        titles: List<String>.from(json['titles']),
+        data: List<int>.from(json['data']),
+        maxLimitOfData: json['maxLimitOfData'],
+        minLimitOfData: json['minLimitOfData'],
+        highlightTitle: json['highlightTitle'],
+        top: json['top']);
+  }
+}
+
+class GrowthData {
+  List<String> titles;
+  List<int> data;
+  int maxLimitOfData;
+  int minLimitOfData;
+
+  GrowthData(
+      {required this.titles,
+      required this.data,
+      required this.maxLimitOfData,
+      required this.minLimitOfData});
+
+  factory GrowthData.fromJson(Map<String, dynamic> json) {
+    return GrowthData(
+      titles: List<String>.from(json['titles']),
+      data: List<int>.from(json['data']),
+      minLimitOfData: json['minLimitOfData'],
+      maxLimitOfData: json['maxLimitOfData'],
+    );
+  }
+}
+
+class WorkoutAnalysisResponse {
+  ComparisionData comparisionData;
+  GrowthData growthData;
+
+  WorkoutAnalysisResponse(
+      {required this.comparisionData, required this.growthData});
+
+  factory WorkoutAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return WorkoutAnalysisResponse(
+        comparisionData: ComparisionData.fromJson(json['comparisionData']),
+        growthData: GrowthData.fromJson(json['growthData']));
+  }
+}
+
+class IdCardResponse {
+  String gymName;
+  String gymContact;
+  String memberName;
+  String planDue;
+  int planDuration;
+  String planid;
+  String customerPic;
+  String? error;
+
+  IdCardResponse(
+      {required this.customerPic,
+      required this.gymContact,
+      required this.memberName,
+      required this.planDue,
+      required this.planDuration,
+      required this.planid,
+      required this.gymName});
+
+  factory IdCardResponse.fromJson(Map<String, dynamic> json) {
+    return IdCardResponse(
+        customerPic: json['customerPic'],
+        gymContact: json['gymContact'],
+        memberName: json['memberName'],
+        planDue: json['planDue'],
+        planDuration: json['planDuration'],
+        planid: json['planid'],
+        gymName: json['gymName']);
+  }
+}
+
+class ExercisesTableInformation {
+  String id;
+  String name;
+
+  ExercisesTableInformation({required this.id, required this.name});
+
+  factory ExercisesTableInformation.fromJson(Map<String, dynamic> json) {
+    return ExercisesTableInformation(id: json['_id'], name: json['name']);
+  }
+}
+
+class GetAllExerciseResponse {
+  List<ExercisesTableInformation> exerciseInformation;
+
+  GetAllExerciseResponse({required this.exerciseInformation});
+
+  factory GetAllExerciseResponse.fromJson(Map<String, dynamic> json) {
+    final List<ExercisesTableInformation> exerciseInformation =
+        (json["exercises"] as List<dynamic>)
+            .map((information) => ExercisesTableInformation.fromJson(
+                information as Map<String, dynamic>))
+            .toList();
+
+    return GetAllExerciseResponse(exerciseInformation: exerciseInformation);
+  }
+}

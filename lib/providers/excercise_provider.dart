@@ -17,10 +17,10 @@ class ExerciseProvider extends ChangeNotifier {
   }
 
   void initDefaultExercise() {
-    exerciseList
-        .add(Exercise('Incline Bench Press (dumbbell)', [ExerciseInformation(0, 0)], false));
-    exerciseList
-        .add(Exercise('Front Raise', [ExerciseInformation(0, 0)], false));
+    exerciseList.add(Exercise('Incline Bench Press (dumbbell)',
+        [ExerciseInformation(0, 0, false)], false));
+    exerciseList.add(
+        Exercise('Front Raise', [ExerciseInformation(0, 0, false)], false));
     // notifyListeners();
   }
 
@@ -41,7 +41,7 @@ class ExerciseProvider extends ChangeNotifier {
   void addSetToExercise(int exerciseIndex) {
     exerciseList[exerciseIndex]
         .exerciseInformationList
-        .add(ExerciseInformation(0, 0));
+        .add(ExerciseInformation(0, 0, false));
     areAllExerciseCompleted(exerciseIndex);
     notifyListeners();
   }

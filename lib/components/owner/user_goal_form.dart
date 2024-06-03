@@ -12,7 +12,7 @@ import 'package:gym_buddy/constants/url.dart';
 final List<String> goals = ["Select Goals", "Weight loss", "Muscle gain"];
 final List<String> experiences = [
   "Select Experience",
-  "Newbie",
+  "Beginner",
   "Intermediate",
   "Experienced"
 ];

@@ -1,4 +1,3 @@
-
 class TableRow {
   String? setNo;
   bool? isSetCompleted;
@@ -18,5 +17,5 @@ class ExerciseInformation {
   int repIndex = 0;
   bool isCompleted = false;
 
-  ExerciseInformation(this.weightIndex, this.repIndex);
+  ExerciseInformation(this.weightIndex, this.repIndex, this.isCompleted);
 }

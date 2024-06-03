@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/utils/custom.dart';
 
 class IdentityCard extends StatefulWidget {
   final String gymName;
-  final String startDate;
+  final String dueDate;
   final String memberName;
   final String validTillInMonths;
   final String gymContact;
@@ -16,7 +16,7 @@ class IdentityCard extends StatefulWidget {
   const IdentityCard(
       {super.key,
       required this.gymContact,
-      required this.startDate,
+      required this.dueDate,
       required this.gymName,
       required this.memberName,
       required this.validTillInMonths,
@@ -33,16 +33,6 @@ class IdentityCard extends StatefulWidget {
 class _IdentityCardState extends State<IdentityCard> {
   Uint8List bytes = base64.decode(const Base64Codec().normalize(
       'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII'));
-
-  String dueDate = '';
-
-  @override
-  void initState() {
-    dueDate = addValidTillToCurrDate(
-        widget.startDate, int.parse(widget.validTillInMonths));
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +76,17 @@ class _IdentityCardState extends State<IdentityCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          CustomText(
-                            text: '${widget.gymName} Member',
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                          Container(
+                            width: 200, // Set your specific width here
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: CustomText(
+                                text: '${widget.gymName} Member',
+                                fontSize: 22,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           CustomText(
                             text: '+ 91 ${widget.gymContact}',
@@ -115,7 +111,8 @@ class _IdentityCardState extends State<IdentityCard> {
                         width: 80,
                         decoration: BoxDecoration(
                           color: Colors.black54,
-                          borderRadius: const BorderRadius.all(Radius.circular(40)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(40)),
                           image: DecorationImage(
                             image: widget.profileUrl != null
                                 ? NetworkImage(widget.profileUrl!)
@@ -134,11 +131,21 @@ class _IdentityCardState extends State<IdentityCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
-                            text: widget.memberName,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: const Color(0xff344054),
+                          SizedBox(
+                            width: 150,
+// Set your specific width here
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: CustomText(
+                                  text: widget.memberName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: const Color(0xff344054),
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Row(
@@ -149,7 +156,7 @@ class _IdentityCardState extends State<IdentityCard> {
                                   color: Color(0xff667085)),
                               const SizedBox(width: 40),
                               CustomText(
-                                  text: dueDate,
+                                  text: widget.dueDate,
                                   fontSize: 14,
                                   color: const Color(0xff667085))
                             ],

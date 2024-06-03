@@ -1,6 +1,6 @@
 List<String> allExerciseList = [
-  'Bar Dip',
   'Bench Press (barbell)',
+  'Bar Dip',
   'Bench Press (dumbbell)',
   'Bench Press (machine)',
   'Chest Press (cable)',
@@ -43,8 +43,8 @@ List<String> allExerciseList = [
   'Shoulder Press (barbell)',
   'Shoulder Press (machine)',
   'Face Pull',
-  'Overhead Press (dumbbell)'
-      'Overhead Press (barbell)',
+  'Overhead Press (dumbbell)',
+  'Overhead Press (barbell)',
   'Overhead Press (machine)',
   'Reverse Flyes (cable)',
   'Reverse Flyes (dumbbell)',
@@ -82,7 +82,6 @@ List<String> allExerciseList = [
   'Shrug (barbell)',
   'Shrug (dumbbell)',
   'Cable Row',
-  'Chin Up',
   'Clean',
   'Clean and Jerk',
   'Deadlift',
