@@ -1,4 +1,5 @@
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,8 +25,11 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   final TextEditingController _confirmContactController =
       TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _referralCodeController = TextEditingController();
 
   bool showValidationError = false;
+
+  bool showReferralTextBox = false;
 
   String? _nameError;
   String? _contactError;
@@ -40,6 +44,8 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
       await sharedPreferences.setString("userContact", _contactController.text);
       await sharedPreferences.setString("userAddress", _addressController.text);
       await sharedPreferences.setBool("needFurtherInformation", true);
+
+      await sharedPreferences.setString("referralCode", _referralCodeController.text );
 
       widget.onPageToShowChange(PageToShow.signUpDetails);
     } else {
@@ -126,6 +132,30 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   ],
                   controller: _confirmContactController,
                   errorText: _confirmContactError)),
+          Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
+              child: showReferralTextBox
+                  ? LabeledTextField(
+                      labelText: "Referral code",
+                      textInputType: TextInputType.number,
+                      textInputFormatter: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10)
+                      ],
+                      controller: _referralCodeController,
+                      errorText: null)
+                  : GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showReferralTextBox = true;
+                        });
+                      },
+                      child: const CustomText(
+                          text: 'Have a referral code?',
+                          color: Colors.white,
+                          isUnderlined: true),
+                    )),
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),

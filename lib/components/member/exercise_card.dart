@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/card_information_table.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/exercise.dart';
-import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
@@ -19,15 +18,6 @@ class ExerciseCard extends StatefulWidget {
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
-  final TableInformation tableInformation = TableInformation([]);
-
-  List<ExerciseInformation> exerciseInformationList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    exerciseInformationList = widget.exercise.exerciseInformationList;
-  }
 
   void _addSet() {
     Provider.of<ExerciseProvider>(context, listen: false)
@@ -83,6 +73,19 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   onTap: () {
                     if (!widget.exercise.exerciseCompleted) {
                       exerciseProvider.removeExercise(widget.exerciseIndex);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Exercise removed'),
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            onPressed: () {
+                              // Restore the removed exercise
+                              exerciseProvider.undoRemoveExercise();
+                            },
+                          ),
+                        ),
+                      );
                     }
                   },
                   child: Container(
@@ -90,13 +93,18 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     width: 24,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            width: 2, color: !widget.exercise.exerciseCompleted ? const Color(0xffC61212) : Colors.transparent),
+                            width: 2,
+                            color: !widget.exercise.exerciseCompleted
+                                ? const Color(0xffC61212)
+                                : Colors.transparent),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(24))),
                     child: Icon(
                       Icons.close,
                       size: 20,
-                      color: !widget.exercise.exerciseCompleted ? Color(0xffC61212)  : Colors.transparent,
+                      color: !widget.exercise.exerciseCompleted
+                          ? Color(0xffC61212)
+                          : Colors.transparent,
                     ),
                   ),
                 ),
@@ -104,8 +112,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
             ),
             CardInformationTable(
                 exerciseIndex: widget.exerciseIndex,
-                tableInformation: tableInformation,
-                exerciseInformationList: exerciseInformationList,
                 removeSet: _removeSet,
                 markStatus: markStatus,
                 exerciseCompleted: widget.exercise.exerciseCompleted),

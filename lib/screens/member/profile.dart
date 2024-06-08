@@ -4,6 +4,7 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/member/referral_dialog.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 
 class Profile extends StatefulWidget {
@@ -15,7 +16,12 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   MemberProfileResponse memberProfileResponse = MemberProfileResponse(
-      name: '', contact: '', startDate: '', validTill: 0, trainerName: '',currentWeekAttendance: '');
+      name: '',
+      contact: '',
+      startDate: '',
+      validTill: 0,
+      trainerName: '',
+      currentWeekAttendance: '');
 
   bool isApiDataLoaded = false;
 
@@ -26,12 +32,12 @@ class _ProfileState extends State<Profile> {
   }
 
   fetchProfileDetails() async {
-    MemberProfileResponse memberProfileResponseAPI =
-        MemberProfileResponse.fromJson(
-            await backendAPICall('/customer/details', {}, 'GET', true));
+    // MemberProfileResponse memberProfileResponseAPI =
+    //     MemberProfileResponse.fromJson(
+    //         await backendAPICall('/customer/details', {}, 'GET', true));
 
     setState(() {
-      memberProfileResponse = memberProfileResponseAPI;
+      // memberProfileResponse = memberProfileResponseAPI;
       isApiDataLoaded = true;
     });
   }
@@ -39,7 +45,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold.noHeader(
-      isApiDataLoaded: isApiDataLoaded,
+      isApiDataLoaded: true,
       child: Column(
         children: [
           const Center(child: AttendanceCalendar()),
@@ -124,6 +130,36 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
+          Padding(
+              padding: const EdgeInsets.only(top: 30,bottom: 25),
+              child: SizedBox(
+                  height: 45,
+                  width: 300,
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 2, color: Color(0xffD0D5DD)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 22,
+                            color: Color(0xffB01D1D),
+                            fontWeight: FontWeight.bold,
+                          )),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ReferralDialog();
+                            });
+                      },
+                      child: Text('Refer a friend',
+                          style: GoogleFonts.inter(
+                              textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: Color(0xff004576))))))),
         ],
       ),
     );

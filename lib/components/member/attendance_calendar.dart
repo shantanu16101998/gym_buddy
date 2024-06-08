@@ -23,24 +23,25 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   int maxMonth = 12;
   int minYear = 1900;
   int maxYear = 2100;
+  int startDay = 1;
 
   AttendanceResponse? attendanceResponse;
 
   fetchAttendance() async {
-    Map<String, dynamic> responseData = await backendAPICall(
-        '/customer/customerId/attendance', {}, 'GET', false);
+    Map<String, dynamic> responseData =
+        await backendAPICall('/customer/attendance', {}, 'GET', true);
 
     setState(() {
       attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
       minMonth = getShortMonthNumber(
               responseData['startMonth'].toString().toLowerCase()) ??
           0;
+      startDay = responseData['startDay'] ?? 1;
       maxMonth = getShortMonthNumber(
               responseData['endMonth'].toString().toLowerCase()) ??
           12;
       minYear = responseData['startYear'];
       maxYear = responseData['endYear'];
-
     });
   }
 
@@ -114,6 +115,12 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                               MonthData(year: '', month: '', days: []));
 
                   int i = 0;
+
+                  if (displayMonth == minMonth) {
+                    for (i = 0; i < startDay - 1; i++) {
+                      attendanceColors.add(attendanceMarkNothing);
+                    }
+                  }
 
                   for (i = 0; i < monthData.days.length; i++) {
                     if (monthData.days[i] == 1) {

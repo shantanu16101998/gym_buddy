@@ -11,4 +11,15 @@ class Exercise {
       required this.exerciseInformationList,
       required this.exerciseCompleted,
       required this.id});
+
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+        name: json['exerciseName'],
+        exerciseInformationList: (json['sets'] as List<dynamic>)
+            .map((jsonInformation) => ExerciseInformation.fromJson(
+                jsonInformation as Map<String, dynamic>))
+            .toList(),
+        exerciseCompleted: false,
+        id: json['exerciseId']);
+  }
 }

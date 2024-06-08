@@ -42,7 +42,7 @@ Future<Map<String, dynamic>> backendAPICall(String path,
   if (needJwt) {
     var sharedPreferences = await SharedPreferences.getInstance();
     var jwtToken = sharedPreferences.getString("jwtToken") ??
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY1ZDhiNzIwYjdkMjVjNzgxZDE3M2RiIiwiY29udGFjdCI6IjExMTExMTExMTEiLCJpYXQiOjE3MTc0MDY2MDQsImV4cCI6MzYwMDE3MTc0MDY2MDR9.8x5dXDXSAqt95efhojIOfFlLCIp4UIxrM6SwABumxcQ";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2MDk2Zjc5NmQ4MDdiODBkYzA0MzEzIiwiY29udGFjdCI6IjExMTExMTExMTIiLCJpYXQiOjE3MTc2MDYxNDMsImV4cCI6MzYwMDE3MTc2MDYxNDN9.jGVrl5sq7_Ow-OPEvaMmoWMoY4iICHDMlgIq9tExurk";
     requestHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -87,9 +87,11 @@ Future<Map<String, dynamic>> backendAPICall(String path,
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else if (method == "DELETE") {
     final response =
-        await http.delete(Uri.parse('$TEST_URL$path'), headers: requestHeaders);
+        await http.delete(Uri.parse('$TEST_URL$path'), headers: requestHeaders,body: jsonEncode(requestBody));
 
-    // print(response.body);
+    print(response.body);
+    print('');
+
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
   return jsonDecode("") as Map<String, dynamic>;

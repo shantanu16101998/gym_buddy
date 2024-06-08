@@ -1,3 +1,5 @@
+import 'package:gym_buddy/utils/ui_constants.dart';
+
 class TableRow {
   String? setNo;
   bool? isSetCompleted;
@@ -16,6 +18,19 @@ class ExerciseInformation {
   int weightIndex = 0;
   int repIndex = 0;
   bool isCompleted = false;
+  String exerciseDescriptionId;
 
-  ExerciseInformation(this.weightIndex, this.repIndex, this.isCompleted);
+  ExerciseInformation(
+      {required this.weightIndex,
+      required this.repIndex,
+      required this.isCompleted,
+      required this.exerciseDescriptionId});
+
+  factory ExerciseInformation.fromJson(Map<String, dynamic> json) {
+    return ExerciseInformation(
+        weightIndex: defaultExerciseWeights.indexOf(json['weight']),
+        repIndex: defaultExerciseReps.indexOf(json['reps']),
+        exerciseDescriptionId: json['exerciseDescriptionId'],
+        isCompleted: false);
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/user_subscription.dart';
 
 class LoginResponse {
@@ -406,5 +407,27 @@ class GetAllExerciseResponse {
             .toList();
 
     return GetAllExerciseResponse(exerciseInformation: exerciseInformation);
+  }
+}
+
+class GetInviteCodeResponse {
+  String referralCode;
+
+  GetInviteCodeResponse({required this.referralCode});
+
+  factory GetInviteCodeResponse.fromJson(Map<String, dynamic> json) {
+    return GetInviteCodeResponse(referralCode: json['referralCode']);
+  }
+}
+
+class GetExerciseForDayResponse {
+  List<Exercise> exercises;
+  GetExerciseForDayResponse({required this.exercises});
+  factory GetExerciseForDayResponse.fromJson(Map<String, dynamic> json) {
+    return GetExerciseForDayResponse(
+        exercises: (json['exercises'] as List<dynamic>)
+            .map((exercise) =>
+                Exercise.fromJson(exercise as Map<String, dynamic>))
+            .toList());
   }
 }

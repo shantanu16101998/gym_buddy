@@ -31,10 +31,12 @@ class _CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
     return Text(widget.text,
+    overflow: TextOverflow.clip,
         style: TextStyle(
             color: widget.color,
             fontSize: widget.fontSize,
             fontWeight: widget.fontWeight,
+            decorationColor: widget.color,
             decoration:
                 widget.isUnderlined == true ? TextDecoration.underline : null));
   }

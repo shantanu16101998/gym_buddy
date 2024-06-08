@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
@@ -113,7 +114,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
 
   Widget userNotInLocationWidget() {
     return const SizedBox(
-      height: 100,
+      height: 110,
       child: Column(
         children: [
           Padding(
@@ -137,7 +138,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
     var locationLon = sharedPreferences.getDouble('longitude') ?? 0;
 
     double distanceBetweenGymAndPerson = calculateDistanceInKm(
-        locationLat, locationLon, 12.934171901523671, 77.614341250971);
+        locationLat, locationLon, 12.941566297157308, 77.62717869615372);
 
     if (distanceBetweenGymAndPerson < 0.05) {
       return true;
@@ -155,6 +156,8 @@ class _AttendanceBarState extends State<AttendanceBar> {
           if (await userInGym()) {
             setState(() {
               attendanceStatus = AttendanceStatus.present;
+
+              backendAPICall('/customer/markAttendance', {}, 'POST', true);
             });
           } else {
             setState(() {
@@ -219,7 +222,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
         height: circleWidth,
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.black),
-            color: Colors.white,
+            color: Colors.transparent,
             borderRadius: BorderRadius.all(Radius.circular(circleWidth))),
         child: const Icon(Icons.check));
   }

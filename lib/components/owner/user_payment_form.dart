@@ -124,6 +124,15 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
             },
             "POST",
             true));
+
+    if (sharedPreferences.getString('referralCode') != '') {
+      backendAPICall(
+          '/verifyReferralCode/${sharedPreferences.getString('referralCode')}',
+          {},
+          'POST',
+          true);
+    }
+
     if (mounted) {
       Navigator.pushReplacement(
         context,

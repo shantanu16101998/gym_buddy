@@ -31,8 +31,24 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
 
   @override
   void initState() {
-    Provider.of<ExerciseListProvider>(context, listen: false).fetchExercise();
     super.initState();
+    fetchAddExercises();
+  }
+
+  fetchAddExercises() async {
+    await Provider.of<ExerciseListProvider>(context, listen: false)
+        .fetchExercise();
+
+    setState(() {
+      _nameController.text =
+          Provider.of<ExerciseListProvider>(context, listen: false)
+              .exercisesTableInformation[exerciseIndex]
+              .name;
+      _exerciseIdController.text =
+          Provider.of<ExerciseListProvider>(context, listen: false)
+              .exercisesTableInformation[exerciseIndex]
+              .id;
+    });
   }
 
   bool validateForm() {
@@ -95,14 +111,11 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       buttonStyleData: ButtonStyleData(width: 350),
                       dropdownSearchData: DropdownSearchData(
                         searchMatchFn: (item, searchValue) {
-                          if (item.value == 'Not in the list') {
-                            return true;
-                          } else {
-                            return item.value!
-                                .toString()
-                                .toLowerCase()
-                                .contains(searchValue.toLowerCase());
-                          }
+                          return item.value?.name
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(searchValue.toLowerCase()) ??
+                              false;
                         },
                         searchController: searchController,
                         searchInnerWidgetHeight: 50,
@@ -161,7 +174,8 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                                         listen: false)
                                     .exercisesTableInformation[exerciseIndex]
                                     .name;
-                            _exerciseIdController.text = Provider.of<ExerciseListProvider>(context,
+                            _exerciseIdController.text =
+                                Provider.of<ExerciseListProvider>(context,
                                         listen: false)
                                     .exercisesTableInformation[exerciseIndex]
                                     .id;
