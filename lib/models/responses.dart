@@ -291,7 +291,7 @@ class MemberProfileResponse {
 
 class ComparisionData {
   List<String> titles;
-  List<int> data;
+  List<double> data;
   int maxLimitOfData;
   int minLimitOfData;
   double top;
@@ -308,7 +308,7 @@ class ComparisionData {
   factory ComparisionData.fromJson(Map<String, dynamic> json) {
     return ComparisionData(
         titles: List<String>.from(json['titles']),
-        data: List<int>.from(json['data']),
+        data: List<double>.from(json['data']),
         maxLimitOfData: json['maxLimitOfData'],
         minLimitOfData: json['minLimitOfData'],
         highlightTitle: json['highlightTitle'],
@@ -318,7 +318,7 @@ class ComparisionData {
 
 class GrowthData {
   List<String> titles;
-  List<int> data;
+  List<double> data;
   int maxLimitOfData;
   int minLimitOfData;
 
@@ -331,7 +331,7 @@ class GrowthData {
   factory GrowthData.fromJson(Map<String, dynamic> json) {
     return GrowthData(
       titles: List<String>.from(json['titles']),
-      data: List<int>.from(json['data']),
+      data: List<double>.from(json['data']),
       minLimitOfData: json['minLimitOfData'],
       maxLimitOfData: json['maxLimitOfData'],
     );

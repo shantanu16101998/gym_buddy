@@ -13,4 +13,12 @@ class ExerciseListProvider extends ChangeNotifier {
     exercisesTableInformation = getAllExerciseResponse.exerciseInformation;
     notifyListeners();
   }
+
+  Future<void> fetchUserExercise() async {
+    GetAllExerciseResponse getAllExerciseResponse =
+        GetAllExerciseResponse.fromJson(
+            await backendAPICall('/exercise/userExercises', {}, 'GET', true));
+    exercisesTableInformation = getAllExerciseResponse.exerciseInformation;
+    notifyListeners();
+  }
 }

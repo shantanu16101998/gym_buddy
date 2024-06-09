@@ -35,7 +35,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
 
   fetchAllExercises() async {
     await Provider.of<ExerciseListProvider>(context, listen: false)
-        .fetchExercise();
+        .fetchUserExercise();
   }
 
   fetchExerciseAndData() async {
@@ -147,7 +147,6 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 40, top: 20),
                 child: SizedBox(
-                  width: 300,
                   child: DropdownButton2<ExercisesTableInformation>(
                     dropdownSearchData: DropdownSearchData(
                       searchController: _comparisionSearchController,
