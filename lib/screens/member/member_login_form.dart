@@ -49,7 +49,10 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
 
-        sharedPreferences.setString('jwtToken', memberLoginResponse.token);
+        if (memberLoginResponse.token != null) {
+          sharedPreferences.setString('jwtToken', memberLoginResponse.token ?? "");
+          sharedPreferences.setString('userName', memberLoginResponse.name ?? "");
+        }
         if (mounted) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const Homepage()));

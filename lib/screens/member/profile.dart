@@ -21,7 +21,9 @@ class _ProfileState extends State<Profile> {
       startDate: '',
       validTill: 0,
       trainerName: '',
-      currentWeekAttendance: '');
+      currentWeekAttendance: '',
+      gymLocationLat: 0,
+      gymLocationLon: 0);
 
   bool isApiDataLoaded = false;
 
@@ -32,12 +34,12 @@ class _ProfileState extends State<Profile> {
   }
 
   fetchProfileDetails() async {
-    // MemberProfileResponse memberProfileResponseAPI =
-    //     MemberProfileResponse.fromJson(
-    //         await backendAPICall('/customer/details', {}, 'GET', true));
+    MemberProfileResponse memberProfileResponseAPI =
+        MemberProfileResponse.fromJson(
+            await backendAPICall('/customer/details', {}, 'GET', true));
 
     setState(() {
-      // memberProfileResponse = memberProfileResponseAPI;
+      memberProfileResponse = memberProfileResponseAPI;
       isApiDataLoaded = true;
     });
   }
@@ -64,7 +66,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
                             text: 'Name:',
@@ -131,7 +133,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(top: 30,bottom: 25),
+              padding: const EdgeInsets.only(top: 30, bottom: 25),
               child: SizedBox(
                   height: 45,
                   width: 300,

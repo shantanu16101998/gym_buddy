@@ -29,7 +29,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
 
   fetchAttendance() async {
     Map<String, dynamic> responseData =
-        await backendAPICall('/customer/attendance', {}, 'GET', true);
+        await backendAPICall('/attendance/getLifeTimeAttendance', {}, 'GET', true);
 
     setState(() {
       attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
@@ -110,9 +110,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                               getShortMonthNumber(
                                       monthData.month.toLowerCase()) ==
                                   displayMonth &&
-                              displayYear == int.parse(monthData.year),
+                              displayYear == monthData.year,
                           orElse: () =>
-                              MonthData(year: '', month: '', days: []));
+                              MonthData(year: 0, month: '', days: []));
 
                   int i = 0;
 

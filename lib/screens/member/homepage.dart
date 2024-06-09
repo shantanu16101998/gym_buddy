@@ -157,7 +157,9 @@ class _HomepageState extends State<Homepage> {
       startDate: '',
       validTill: 0,
       trainerName: '',
-      currentWeekAttendance: '');
+      currentWeekAttendance: '',
+      gymLocationLat: 0,
+      gymLocationLon: 0.0);
 
   bool isApiDataLoaded = true;
 
@@ -180,17 +182,25 @@ class _HomepageState extends State<Homepage> {
           children: [
             Column(
               children: [
-                const CustomText(
-                  text: 'Tap Here For Attendance',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color(0xff344054),
-                ),
+                memberProfileResponse.gymLocationLat != null
+                    ? const CustomText(
+                        text: 'Tap Here For Attendance',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color(0xff344054),
+                      )
+                    : const SizedBox(),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: AttendanceBar(
-                      attendanceString:
-                          memberProfileResponse.currentWeekAttendance),
+                  child: memberProfileResponse.gymLocationLat != null
+                      ? AttendanceBar(
+                          attendanceString:
+                              memberProfileResponse.currentWeekAttendance,
+                          gymLocationLat:
+                              memberProfileResponse.gymLocationLat ?? 0,
+                          gymLocationLon:
+                              memberProfileResponse.gymLocationLon ?? 0)
+                      : const SizedBox(),
                 ),
                 const CardContainer(),
                 Align(

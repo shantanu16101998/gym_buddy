@@ -49,7 +49,7 @@ class _HeaderState extends State<Header> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(left: 17, bottom: 3),
-                      child: Text(widget.userName,
+                      child: Text('Hi ${widget.userName}',
                           style: GoogleFonts.inter(
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,

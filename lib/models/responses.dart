@@ -179,7 +179,7 @@ class RegisterCustomerResponse {
 
 class MemberLoginResponse {
   final String? name;
-  final String token;
+  final String? token;
 
   MemberLoginResponse({this.name, required this.token});
 
@@ -189,7 +189,7 @@ class MemberLoginResponse {
 }
 
 class MonthData {
-  final String year;
+  final int year;
   final String month;
   final List<int> days;
 
@@ -270,13 +270,17 @@ class MemberProfileResponse {
   final int validTill;
   final String trainerName;
   final String currentWeekAttendance;
+  final double? gymLocationLat;
+  final double? gymLocationLon;
   MemberProfileResponse(
       {required this.name,
       required this.contact,
       required this.startDate,
       required this.validTill,
       required this.trainerName,
-      required this.currentWeekAttendance});
+      required this.currentWeekAttendance,
+      required this.gymLocationLat,
+      required this.gymLocationLon});
 
   factory MemberProfileResponse.fromJson(Map<String, dynamic> json) {
     return MemberProfileResponse(
@@ -285,7 +289,11 @@ class MemberProfileResponse {
         startDate: json['currentBeginDate'] ?? "",
         trainerName: json['trainerName'] ?? "None",
         validTill: json['validTill'] ?? 0,
-        currentWeekAttendance: json['currentWeekAttendance']);
+        currentWeekAttendance: json['currentWeekAttendance'] ?? "0",
+        gymLocationLat: json['locationLat'],
+        gymLocationLon: json['locationLon']
+        
+        );
   }
 }
 
