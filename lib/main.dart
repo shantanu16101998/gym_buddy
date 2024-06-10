@@ -79,8 +79,8 @@ class _MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
         // uncomment when in prod
-        // home: const SplashScreen(),
-        home: const Homepage(),
+        home: const SplashScreen(),
+        // home: const Subscription(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
