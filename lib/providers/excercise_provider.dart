@@ -7,7 +7,6 @@ import 'package:gym_buddy/models/shared_preference_objects.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExerciseProvider extends ChangeNotifier {

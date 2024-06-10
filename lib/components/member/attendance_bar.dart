@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
@@ -106,9 +105,9 @@ class _AttendanceBarState extends State<AttendanceBar> {
   }
 
   Widget attendanceMarkedWidget() {
-    return Container(
+    return const SizedBox(
       height: 90,
-      child: const Column(
+      child: Column(
         children: [
           Padding(
             padding: EdgeInsets.all(20),

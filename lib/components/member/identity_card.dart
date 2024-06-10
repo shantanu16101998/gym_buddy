@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 
 class IdentityCard extends StatefulWidget {
@@ -76,7 +75,7 @@ class _IdentityCardState extends State<IdentityCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 200, // Set your specific width here
                             child: FittedBox(
                               fit: BoxFit.scaleDown,

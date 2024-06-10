@@ -76,7 +76,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Exercise removed'),
+                          content: const Text('Exercise removed'),
                           action: SnackBarAction(
                             label: 'Undo',
                             onPressed: () {
@@ -103,7 +103,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       Icons.close,
                       size: 20,
                       color: !widget.exercise.exerciseCompleted
-                          ? Color(0xffC61212)
+                          ? const Color(0xffC61212)
                           : Colors.transparent,
                     ),
                   ),

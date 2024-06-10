@@ -49,7 +49,7 @@ class _HeaderState extends State<Header> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(left: 17, bottom: 3,right: 10),
-                      child: Container(
+                      child: SizedBox(
                         width: 250,
                         child: Text('Hi ${widget.userName}',
                             overflow: TextOverflow.clip,

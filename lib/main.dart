@@ -6,10 +6,6 @@ import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
-import 'package:gym_buddy/screens/member/homepage.dart';
-import 'package:gym_buddy/screens/member/member_login_form.dart';
-import 'package:gym_buddy/screens/member/profile.dart';
-import 'package:gym_buddy/screens/member/workout_analysis.dart';
 // import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
@@ -44,10 +40,13 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  // ignore: library_private_types_in_public_api
+  _MyAppState createState() {
+    return _MyAppState();
+  }
 }
 
 class _MyAppState extends State<MyApp> {
