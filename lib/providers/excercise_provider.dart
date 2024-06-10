@@ -66,6 +66,11 @@ class ExerciseProvider extends ChangeNotifier {
 
     exerciseList =
         await updateCompletedExercises(getExerciseForDayResponse.exercises);
+
+    for (var entry in exerciseList.asMap().entries) {
+      areAllExerciseCompleted(entry.key);
+    }
+
     exerciseInitialized = true;
     notifyListeners();
   }

@@ -31,6 +31,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
 
   List<int> attendanceList = [];
 
+  int currentWeekDay = DateTime.now().weekday;
+  AttendanceStatus attendanceStatus =
+      AttendanceStatus.notLocationPermissionGiven;
+
   @override
   void initState() {
     super.initState();
@@ -44,11 +48,13 @@ class _AttendanceBarState extends State<AttendanceBar> {
         attendanceList.add(1);
       }
     }
-  }
 
-  int currentWeekDay = DateTime.now().weekday;
-  AttendanceStatus attendanceStatus =
-      AttendanceStatus.notLocationPermissionGiven;
+    if (attendanceList[currentWeekDay - 1] == 1) {
+      setState(() {
+        attendanceStatus = AttendanceStatus.present;
+      });
+    }
+  }
 
   Widget grantLocationPermissionWidget() {
     return Column(
@@ -157,7 +163,9 @@ class _AttendanceBarState extends State<AttendanceBar> {
   }
 
   onAttendanceButtonClicked(int weekDay, BuildContext context) async {
-    if (weekDay == currentWeekDay) {
+    if (weekDay == currentWeekDay &&
+        attendanceStatus != AttendanceStatus.present) {
+      print("mama ric");
       bool verdict = await getCurrentLocationSuccess();
 
       if (verdict) {

@@ -166,7 +166,7 @@ class _HomepageState extends State<Homepage> {
       gymLocationLat: 0,
       gymLocationLon: 0.0);
 
-  bool isApiDataLoaded = true;
+  bool isApiDataLoaded = false;
 
   fetchCustomerDetails() async {
     MemberProfileResponse memberProfileResponseAPI =
