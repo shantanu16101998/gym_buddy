@@ -33,14 +33,17 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
       growthData: GrowthData(
           titles: [], data: [], maxLimitOfData: 0, minLimitOfData: 0));
 
-  fetchAllExercises() async {
+  fetchExerciseAndData() async {
     await Provider.of<ExerciseListProvider>(context, listen: false)
         .fetchUserExercise();
-  }
 
-  fetchExerciseAndData() async {
-    await fetchAllExercises();
-    await fetchData();
+    if (Provider.of<ExerciseListProvider>(context, listen: false)
+        .exercisesTableInformation
+        .isNotEmpty) {
+      await fetchData();
+    } else {
+      isApiDataLoaded = true;
+    }
   }
 
   fetchData() async {
@@ -135,242 +138,257 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
 
     return AppScaffold(
         isApiDataLoaded: isApiDataLoaded,
-        child: Container(
-          child: Column(
-            children: [
-              const CustomText(
-                text: 'Workout Analysis',
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: headingColor,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40, top: 20),
-                child: SizedBox(
-                  child: DropdownButton2<ExercisesTableInformation>(
-                    dropdownSearchData: DropdownSearchData(
-                      searchController: _comparisionSearchController,
-                      searchInnerWidgetHeight: 50,
-                      searchInnerWidget: Container(
-                          height: 50,
-                          padding: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 4,
-                            right: 8,
-                            left: 8,
+        child: Provider.of<ExerciseListProvider>(context, listen: true)
+                .exercisesTableInformation
+                .isEmpty
+            ? Padding(
+              padding: EdgeInsets.only(top: 200),
+               child: const CustomText(
+                      text: 'Please do some workout to get analysis',fontSize: 40,textAlign: TextAlign.center,fontWeight: FontWeight.bold,color: Color(0xffD9D9D9),),
+            )
+            : Container(
+                child: Column(
+                  children: [
+                    const CustomText(
+                      text: 'Workout Analysis',
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: headingColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 40, top: 20),
+                      child: SizedBox(
+                        child: DropdownButton2<ExercisesTableInformation>(
+                          dropdownSearchData: DropdownSearchData(
+                            searchController: _comparisionSearchController,
+                            searchInnerWidgetHeight: 50,
+                            searchInnerWidget: Container(
+                                height: 50,
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                  bottom: 4,
+                                  right: 8,
+                                  left: 8,
+                                ),
+                                child: TextFormField(
+                                  expands: true,
+                                  maxLines: null,
+                                  controller: _comparisionSearchController,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 8,
+                                    ),
+                                    hintText: 'Search',
+                                    hintStyle: const TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                )),
                           ),
-                          child: TextFormField(
-                            expands: true,
-                            maxLines: null,
-                            controller: _comparisionSearchController,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 8,
-                              ),
-                              hintText: 'Search',
-                              hintStyle: const TextStyle(fontSize: 12),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                          iconStyleData: const IconStyleData(
+                              icon: RotatedBox(
+                            quarterTurns: 3,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 10,
                             ),
                           )),
-                    ),
-                    iconStyleData: const IconStyleData(
-                        icon: RotatedBox(
-                      quarterTurns: 3,
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 10,
-                      ),
-                    )),
-                    dropdownStyleData: const DropdownStyleData(
-                        maxHeight: 250,
-                        decoration: BoxDecoration(color: Colors.white)),
-                    value: context
-                        .watch<ExerciseListProvider>()
-                        .exercisesTableInformation[comparisionExerciseIndex],
-                    onChanged: (ExercisesTableInformation? value) {
-                      if (value != null) {
-                        print(value.name);
-                        setState(() {
-                          comparisionExerciseIndex =
-                              Provider.of<ExerciseListProvider>(context,
-                                      listen: false)
-                                  .exercisesTableInformation
-                                  .indexOf(value);
-                          // print('comparision index is' +
-                          //     comparisionExerciseIndex.toString());
-                          fetchData();
-                        });
-                      }
-                    },
-                    items: context
-                        .watch<ExerciseListProvider>()
-                        .exercisesTableInformation
-                        .map<DropdownMenuItem<ExercisesTableInformation>>(
-                            (ExercisesTableInformation value) {
-                      return DropdownMenuItem<ExercisesTableInformation>(
-                        value: value,
-                        child: SizedBox(
-                            child: CustomText(
-                          text: value.name.toString(),
-                        )),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 40),
-                child: CustomText(
-                  text: 'Peer analysis (Heaviest Weight/ 8 reps)',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: headingColor,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20, bottom: 20),
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: SizedBox(
-                            width: 50,
-                            child: CustomText(
-                              text: 'No of people',
-                              color: Color(0XFF86909C),
-                            ))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text:
-                              'Top ${workoutAnalysisResponse.comparisionData.top}%',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor,
+                          dropdownStyleData: const DropdownStyleData(
+                              maxHeight: 250,
+                              decoration: BoxDecoration(color: Colors.white)),
+                          value: context
+                                  .watch<ExerciseListProvider>()
+                                  .exercisesTableInformation[
+                              comparisionExerciseIndex],
+                          onChanged: (ExercisesTableInformation? value) {
+                            if (value != null) {
+                              print(value.name);
+                              setState(() {
+                                comparisionExerciseIndex =
+                                    Provider.of<ExerciseListProvider>(context,
+                                            listen: false)
+                                        .exercisesTableInformation
+                                        .indexOf(value);
+                                // print('comparision index is' +
+                                //     comparisionExerciseIndex.toString());
+                                fetchData();
+                              });
+                            }
+                          },
+                          items: context
+                              .watch<ExerciseListProvider>()
+                              .exercisesTableInformation
+                              .map<DropdownMenuItem<ExercisesTableInformation>>(
+                                  (ExercisesTableInformation value) {
+                            return DropdownMenuItem<ExercisesTableInformation>(
+                              value: value,
+                              child: SizedBox(
+                                  child: CustomText(
+                                text: value.name.toString(),
+                              )),
+                            );
+                          }).toList(),
                         ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20, right: 40),
+                      child: CustomText(
+                        text: 'Peer analysis (Heaviest Weight/ 8 reps)',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: headingColor,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20, bottom: 20),
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                  width: 50,
+                                  child: CustomText(
+                                    text: 'No of people',
+                                    color: Color(0XFF86909C),
+                                  ))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              CustomText(
+                                text:
+                                    'Top ${workoutAnalysisResponse.comparisionData.top}%',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: headingColor,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: getScreenHeight(context) * 0.3,
-                width: getScreenWidth(context) * 0.8,
-                child: BarChart(
-                  BarChartData(
-                      barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                              getTooltipColor: (_) => Colors.white)),
-                      maxY: workoutAnalysisResponse
-                          .comparisionData.maxLimitOfData
-                          .toDouble(),
-                      minY: workoutAnalysisResponse
-                          .comparisionData.minLimitOfData
-                          .toDouble(),
-                      barGroups: makeData(),
-                      borderData: FlBorderData(
-                          border: const Border(
-                        bottom: BorderSide(width: 1, color: Color(0xffc9cdd4)),
-                      )),
-                      gridData: const FlGridData(
-                          drawHorizontalLine: true, drawVerticalLine: false),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44,
-                                showTitles: true,
-                                getTitlesWidget: getLeftTitlesWidget)),
-                        rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44, showTitles: false)),
-                        topTitles: const AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44, showTitles: false)),
-                        bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44,
-                                showTitles: true,
-                                getTitlesWidget: getBottomTitlesWidget)),
-                      )),
+                    SizedBox(
+                      height: getScreenHeight(context) * 0.3,
+                      width: getScreenWidth(context) * 0.8,
+                      child: BarChart(
+                        BarChartData(
+                            barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                    getTooltipColor: (_) => Colors.white)),
+                            maxY: workoutAnalysisResponse
+                                .comparisionData.maxLimitOfData
+                                .toDouble(),
+                            minY: workoutAnalysisResponse
+                                .comparisionData.minLimitOfData
+                                .toDouble(),
+                            barGroups: makeData(),
+                            borderData: FlBorderData(
+                                border: const Border(
+                              bottom: BorderSide(
+                                  width: 1, color: Color(0xffc9cdd4)),
+                            )),
+                            gridData: const FlGridData(
+                                drawHorizontalLine: true,
+                                drawVerticalLine: false),
+                            titlesData: FlTitlesData(
+                              leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44,
+                                      showTitles: true,
+                                      getTitlesWidget: getLeftTitlesWidget)),
+                              rightTitles: const AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44, showTitles: false)),
+                              topTitles: const AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44, showTitles: false)),
+                              bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44,
+                                      showTitles: true,
+                                      getTitlesWidget: getBottomTitlesWidget)),
+                            )),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: CustomText(
+                          text: 'Weight (kg)', color: Color(0XFF86909C)),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CustomText(
+                        text: 'Growth',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: headingColor,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20, bottom: 20),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: SizedBox(
+                              width: 50,
+                              child: CustomText(
+                                text: 'Volume (kg)',
+                                color: Color(0XFF86909C),
+                              ))),
+                    ),
+                    SizedBox(
+                      height: getScreenHeight(context) * 0.3,
+                      width: getScreenWidth(context) * 0.8,
+                      child: BarChart(
+                        BarChartData(
+                            barTouchData: BarTouchData(
+                                touchTooltipData: BarTouchTooltipData(
+                                    getTooltipColor: (_) => Colors.white)),
+                            minY: workoutAnalysisResponse
+                                .growthData.minLimitOfData
+                                .toDouble(),
+                            barGroups: makeDataForGrowth(),
+                            borderData: FlBorderData(
+                                border: const Border(
+                              bottom: BorderSide(
+                                  width: 1, color: Color(0xffc9cdd4)),
+                            )),
+                            gridData: const FlGridData(
+                                drawHorizontalLine: true,
+                                drawVerticalLine: false),
+                            titlesData: FlTitlesData(
+                              leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44,
+                                      showTitles: true,
+                                      getTitlesWidget: getLeftTitlesWidget)),
+                              rightTitles: const AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44, showTitles: false)),
+                              topTitles: const AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44, showTitles: false)),
+                              bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                      reservedSize: 44,
+                                      showTitles: true,
+                                      getTitlesWidget:
+                                          getBottomTitlesWidgetForGrowth)),
+                            )),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 100),
+                      child:
+                          CustomText(text: 'Session', color: Color(0XFF86909C)),
+                    )
+                  ],
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child:
-                    CustomText(text: 'Weight (kg)', color: Color(0XFF86909C)),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: CustomText(
-                  text: 'Growth',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: headingColor,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, bottom: 20),
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SizedBox(
-                        width: 50,
-                        child: CustomText(
-                          text: 'Volume (kg)',
-                          color: Color(0XFF86909C),
-                        ))),
-              ),
-              SizedBox(
-                height: getScreenHeight(context) * 0.3,
-                width: getScreenWidth(context) * 0.8,
-                child: BarChart(
-                  BarChartData(
-                      barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                              getTooltipColor: (_) => Colors.white)),
-                      minY: workoutAnalysisResponse.growthData.minLimitOfData
-                          .toDouble(),
-                      barGroups: makeDataForGrowth(),
-                      borderData: FlBorderData(
-                          border: const Border(
-                        bottom: BorderSide(width: 1, color: Color(0xffc9cdd4)),
-                      )),
-                      gridData: const FlGridData(
-                          drawHorizontalLine: true, drawVerticalLine: false),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44,
-                                showTitles: true,
-                                getTitlesWidget: getLeftTitlesWidget)),
-                        rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44, showTitles: false)),
-                        topTitles: const AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44, showTitles: false)),
-                        bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                                reservedSize: 44,
-                                showTitles: true,
-                                getTitlesWidget:
-                                    getBottomTitlesWidgetForGrowth)),
-                      )),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 100),
-                child: CustomText(text: 'Session', color: Color(0XFF86909C)),
-              )
-            ],
-          ),
-        ));
+              ));
   }
 }

@@ -7,6 +7,7 @@ import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/member/profile.dart';
 import 'package:gym_buddy/screens/member/workout_analysis.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,21 +18,24 @@ class AppScaffold extends StatefulWidget {
   final bool showHeader;
   final Color? bodyColor;
   final bool? noSpaceForStatusBar;
-  const AppScaffold(
-      {super.key,
-      required this.isApiDataLoaded,
-      required this.child,
-      this.showHeader = true,
-      this.bodyColor,
-      this.noSpaceForStatusBar});
 
-  const AppScaffold.noHeader(
-      {super.key,
-      required this.isApiDataLoaded,
-      required this.child,
-      this.showHeader = false,
-      this.bodyColor,
-      this.noSpaceForStatusBar});
+  const AppScaffold({
+    super.key,
+    required this.isApiDataLoaded,
+    required this.child,
+    this.showHeader = true,
+    this.bodyColor,
+    this.noSpaceForStatusBar,
+  });
+
+  const AppScaffold.noHeader({
+    super.key,
+    required this.isApiDataLoaded,
+    required this.child,
+    this.showHeader = false,
+    this.bodyColor,
+    this.noSpaceForStatusBar,
+  });
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
@@ -97,10 +101,8 @@ class _AppScaffoldState extends State<AppScaffold> {
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(
-                                  10.0), // Adjust the radius value as needed
-                              topRight: Radius.circular(
-                                  10.0), // Adjust the radius value as needed
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
                             ),
                           ),
                           child: Row(
@@ -110,40 +112,47 @@ class _AppScaffoldState extends State<AppScaffold> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Homepage()));
-                                    },
-                                    child: const Icon(Icons.home)),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Homepage(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Icon(Icons.home,size: 30,color: headingColor),
+                                ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const WorkoutAnalayis()));
-                                    },
-                                    child: const Icon(Icons.auto_graph)),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const WorkoutAnalayis(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Icon(Icons.auto_graph,size: 30,color: headingColor),
+                                ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Profile()));
-                                    },
-                                    child: const Icon(Icons.person)),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Profile(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Icon(Icons.person,size: 30,color: headingColor),
+                                ),
                               ),
                             ],
                           ),

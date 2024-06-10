@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceBar extends StatefulWidget {
   final String attendanceString;
-  final double gymLocationLat;
-  final double gymLocationLon;
+  final num gymLocationLat;
+  final num gymLocationLon;
   const AttendanceBar(
       {super.key,
       required this.attendanceString,
@@ -144,7 +144,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
     var locationLon = sharedPreferences.getDouble('longitude') ?? 0;
 
     double distanceBetweenGymAndPerson = calculateDistanceInKm(
-        locationLat, locationLon, widget.gymLocationLat, widget.gymLocationLon);
+        locationLat,
+        locationLon,
+        widget.gymLocationLat.toDouble(),
+        widget.gymLocationLon.toDouble());
 
     if (distanceBetweenGymAndPerson < 0.05) {
       return true;

@@ -68,9 +68,6 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
               name: _nameController.text,
               id: _exerciseIdController.text,
               exerciseInformationList: [
-                // ExerciseInformation(0, 5, false),
-                // ExerciseInformation(0, 5, false),
-                // ExerciseInformation(0, 5, false)
               ],
               exerciseCompleted: false));
       Navigator.pop(context);
@@ -155,7 +152,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       )),
                       dropdownStyleData: DropdownStyleData(
                           // maxHeight: 250,
-                          width: getScreenWidth(context) * 0.6,
+                          width: getScreenWidth(context) * 0.8,
                           decoration: const BoxDecoration(color: Colors.white)),
                       value: context
                           .watch<ExerciseListProvider>()

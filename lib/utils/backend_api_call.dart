@@ -11,7 +11,7 @@ Future<void> uploadImage(
 
     var request = http.MultipartRequest('POST', Uri.parse('$TEST_URL$path'));
     var jwtToken = sharedPreferences.getString("jwtToken") ??
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2NWJiZjM3ZjllZGNlMzRkZjNkOTY3IiwiY29udGFjdCI6IjExMTExMTExMTIiLCJpYXQiOjE3MTc5NDMzMjYsImV4cCI6MzYwMDE3MTc5NDMzMjZ9.vbME_jW3s4F4dh7t2OrIIrwtTV4K6dSZ0ZoS7T9DjBY";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2NWUxNjhlNTZjMzdkYzZjOWExYmI0IiwiY29udGFjdCI6IjcwNjU1ODQ3NzgiLCJpYXQiOjE3MTc5NjMyNDMsImV4cCI6MzYwMDE3MTc5NjMyNDN9.zUdbGtKKf3ZWdnyx781Z2cbAPD514RFZ-SWE9gJBv2c";
     request.headers['token'] = jwtToken;
     request.files
         .add(await http.MultipartFile.fromPath('file', imageFile.path));
@@ -42,7 +42,7 @@ Future<Map<String, dynamic>> backendAPICall(String path,
   if (needJwt) {
     var sharedPreferences = await SharedPreferences.getInstance();
     var jwtToken = sharedPreferences.getString("jwtToken") ??
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2NWJiZjM3ZjllZGNlMzRkZjNkOTY3IiwiY29udGFjdCI6IjExMTExMTExMTIiLCJpYXQiOjE3MTc5NDMzMjYsImV4cCI6MzYwMDE3MTc5NDMzMjZ9.vbME_jW3s4F4dh7t2OrIIrwtTV4K6dSZ0ZoS7T9DjBY";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2NWUxNjhlNTZjMzdkYzZjOWExYmI0IiwiY29udGFjdCI6IjcwNjU1ODQ3NzgiLCJpYXQiOjE3MTc5NjMyNDMsImV4cCI6MzYwMDE3MTc5NjMyNDN9.zUdbGtKKf3ZWdnyx781Z2cbAPD514RFZ-SWE9gJBv2c";
     requestHeaders = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -82,8 +82,8 @@ Future<Map<String, dynamic>> backendAPICall(String path,
       headers: requestHeaders,
       body: jsonEncode(requestBody),
     );
-    // print(response.body);
-    // print('');
+    print(response.body);
+    print('');
     return jsonDecode(response.body) as Map<String, dynamic>;
   } else if (method == "DELETE") {
     final response =

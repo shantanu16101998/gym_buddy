@@ -14,7 +14,6 @@ class _CardContainerState extends State<CardContainer> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ExerciseProvider>(context, listen: false).initExercise();
   }
 
   @override

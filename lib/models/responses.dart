@@ -86,7 +86,7 @@ class UserProfileResponse {
   final String phone;
   final String? profilePic;
   final String? startDate;
-  final int? validTill;
+  final num? validTill;
   final String? traineeName;
 
   const UserProfileResponse(
@@ -109,11 +109,11 @@ class UserProfileResponse {
 }
 
 class AnalysisHomepageResponse {
-  final int earnings;
-  final int numberOfPeople;
-  final int averageMonth;
-  final int males;
-  final int females;
+  final num earnings;
+  final num numberOfPeople;
+  final num averageMonth;
+  final num males;
+  final num females;
 
   const AnalysisHomepageResponse(
       {required this.earnings,
@@ -135,7 +135,7 @@ class AnalysisHomepageResponse {
 
 class ExpandedAnalysisResponse {
   final List<String> titles;
-  final List<int> data;
+  final List<num> data;
   final String average;
   final String total;
   final num maxLimitOfData;
@@ -151,7 +151,7 @@ class ExpandedAnalysisResponse {
     return ExpandedAnalysisResponse(
         average: json["average"],
         titles: List<String>.from(json["titles"]),
-        data: List<int>.from(json["data"]),
+        data: List<num>.from(json["data"]),
         maxLimitOfData: json["maxLimitOfData"],
         total: json["total"]);
   }
@@ -189,9 +189,9 @@ class MemberLoginResponse {
 }
 
 class MonthData {
-  final int year;
+  final num year;
   final String month;
-  final List<int> days;
+  final List<num> days;
 
   MonthData({required this.year, required this.month, required this.days});
 
@@ -199,7 +199,7 @@ class MonthData {
     return MonthData(
       year: json['year'],
       month: json['month'],
-      days: List<int>.from(json['days']),
+      days: List<num>.from(json['days']),
     );
   }
 }
@@ -218,7 +218,7 @@ class AttendanceResponse {
 
 class TraineeDetailsResponse {
   final String name;
-  final int experience;
+  final num experience;
   final String id;
 
   TraineeDetailsResponse(
@@ -227,7 +227,7 @@ class TraineeDetailsResponse {
   factory TraineeDetailsResponse.fromJson(Map<String, dynamic> json) {
     return TraineeDetailsResponse(
       name: json['name'] as String,
-      experience: json['experience'] as int,
+      experience: json['experience'] as num,
       id: json['_id'] as String,
     );
   }
@@ -267,11 +267,11 @@ class MemberProfileResponse {
   final String name;
   final String contact;
   final String startDate;
-  final int validTill;
+  final num validTill;
   final String trainerName;
   final String currentWeekAttendance;
-  final double? gymLocationLat;
-  final double? gymLocationLon;
+  final num? gymLocationLat;
+  final num? gymLocationLon;
   MemberProfileResponse(
       {required this.name,
       required this.contact,
@@ -291,19 +291,17 @@ class MemberProfileResponse {
         validTill: json['validTill'] ?? 0,
         currentWeekAttendance: json['currentWeekAttendance'] ?? "0",
         gymLocationLat: json['locationLat'],
-        gymLocationLon: json['locationLon']
-        
-        );
+        gymLocationLon: json['locationLon']);
   }
 }
 
 class ComparisionData {
   List<String> titles;
-  List<double> data;
-  int maxLimitOfData;
-  int minLimitOfData;
-  double top;
-  int highlightTitle;
+  List<num> data;
+  num maxLimitOfData;
+  num minLimitOfData;
+  num top;
+  num highlightTitle;
 
   ComparisionData(
       {required this.titles,
@@ -316,7 +314,7 @@ class ComparisionData {
   factory ComparisionData.fromJson(Map<String, dynamic> json) {
     return ComparisionData(
         titles: List<String>.from(json['titles']),
-        data: List<double>.from(json['data']),
+        data: List<num>.from(json['data']),
         maxLimitOfData: json['maxLimitOfData'],
         minLimitOfData: json['minLimitOfData'],
         highlightTitle: json['highlightTitle'],
@@ -326,9 +324,9 @@ class ComparisionData {
 
 class GrowthData {
   List<String> titles;
-  List<double> data;
-  int maxLimitOfData;
-  int minLimitOfData;
+  List<num> data;
+  num maxLimitOfData;
+  num minLimitOfData;
 
   GrowthData(
       {required this.titles,
@@ -339,7 +337,7 @@ class GrowthData {
   factory GrowthData.fromJson(Map<String, dynamic> json) {
     return GrowthData(
       titles: List<String>.from(json['titles']),
-      data: List<double>.from(json['data']),
+      data: List<num>.from(json['data']),
       minLimitOfData: json['minLimitOfData'],
       maxLimitOfData: json['maxLimitOfData'],
     );
@@ -365,7 +363,7 @@ class IdCardResponse {
   String gymContact;
   String memberName;
   String planDue;
-  int planDuration;
+  num planDuration;
   String planid;
   String customerPic;
   String? error;
@@ -437,5 +435,15 @@ class GetExerciseForDayResponse {
             .map((exercise) =>
                 Exercise.fromJson(exercise as Map<String, dynamic>))
             .toList());
+  }
+}
+
+class AddSetResponse {
+  String exerciseDescriptionId;
+
+  AddSetResponse({required this.exerciseDescriptionId});
+
+  factory AddSetResponse.fromJson(Map<String, dynamic> json) {
+    return AddSetResponse(exerciseDescriptionId: json['message']);
   }
 }

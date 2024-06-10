@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -80,7 +79,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                           Icons.close,
                           size: 15,
                           color: !widget.exerciseCompleted
-                              ? Color(0xffCE8C8C)
+                              ? const Color(0xffCE8C8C)
                               : Colors.transparent,
                         ),
                       ),

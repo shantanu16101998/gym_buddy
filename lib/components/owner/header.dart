@@ -48,16 +48,20 @@ class _HeaderState extends State<Header> {
               Column(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.only(left: 17, bottom: 3),
-                      child: Text('Hi ${widget.userName}',
-                          style: GoogleFonts.inter(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Color(0xff344054),
-                              decoration: TextDecoration.none,
-                            ),
-                          ))),
+                      padding: const EdgeInsets.only(left: 17, bottom: 3,right: 10),
+                      child: Container(
+                        width: 250,
+                        child: Text('Hi ${widget.userName}',
+                            overflow: TextOverflow.clip,
+                            style: GoogleFonts.inter(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Color(0xff344054),
+                                decoration: TextDecoration.none,
+                              ),
+                            )),
+                      )),
                 ],
               ),
             ],

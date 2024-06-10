@@ -6,12 +6,13 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/examples/share_widget_as_image.dart';
+import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,8 +37,7 @@ class _HomepageState extends State<Homepage> {
         if (image != null) {
           var status = await Permission.storage.request();
           if (status.isGranted) {
-            var result = await ImageGallerySaver.saveImage(image);
-            print(result);
+            await ImageGallerySaver.saveImage(image);
             setState(() {
               isDowloaded = true;
               Navigator.pop(context);
@@ -149,6 +149,11 @@ class _HomepageState extends State<Homepage> {
       _showIdentityCardDialog(context);
     });
     fetchCustomerDetails();
+
+    if (!Provider.of<ExerciseProvider>(context, listen: false)
+        .exerciseInitialized) {
+      Provider.of<ExerciseProvider>(context, listen: false).initExercise();
+    }
   }
 
   MemberProfileResponse memberProfileResponse = MemberProfileResponse(

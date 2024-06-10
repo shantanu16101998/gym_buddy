@@ -6,7 +6,8 @@ import 'package:gym_buddy/utils/custom.dart';
 
 class AnalysisCardContainer extends StatefulWidget {
   final AnalysisHomepageResponse analysisHomepageResponse;
-  const AnalysisCardContainer({super.key,required this.analysisHomepageResponse});
+  const AnalysisCardContainer(
+      {super.key, required this.analysisHomepageResponse});
 
   @override
   State<AnalysisCardContainer> createState() => _AnalysisCardContainerState();
@@ -25,21 +26,24 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: formatCurrency(widget.analysisHomepageResponse.earnings),
+                    value: formatCurrency(
+                        widget.analysisHomepageResponse.earnings.toInt()),
                     label: "Earnings",
                     icon: Icons.credit_card),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: widget.analysisHomepageResponse.numberOfPeople.toString(),
+                    value: widget.analysisHomepageResponse.numberOfPeople
+                        .toString(),
                     label: "People",
                     icon: Icons.person),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AnalysisCard(
-                    value: widget.analysisHomepageResponse.averageMonth.toString(),
+                    value:
+                        widget.analysisHomepageResponse.averageMonth.toString(),
                     label: "Average",
                     icon: Icons.lock_clock),
               ),

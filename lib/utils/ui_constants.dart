@@ -25,7 +25,7 @@ double getEffectiveScreenHeight(context) {
 Color formPrimaryColor = const Color.fromARGB(255, 85, 84, 84);
 
 List<num> defaultExerciseWeights = [
-  for (int i = 1; i < 1000; i++)
+  for (int i = 0; i < 1000; i++)
     i < 20
         ? (2.5 * i.toInt()) % 1 == 0
             ? (2.5 * i).toInt()

@@ -122,7 +122,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                     }
                   }
 
-                  for (i = 0; i < monthData.days.length; i++) {
+                  for (; i < monthData.days.length; i++) {
                     if (monthData.days[i] == 1) {
                       attendanceColors.add(attendanceMarkPresent);
                     } else {

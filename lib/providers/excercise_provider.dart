@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/models/shared_preference_objects.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   List<Exercise> exerciseList = [];
+  bool exerciseInitialized = false;
 
   Exercise lastRemovedExercise = Exercise(
       name: 'dumi',
@@ -57,8 +63,55 @@ class ExerciseProvider extends ChangeNotifier {
     GetExerciseForDayResponse getExerciseForDayResponse =
         GetExerciseForDayResponse.fromJson(await backendAPICall(
             '/template/getExercisesForDay', {}, 'GET', true));
-    exerciseList = getExerciseForDayResponse.exercises;
+
+    exerciseList =
+        await updateCompletedExercises(getExerciseForDayResponse.exercises);
+    exerciseInitialized = true;
     notifyListeners();
+  }
+
+  Future<List<Exercise>> updateCompletedExercises(
+      List<Exercise> exerciseList) async {
+    var key =
+        '${DateTime.now().day} ${DateTime.now().month} ${DateTime.now().year}';
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    String value = sharedPreferences.getString(exerciseCompletionKey) ?? "";
+
+    if (value != "") {
+      Map<String, dynamic> json = jsonDecode(value);
+
+      ExerciseDayInformation exerciseDayInformation =
+          ExerciseDayInformation.fromJson(json);
+
+      if (exerciseDayInformation.date == key) {
+        for (var exercise in exerciseList) {
+          for (var exerciseInformation in exercise.exerciseInformationList) {
+            if (exerciseDayInformation.exerciseCompletionList
+                .contains(exerciseInformation.exerciseDescriptionId)) {
+              exerciseInformation.isCompleted = true;
+            }
+          }
+        }
+
+        return exerciseList;
+      } else {
+        ExerciseDayInformation exerciseDayInformation = ExerciseDayInformation(
+            date: key, exerciseCompletionList: <String>{});
+
+        sharedPreferences.setString(
+            exerciseCompletionKey, jsonEncode(exerciseDayInformation.toJson()));
+        return exerciseList;
+      }
+    } else {
+      ExerciseDayInformation exerciseDayInformation =
+          ExerciseDayInformation(date: key, exerciseCompletionList: <String>{});
+
+      sharedPreferences.setString(
+          exerciseCompletionKey, jsonEncode(exerciseDayInformation.toJson()));
+
+      return exerciseList;
+    }
   }
 
   void updateExerciseInformationListWeight(
@@ -67,7 +120,7 @@ class ExerciseProvider extends ChangeNotifier {
         defaultExerciseWeights.indexOf(value);
 
     backendAPICall(
-        '/template/updateRepsAndWeight',
+        '/template/updateSet',
         {
           'exerciseName': exerciseList[exerciseIndex].name,
           'reps': defaultExerciseReps[exerciseList[exerciseIndex]
@@ -77,7 +130,9 @@ class ExerciseProvider extends ChangeNotifier {
               .exerciseInformationList[setNo]
               .weightIndex],
           'setNo': setNo,
-          'exerciseId': exerciseList[exerciseIndex].id
+          'exerciseDescriptionId': exerciseList[exerciseIndex]
+              .exerciseInformationList[setNo]
+              .exerciseDescriptionId
         },
         'PUT',
         true);
@@ -90,7 +145,7 @@ class ExerciseProvider extends ChangeNotifier {
         defaultExerciseReps.indexOf(value);
 
     backendAPICall(
-        '/template/updateRepsAndWeight',
+        '/template/updateSet',
         {
           'exerciseName': exerciseList[exerciseIndex].name,
           'reps': defaultExerciseReps[exerciseList[exerciseIndex]
@@ -100,33 +155,59 @@ class ExerciseProvider extends ChangeNotifier {
               .exerciseInformationList[setNo]
               .weightIndex],
           'setNo': setNo,
-          'exerciseId': exerciseList[exerciseIndex].id
+          'exerciseDescriptionId': exerciseList[exerciseIndex]
+              .exerciseInformationList[setNo]
+              .exerciseDescriptionId
         },
         'PUT',
         true);
     notifyListeners();
   }
 
-  void addSetToExercise(int exerciseIndex) {
-    exerciseList[exerciseIndex].exerciseInformationList.add(ExerciseInformation(
-        weightIndex: 0,
-        repIndex: 0,
-        isCompleted: false,
-        exerciseDescriptionId: ''));
+  ExerciseInformation getLastExerciseInformation(int exerciseIndex) {
+    if (exerciseList[exerciseIndex].exerciseInformationList.isEmpty) {
+      return ExerciseInformation(
+          weightIndex: 0,
+          repIndex: 0,
+          isCompleted: false,
+          exerciseDescriptionId: '');
+    } else {
+      return ExerciseInformation(
+          weightIndex: exerciseList[exerciseIndex]
+              .exerciseInformationList
+              .last
+              .weightIndex,
+          repIndex:
+              exerciseList[exerciseIndex].exerciseInformationList.last.repIndex,
+          isCompleted: false,
+          exerciseDescriptionId: '');
+    }
+  }
+
+  void addSetToExercise(int exerciseIndex) async {
+    exerciseList[exerciseIndex]
+        .exerciseInformationList
+        .add(getLastExerciseInformation(exerciseIndex));
 
     areAllExerciseCompleted(exerciseIndex);
     notifyListeners();
 
-    backendAPICall(
-        '/template/addSetToExercise',
-        {
-          'exerciseId': exerciseList[exerciseIndex].id,
-          'exerciseName': exerciseList[exerciseIndex].name,
-          'reps': defaultExerciseReps[0],
-          'weight': defaultExerciseWeights[0]
-        },
-        'POST',
-        true);
+    AddSetResponse addSetResponse =
+        AddSetResponse.fromJson(await backendAPICall(
+            '/template/addSetToExercise',
+            {
+              'exerciseId': exerciseList[exerciseIndex].id,
+              'exerciseName': exerciseList[exerciseIndex].name,
+              'reps': defaultExerciseReps[0],
+              'weight': defaultExerciseWeights[0]
+            },
+            'POST',
+            true));
+
+    exerciseList[exerciseIndex]
+        .exerciseInformationList
+        .last
+        .exerciseDescriptionId = addSetResponse.exerciseDescriptionId;
   }
 
   void areAllExerciseCompleted(int exerciseIndex) {
@@ -170,7 +251,9 @@ class ExerciseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void markStatusOfSet(int exerciseIndex, int setNo) {
+  void markStatusOfSet(int exerciseIndex, int setNo) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     if (!exerciseList[exerciseIndex]
         .exerciseInformationList[setNo]
         .isCompleted) {
@@ -190,6 +273,21 @@ class ExerciseProvider extends ChangeNotifier {
           true);
       exerciseList[exerciseIndex].exerciseInformationList[setNo].isCompleted =
           true;
+
+      var value = sharedPreferences.getString(exerciseCompletionKey) ?? "";
+
+      if (value != "") {
+        ExerciseDayInformation exerciseDayInformation =
+            ExerciseDayInformation.fromJson(jsonDecode(value));
+
+        exerciseDayInformation.exerciseCompletionList.add(
+            exerciseList[exerciseIndex]
+                .exerciseInformationList[setNo]
+                .exerciseDescriptionId);
+
+        sharedPreferences.setString(
+            exerciseCompletionKey, jsonEncode(exerciseDayInformation.toJson()));
+      }
     } else {
       backendAPICall(
           '/workoutLog/removeLogs',
@@ -199,6 +297,21 @@ class ExerciseProvider extends ChangeNotifier {
 
       exerciseList[exerciseIndex].exerciseInformationList[setNo].isCompleted =
           false;
+
+      var value = sharedPreferences.getString(exerciseCompletionKey) ?? "";
+
+      if (value != "") {
+        ExerciseDayInformation exerciseDayInformation =
+            ExerciseDayInformation.fromJson(jsonDecode(value));
+
+        exerciseDayInformation.exerciseCompletionList.remove(
+            exerciseList[exerciseIndex]
+                .exerciseInformationList[setNo]
+                .exerciseDescriptionId);
+
+        sharedPreferences.setString(
+            exerciseCompletionKey, jsonEncode(exerciseDayInformation.toJson()));
+      }
     }
 
     areAllExerciseCompleted(exerciseIndex);

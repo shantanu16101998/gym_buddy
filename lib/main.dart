@@ -73,14 +73,14 @@ class _MyAppState extends State<MyApp> {
         title: 'Gym Buddy',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: Colors.black,
+          scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSwatch().copyWith(
               secondary: Colors.red, primary: const Color(0xff667085)),
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
         // uncomment when in prod
-        home: const SplashScreen(),
-        // home: const Profile(),
+        // home: const SplashScreen(),
+        home: const Homepage(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),

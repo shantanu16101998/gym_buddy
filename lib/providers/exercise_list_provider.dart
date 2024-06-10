@@ -4,7 +4,7 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 
 class ExerciseListProvider extends ChangeNotifier {
-  List<ExercisesTableInformation> exercisesTableInformation = [ExercisesTableInformation(id: '0', name: '')];
+  List<ExercisesTableInformation> exercisesTableInformation = [];
 
   Future<void> fetchExercise() async {
     GetAllExerciseResponse getAllExerciseResponse =
