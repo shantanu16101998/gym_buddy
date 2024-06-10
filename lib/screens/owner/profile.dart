@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/member/attendance_calendar.dart';
+import 'package:gym_buddy/components/common/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
@@ -86,7 +86,7 @@ class _ProfileState extends State<Profile> {
                     border: Border(
                         bottom:
                             BorderSide(width: 1, color: Color(0xffD9D9D9)))),
-                child: const AttendanceCalendar(),
+                child: AttendanceCalendar(customerId: widget.userId),
               ),
               const SizedBox(height: 70),
               Column(

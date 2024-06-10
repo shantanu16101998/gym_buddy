@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class AttendanceCalendar extends StatefulWidget {
-  const AttendanceCalendar({
-    super.key,
-  });
+  final String? customerId;
+  const AttendanceCalendar({super.key, this.customerId});
 
   @override
   State<AttendanceCalendar> createState() => _AttendanceCalendarState();
@@ -28,21 +29,42 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   AttendanceResponse? attendanceResponse;
 
   fetchAttendance() async {
-    Map<String, dynamic> responseData =
-        await backendAPICall('/attendance/getLifeTimeAttendance', {}, 'GET', true);
+    if (appEnvironment == AppEnvironment.member) {
+      Map<String, dynamic> responseData = await backendAPICall(
+          '/attendance/getLifeTimeAttendance', {}, 'GET', true);
 
-    setState(() {
-      attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
-      minMonth = getShortMonthNumber(
-              responseData['startMonth'].toString().toLowerCase()) ??
-          0;
-      startDay = responseData['startDay'] ?? 1;
-      maxMonth = getShortMonthNumber(
-              responseData['endMonth'].toString().toLowerCase()) ??
-          12;
-      minYear = responseData['startYear'];
-      maxYear = responseData['endYear'];
-    });
+      setState(() {
+        attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
+        minMonth = getShortMonthNumber(
+                responseData['startMonth'].toString().toLowerCase()) ??
+            0;
+        startDay = responseData['startDay'] ?? 1;
+        maxMonth = getShortMonthNumber(
+                responseData['endMonth'].toString().toLowerCase()) ??
+            12;
+        minYear = responseData['startYear'];
+        maxYear = responseData['endYear'];
+      });
+    } else {
+      Map<String, dynamic> responseData = await backendAPICall(
+          '/attendance/${widget.customerId}/getLifeTimeAttendance',
+          {},
+          'GET',
+          true);
+
+      setState(() {
+        attendanceResponse = AttendanceResponse.fromJson(responseData['data']);
+        minMonth = getShortMonthNumber(
+                responseData['startMonth'].toString().toLowerCase()) ??
+            0;
+        startDay = responseData['startDay'] ?? 1;
+        maxMonth = getShortMonthNumber(
+                responseData['endMonth'].toString().toLowerCase()) ??
+            12;
+        minYear = responseData['startYear'];
+        maxYear = responseData['endYear'];
+      });
+    }
   }
 
   @override

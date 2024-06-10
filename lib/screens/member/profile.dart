@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/member/attendance_calendar.dart';
+import 'package:gym_buddy/components/common/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';

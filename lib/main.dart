@@ -80,7 +80,7 @@ class _MyAppState extends State<MyApp> {
         ),
         // uncomment when in prod
         // home: const SplashScreen(),
-        home: const Homepage(),
+        home: const Subscription(),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
