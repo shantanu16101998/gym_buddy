@@ -10,7 +10,6 @@ import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:gym_buddy/components/owner/loader.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -92,8 +91,8 @@ class _ProfileState extends State<Profile> {
                     ? SizedBox(
                         height: 200.0,
                         child: Shimmer.fromColors(
-                          baseColor: Color.fromARGB(255, 255, 255, 255),
-                          highlightColor: Color.fromARGB(255, 227, 227, 226),
+                          baseColor: const Color.fromARGB(255, 255, 255, 255),
+                          highlightColor: const Color.fromARGB(255, 227, 227, 226),
                           child: Container(
                             height: 20,
                             width: 100,
@@ -112,9 +111,9 @@ class _ProfileState extends State<Profile> {
                             width: 300.0,
                             height: 200.0,
                             child: Shimmer.fromColors(
-                              baseColor: Color.fromARGB(255, 255, 255, 255),
+                              baseColor: const Color.fromARGB(255, 255, 255, 255),
                               highlightColor:
-                                  Color.fromARGB(255, 227, 227, 226),
+                                  const Color.fromARGB(255, 227, 227, 226),
                               child: Container(
                                 height: 20,
                                 width: 100,
@@ -279,7 +278,7 @@ class _ProfileState extends State<Profile> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(70),
                               border: Border.all(
-                                color: Color(0xffD9D9D9),
+                                color: const Color(0xffD9D9D9),
                               )),
                         )
                       : Container(

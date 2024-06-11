@@ -10,7 +10,7 @@ import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
-import 'package:gym_buddy/screens/owner/profile.dart';
+// import 'package:gym_buddy/screens/owner/profile.dart';
 // import 'package:gym_buddy/screens/member/profile.dart';
 import 'package:gym_buddy/screens/owner/qr_page.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';

@@ -113,8 +113,12 @@ class _ImageDialogState extends State<ImageDialog> {
                     fit: BoxFit.cover)),
           ),
           Container(
-            color: Colors.white,
             width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius:
+                  BorderRadius.vertical(bottom: Radius.circular(20)),
+            ),
             child: Column(
               children: [
                 _imageFile != null
@@ -136,7 +140,8 @@ class _ImageDialogState extends State<ImageDialog> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: Colors.blue,
+                                backgroundColor: Colors.white,
+                                elevation: 0,
                                 title: const Text('Choose an option'),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
