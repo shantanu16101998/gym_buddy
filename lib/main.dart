@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
 import 'package:gym_buddy/firebase_options.dart';
+import 'package:gym_buddy/providers/api_data_loaded.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
@@ -70,7 +71,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
         ChangeNotifierProvider(create: (context) => ExerciseProvider()),
-        ChangeNotifierProvider(create: (context) => ExerciseListProvider())
+        ChangeNotifierProvider(create: (context) => ExerciseListProvider()),
+        ChangeNotifierProvider(create: (context) => ApiDataLoadedProvider())
       ],
       child: MaterialApp(
         title: 'Gym Buddy',

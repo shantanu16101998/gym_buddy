@@ -12,3 +12,5 @@ enum AttendanceStatus { present, notInsideGym, notLocationPermissionGiven }
 enum AppEnvironment { owner, member }
 
 enum UserCurrentScreen { home, analysis, profile }
+
+enum CustomerScreens { homepage, analysis, profile }
