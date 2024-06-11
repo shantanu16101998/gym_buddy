@@ -28,6 +28,7 @@ class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 0,
       width: getScreenWidth(context) * 0.5,
       backgroundColor: Colors.white,
       child: Column(

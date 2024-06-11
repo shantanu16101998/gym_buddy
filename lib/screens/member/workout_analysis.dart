@@ -141,11 +141,16 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
         child: Provider.of<ExerciseListProvider>(context, listen: true)
                 .exercisesTableInformation
                 .isEmpty
-            ? Padding(
-              padding: EdgeInsets.only(top: 200),
-               child: const CustomText(
-                      text: 'Please do some workout to get analysis',fontSize: 40,textAlign: TextAlign.center,fontWeight: FontWeight.bold,color: Color(0xffD9D9D9),),
-            )
+            ? const Padding(
+                padding: EdgeInsets.only(top: 200),
+                child: CustomText(
+                  text: 'Please do some workout to get analysis',
+                  fontSize: 40,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xffD9D9D9),
+                ),
+              )
             : Container(
                 child: Column(
                   children: [

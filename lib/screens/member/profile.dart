@@ -151,6 +151,7 @@ class _ProfileState extends State<Profile> {
                           )),
                       onPressed: () {
                         showModalBottomSheet<void>(
+                          elevation: 0,
                             context: context,
                             builder: (BuildContext context) {
                               return ReferralDialog();

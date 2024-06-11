@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart' as owner_side_bar;
 import 'package:gym_buddy/components/member/side_bar.dart' as member_side_bar;
@@ -110,77 +112,89 @@ class _AppScaffoldState extends State<AppScaffold> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 40),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    var sharedPreferences =
-                                        await SharedPreferences.getInstance();
-                                    sharedPreferences.setString(
-                                        "currentScreen", "home");
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Homepage(),
-                                      ),
-                                    );
-                                  },
-                                  child: Icon(Icons.home,
-                                      size: 30,
-                                      color: currentScreen == "home"
-                                          ? headingColor
-                                          : Color.fromARGB(255, 149, 142, 142)),
+                              GestureDetector(
+                                onTap: () async {
+                                  var sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.setString(
+                                      "currentScreen", "home");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Homepage(),
+                                    ),
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: getScreenWidth(context) * 0.3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: Icon(Icons.home,
+                                        size: 30,
+                                        color: currentScreen == "home"
+                                            ? headingColor
+                                            : const Color.fromARGB(
+                                                255, 149, 142, 142)),
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 40),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    var sharedPreferences =
-                                        await SharedPreferences.getInstance();
-                                    sharedPreferences.setString(
-                                        "currentScreen", "analysis");
+                              GestureDetector(
+                                onTap: () async {
+                                  var sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.setString(
+                                      "currentScreen", "analysis");
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const WorkoutAnalayis(),
-                                      ),
-                                    );
-                                  },
-                                  child: Icon(Icons.auto_graph,
-                                      size: 30,
-                                      color: currentScreen == "analysis"
-                                          ? headingColor
-                                          : Color.fromARGB(255, 149, 142, 142)),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WorkoutAnalayis(),
+                                    ),
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: getScreenWidth(context) * 0.3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: Icon(Icons.auto_graph,
+                                        size: 30,
+                                        color: currentScreen == "analysis"
+                                            ? headingColor
+                                            : const Color.fromARGB(
+                                                255, 149, 142, 142)),
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 40),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    var sharedPreferences =
-                                        await SharedPreferences.getInstance();
+                              GestureDetector(
+                                onTap: () async {
+                                  var sharedPreferences =
+                                      await SharedPreferences.getInstance();
 
-                                    sharedPreferences.setString(
-                                        "currentScreen", "profile");
+                                  sharedPreferences.setString(
+                                      "currentScreen", "profile");
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Profile(),
-                                      ),
-                                    );
-                                  },
-                                  child: Icon(Icons.person,
-                                      size: 30,
-                                      color: currentScreen == "profile"
-                                          ? headingColor
-                                          : Color.fromARGB(255, 149, 142, 142)),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Profile(),
+                                    ),
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: getScreenWidth(context) * 0.3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: Icon(Icons.person,
+                                        size: 30,
+                                        color: currentScreen == "profile"
+                                            ? headingColor
+                                            : const Color.fromARGB(
+                                                255, 149, 142, 142)),
+                                  ),
                                 ),
                               ),
                             ],
@@ -191,6 +205,6 @@ class _AppScaffoldState extends State<AppScaffold> {
               ],
             ),
           )
-        : Container(color: Colors.white, child: Loader());
+        : Container(color: Colors.white, child: const Loader());
   }
 }

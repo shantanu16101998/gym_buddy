@@ -101,7 +101,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                           errorText: nameError),
                     ))
                 : Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 40,bottom:  100),
                     child: DropdownButton2<ExercisesTableInformation>(
                       buttonStyleData: ButtonStyleData(width: 350),
                       dropdownSearchData: DropdownSearchData(
@@ -159,22 +159,15 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       onChanged: (ExercisesTableInformation? value) {
                         if (value != null) {
                           setState(() {
-                            exerciseIndex = Provider.of<ExerciseListProvider>(
-                                    context,
-                                    listen: false)
-                                .exercisesTableInformation
-                                .indexOf(value);
+                            // exerciseIndex = Provider.of<ExerciseListProvider>(
+                            //         context,
+                            //         listen: false)
+                            //     .exercisesTableInformation
+                            //     .indexOf(value);
 
-                            _nameController.text =
-                                Provider.of<ExerciseListProvider>(context,
-                                        listen: false)
-                                    .exercisesTableInformation[exerciseIndex]
-                                    .name;
-                            _exerciseIdController.text =
-                                Provider.of<ExerciseListProvider>(context,
-                                        listen: false)
-                                    .exercisesTableInformation[exerciseIndex]
-                                    .id;
+                            _nameController.text = value.name;
+
+                            _exerciseIdController.text = value.id;
                           });
 
                           _onAddPressed();

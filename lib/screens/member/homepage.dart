@@ -246,7 +246,7 @@ class _HomepageState extends State<Homepage> {
                                               const Color(0xFFD9D9D9)),
                                       child: const Padding(
                                           padding: EdgeInsets.all(10),
-                                          child: Text("Add Exercise",
+                                          child: Text("Add Exercise for Today",
                                               style: TextStyle(
                                                   color: Color(0xff004576),
                                                   fontSize: 18,
