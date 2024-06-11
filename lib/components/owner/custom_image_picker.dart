@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
@@ -92,7 +93,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.grey[200],
                     title: const Text('Choose an option'),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -134,9 +135,9 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             ),
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
+          _imageFile != null ?ElevatedButton(
             style: ElevatedButton.styleFrom(
-                elevation: 0, backgroundColor: const Color(0xFFD9D9D9)),
+                elevation: 0, side: BorderSide(color: Colors.black)),
             onPressed: _cropImage,
             child: const Padding(
               padding: EdgeInsets.all(10.0),
@@ -144,10 +145,10 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                 fontWeight: FontWeight.bold,
                 text: 'Crop Image',
                 fontSize: 18,
-                color: Color(0xff004576),
+                color: headingColor,
               ),
             ),
-          ),
+          ) : const SizedBox(),
         ],
       ),
     );

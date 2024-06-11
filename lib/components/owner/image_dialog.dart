@@ -136,7 +136,7 @@ class _ImageDialogState extends State<ImageDialog> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: Colors.white,
+                                backgroundColor: Colors.blue,
                                 title: const Text('Choose an option'),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,

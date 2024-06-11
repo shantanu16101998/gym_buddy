@@ -61,12 +61,14 @@ class _AttendanceBarState extends State<AttendanceBar> {
         const Padding(
           padding: EdgeInsets.all(20.0),
           child: CustomText(
-            text: 'Please grant location permission for attendance',
+            text: 'Grant location Permission',
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: headingColor,
+            textAlign: TextAlign.center,
           ),
         ),
+        const Icon(Icons.warning_rounded, size: 80, color: Colors.amber),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: OutlinedButton(
@@ -94,7 +96,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   side: const BorderSide(width: 1, color: Colors.black)),
               child: const Padding(
                   padding: EdgeInsets.all(10),
-                  child: Text("Grant Location Permission",
+                  child: Text("Allow",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
@@ -112,10 +114,20 @@ class _AttendanceBarState extends State<AttendanceBar> {
           Padding(
             padding: EdgeInsets.all(20),
             child: CustomText(
-              text: 'Attendance is marked successfully',
+              text: 'Attendance Marked',
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: headingColor,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: Center(
+              child: Icon(
+                Icons.check_circle,
+                size: 80,
+                color: const Color(0xff3ABA2E),
+              ),
             ),
           )
         ],
@@ -124,19 +136,40 @@ class _AttendanceBarState extends State<AttendanceBar> {
   }
 
   Widget userNotInLocationWidget() {
-    return const SizedBox(
+    return SizedBox(
       height: 110,
       child: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(20),
+            child: CustomText(
+              text: 'Attendance Not Marked',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: headingColor,
+            ),
+          ),
+          Container(
+            height: 80,
+            width: 80,
+            decoration: BoxDecoration(
+                color: const Color(0xffE46A6A),
+                borderRadius: BorderRadius.all(Radius.circular(80))),
+            child: const Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 30),
             child: CustomText(
               text: 'Please go inside gym to mark attendance',
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: headingColor,
+              textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -164,7 +197,6 @@ class _AttendanceBarState extends State<AttendanceBar> {
   onAttendanceButtonClicked(int weekDay, BuildContext context) async {
     if (weekDay == currentWeekDay &&
         attendanceStatus != AttendanceStatus.present) {
-      print("mama ric");
       bool verdict = await getCurrentLocationSuccess();
 
       if (verdict) {
@@ -193,19 +225,28 @@ class _AttendanceBarState extends State<AttendanceBar> {
   }
 
   void _showAlertDialog() async {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-              width: double.infinity,
-              color: Colors.white,
-              child: attendanceStatus ==
-                      AttendanceStatus.notLocationPermissionGiven
-                  ? grantLocationPermissionWidget()
-                  : attendanceStatus == AttendanceStatus.present
-                      ? attendanceMarkedWidget()
-                      : userNotInLocationWidget());
-        });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 0,
+          backgroundColor: Colors.transparent, // Set background color to white
+          content: Container(
+            width: double.infinity,
+            height: 300,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child:
+                attendanceStatus == AttendanceStatus.notLocationPermissionGiven
+                    ? grantLocationPermissionWidget()
+                    : attendanceStatus == AttendanceStatus.present
+                        ? attendanceMarkedWidget()
+                        : userNotInLocationWidget(),
+          ),
+        );
+      },
+    );
   }
 
 // for absent
@@ -253,6 +294,22 @@ class _AttendanceBarState extends State<AttendanceBar> {
     }
   }
 
+  double decideWidth(int weekDay) {
+    if (weekDay == currentWeekDay) {
+      return getScreenWidth(context) * 0.15;
+    } else {
+      return getScreenWidth(context) * 0.12;
+    }
+  }
+
+  double decideHeight(int weekDay) {
+    if (weekDay == currentWeekDay) {
+      return tabBarHeight * 1.2;
+    } else {
+      return tabBarHeight;
+    }
+  }
+
 //
 
   Widget decideIcon(int weekDay) {
@@ -260,6 +317,12 @@ class _AttendanceBarState extends State<AttendanceBar> {
       if (attendanceStatus == AttendanceStatus.present) {
         return presentContainer();
       }
+    } else if (weekDay > widget.attendanceString.length) {
+      return Icon(
+        Icons.check_circle,
+        size: iconSize,
+        color: Colors.transparent,
+      );
     }
     return containerDeciderForAttendance(weekDay - 1);
   }
@@ -268,7 +331,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Column(
           children: [
@@ -284,10 +347,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(1, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(1),
+                height: decideHeight(1),
                 decoration: BoxDecoration(
-                    color: currentWeekDay == 1
+                    color: currentWeekDay >= 1
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241),
                     borderRadius: const BorderRadius.horizontal(
@@ -313,10 +376,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   onAttendanceButtonClicked(2, context);
                 },
                 child: Container(
-                    width: getScreenWidth(context) * 0.12,
-                    height: tabBarHeight,
+                    width: decideWidth(2),
+                    height: decideHeight(2),
                     decoration: BoxDecoration(
-                        color: currentWeekDay == 2
+                        color: currentWeekDay >= 2
                             ? Colors.white
                             : const Color.fromARGB(255, 235, 238, 241),
                         border: Border.all(
@@ -338,12 +401,12 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(3, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(3),
+                height: decideHeight(3),
                 decoration: BoxDecoration(
                     border:
                         Border.all(width: 1, color: const Color(0xffD0D5DD)),
-                    color: currentWeekDay == 3
+                    color: currentWeekDay >= 3
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241)),
                 child: Center(
@@ -367,10 +430,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(4, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(4),
+                height: decideHeight(4),
                 decoration: BoxDecoration(
-                    color: currentWeekDay == 4
+                    color: currentWeekDay >= 4
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241),
                     border:
@@ -397,10 +460,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(5, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(5),
+                height: decideHeight(5),
                 decoration: BoxDecoration(
-                    color: currentWeekDay == 5
+                    color: currentWeekDay >= 5
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241),
                     border:
@@ -426,10 +489,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(6, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(6),
+                height: decideHeight(6),
                 decoration: BoxDecoration(
-                    color: currentWeekDay == 6
+                    color: currentWeekDay >= 6
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241),
                     border:
@@ -456,10 +519,10 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 onAttendanceButtonClicked(7, context);
               },
               child: Container(
-                width: getScreenWidth(context) * 0.12,
-                height: tabBarHeight,
+                width: decideWidth(7),
+                height: decideHeight(7),
                 decoration: BoxDecoration(
-                    color: currentWeekDay == 7
+                    color: currentWeekDay >= 7
                         ? Colors.white
                         : const Color.fromARGB(255, 235, 238, 241),
                     borderRadius: const BorderRadius.horizontal(

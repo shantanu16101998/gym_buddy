@@ -80,14 +80,10 @@ class _UserFurtherInformationFormState
           validateSimpleText(_endMonthController.text, "Valid till");
       chargesError = validateSimpleText(_chargesController.text, "charges");
     });
-    if (
-        // ageError != null
-        genderError != null
-            // || bloodGroupError != null
-            ||
-            startDateError != null ||
-            endMonthError != null ||
-            chargesError != null) {
+    if (genderError != null ||
+        startDateError != null ||
+        endMonthError != null ||
+        chargesError != null) {
       return false;
     }
     return true;
@@ -136,8 +132,9 @@ class _UserFurtherInformationFormState
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
+          border: Border.all(color: Color(0xffDBDDE2)),
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: const Color(0xffFCFCFD),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -145,9 +142,10 @@ class _UserFurtherInformationFormState
               child: Text("Complete  $userName registration",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
+                    overflow: TextOverflow.clip
                   )))),
           Align(
             alignment: Alignment.center,
@@ -157,7 +155,6 @@ class _UserFurtherInformationFormState
                 child: Text('Enter subscription details',
                     style: GoogleFonts.roboto(
                         textStyle: const TextStyle(
-                      color: Color(0xffFFFFFF),
                       fontWeight: FontWeight.normal,
                       fontSize: 18,
                     )))),
@@ -180,8 +177,7 @@ class _UserFurtherInformationFormState
                     left: 30, top: 15, bottom: 15, right: 30),
                 child: Text('Valid Till in Months',
                     style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                      color: const Color(0xffFFFFFF).withOpacity(0.9),
+                        textStyle: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 15,
                     )))),
@@ -199,16 +195,16 @@ class _UserFurtherInformationFormState
                             })
                           },
                       style: ElevatedButton.styleFrom(
+                          side: BorderSide(color: Colors.black),
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "3"
-                              ? const Color.fromARGB(255, 105, 105, 105)
-                              : const Color.fromARGB(255, 105, 105, 105)
-                                  .withOpacity(0.2)),
+                              ? Color.fromARGB(255, 233, 233, 233)
+                              : Colors.white.withOpacity(0.2)),
                       child: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Text("3",
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 243, 243, 243),
+                                  color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)))),
                   OutlinedButton(
@@ -218,17 +214,16 @@ class _UserFurtherInformationFormState
                             })
                           },
                       style: ElevatedButton.styleFrom(
+                        side: BorderSide(color: Colors.black),
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "6"
-                              ? const Color.fromARGB(255, 105, 105, 105)
-                              : const Color.fromARGB(255, 105, 105, 105)
-                                  .withOpacity(0.2)
-                                  .withOpacity(0.2)),
+                              ? const Color.fromARGB(255, 233, 233, 233)
+                              : Colors.white.withOpacity(0.2).withOpacity(0.2)),
                       child: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Text("6",
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 243, 243, 243),
+                                  color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)))),
                   OutlinedButton(
@@ -238,17 +233,16 @@ class _UserFurtherInformationFormState
                             })
                           },
                       style: ElevatedButton.styleFrom(
+                        side: BorderSide(color: Colors.black),
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "12"
-                              ? const Color.fromARGB(255, 105, 105, 105)
-                              : const Color.fromARGB(255, 105, 105, 105)
-                                  .withOpacity(0.2)
-                                  .withOpacity(0.2)),
+                              ? const Color.fromARGB(255, 233, 233, 233)
+                              : Colors.white.withOpacity(0.2).withOpacity(0.2)),
                       child: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Text("12",
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 243, 243, 243),
+                                  color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold))))
                 ],
@@ -275,7 +269,7 @@ class _UserFurtherInformationFormState
                   left: 30, top: 15, bottom: 15, right: 30),
               child: DropdownButton(
                 value: timing,
-                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                dropdownColor: Colors.white,
                 onChanged: (value) {
                   setState(() {
                     timing = value!;
@@ -289,7 +283,6 @@ class _UserFurtherInformationFormState
                         width: getScreenWidth(context) * 0.6,
                         child: CustomText(
                           text: value,
-                          color: Colors.white,
                         )),
                   );
                 }).toList(),
@@ -309,7 +302,6 @@ class _UserFurtherInformationFormState
                     errorText: chargesError,
                     prefixIcon: const Icon(
                       Icons.currency_rupee,
-                      color: Colors.white,
                     ),
                   ))),
           Padding(
@@ -333,13 +325,14 @@ class _UserFurtherInformationFormState
                       child: ElevatedButton(
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
+                            side: BorderSide(color: Colors.black),
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                          ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: headingColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

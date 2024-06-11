@@ -107,12 +107,18 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField(
                   labelText: "Name",
                   controller: widget.nameController,
+                  textColour: Colors.white,
+              borderColor: Colors.white,
+              cursorColor: Colors.white,
                   errorText: nameError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
+                  textColour: Colors.white,
+              borderColor: Colors.white,
+              cursorColor: Colors.white,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -125,6 +131,9 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField.passwordField(
                   labelText: "Password",
+                  textColour: Colors.white,
+              borderColor: Colors.white,
+              cursorColor: Colors.white,
                   controller: _passwordController,
                   errorText: passwordError)),
           Padding(
@@ -134,6 +143,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                 ? Text(showValidationError ?? "",
                     style: const TextStyle(
                         color: formValidationErrorColor,
+                        
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

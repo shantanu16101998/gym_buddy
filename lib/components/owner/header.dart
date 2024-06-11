@@ -48,9 +48,10 @@ class _HeaderState extends State<Header> {
               Column(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.only(left: 17, bottom: 3,right: 10),
+                      padding:
+                          const EdgeInsets.only(left: 17, bottom: 3, right: 10),
                       child: SizedBox(
-                        width: 250,
+                        // width: 250,
                         child: Text('Hi ${widget.userName}',
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.inter(
@@ -68,7 +69,10 @@ class _HeaderState extends State<Header> {
           ),
           InkWell(
             onTap: () => {Scaffold.of(context).openDrawer()},
-            child: const Icon(Icons.menu),
+            child: const SizedBox(
+              height: 40,
+              width: 40,
+              child: Icon(Icons.menu)),
           ),
         ],
       ),

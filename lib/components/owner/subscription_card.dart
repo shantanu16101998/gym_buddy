@@ -66,6 +66,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                     Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: CircleAvatar(
+                        backgroundColor: Colors.white,
                           backgroundImage: widget.profilePic == null
                               ? const AssetImage(
                                       "assets/images/profile_default.png")

@@ -82,7 +82,7 @@ class _ReferralDialogState extends State<ReferralDialog> {
             child: apiDataLoaded ? Center(
                 child: CustomText(
               text: displayCode,
-              fontSize: 45,
+              fontSize: 30,
               fontWeight: FontWeight.bold,
             )) : const Loader(),
           ),

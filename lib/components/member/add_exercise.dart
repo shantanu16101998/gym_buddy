@@ -7,7 +7,6 @@ import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -62,13 +61,12 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
   }
 
   void _onAddPressed() {
-    if (!isNewExercise || validateForm()) {
-      Provider.of<ExerciseProvider>(context, listen: false)
-          .addExercise(Exercise(
+    if (!isNewExercise || validateForm() && _exerciseIdController.text != '0') {
+      Provider.of<ExerciseProvider>(context, listen: false).addExercise(
+          Exercise(
               name: _nameController.text,
               id: _exerciseIdController.text,
-              exerciseInformationList: [
-              ],
+              exerciseInformationList: [],
               exerciseCompleted: false));
       Navigator.pop(context);
     }
@@ -117,43 +115,44 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                         searchController: searchController,
                         searchInnerWidgetHeight: 50,
                         searchInnerWidget: Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                              bottom: 4,
-                              right: 8,
-                              left: 8,
-                            ),
-                            child: TextFormField(
-                              expands: true,
-                              maxLines: null,
-                              controller: searchController,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 8,
-                                ),
-                                hintText: 'Search',
-                                hintStyle: const TextStyle(fontSize: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+                          height: 50,
+                          padding: const EdgeInsets.only(
+                            top: 8,
+                            bottom: 4,
+                            right: 8,
+                            left: 8,
+                          ),
+                          child: TextFormField(
+                            expands: true,
+                            maxLines: null,
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
                               ),
-                            )),
+                              hintText: 'Search',
+                              hintStyle: const TextStyle(fontSize: 14),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       iconStyleData: const IconStyleData(
-                          icon: RotatedBox(
-                        quarterTurns: 3,
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 10,
+                        icon: RotatedBox(
+                          quarterTurns: 3,
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 10,
+                          ),
                         ),
-                      )),
-                      dropdownStyleData: DropdownStyleData(
-                          // maxHeight: 250,
-                          width: getScreenWidth(context) * 0.8,
-                          decoration: const BoxDecoration(color: Colors.white)),
+                      ),
+                      dropdownStyleData: const DropdownStyleData(
+                        decoration: BoxDecoration(color: Colors.white),
+                      ),
                       value: context
                           .watch<ExerciseListProvider>()
                           .exercisesTableInformation[exerciseIndex],
@@ -177,22 +176,36 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                                     .exercisesTableInformation[exerciseIndex]
                                     .id;
                           });
+
+                          _onAddPressed();
                         }
                       },
                       items: context
                           .watch<ExerciseListProvider>()
                           .exercisesTableInformation
-                          .map<DropdownMenuItem<ExercisesTableInformation>>(
-                              (ExercisesTableInformation value) {
-                        return DropdownMenuItem<ExercisesTableInformation>(
-                          value: value,
-                          child: SizedBox(
-                              width: getScreenWidth(context) * 0.6,
-                              child: CustomText(
-                                text: value.name,
-                              )),
-                        );
-                      }).toList(),
+                          .expand((value) => [
+                                DropdownMenuItem<ExercisesTableInformation>(
+                                  value: value,
+                                  child: SizedBox(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: value.name,
+                                          fontSize: 16,
+                                        ),
+                                        Divider(
+                                            color: Color.fromARGB(
+                                                    255, 170, 170, 173)
+                                                .withOpacity(
+                                                    0.15)), // Add Divider
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ])
+                          .toList(),
                     ),
                   ),
             isNewExercise == true
@@ -207,25 +220,25 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                           errorText: bodyPartError),
                     ))
                 : const SizedBox(),
-            Align(
-                alignment: Alignment.center,
-                child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    child: SizedBox(
-                        height: 50,
-                        width: 340,
-                        child: ElevatedButton(
-                            onPressed: _onAddPressed,
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: const Color(0xFFD9D9D9)),
-                            child: const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text("Add",
-                                    style: TextStyle(
-                                        color: Color(0xff004576),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)))))))
+            // Align(
+            //     alignment: Alignment.center,
+            //     child: Padding(
+            //         padding: const EdgeInsets.only(top: 10, bottom: 20),
+            //         child: SizedBox(
+            //             height: 50,
+            //             width: 340,
+            //             child: ElevatedButton(
+            //                 onPressed: _onAddPressed,
+            //                 style: ElevatedButton.styleFrom(
+            //                     elevation: 0,
+            //                     backgroundColor: const Color(0xFFD9D9D9)),
+            //                 child: const Padding(
+            //                     padding: EdgeInsets.all(10),
+            //                     child: Text("Add",
+            //                         style: TextStyle(
+            //                             color: Color(0xff004576),
+            //                             fontSize: 18,
+            //                             fontWeight: FontWeight.bold)))))))
           ]),
         ));
   }

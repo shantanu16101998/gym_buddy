@@ -116,7 +116,8 @@ class _UserGoalFormState extends State<UserGoalForm> {
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: Colors.white,
+          border: Border.all(color: Colors.black)
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -124,7 +125,6 @@ class _UserGoalFormState extends State<UserGoalForm> {
               child: Text("Complete  $userName registration",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -134,7 +134,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
               child: Center(
                 child: DropdownButton(
                   value: goal,
-                  dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                  dropdownColor: Colors.white,
                   onChanged: (value) {
                     setState(() {
                       goal = value!;
@@ -150,7 +150,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                           child: CustomText(
                             text: value,
                             color:
-                                goalError != null ? Colors.red : Colors.white,
+                                goalError != null ? Colors.red : Colors.black,
                           )),
                     );
                   }).toList(),
@@ -162,7 +162,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
               child: Center(
                 child: DropdownButton(
                   value: experience,
-                  dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                  dropdownColor: Colors.white,
                   onChanged: (value) {
                     setState(() {
                       experience = value!;
@@ -180,7 +180,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                             text: value,
                             color: experienceError != null
                                 ? Colors.red
-                                : Colors.white,
+                                : Colors.black,
                           )),
                     );
                   }).toList(),
@@ -192,7 +192,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
             child: Center(
               child: DropdownButton<List<String>>(
                 value: mentor,
-                dropdownColor: const Color.fromARGB(255, 105, 105, 105),
+                dropdownColor: Colors.white,
                 onChanged: (List<String>? value) {
                   setState(() {
                     mentor = value ??
@@ -210,7 +210,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                       child: CustomText(
                         text: value
                             .last, // Assuming the last string is the mentor's name
-                        color: mentorError != null ? Colors.red : Colors.white,
+                        color: mentorError != null ? Colors.red :  Colors.black,
                       ),
                     ),
                   );
@@ -240,12 +240,13 @@ class _UserGoalFormState extends State<UserGoalForm> {
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              side: BorderSide(color: Colors.black),
+                          ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Pay Now",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: headingColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

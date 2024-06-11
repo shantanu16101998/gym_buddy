@@ -62,6 +62,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   dropdown_search: ^5.0.6
   dropdown_button2: ^2.3.9
+  shimmer: ^3.0.0
 
 
 flutter_icons:

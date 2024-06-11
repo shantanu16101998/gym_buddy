@@ -43,6 +43,7 @@ class AppScaffold extends StatefulWidget {
 
 class _AppScaffoldState extends State<AppScaffold> {
   String userName = "Owner";
+  String currentScreen = "home";
 
   @override
   void initState() {
@@ -54,6 +55,7 @@ class _AppScaffoldState extends State<AppScaffold> {
     var sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       userName = sharedPreferences.getString("userName") ?? "User";
+      currentScreen = sharedPreferences.getString("currentScreen") ?? "home";
     });
   }
 
@@ -112,7 +114,11 @@ class _AppScaffoldState extends State<AppScaffold> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    var sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.setString(
+                                        "currentScreen", "home");
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -120,14 +126,23 @@ class _AppScaffoldState extends State<AppScaffold> {
                                       ),
                                     );
                                   },
-                                  child: const Icon(Icons.home,size: 30,color: headingColor),
+                                  child: Icon(Icons.home,
+                                      size: 30,
+                                      color: currentScreen == "home"
+                                          ? headingColor
+                                          : Color.fromARGB(255, 149, 142, 142)),
                                 ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    var sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.setString(
+                                        "currentScreen", "analysis");
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -136,14 +151,24 @@ class _AppScaffoldState extends State<AppScaffold> {
                                       ),
                                     );
                                   },
-                                  child: const Icon(Icons.auto_graph,size: 30,color: headingColor),
+                                  child: Icon(Icons.auto_graph,
+                                      size: 30,
+                                      color: currentScreen == "analysis"
+                                          ? headingColor
+                                          : Color.fromARGB(255, 149, 142, 142)),
                                 ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    var sharedPreferences =
+                                        await SharedPreferences.getInstance();
+
+                                    sharedPreferences.setString(
+                                        "currentScreen", "profile");
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -151,7 +176,11 @@ class _AppScaffoldState extends State<AppScaffold> {
                                       ),
                                     );
                                   },
-                                  child: const Icon(Icons.person,size: 30,color: headingColor),
+                                  child: Icon(Icons.person,
+                                      size: 30,
+                                      color: currentScreen == "profile"
+                                          ? headingColor
+                                          : Color.fromARGB(255, 149, 142, 142)),
                                 ),
                               ),
                             ],
@@ -162,6 +191,6 @@ class _AppScaffoldState extends State<AppScaffold> {
               ],
             ),
           )
-        : const SizedBox(child: Loader());
+        : Container(color: Colors.white, child: Loader());
   }
 }

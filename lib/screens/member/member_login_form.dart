@@ -50,8 +50,10 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
             await SharedPreferences.getInstance();
 
         if (memberLoginResponse.token != null) {
-          sharedPreferences.setString('jwtToken', memberLoginResponse.token ?? "");
-          sharedPreferences.setString('userName', memberLoginResponse.name ?? "");
+          sharedPreferences.setString(
+              'jwtToken', memberLoginResponse.token ?? "");
+          sharedPreferences.setString(
+              'userName', memberLoginResponse.name ?? "");
         }
         if (mounted) {
           Navigator.push(context,
@@ -126,6 +128,9 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                 padding: const EdgeInsets.only(
                                     left: 30, top: 30, bottom: 15, right: 30),
                                 child: LabeledTextField(
+                                  textColour: Colors.white,
+                                  cursorColor: Colors.white,
+                                  borderColor: Colors.white,
                                   labelText: "Contact",
                                   controller: _contactController,
                                   textInputType: TextInputType.number,

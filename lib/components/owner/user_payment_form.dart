@@ -5,6 +5,7 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
@@ -147,7 +148,8 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
       width: getScreenWidth(context) * 0.9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.95),
+        border: Border.all(color: Colors.black),
+        color: Colors.white,
       ),
       child: !isAPIDataLoaded
           ? const SizedBox()
@@ -159,20 +161,19 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                     text: "Please verify your upi id",
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
+                        border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: QrCodePic(
-                            qrColor: Colors.white,
+                            qrColor: Colors.black,
                             upiIntentLink:
                                 generateUPIDeeplink(_upiController, charges)),
                       )),
@@ -183,7 +184,6 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                     text: "UPI ID",
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
                 Padding(
@@ -204,7 +204,6 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                 text: _upiController.text,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                       const SizedBox(width: 5),
@@ -214,7 +213,6 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                             : onEditIconClicked,
                         child: Icon(
                           isOwnerEditingUPIId ? Icons.check : Icons.edit,
-                          color: Colors.white,
                         ),
                       )
                     ],
@@ -231,12 +229,12 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                 onPressed: onSignUpButtonClicked,
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
-                                    backgroundColor: const Color(0xFFD9D9D9)),
+                                    side: BorderSide(color: Colors.black)),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Sign up and share Id",
                                         style: TextStyle(
-                                            color: Color(0xff004576),
+                                            color: headingColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)))))))
               ],

@@ -117,6 +117,9 @@ class _LoginFormState extends State<LoginForm> {
               textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
               controller: _contactController,
               errorText: contactError,
+              textColour: Colors.white,
+              borderColor: Colors.white,
+              cursorColor: Colors.white,
             ),
           ),
           Padding(
@@ -126,6 +129,10 @@ class _LoginFormState extends State<LoginForm> {
               labelText: "Password",
               controller: _passwordController,
               errorText: passwordError,
+              textColour: Colors.white,
+              borderColor: Colors.white,
+              cursorColor: Colors.white,
+              
             ),
           ),
           Padding(

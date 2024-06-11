@@ -9,6 +9,8 @@ import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:gym_buddy/components/owner/loader.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -72,7 +74,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      isApiDataLoaded: isApiDataLoaded,
+      isApiDataLoaded: true,
       noSpaceForStatusBar: false,
       child: Stack(
         children: [
@@ -86,80 +88,112 @@ class _ProfileState extends State<Profile> {
                     border: Border(
                         bottom:
                             BorderSide(width: 1, color: Color(0xffD9D9D9)))),
-                child: AttendanceCalendar(customerId: widget.userId),
+                child: !isApiDataLoaded
+                    ? SizedBox(
+                        height: 200.0,
+                        child: Shimmer.fromColors(
+                          baseColor: Color.fromARGB(255, 255, 255, 255),
+                          highlightColor: Color.fromARGB(255, 227, 227, 226),
+                          child: Container(
+                            height: 20,
+                            width: 100,
+                            color: Colors.white,
+                          ),
+                        ))
+                    : AttendanceCalendar(customerId: widget.userId),
               ),
               const SizedBox(height: 70),
               Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30.0, 30.0, 12.0, 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            CustomText(
-                                text: 'Name:',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Color(0xff004576)),
-                            SizedBox(height: 20),
-                            CustomText(
-                                text: 'Contact:',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Color(0xff004576)),
-                            SizedBox(height: 20),
-                            CustomText(
-                                text: 'Mentor:',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Color(0xff004576)),
-                            SizedBox(height: 20),
-                            CustomText(
-                                text: 'Start Date:',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Color(0xff004576)),
-                            SizedBox(height: 20),
-                            CustomText(
-                                text: 'Plan:',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Color(0xff004576)),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(userProfileResponse.name,
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(fontSize: 22))),
-                            const SizedBox(height: 20),
-                            Text(userProfileResponse.phone,
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(fontSize: 22))),
-                            const SizedBox(height: 20),
-                            Text(userProfileResponse.traineeName ?? "",
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(fontSize: 22))),
-                            const SizedBox(height: 20),
-                            Text(userProfileResponse.startDate ?? "",
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(fontSize: 22))),
-                            const SizedBox(height: 20),
-                            Text('${userProfileResponse.validTill ?? 0} months',
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(fontSize: 22))),
-                          ],
-                        )
-                      ],
-                    ),
+                    child: !isApiDataLoaded
+                        ? SizedBox(
+                            width: 300.0,
+                            height: 200.0,
+                            child: Shimmer.fromColors(
+                              baseColor: Color.fromARGB(255, 255, 255, 255),
+                              highlightColor:
+                                  Color.fromARGB(255, 227, 227, 226),
+                              child: Container(
+                                height: 20,
+                                width: 100,
+                                color: Colors.white,
+                              ),
+                            ))
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                      text: 'Name:',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)),
+                                  SizedBox(height: 20),
+                                  CustomText(
+                                      text: 'Contact:',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)),
+                                  SizedBox(height: 20),
+                                  CustomText(
+                                      text: 'Mentor:',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)),
+                                  SizedBox(height: 20),
+                                  CustomText(
+                                      text: 'Start Date:',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)),
+                                  SizedBox(height: 20),
+                                  CustomText(
+                                      text: 'Plan:',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Color(0xff004576)),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(userProfileResponse.name,
+                                      style: GoogleFonts.inter(
+                                          textStyle:
+                                              const TextStyle(fontSize: 22))),
+                                  const SizedBox(height: 20),
+                                  Text(userProfileResponse.phone,
+                                      style: GoogleFonts.inter(
+                                          textStyle:
+                                              const TextStyle(fontSize: 22))),
+                                  const SizedBox(height: 20),
+                                  Text(userProfileResponse.traineeName ?? "",
+                                      style: GoogleFonts.inter(
+                                          textStyle:
+                                              const TextStyle(fontSize: 22))),
+                                  const SizedBox(height: 20),
+                                  Text(userProfileResponse.startDate ?? "",
+                                      style: GoogleFonts.inter(
+                                          textStyle:
+                                              const TextStyle(fontSize: 22))),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                      '${userProfileResponse.validTill ?? 0} months',
+                                      style: GoogleFonts.inter(
+                                          textStyle:
+                                              const TextStyle(fontSize: 22))),
+                                ],
+                              )
+                            ],
+                          ),
                   ),
                 ],
               ),
@@ -237,16 +271,28 @@ class _ProfileState extends State<Profile> {
                               customerId: widget.userId,
                             ))
                   },
-                  child: Container(
-                    width: getScreenHeight(context) * 0.15,
-                    height: getScreenHeight(context) * 0.15,
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 2, color: const Color(0xffD9D9D9)),
-                      borderRadius: BorderRadius.circular(70),
-                      image: DecorationImage(image: image, fit: BoxFit.fill),
-                    ),
-                  ),
+                  child: !isApiDataLoaded
+                      ? Container(
+                          width: getScreenHeight(context) * 0.15,
+                          height: getScreenHeight(context) * 0.15,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(70),
+                              border: Border.all(
+                                color: Color(0xffD9D9D9),
+                              )),
+                        )
+                      : Container(
+                          width: getScreenHeight(context) * 0.15,
+                          height: getScreenHeight(context) * 0.15,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 2, color: const Color(0xffD9D9D9)),
+                            borderRadius: BorderRadius.circular(70),
+                            image:
+                                DecorationImage(image: image, fit: BoxFit.fill),
+                          ),
+                        ),
                 )
               ],
             ),

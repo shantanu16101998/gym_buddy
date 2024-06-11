@@ -163,6 +163,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Gym Name",
+                  textColour: Colors.white,
+                  borderColor: Colors.white,
+                  cursorColor: Colors.white,
                   controller: _gymNameController,
                   errorText: gymNameError)),
           Padding(
@@ -170,6 +173,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Address",
+                  textColour: Colors.white,
+                  borderColor: Colors.white,
+                  cursorColor: Colors.white,
                   controller: _addressController,
                   errorText: addressError)),
           Padding(
@@ -177,6 +183,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "UPI Id (optional)",
+                  textColour: Colors.white,
+                  borderColor: Colors.white,
+                  cursorColor: Colors.white,
                   controller: _upiIdController,
                   errorText: null)),
           Padding(

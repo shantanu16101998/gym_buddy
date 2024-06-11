@@ -40,12 +40,13 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
 
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("newMemberName", _nameController.text);
+      await sharedPreferences.setString("memberName", _nameController.text);
       await sharedPreferences.setString("userContact", _contactController.text);
       await sharedPreferences.setString("userAddress", _addressController.text);
       await sharedPreferences.setBool("needFurtherInformation", true);
 
-      await sharedPreferences.setString("referralCode", _referralCodeController.text );
+      await sharedPreferences.setString(
+          "referralCode", _referralCodeController.text);
 
       widget.onPageToShowChange(PageToShow.signUpDetails);
     } else {
@@ -79,27 +80,21 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
+          border: Border.all(color: Color(0xffDBDDE2)),
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: const Color(0xffFCFCFD),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
-              padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-              child: Text("Start user fitness journey",
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  )))),
-          Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text("Welcome",
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                          color: Color(0xffFFFFFF),
-                          fontWeight: FontWeight.normal,
-                          fontSize: 18)))),
+              padding: const EdgeInsets.only(top: 30, bottom: 12),
+              child: Center(
+                child: Text("Register New User",
+                    style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ))),
+              )),
           const CustomImagePicker(),
           Padding(
               padding: const EdgeInsets.only(
@@ -153,7 +148,6 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                       },
                       child: const CustomText(
                           text: 'Have a referral code?',
-                          color: Colors.white,
                           isUnderlined: true),
                     )),
           Padding(
@@ -178,12 +172,13 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                           onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              side: const BorderSide(color: Colors.black)
+                          ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: headingColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

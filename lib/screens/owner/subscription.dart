@@ -9,6 +9,7 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
@@ -154,14 +155,17 @@ class _SubscriptionState extends State<Subscription> {
                                                 builder: (context) =>
                                                     const UserSignUp()))
                                       },
-                                  style: ElevatedButton.styleFrom(
+                                  style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(
+                                          color: Colors.black, width: 1),
                                       elevation: 0,
-                                      backgroundColor: const Color(0xFFD9D9D9)),
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   child: const Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text("Add Members",
                                           style: TextStyle(
-                                              color: Color(0xff004576),
+                                              color: headingColor,
                                               fontSize: 18,
                                               fontWeight:
                                                   FontWeight.bold))))))),

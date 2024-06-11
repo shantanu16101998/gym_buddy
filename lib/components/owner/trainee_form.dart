@@ -147,6 +147,9 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         left: 30, top: 30, bottom: 15, right: 30),
                     child: LabeledTextField(
                         labelText: "Name",
+                        textColour: Colors.white,
+                        borderColor: Colors.white,
+                        cursorColor: Colors.white,
                         controller: _namesControllers[i],
                         errorText: null)),
                 Padding(
@@ -154,6 +157,9 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         left: 30, top: 15, bottom: 15, right: 30),
                     child: LabeledTextField(
                         labelText: "Experience (years)",
+                        textColour: Colors.white,
+                        borderColor: Colors.white,
+                        cursorColor: Colors.white,
                         textInputType: TextInputType.number,
                         textInputFormatter: [
                           FilteringTextInputFormatter.digitsOnly

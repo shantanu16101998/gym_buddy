@@ -45,13 +45,6 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
                     experience: userSubscription.experience,
                     phone: userSubscription.contact,
                   ),
-                  // IdentityCard(
-                  //     profilePicB64: null,
-                  //     startDate: '24 Mar 2024',
-                  //     gymContact: '9319619778',
-                  //     gymName: 'Shantanu Gym',
-                  //     memberName: 'Suraj Kumar',
-                  //     validTillInMonths: '12'),
                 ],
               )))
           .toList(),
