@@ -19,14 +19,21 @@ class ExerciseProvider extends ChangeNotifier {
       exerciseCompleted: false,
       id: '');
 
-  void addExercise(Exercise exercise) {
-    exerciseList.add(exercise);
-    backendAPICall(
-        '/template/addExerciseToTemplate',
-        {'exerciseId': exercise.id, 'exerciseName': exercise.name},
-        'POST',
-        true);
-    notifyListeners();
+  Future<bool> addExercise(Exercise exercise) async {
+    AddExerciseResponse addExerciseResponse = AddExerciseResponse.fromJson(
+        await backendAPICall(
+            '/template/addExerciseToTemplate',
+            {'exerciseId': exercise.id, 'exerciseName': exercise.name},
+            'POST',
+            true));
+
+    if (addExerciseResponse.message == "EXERCISE_ALREADY_ADDED") {
+      return false;
+    } else {
+      exerciseList.add(exercise);
+      notifyListeners();
+      return true;
+    }
   }
 
   void undoRemoveExercise() {

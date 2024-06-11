@@ -9,6 +9,7 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -242,13 +243,14 @@ class _HomepageState extends State<Homepage> {
                                           },
                                       style: ElevatedButton.styleFrom(
                                           elevation: 0,
-                                          backgroundColor:
-                                              const Color(0xFFD9D9D9)),
-                                      child: const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text("Add Exercise for Today",
-                                              style: TextStyle(
-                                                  color: Color(0xff004576),
+                                          side: const BorderSide(color: Colors.black),
+                                          backgroundColor: Colors.white),
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Text(
+                                              "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
                                                   fontSize: 18,
                                                   fontWeight:
                                                       FontWeight.bold))))))),

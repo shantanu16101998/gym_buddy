@@ -447,3 +447,13 @@ class AddSetResponse {
     return AddSetResponse(exerciseDescriptionId: json['message']);
   }
 }
+
+class AddExerciseResponse {
+  String message;
+
+  AddExerciseResponse({required this.message});
+
+  factory AddExerciseResponse.fromJson(Map<String, dynamic> json) {
+    return AddExerciseResponse(message: json['message']);
+  }
+}

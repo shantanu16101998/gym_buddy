@@ -47,7 +47,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold.noHeader(
-      isApiDataLoaded: true,
+      isApiDataLoaded: isApiDataLoaded,
       child: Column(
         children: [
           const Center(child: AttendanceCalendar()),

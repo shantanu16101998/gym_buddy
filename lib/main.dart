@@ -6,6 +6,9 @@ import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
+import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/profile.dart';
+import 'package:gym_buddy/screens/member/workout_analysis.dart';
 // import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
@@ -91,7 +94,10 @@ class _MyAppState extends State<MyApp> {
           '/analysis': (context) => const AnalysisHomepage(),
           'qr-page': (context) => const QrPage(),
           '/analysis-expanded': (context) =>
-              const ExpandedAnalysis(label: "earnings")
+              const ExpandedAnalysis(label: "earnings"),
+          '/member/homepage': (context) => const Homepage(),
+          '/member/analysis': (context) => const WorkoutAnalayis(),
+          '/member/profile': (context) => const Profile()
         },
       ),
     );

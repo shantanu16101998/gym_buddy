@@ -10,6 +10,7 @@ import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class WorkoutAnalayis extends StatefulWidget {
   const WorkoutAnalayis({super.key});

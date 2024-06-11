@@ -73,7 +73,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      isApiDataLoaded: true,
+      isApiDataLoaded: isApiDataLoaded,
       noSpaceForStatusBar: false,
       child: Stack(
         children: [

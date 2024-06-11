@@ -60,15 +60,46 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
     return true;
   }
 
-  void _onAddPressed() {
+  void showAlertDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 0,
+          backgroundColor: Colors.transparent, // Set background color to white
+          content: Container(
+              width: double.infinity,
+              height: 300,
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: const Center(
+                child:  Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CustomText(
+                    fontSize: 22,
+                    textAlign: TextAlign.center,
+                      text: 'You have already added this exercise for today'),
+                ),
+              )),
+        );
+      },
+    );
+  }
+
+  void _onAddPressed() async {
     if (!isNewExercise || validateForm() && _exerciseIdController.text != '0') {
-      Provider.of<ExerciseProvider>(context, listen: false).addExercise(
-          Exercise(
+      bool isAdded = await Provider.of<ExerciseProvider>(context, listen: false)
+          .addExercise(Exercise(
               name: _nameController.text,
               id: _exerciseIdController.text,
               exerciseInformationList: [],
               exerciseCompleted: false));
       Navigator.pop(context);
+
+      if (!isAdded) {
+        showAlertDialog();
+      }
     }
   }
 
@@ -101,9 +132,9 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                           errorText: nameError),
                     ))
                 : Padding(
-                    padding: const EdgeInsets.only(top: 40,bottom:  100),
+                    padding: const EdgeInsets.only(top: 40, bottom: 100),
                     child: DropdownButton2<ExercisesTableInformation>(
-                      buttonStyleData: ButtonStyleData(width: 350),
+                      buttonStyleData: const ButtonStyleData(width: 350),
                       dropdownSearchData: DropdownSearchData(
                         searchMatchFn: (item, searchValue) {
                           return item.value?.name
@@ -189,7 +220,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                                           fontSize: 16,
                                         ),
                                         Divider(
-                                            color: Color.fromARGB(
+                                            color: const Color.fromARGB(
                                                     255, 170, 170, 173)
                                                 .withOpacity(
                                                     0.15)), // Add Divider
