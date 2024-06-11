@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Homepage()));
+              MaterialPageRoute(builder: (context) => const MemberScreen()));
         }
       }
     }
