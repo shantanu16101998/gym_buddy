@@ -227,6 +227,11 @@ class _CardInformationTableState extends State<CardInformationTable> {
                           child: SizedBox(
                             width: 55,
                             child: DropdownButton2(
+                              onMenuStateChange: (isOpen) {
+                                if (!isOpen) {
+                                  weightSearchController.clear();
+                                }
+                              },
                               isExpanded: true,
                               underline: Container(
                                   height: 1,
@@ -312,7 +317,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: interCellDistance,top: 12),
+                        padding:
+                            EdgeInsets.only(left: interCellDistance, top: 12),
                         child: const CustomText(
                             text: 'Done',
                             fontSize: 16,

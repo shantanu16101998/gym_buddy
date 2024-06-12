@@ -47,7 +47,7 @@ class _UserFurtherInformationFormState
   void intialConfigs() async {
     var sharedPreference = await SharedPreferences.getInstance();
     setState(() {
-      userName = sharedPreference.getString("newMemberName") ?? "User" "'s";
+      userName = sharedPreference.getString("memberName") ?? "User" "'s";
     });
   }
 

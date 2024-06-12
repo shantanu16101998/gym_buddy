@@ -53,7 +53,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
       }
 
       setState(() {
-        userName = sharedPreference.getString("userName") ?? "User's";
+        userName = sharedPreference.getString("memberName") ?? "User's";
         mentors = gymTrainee;
         mentor = mentors.isNotEmpty ? mentors[0] : ['', ''];
       });

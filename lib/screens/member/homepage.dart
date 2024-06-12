@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/member/add_exercise.dart';
 import 'package:gym_buddy/components/member/attendance_bar.dart';
 import 'package:gym_buddy/components/member/card_container.dart';
-import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/customer_details.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/screens/common/screen_shimmer.dart';
-import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -29,11 +26,12 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   void _showIdentityCardDialog(BuildContext context) async {
+    IdCardResponse idCardResponse =
+        await Provider.of<CustomerDetailsProvider>(context, listen: false)
+            .fetchIdCardResponse();
+
     ScreenshotController screenshotController = ScreenshotController();
     bool isDowloaded = false;
-
-    IdCardResponse idCardResponse = IdCardResponse.fromJson(
-        await backendAPICall('/customer/idCard', {}, 'GET', true));
 
     void captureAndSave() async {
       try {
@@ -174,8 +172,8 @@ class _HomepageState extends State<Homepage> {
 
   fetchCustomerDetails() async {
     MemberProfileResponse memberProfileResponseAPI =
-        MemberProfileResponse.fromJson(
-            await backendAPICall('/customer/details', {}, 'GET', true));
+        await Provider.of<CustomerDetailsProvider>(context, listen: false)
+            .fetchMemberProfileResponse();
 
     setState(() {
       memberProfileResponse = memberProfileResponseAPI;

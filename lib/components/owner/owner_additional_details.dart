@@ -254,6 +254,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       value: InsideGym.yes,
                       groupValue: _insideGym,
                       onChanged: (InsideGym? value) {
+                        onLocationPermissionPressed();
                         setState(() {
                           isLocationPermissionNeeded = true;
                           locationPermissionGivenWhenAsked = false;

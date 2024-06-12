@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -57,7 +58,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
         }
         if (mounted) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Homepage()));
+              MaterialPageRoute(builder: (context) => const MemberScreen()));
         }
       }
     }
@@ -70,10 +71,12 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
       Container(
           margin: EdgeInsets.only(top: getStatusBarHeight(context)),
           decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/images/register.png"),
-            fit: BoxFit.fitWidth,
-          ))),
+            // color: Color
+              // image: DecorationImage(
+            // image: AssetImage("assets/images/register.png"),
+            // fit: BoxFit.fitWidth,
+          // )
+          )),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
@@ -92,7 +95,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                    color: formValidationErrorColor,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22),
                               )),
@@ -103,9 +106,10 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                         padding: const EdgeInsets.all(20),
                         child: Container(
                           decoration: BoxDecoration(
+                            border: Border.all(),
                             borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(255, 85, 84, 84)
-                                .withOpacity(0.98),
+                            // color: const Color.fromARGB(255, 85, 84, 84)
+                            //     .withOpacity(0.98),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +121,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                   "Welcome",
                                   style: GoogleFonts.inter(
                                     textStyle: const TextStyle(
-                                      color: Color(0xffFFFFFF),
+                                      color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 18,
                                     ),
@@ -128,9 +132,6 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                 padding: const EdgeInsets.only(
                                     left: 30, top: 30, bottom: 15, right: 30),
                                 child: LabeledTextField(
-                                  textColour: Colors.white,
-                                  cursorColor: Colors.white,
-                                  borderColor: Colors.white,
                                   labelText: "Contact",
                                   controller: _contactController,
                                   textInputType: TextInputType.number,

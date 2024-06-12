@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
 
   _onDeleteUserPressed() async {
     await backendAPICall(
-        "/customer/deleteCustomer/${widget.userId}", null, "DELETE", true);
+        "/customer/deleteCustomer/${widget.userId}",{}, "DELETE", true);
     if (mounted) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));

@@ -27,7 +27,7 @@ Color formPrimaryColor = const Color.fromARGB(255, 85, 84, 84);
 List<num> defaultExerciseWeights = [
   for (int i = 0; i < 1000; i++)
     if (i <= 20)
-      (2.5 * i)
+      (2.5 * i) % 1 == 0 ? (2.5 * i).toInt() : 2.5 * i
     else 
       50 + (5 * (i - 20))
 ];

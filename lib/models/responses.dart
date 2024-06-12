@@ -268,7 +268,7 @@ class MemberProfileResponse {
   final String contact;
   final String startDate;
   final num validTill;
-  final String trainerName;
+  final String? trainerName;
   final String currentWeekAttendance;
   final num? gymLocationLat;
   final num? gymLocationLon;

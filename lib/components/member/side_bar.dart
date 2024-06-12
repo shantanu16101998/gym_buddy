@@ -71,27 +71,33 @@ class _SideBarState extends State<SideBar> {
                       ),
                     ])),
               ),
-              InkWell(
-                onTap: logout,
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: const Color(0xffDBDDE2))),
-                    child: Row(children: [
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: getScreenWidth(context) * 0.125,
-                              top: 10,
-                              right: 10,
-                              bottom: 10),
-                          child: const Icon(Icons.logout)),
-                      const Text(
-                        "Logout",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                    ])),
-              )
+
+              /*
+              
+              Have to remove until otp comes.
+
+              */
+              // InkWell(
+              //   onTap: logout,
+              //   child: Container(
+              //       decoration: BoxDecoration(
+              //           border: Border.all(
+              //               width: 1, color: const Color(0xffDBDDE2))),
+              //       child: Row(children: [
+              //         Padding(
+              //             padding: EdgeInsets.only(
+              //                 left: getScreenWidth(context) * 0.125,
+              //                 top: 10,
+              //                 right: 10,
+              //                 bottom: 10),
+              //             child: const Icon(Icons.logout)),
+              //         const Text(
+              //           "Logout",
+              //           style: TextStyle(
+              //               fontWeight: FontWeight.bold, fontSize: 18),
+              //         ),
+              //       ])),
+              // )
             ],
           )
         ],

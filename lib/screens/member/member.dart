@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/member/side_bar.dart' as member_side_bar;
 import 'package:gym_buddy/constants/environment.dart';
-import 'package:gym_buddy/constants/navigator.dart';
-import 'package:gym_buddy/providers/api_data_loaded.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/member/profile.dart';
 import 'package:gym_buddy/screens/member/workout_analysis.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MemberScreen extends StatefulWidget {
   const MemberScreen({super.key});
@@ -65,7 +61,9 @@ class _MemberScreenState extends State<MemberScreen> {
                     Container(
                         child: customerScreens == CustomerScreens.homepage
                             ? const Homepage()
-                            : const WorkoutAnalayis()),
+                            : customerScreens == CustomerScreens.analysis
+                                ? const WorkoutAnalayis()
+                                : const Profile()),
                   ],
                 ),
               ),
@@ -106,7 +104,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                   const EdgeInsets.symmetric(horizontal: 0),
                               child: Icon(Icons.home,
                                   size: 30,
-                                  color: currentScreen == "home"
+                                  color: customerScreens == CustomerScreens.homepage
                                       ? headingColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
@@ -131,7 +129,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                   const EdgeInsets.symmetric(horizontal: 0),
                               child: Icon(Icons.auto_graph,
                                   size: 30,
-                                  color: currentScreen == "analysis"
+                                  color: customerScreens == CustomerScreens.analysis
                                       ? headingColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
@@ -146,8 +144,9 @@ class _MemberScreenState extends State<MemberScreen> {
                             sharedPreferences.setString(
                                 "currentScreen", "profile");
 
-                            navigateBackToRouteOrPush(
-                                context, '/member/profile', const Profile());
+                            setState(() {
+                              customerScreens = CustomerScreens.profile;
+                            });
                           },
                           child: SizedBox(
                             width: getScreenWidth(context) * 0.3,
@@ -156,7 +155,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                   const EdgeInsets.symmetric(horizontal: 0),
                               child: Icon(Icons.person,
                                   size: 30,
-                                  color: currentScreen == "profile"
+                                  color: customerScreens == CustomerScreens.profile
                                       ? headingColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
