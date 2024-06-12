@@ -40,7 +40,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
         .fetchUserExercise();
 
     if (Provider.of<ExerciseListProvider>(context, listen: false)
-        .exercisesTableInformation
+        .analysisExerciseTableInformation
         .isNotEmpty) {
       await fetchData();
     } else {
@@ -55,7 +55,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
             {
               'exerciseName':
                   Provider.of<ExerciseListProvider>(context, listen: false)
-                      .exercisesTableInformation[comparisionExerciseIndex]
+                      .analysisExerciseTableInformation[comparisionExerciseIndex]
                       .name
             },
             'POST',
@@ -140,7 +140,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
 
     return isApiDataLoaded
         ? Provider.of<ExerciseListProvider>(context, listen: true)
-                .exercisesTableInformation
+                .analysisExerciseTableInformation
                 .isEmpty
             ? const Padding(
                 padding: EdgeInsets.only(top: 200),
@@ -207,7 +207,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                               decoration: BoxDecoration(color: Colors.white)),
                           value: context
                                   .watch<ExerciseListProvider>()
-                                  .exercisesTableInformation[
+                                  .analysisExerciseTableInformation[
                               comparisionExerciseIndex],
                           onChanged: (ExercisesTableInformation? value) {
                             if (value != null) {
@@ -216,7 +216,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                                 comparisionExerciseIndex =
                                     Provider.of<ExerciseListProvider>(context,
                                             listen: false)
-                                        .exercisesTableInformation
+                                        .analysisExerciseTableInformation
                                         .indexOf(value);
                                 // print('comparision index is' +
                                 //     comparisionExerciseIndex.toString());
@@ -226,7 +226,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                           },
                           items: context
                               .watch<ExerciseListProvider>()
-                              .exercisesTableInformation
+                              .analysisExerciseTableInformation
                               .map<DropdownMenuItem<ExercisesTableInformation>>(
                                   (ExercisesTableInformation value) {
                             return DropdownMenuItem<ExercisesTableInformation>(

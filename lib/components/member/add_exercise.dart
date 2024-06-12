@@ -41,11 +41,11 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
     setState(() {
       _nameController.text =
           Provider.of<ExerciseListProvider>(context, listen: false)
-              .exercisesTableInformation[exerciseIndex]
+              .allExercisesTableInformation[exerciseIndex]
               .name;
       _exerciseIdController.text =
           Provider.of<ExerciseListProvider>(context, listen: false)
-              .exercisesTableInformation[exerciseIndex]
+              .allExercisesTableInformation[exerciseIndex]
               .id;
     });
   }
@@ -74,11 +74,11 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: const Center(
-                child:  Padding(
+                child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CustomText(
-                    fontSize: 22,
-                    textAlign: TextAlign.center,
+                      fontSize: 22,
+                      textAlign: TextAlign.center,
                       text: 'You have already added this exercise for today'),
                 ),
               )),
@@ -186,16 +186,10 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       ),
                       value: context
                           .watch<ExerciseListProvider>()
-                          .exercisesTableInformation[exerciseIndex],
+                          .allExercisesTableInformation[exerciseIndex],
                       onChanged: (ExercisesTableInformation? value) {
                         if (value != null) {
                           setState(() {
-                            // exerciseIndex = Provider.of<ExerciseListProvider>(
-                            //         context,
-                            //         listen: false)
-                            //     .exercisesTableInformation
-                            //     .indexOf(value);
-
                             _nameController.text = value.name;
 
                             _exerciseIdController.text = value.id;
@@ -206,7 +200,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       },
                       items: context
                           .watch<ExerciseListProvider>()
-                          .exercisesTableInformation
+                          .allExercisesTableInformation
                           .expand((value) => [
                                 DropdownMenuItem<ExercisesTableInformation>(
                                   value: value,
@@ -214,6 +208,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         CustomText(
                                           text: value.name,
