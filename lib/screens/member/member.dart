@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MemberScreen extends StatefulWidget {
+  const MemberScreen({super.key});
+
   @override
   State<MemberScreen> createState() => _MemberScreenState();
 }
@@ -61,24 +63,9 @@ class _MemberScreenState extends State<MemberScreen> {
                   children: [
                     Header(userName: userName),
                     Container(
-                        child: context
-                                .watch<ApiDataLoadedProvider>()
-                                .isApiDataLoaded
+                        child: customerScreens == CustomerScreens.homepage
                             ? const Homepage()
-                            : SizedBox(
-                                width: double.infinity,
-                                height: getEffectiveScreenHeight(context),
-                                child: Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 227, 227, 226),
-                                  child: Container(
-                                    height: 20,
-                                    width: 100,
-                                    color: Colors.white,
-                                  ),
-                                ))),
+                            : const WorkoutAnalayis()),
                   ],
                 ),
               ),
@@ -108,8 +95,9 @@ class _MemberScreenState extends State<MemberScreen> {
                             sharedPreferences.setString(
                                 "currentScreen", "home");
 
-                            navigateBackToRouteOrPush(
-                                context, '/member/homepage', const Homepage());
+                            setState(() {
+                              customerScreens = CustomerScreens.homepage;
+                            });
                           },
                           child: SizedBox(
                             width: getScreenWidth(context) * 0.3,
@@ -132,8 +120,9 @@ class _MemberScreenState extends State<MemberScreen> {
                             sharedPreferences.setString(
                                 "currentScreen", "analysis");
 
-                            navigateBackToRouteOrPush(context,
-                                '/member/analysis', const WorkoutAnalayis());
+                            setState(() {
+                              customerScreens = CustomerScreens.analysis;
+                            });
                           },
                           child: SizedBox(
                             width: getScreenWidth(context) * 0.3,

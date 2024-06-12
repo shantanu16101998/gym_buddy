@@ -7,15 +7,18 @@ import 'package:gym_buddy/components/member/identity_card.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
+import 'package:gym_buddy/screens/common/screen_shimmer.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -182,82 +185,83 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-        isApiDataLoaded: isApiDataLoaded,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                memberProfileResponse.gymLocationLat != null
-                    ? const CustomText(
-                        text: 'Tap Here For Attendance',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Color(0xff344054),
-                      )
-                    : const SizedBox(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: memberProfileResponse.gymLocationLat != null
-                      ? AttendanceBar(
-                          attendanceString:
-                              memberProfileResponse.currentWeekAttendance,
-                          gymLocationLat:
-                              memberProfileResponse.gymLocationLat ?? 0,
-                          gymLocationLon:
-                              memberProfileResponse.gymLocationLon ?? 0)
+    return isApiDataLoaded
+        ? Stack(
+            children: [
+              Column(
+                children: [
+                  memberProfileResponse.gymLocationLat != null
+                      ? const CustomText(
+                          text: 'Tap Here For Attendance',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color(0xff344054),
+                        )
                       : const SizedBox(),
-                ),
-                const CardContainer(),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      // height: 200,
-                      color: Colors.white,
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 70, top: 10),
-                              child: SizedBox(
-                                  height: 50,
-                                  width: 340,
-                                  child: ElevatedButton(
-                                      onPressed: () => {
-                                            showModalBottomSheet(
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return SingleChildScrollView(
-                                                      child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        bottom: MediaQuery.of(
-                                                                context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                    child:
-                                                        const AddExercisedDialog(),
-                                                  ));
-                                                })
-                                          },
-                                      style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          side: const BorderSide(color: Colors.black),
-                                          backgroundColor: Colors.white),
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(
-                                              "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.bold))))))),
-                    ))
-              ],
-            ),
-          ],
-        ));
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: memberProfileResponse.gymLocationLat != null
+                        ? AttendanceBar(
+                            attendanceString:
+                                memberProfileResponse.currentWeekAttendance,
+                            gymLocationLat:
+                                memberProfileResponse.gymLocationLat ?? 0,
+                            gymLocationLon:
+                                memberProfileResponse.gymLocationLon ?? 0)
+                        : const SizedBox(),
+                  ),
+                  const CardContainer(),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        // height: 200,
+                        color: Colors.white,
+                        child: Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 70, top: 10),
+                                child: SizedBox(
+                                    height: 50,
+                                    width: 340,
+                                    child: ElevatedButton(
+                                        onPressed: () => {
+                                              showModalBottomSheet(
+                                                  context: context,
+                                                  isScrollControlled: true,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return SingleChildScrollView(
+                                                        child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                      child:
+                                                          const AddExercisedDialog(),
+                                                    ));
+                                                  })
+                                            },
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            side: const BorderSide(
+                                                color: Colors.black),
+                                            backgroundColor: Colors.white),
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Text(
+                                                "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold))))))),
+                      ))
+                ],
+              ),
+            ],
+          )
+        : const ScreenShimmer();
   }
 }

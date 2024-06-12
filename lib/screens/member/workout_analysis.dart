@@ -5,6 +5,7 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
+import 'package:gym_buddy/screens/common/screen_shimmer.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -137,9 +138,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
     TextEditingController _comparisionSearchController =
         TextEditingController();
 
-    return AppScaffold(
-        isApiDataLoaded: isApiDataLoaded,
-        child: Provider.of<ExerciseListProvider>(context, listen: true)
+    return isApiDataLoaded
+        ? Provider.of<ExerciseListProvider>(context, listen: true)
                 .exercisesTableInformation
                 .isEmpty
             ? const Padding(
@@ -395,6 +395,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     )
                   ],
                 ),
-              ));
+              )
+        : const ScreenShimmer();
   }
 }
