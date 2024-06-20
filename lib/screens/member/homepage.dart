@@ -13,6 +13,7 @@ import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/screens/common/screen_shimmer.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -99,7 +100,7 @@ class _HomepageState extends State<Homepage> {
             contentPadding: EdgeInsets.zero,
             backgroundColor: Colors.white,
             content: Container(
-              width: 350,
+              width: getScreenWidth(context) * 0.8,
               child: IntrinsicHeight(
                 child: Column(
                   children: [
@@ -144,7 +145,7 @@ class _HomepageState extends State<Homepage> {
                                   bottomLeft: Radius.circular(12),
                                 ),
                               ),
-                              width: 175,
+                              width: getScreenWidth(context) * 0.4,
                               height: 40,
                               child: const Center(
                                 child: CustomText(
@@ -161,7 +162,7 @@ class _HomepageState extends State<Homepage> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                                width: 175,
+                                width: getScreenWidth(context) * 0.4,
                                 height: 40,
                                 decoration: const BoxDecoration(
                                   color: Color(0xffD3D3D3),

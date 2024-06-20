@@ -5,7 +5,6 @@ import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceBar extends StatefulWidget {
   final String attendanceString;
@@ -64,9 +63,11 @@ class _AttendanceBarState extends State<AttendanceBar> {
       heading: 'Grant location permission !',
       subheading: 'Please grant permission for attendance verification',
       buttonAction: () async {
-        bool verdict = await getCurrentLocationSuccess();
+        LocationResult locationResult = await getCurrentLocationSuccess();
+        bool verdict = locationResult.success;
         if (verdict) {
-          if (await userInGym()) {
+          if (await userInGym(
+              locationResult.latitude, locationResult.longitude)) {
             setState(() {
               attendanceStatus = AttendanceStatus.present;
             });
@@ -116,12 +117,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
         buttonAction: null);
   }
 
-  userInGym() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    var locationLat = sharedPreferences.getDouble('latitude') ?? 0;
-    var locationLon = sharedPreferences.getDouble('longitude') ?? 0;
-
+  userInGym(double locationLat, double locationLon) {
     double distanceBetweenGymAndPerson = calculateDistanceInKm(
         locationLat,
         locationLon,
@@ -138,11 +134,14 @@ class _AttendanceBarState extends State<AttendanceBar> {
   onAttendanceButtonClicked(int weekDay, BuildContext context) async {
     if (weekDay == currentWeekDay &&
         attendanceStatus != AttendanceStatus.present) {
-      bool verdict = await getCurrentLocationSuccess();
+      LocationResult locationResult = await getCurrentLocationSuccess();
+
+      bool verdict = locationResult.success;
 
       if (verdict) {
         if (attendanceStatus != AttendanceStatus.present) {
-          if (await userInGym()) {
+          if (await userInGym(
+              locationResult.latitude, locationResult.longitude)) {
             setState(() {
               attendanceStatus = AttendanceStatus.present;
 
@@ -401,7 +400,6 @@ class _AttendanceBarState extends State<AttendanceBar> {
               ),
             ),
             Material(
-              
               color: currentWeekDay >= 4
                   ? Colors.white
                   : const Color.fromARGB(255, 235, 238, 241),
@@ -420,8 +418,9 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   height: decideHeight(4),
                   decoration: BoxDecoration(
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD)),),
-                child: Center(child: decideIcon(4)),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(4)),
                 ),
               ),
             ),
@@ -490,7 +489,6 @@ class _AttendanceBarState extends State<AttendanceBar> {
                   width: decideWidth(6),
                   height: decideHeight(6),
                   decoration: BoxDecoration(
-
                     border:
                         Border.all(width: 1, color: const Color(0xffD0D5DD)),
                   ),

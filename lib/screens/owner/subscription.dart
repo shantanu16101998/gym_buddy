@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
-import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
@@ -12,7 +11,6 @@ import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,24 +47,20 @@ class _SubscriptionState extends State<Subscription> {
         .fetchSubscription();
 
     if (!ownerGivenLocation) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showAlertDialog();
-    });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showAlertDialog();
+      });
     }
   }
 
   grantLocationPermission() async {
-    bool locationPermission = await getCurrentLocationSuccess();
+    LocationResult locationResult = await getCurrentLocationSuccess();
+    bool locationPermission = locationResult.success;
 
     if (locationPermission) {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
       backendAPICall(
           '/owner/updateLocation',
-          {
-            'lat': sharedPreferences.getDouble('latitude'),
-            'lon': sharedPreferences.getDouble('longitude')
-          },
+          {'lat': locationResult.latitude, 'lon': locationResult.longitude},
           'PUT',
           true);
     }

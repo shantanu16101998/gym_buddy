@@ -52,7 +52,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
 
   onLocationPermissionPressed() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool verdict = await getCurrentLocationSuccess();
+    bool verdict = (await getCurrentLocationSuccess()).success;
     sharedPreferences.setBool('isLocationPermissionGiven', verdict);
     setState(() {
       locationPermissionGivenWhenAsked = verdict;

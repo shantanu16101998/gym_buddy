@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
@@ -165,19 +167,41 @@ DateTime _addMonths(DateTime date, int monthsToAdd) {
   return DateTime(year, month, day);
 }
 
-Future<bool> getCurrentLocationSuccess() async {
+class LocationResult {
+  final bool success;
+  final double latitude;
+  final double longitude;
+
+  LocationResult(
+      {required this.success, required this.latitude, required this.longitude});
+}
+
+Future<LocationResult> getCurrentLocationSuccess() async {
   var status = await Permission.location.request();
 
   if (status.isGranted) {
-    LocationData locationData = await Location().getLocation();
-    var sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setDouble('latitude', locationData.latitude ?? 0);
-    sharedPreferences.setDouble('longitude', locationData.longitude ?? 0);
-    print(
-        'Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}');
-    return true;
+    try {
+      LocationData locationData = await Location().getLocation().timeout(
+        Duration(seconds: 5),
+        onTimeout: () async {
+          return await Location().getLocation().timeout(Duration(seconds: 5),
+              onTimeout: () async {
+            throw TimeoutException('location timed out 2 times');
+          });
+        },
+      );
+
+      return LocationResult(
+        success: true,
+        latitude: locationData.latitude ?? 0,
+        longitude: locationData.longitude ?? 0,
+      );
+    } catch (e) {
+      print(e);
+      return LocationResult(success: false, latitude: 0, longitude: 0);
+    }
   } else {
-    return false;
+    return LocationResult(success: false, latitude: 0, longitude: 0);
   }
 }
 
