@@ -314,15 +314,23 @@ class _HomepageState extends State<Homepage> {
                       )),
                   exerciseProvider.exerciseList.isEmpty
                       ? Center(
-                          child: Container(
-                            height: 200,
-                            width: 200,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        'assets/images/app-icon-faded.png'))),
-                          ),
+                          child: exerciseProvider.isProviderDayToday()
+                              ? Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/app-icon-faded.png'))),
+                                )
+                              : CustomText(
+                                  text: 'No Exercise Added on This Day',
+                                  fontSize: 40,
+                                  textAlign: TextAlign.center,
+                                  fontWeight: FontWeight.bold,
+                                  color: headingColor.withOpacity(0.5),
+                                ),
                         )
                       : const SizedBox()
                 ],
