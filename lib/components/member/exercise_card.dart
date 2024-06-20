@@ -66,7 +66,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   child: CustomText(
                       text: widget.exercise.name,
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 18,
+                      textAlign: TextAlign.center,
                       color: const Color(0xff344054)),
                 ),
                 GestureDetector(

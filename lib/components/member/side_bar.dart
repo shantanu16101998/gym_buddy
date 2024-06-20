@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
+import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,8 +52,11 @@ class _SideBarState extends State<SideBar> {
             children: [
               InkWell(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Homepage()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MemberScreen(
+                              customerScreens: CustomerScreens.homepage)))
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -63,11 +69,77 @@ class _SideBarState extends State<SideBar> {
                               top: 10,
                               right: 10,
                               bottom: 10),
-                          child: const Icon(Icons.home)),
+                          child: const Icon(
+                            Icons.home,
+                            color: headingColor,
+                          )),
                       const Text(
                         "Home",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            color: headingColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ])),
+              ),
+              InkWell(
+                onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MemberScreen(
+                              customerScreens: CustomerScreens.analysis)))
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: const Color(0xffDBDDE2))),
+                    child: Row(children: [
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: getScreenWidth(context) * 0.125,
+                              top: 10,
+                              right: 10,
+                              bottom: 10),
+                          child: const Icon(
+                            Icons.auto_graph,
+                            color: headingColor,
+                          )),
+                      const Text(
+                        "Analysis",
+                        style: TextStyle(
+                            color: headingColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ])),
+              ),
+              InkWell(
+                onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MemberScreen(
+                              customerScreens: CustomerScreens.profile)))
+                },
+                child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: const Color(0xffDBDDE2))),
+                    child: Row(children: [
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: getScreenWidth(context) * 0.125,
+                              top: 10,
+                              right: 10,
+                              bottom: 10),
+                          child: const Icon(Icons.person,color: headingColor,)),
+                      const Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: headingColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
                       ),
                     ])),
               ),

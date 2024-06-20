@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/member/add_exercise.dart';
 import 'package:gym_buddy/components/member/attendance_bar.dart';
 import 'package:gym_buddy/components/member/card_container.dart';
@@ -33,16 +36,43 @@ class _HomepageState extends State<Homepage> {
     ScreenshotController screenshotController = ScreenshotController();
     bool isDowloaded = false;
 
+    Future<bool> requestStoragePermission() async {
+      if (await Permission.storage.request().isGranted) {
+        return true;
+      } else if (await Permission.manageExternalStorage.request().isGranted) {
+        return true;
+      } else {
+        openAppSettings();
+        return false;
+      }
+    }
+
+    void showDownloadedDialog() {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            content: CustomDialogBox(
+                buttonColor: Color(0xff004576),
+                iconWidget: Icon(Icons.warning_rounded,
+                    size: 50, color: Color(0xff004576)),
+                heading: 'Id Card downloaded',
+                subheading: 'Your id card is downloaded in your gallary')),
+      );
+    }
+
     void captureAndSave() async {
       try {
         Uint8List? image = await screenshotController.capture();
         if (image != null) {
-          var status = await Permission.storage.request();
-          if (status.isGranted) {
+          var status = await requestStoragePermission();
+          if (status) {
             await ImageGallerySaver.saveImage(image);
             setState(() {
               isDowloaded = true;
               Navigator.pop(context);
+              showDownloadedDialog();
             });
           } else {
             // Handle permission denied
@@ -61,84 +91,101 @@ class _HomepageState extends State<Homepage> {
     if (idCardResponse.planid != sharedPreferences.getString("currentPlanId")) {
       sharedPreferences.setString("currentPlanId", idCardResponse.planid);
 
-      showModalBottomSheet(
+      showDialog(
         context: context,
         builder: (BuildContext context) {
-          return !isDowloaded
-              ? Container(
-                  decoration: const BoxDecoration(color: Colors.white),
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Your gym Id card is generated',
-                          style: TextStyle(
-                            fontSize: 22,
+          return AlertDialog(
+            elevation: 0,
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: Colors.white,
+            content: Container(
+              width: 350,
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                            color: Color(0xff32A737),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12))),
+                        child: const Center(
+                          child: CustomText(
+                            text: 'Your ID Card is Ready!',
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
-                        ),
+                        )),
+                    Screenshot(
+                      controller: screenshotController,
+                      child: IdentityCard(
+                        gymContact: idCardResponse.gymContact,
+                        dueDate: idCardResponse.planDue,
+                        gymName: idCardResponse.gymName,
+                        memberName: idCardResponse.memberName,
+                        validTillInMonths:
+                            idCardResponse.planDuration.toString(),
+                        profileUrl: idCardResponse.customerPic,
                       ),
-                      Screenshot(
-                        controller: screenshotController,
-                        child: IdentityCard(
-                          gymContact: idCardResponse.gymContact,
-                          dueDate: idCardResponse.planDue,
-                          gymName: idCardResponse.gymName,
-                          memberName: idCardResponse.memberName,
-                          validTillInMonths:
-                              idCardResponse.planDuration.toString(),
-                          profileUrl: idCardResponse.customerPic,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: OutlinedButton(
-                          onPressed: captureAndSave,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            side:
-                                const BorderSide(width: 1, color: Colors.black),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Save in gallary",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: captureAndSave,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xff004576),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                ),
+                              ),
+                              width: 175,
+                              height: 40,
+                              child: const Center(
+                                child: CustomText(
+                                  text: 'Save',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                width: 175,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffD3D3D3),
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(12),
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: CustomText(
+                                    text: 'Dismiss',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              : Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CustomText(
-                            text:
-                                'Your id card is downloaded successfully in gallery',
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: headingColor,
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                );
+                  ],
+                ),
+              ),
+            ),
+          );
         },
       );
     }
@@ -189,11 +236,14 @@ class _HomepageState extends State<Homepage> {
               Column(
                 children: [
                   memberProfileResponse.gymLocationLat != null
-                      ? const CustomText(
-                          text: 'Tap Here For Attendance',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color(0xff344054),
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: CustomText(
+                            text: 'Tap Here For Attendance',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: headingColor,
+                          ),
                         )
                       : const SizedBox(),
                   Padding(
@@ -241,21 +291,20 @@ class _HomepageState extends State<Homepage> {
                                                     ));
                                                   })
                                             },
-                                        style: ElevatedButton.styleFrom(
+                                        style: OutlinedButton.styleFrom(
                                             elevation: 0,
-                                            side: const BorderSide(
-                                                color: Colors.black),
-                                            backgroundColor: Colors.white),
+                                            
+                                            backgroundColor: headingColor),
                                         child: Padding(
                                             padding: const EdgeInsets.all(10),
                                             child: Text(
                                                 "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
                                                 style: const TextStyle(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.bold))))))),
-                      ))
+                      )),
                 ],
               ),
             ],

@@ -9,7 +9,7 @@ enum ExerciseComponent { weight, reps }
 
 enum AttendanceStatus { present, notInsideGym, notLocationPermissionGiven }
 
-enum AppEnvironment { owner, member }
+enum AppEnvironment { owner, member, test }
 
 enum UserCurrentScreen { home, analysis, profile }
 

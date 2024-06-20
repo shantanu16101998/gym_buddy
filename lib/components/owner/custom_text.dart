@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomText extends StatefulWidget {
   final double? fontSize;
@@ -33,15 +34,20 @@ class CustomText extends StatefulWidget {
 class _CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
-    return Text(widget.text,
-        textAlign: widget.textAlign,
-        overflow: TextOverflow.clip,
-        style: TextStyle(
-            color: widget.color,
-            fontSize: widget.fontSize,
-            fontWeight: widget.fontWeight,
-            decorationColor: widget.color,
-            decoration:
-                widget.isUnderlined == true ? TextDecoration.underline : null));
+    return Text(
+      widget.text,
+      textAlign: widget.textAlign,
+      overflow: TextOverflow.clip,
+      style: GoogleFonts.getFont(
+        'Roboto',
+          textStyle: TextStyle(
+              color: widget.color,
+              fontSize: widget.fontSize,
+              fontWeight: widget.fontWeight,
+              decorationColor: widget.color,
+              decoration: widget.isUnderlined == true
+                  ? TextDecoration.underline
+                  : null)),
+    );
   }
 }

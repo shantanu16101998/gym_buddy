@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
 
   _onDeleteUserPressed() async {
     await backendAPICall(
-        "/customer/deleteCustomer/${widget.userId}",{}, "DELETE", true);
+        "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
     if (mounted) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));
@@ -92,7 +92,8 @@ class _ProfileState extends State<Profile> {
                         height: 200.0,
                         child: Shimmer.fromColors(
                           baseColor: const Color.fromARGB(255, 255, 255, 255),
-                          highlightColor: const Color.fromARGB(255, 227, 227, 226),
+                          highlightColor:
+                              const Color.fromARGB(255, 227, 227, 226),
                           child: Container(
                             height: 20,
                             width: 100,
@@ -111,7 +112,8 @@ class _ProfileState extends State<Profile> {
                             width: 300.0,
                             height: 200.0,
                             child: Shimmer.fromColors(
-                              baseColor: const Color.fromARGB(255, 255, 255, 255),
+                              baseColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
                               highlightColor:
                                   const Color.fromARGB(255, 227, 227, 226),
                               child: Container(
@@ -124,34 +126,38 @@ class _ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomText(
+                                  const CustomText(
                                       text: 'Name:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
                                       color: Color(0xff004576)),
-                                  SizedBox(height: 20),
-                                  CustomText(
+                                  const SizedBox(height: 20),
+                                  const CustomText(
                                       text: 'Contact:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
                                       color: Color(0xff004576)),
-                                  SizedBox(height: 20),
-                                  CustomText(
-                                      text: 'Mentor:',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: Color(0xff004576)),
-                                  SizedBox(height: 20),
-                                  CustomText(
+                                  userProfileResponse.traineeName != null
+                                      ? const SizedBox(height: 20)
+                                      : const SizedBox(),
+                                  userProfileResponse.traineeName != null
+                                      ? const CustomText(
+                                          text: 'Mentor:',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: Color(0xff004576))
+                                      : const SizedBox(),
+                                  const SizedBox(height: 20),
+                                  const CustomText(
                                       text: 'Start Date:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
                                       color: Color(0xff004576)),
-                                  SizedBox(height: 20),
-                                  CustomText(
+                                  const SizedBox(height: 20),
+                                  const CustomText(
                                       text: 'Plan:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
@@ -173,11 +179,16 @@ class _ProfileState extends State<Profile> {
                                       style: GoogleFonts.inter(
                                           textStyle:
                                               const TextStyle(fontSize: 22))),
-                                  const SizedBox(height: 20),
-                                  Text(userProfileResponse.traineeName ?? "",
-                                      style: GoogleFonts.inter(
-                                          textStyle:
-                                              const TextStyle(fontSize: 22))),
+                                  userProfileResponse.traineeName != null
+                                      ? const SizedBox(height: 20)
+                                      : const SizedBox(),
+                                  userProfileResponse.traineeName != null
+                                      ? Text(
+                                          userProfileResponse.traineeName ?? "",
+                                          style: GoogleFonts.inter(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 22)))
+                                      : const SizedBox(),
                                   const SizedBox(height: 20),
                                   Text(userProfileResponse.startDate ?? "",
                                       style: GoogleFonts.inter(

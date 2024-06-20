@@ -5,6 +5,7 @@ import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
@@ -58,7 +59,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
         }
         if (mounted) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MemberScreen()));
+              MaterialPageRoute(builder: (context) => const MemberScreen(customerScreens: CustomerScreens.homepage,)));
         }
       }
     }
@@ -71,21 +72,16 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
       Container(
           margin: EdgeInsets.only(top: getStatusBarHeight(context)),
           decoration: const BoxDecoration(
-            // color: Color
-              // image: DecorationImage(
-            // image: AssetImage("assets/images/register.png"),
-            // fit: BoxFit.fitWidth,
-          // )
-          )),
+              )),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-              color: Colors.transparent,
+              color: headingColor,
+              height: getScreenHeight(context),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Padding(padding: EdgeInsets.only(top: 100.0)),
                     const Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: Row(
@@ -95,7 +91,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                               child: Text(
                                 "Log In",
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: headingColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22),
                               )),
@@ -106,7 +102,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                         padding: const EdgeInsets.all(20),
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             // color: const Color.fromARGB(255, 85, 84, 84)
                             //     .withOpacity(0.98),
@@ -115,15 +111,16 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 30, left: 30),
-                                child: Text(
-                                  "Welcome",
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Center(
+                                  child: Text(
+                                    "Login",
+                                    style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                        color: headingColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -161,19 +158,19 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                   child: SizedBox(
                                     height: 50,
                                     width: 178,
-                                    child: ElevatedButton(
+                                    child: OutlinedButton(
                                       onPressed: onLoginButtonPressed,
-                                      style: ElevatedButton.styleFrom(
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(color: headingColor,width: 2),
                                         elevation: 0,
-                                        backgroundColor:
-                                            const Color(0xFFD9D9D9),
+                                        backgroundColor: Colors.white,
                                       ),
                                       child: const Padding(
                                         padding: EdgeInsets.all(10),
                                         child: Text(
                                           "Log In",
                                           style: TextStyle(
-                                            color: Color(0xff004576),
+                                            color: headingColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),

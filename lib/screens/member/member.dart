@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/member/side_bar.dart' as member_side_bar;
 import 'package:gym_buddy/constants/environment.dart';
@@ -11,7 +12,8 @@ import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberScreen extends StatefulWidget {
-  const MemberScreen({super.key});
+  final CustomerScreens customerScreens;
+  const MemberScreen({super.key, required this.customerScreens});
 
   @override
   State<MemberScreen> createState() => _MemberScreenState();
@@ -20,12 +22,14 @@ class MemberScreen extends StatefulWidget {
 class _MemberScreenState extends State<MemberScreen> {
   String userName = "Owner";
   String currentScreen = "home";
-
   CustomerScreens customerScreens = CustomerScreens.homepage;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      customerScreens = widget.customerScreens;
+    });
     fetchOwnerName();
   }
 
@@ -40,7 +44,7 @@ class _MemberScreenState extends State<MemberScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: member_side_bar.SideBar(userName: userName),
+      drawer: member_side_bar.SideBar(userName: ''),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -50,15 +54,12 @@ class _MemberScreenState extends State<MemberScreen> {
                 minHeight: getScreenHeight(context),
               ),
               child: Container(
-                padding: EdgeInsets.only(
-                  top: getStatusBarHeight(context),
-                ),
                 width: double.infinity,
-                color: Colors.white,
                 child: Column(
                   children: [
                     Header(userName: userName),
                     Container(
+                        color: Colors.white,
                         child: customerScreens == CustomerScreens.homepage
                             ? const Homepage()
                             : customerScreens == CustomerScreens.analysis
@@ -75,7 +76,7 @@ class _MemberScreenState extends State<MemberScreen> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    height: 50,
+                    // height: 50,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -101,13 +102,27 @@ class _MemberScreenState extends State<MemberScreen> {
                             width: getScreenWidth(context) * 0.3,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 0),
-                              child: Icon(Icons.home,
-                                  size: 30,
-                                  color: customerScreens == CustomerScreens.homepage
-                                      ? headingColor
-                                      : const Color.fromARGB(
-                                          255, 149, 142, 142)),
+                                  const EdgeInsets.only(top: 10, bottom: 10),
+                              child: Column(
+                                children: [
+                                  Icon(Icons.home,
+                                      size: 20,
+                                      color: customerScreens ==
+                                              CustomerScreens.homepage
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                  CustomText(
+                                      text: 'Home',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: customerScreens ==
+                                              CustomerScreens.homepage
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -126,13 +141,27 @@ class _MemberScreenState extends State<MemberScreen> {
                             width: getScreenWidth(context) * 0.3,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 0),
-                              child: Icon(Icons.auto_graph,
-                                  size: 30,
-                                  color: customerScreens == CustomerScreens.analysis
-                                      ? headingColor
-                                      : const Color.fromARGB(
-                                          255, 149, 142, 142)),
+                                  const EdgeInsets.only(top: 10, bottom: 10),
+                              child: Column(
+                                children: [
+                                  Icon(Icons.auto_graph,
+                                      size: 20,
+                                      color: customerScreens ==
+                                              CustomerScreens.analysis
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                  CustomText(
+                                      text: 'Analyse',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: customerScreens ==
+                                              CustomerScreens.analysis
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -152,13 +181,27 @@ class _MemberScreenState extends State<MemberScreen> {
                             width: getScreenWidth(context) * 0.3,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 0),
-                              child: Icon(Icons.person,
-                                  size: 30,
-                                  color: customerScreens == CustomerScreens.profile
-                                      ? headingColor
-                                      : const Color.fromARGB(
-                                          255, 149, 142, 142)),
+                                  const EdgeInsets.only(top: 10, bottom: 10),
+                              child: Column(
+                                children: [
+                                  Icon(Icons.person,
+                                      size: 20,
+                                      color: customerScreens ==
+                                              CustomerScreens.profile
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                  CustomText(
+                                      text: 'Profile',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: customerScreens ==
+                                              CustomerScreens.profile
+                                          ? headingColor
+                                          : const Color.fromARGB(
+                                              255, 149, 142, 142)),
+                                ],
+                              ),
                             ),
                           ),
                         ),

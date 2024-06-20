@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -44,7 +45,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                     padding: EdgeInsets.all(interCellDistance),
                     child: const Row(
                       children: [
-                        SizedBox(width: 40),
+                        SizedBox(width: 20),
                         CustomText(
                             text: 'Set',
                             fontSize: 16,
@@ -99,7 +100,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                   Padding(
                     padding: EdgeInsets.all(interCellDistance),
                     child: const CustomText(
-                        text: 'Kg',
+                        text: 'Weight',
                         fontSize: 16,
                         color: Color(0xff667085),
                         fontWeight: FontWeight.bold),
@@ -107,13 +108,11 @@ class _CardInformationTableState extends State<CardInformationTable> {
                   for (var exerciseInformationEntry
                       in exerciseInformationList.asMap().entries)
 
-                    // !exerciseInformationEntry.value.isCompleted
-                    // ?
                     Padding(
                         padding: EdgeInsets.all(interCellDistance),
                         child: SizedBox(
                             height: 50,
-                            width: 55,
+                            // width: 70,
                             child: IgnorePointer(
                               ignoring:
                                   exerciseInformationEntry.value.isCompleted,
@@ -200,8 +199,10 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                   return DropdownMenuItem<String>(
                                     value: value.toString(),
                                     child: SizedBox(
-                                      child: CustomText(
-                                        text: value.toString(),
+                                      child: Center(
+                                        child: CustomText(
+                                          text: '$value kg',
+                                        ),
                                       ),
                                     ),
                                   );
@@ -304,8 +305,10 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                 return DropdownMenuItem<String>(
                                   value: value.toString(),
                                   child: SizedBox(
-                                      child: CustomText(
-                                    text: value.toString(),
+                                      child: Center(
+                                    child: CustomText(
+                                      text: value.toString(),
+                                    ),
                                   )),
                                 );
                               }).toList(),
@@ -318,7 +321,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                     children: [
                       Padding(
                         padding:
-                            EdgeInsets.only(left: interCellDistance, top: 12),
+                            EdgeInsets.all(interCellDistance),
                         child: const CustomText(
                             text: 'Done',
                             fontSize: 16,
@@ -326,33 +329,43 @@ class _CardInformationTableState extends State<CardInformationTable> {
                             fontWeight: FontWeight.bold),
                       ),
                       for (int i = 0; i < exerciseInformationList.length; i++)
-                        Padding(
-                          padding: EdgeInsets.all(interSetNoDistance),
-                          child: GestureDetector(
-                            onTap: () {
-                              widget.markStatus(i);
-                            },
-                            child: Container(
-                              width: circleWidth,
-                              height: circleWidth,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1,
+                        GestureDetector(
+                          onTap: () {
+                            widget.markStatus(i);
+                          },
+                          child: SizedBox(
+                            // width: 60,
+                            // height: 70,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: interSetNoDistance -7,
+                                  bottom: interSetNoDistance),
+                              child: Center(
+                                child: Container(
+                                  width: circleWidth,
+                                  height: circleWidth,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1.5,
+                                          color: exerciseInformationList[i]
+                                                  .isCompleted
+                                              ? const Color(0xff3ABA2E)
+                                              : headingColor),
                                       color:
                                           exerciseInformationList[i].isCompleted
                                               ? const Color(0xff3ABA2E)
-                                              : Colors.black),
-                                  color: exerciseInformationList[i].isCompleted
-                                      ? const Color(0xff3ABA2E)
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(circleWidth))),
-                              child: Icon(
-                                Icons.check,
-                                color: exerciseInformationList[i].isCompleted
-                                    ? Colors.white
-                                    : Colors.black,
-                                size: circleWidth / 1.1,
+                                              : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(circleWidth))),
+                                  child: Icon(
+                                    Icons.check,
+                                    color:
+                                        exerciseInformationList[i].isCompleted
+                                            ? Colors.white
+                                            : headingColor,
+                                    size: circleWidth / 1.1,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

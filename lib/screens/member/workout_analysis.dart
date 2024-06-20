@@ -155,11 +155,14 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
             : Container(
                 child: Column(
                   children: [
-                    const CustomText(
-                      text: 'Workout Analysis',
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: headingColor,
+                    const Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child:  CustomText(
+                        text: 'Workout Analysis',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: headingColor,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 40, top: 20),
@@ -241,10 +244,11 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(left: 20, right: 40),
+                      padding: EdgeInsets.only(left: 20, right: 20),
                       child: CustomText(
-                        text: 'Peer analysis (Heaviest Weight/ 8 reps)',
+                        text: 'Peer analysis (Max Weight/ 8 reps)',
                         fontSize: 20,
+                        textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
                         color: headingColor,
                       ),

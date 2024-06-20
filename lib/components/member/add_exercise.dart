@@ -1,12 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/exercise.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:provider/provider.dart';
 
@@ -64,28 +66,21 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          elevation: 0,
-          backgroundColor: Colors.transparent, // Set background color to white
-          content: Container(
-              width: double.infinity,
-              height: 300,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CustomText(
-                      fontSize: 22,
-                      textAlign: TextAlign.center,
-                      text: 'You have already added this exercise for today'),
-                ),
-              )),
-        );
+        return const AlertDialog(
+            elevation: 0,
+            backgroundColor:
+                Colors.transparent, // Set background color to white
+            content: CustomDialogBox(
+                buttonColor: Color(0xff004576),
+                iconWidget: Icon(Icons.warning_rounded,
+                    size: 50, color: Color(0xff004576)),
+                heading: 'Exercise not added',
+                subheading: 'You have already added this exercise for today'));
       },
     );
   }
+
+  //
 
   void _onAddPressed() async {
     if (!isNewExercise || validateForm() && _exerciseIdController.text != '0') {
@@ -118,7 +113,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                          color: Color(0xff344054)))),
+                          color: headingColor))),
             ),
             isNewExercise == true
                 ? Padding(

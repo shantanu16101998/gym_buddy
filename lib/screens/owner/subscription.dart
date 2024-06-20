@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/loader.dart';
@@ -46,6 +47,12 @@ class _SubscriptionState extends State<Subscription> {
     initialConfigs();
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
+
+    if (!ownerGivenLocation) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showAlertDialog();
+    });
+    }
   }
 
   grantLocationPermission() async {
@@ -77,6 +84,26 @@ class _SubscriptionState extends State<Subscription> {
     });
   }
 
+  void showAlertDialog() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              elevation: 0,
+              backgroundColor:
+                  Colors.transparent, // Set background color to white
+              content: CustomDialogBox(
+                  buttonColor: const Color(0xff888A12),
+                  iconWidget: const Icon(Icons.warning_rounded,
+                      size: 50, color: Color(0xff888A12)),
+                  heading: 'Grant location permission !',
+                  subheading:
+                      'Please grant permission for users attendance verification',
+                  buttonName: 'Allow',
+                  buttonAction: grantLocationPermission));
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,13 +115,14 @@ class _SubscriptionState extends State<Subscription> {
                 physics: const BouncingScrollPhysics(),
                 child: Container(
                   padding: EdgeInsets.only(
-                      top: getStatusBarHeight(context),
-                      left: 10,
-                      right: 10,
+                      // top: getStatusBarHeight(context),
+                      // left: 10,
+                      // right: 10,
                       bottom: 100),
                   child: Column(
                     children: [
                       Header(userName: userName),
+                      SizedBox(height: 20),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
                           showCurrentUsers: showCurrentUsers,
@@ -170,60 +198,6 @@ class _SubscriptionState extends State<Subscription> {
                                               fontWeight:
                                                   FontWeight.bold))))))),
                 )),
-            !ownerGivenLocation
-                ? Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 200,
-                      width: 340,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            width: 1, color: const Color(0xffDBDDE2)),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(width: 40),
-                              const Padding(
-                                  padding: EdgeInsets.only(top: 20.0),
-                                  child: CustomText(
-                                    text: 'Required for attendance',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              const SizedBox(width: 30),
-                              GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      ownerGivenLocation = true;
-                                    });
-                                  },
-                                  child: const Icon(Icons.close))
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          OutlinedButton(
-                              onPressed: grantLocationPermission,
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: Colors.transparent,
-                                  side: const BorderSide(
-                                      width: 1, color: Colors.black)),
-                              child: const Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text("Grant Location Permission",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold))))
-                        ],
-                      ),
-                    ))
-                : const SizedBox()
           ],
         ));
   }

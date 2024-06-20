@@ -93,11 +93,11 @@ class _UserGoalFormState extends State<UserGoalForm> {
         experienceError = null;
       }
 
-      if (mentor == mentors[0]) {
-        mentorError = "Please select mentor";
-      } else {
-        mentorError = null;
-      }
+      // if (mentor == mentors[0]) {
+      //   mentorError = "Please select mentor";
+      // } else {
+      //   mentorError = null;
+      // }
     });
     if (goalError != null || experienceError != null || mentorError != null) {
       return false;

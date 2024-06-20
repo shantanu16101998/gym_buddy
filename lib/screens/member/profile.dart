@@ -6,6 +6,7 @@ import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/common/screen_shimmer.dart';
 import 'package:gym_buddy/screens/member/referral_dialog.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -71,33 +72,33 @@ class _ProfileState extends State<Profile> {
                                 text: 'Name:',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Color(0xff004576)),
+                                color: headingColor),
                             const SizedBox(height: 20),
                             const CustomText(
                                 text: 'Contact:',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Color(0xff004576)),
+                                color: headingColor),
                             const SizedBox(height: 20),
                             memberProfileResponse.trainerName != null
                                 ? const CustomText(
                                     text: 'Mentor:',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
-                                    color: Color(0xff004576))
+                                    color: headingColor)
                                 : const SizedBox(),
                             const SizedBox(height: 20),
                             const CustomText(
                                 text: 'Start Date:',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Color(0xff004576)),
+                                color: headingColor),
                             const SizedBox(height: 20),
                             const CustomText(
                                 text: 'Plan:',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Color(0xff004576)),
+                                color: headingColor),
                           ],
                         ),
                         const SizedBox(
@@ -166,7 +167,7 @@ class _ProfileState extends State<Profile> {
                                   textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576))))))),
+                                      color: headingColor)))))),
             ],
           )
         : const ScreenShimmer();

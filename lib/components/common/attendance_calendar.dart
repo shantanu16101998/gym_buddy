@@ -215,7 +215,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             children: [
               Text(monthNames[currentMonth],
                   style: const TextStyle(
-                      color: Color(0xff004576),
+                      color: headingColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold)),
               Row(
@@ -223,8 +223,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_back,
                         color: (minYear < year || minMonth < currentMonth)
-                            ? const Color(0xff004576)
-                            : const Color.fromARGB(255, 116, 144, 163)),
+                            ? headingColor
+                            : headingColor.withOpacity(0.5)),
                     onPressed: () {
                       if (minYear < year || minMonth < currentMonth) {
                         setState(() {
@@ -245,8 +245,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_forward,
                         color: (maxYear > year || maxMonth > currentMonth)
-                            ? const Color(0xff004576)
-                            : const Color.fromARGB(255, 116, 144, 163)),
+                            ? headingColor
+                            : headingColor.withOpacity(0.5)),
                     onPressed: () {
                       if (maxMonth > currentMonth || maxYear > year) {
                         setState(() {

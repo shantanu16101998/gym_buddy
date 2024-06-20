@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
-import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -56,123 +56,64 @@ class _AttendanceBarState extends State<AttendanceBar> {
   }
 
   Widget grantLocationPermissionWidget() {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(20.0),
-          child: CustomText(
-            text: 'Grant location Permission',
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: headingColor,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        const Icon(Icons.warning_rounded, size: 80, color: Colors.amber),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: OutlinedButton(
-              onPressed: () async {
-                bool verdict = await getCurrentLocationSuccess();
-
-                if (verdict) {
-                  if (await userInGym()) {
-                    setState(() {
-                      attendanceStatus = AttendanceStatus.present;
-                    });
-                  } else {
-                    setState(() {
-                      attendanceStatus = AttendanceStatus.notInsideGym;
-                    });
-                  }
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  side: const BorderSide(width: 1, color: Colors.black)),
-              child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text("Allow",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)))),
-        )
-      ],
+    return CustomDialogBox(
+      buttonColor: const Color(0xff888A12),
+      buttonName: 'Allow',
+      iconWidget:
+          const Icon(Icons.warning_rounded, size: 50, color: Color(0xff888A12)),
+      heading: 'Grant location permission !',
+      subheading: 'Please grant permission for attendance verification',
+      buttonAction: () async {
+        bool verdict = await getCurrentLocationSuccess();
+        if (verdict) {
+          if (await userInGym()) {
+            setState(() {
+              attendanceStatus = AttendanceStatus.present;
+            });
+          } else {
+            setState(() {
+              attendanceStatus = AttendanceStatus.notInsideGym;
+            });
+          }
+          if (mounted) {
+            Navigator.pop(context);
+          }
+        }
+      },
     );
   }
 
   Widget attendanceMarkedWidget() {
-    return const SizedBox(
-      height: 90,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: CustomText(
-              text: 'Attendance Marked',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: headingColor,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Center(
-              child: Icon(
-                Icons.check_circle,
-                size: 80,
-                color: const Color(0xff3ABA2E),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+    return const CustomDialogBox(
+        buttonColor: Color(0xff3ABA2E),
+        iconWidget: Icon(
+          Icons.check_circle,
+          size: 50,
+          color: Color(0xff3ABA2E),
+        ),
+        heading: 'Attendance Marked !',
+        subheading: 'Your attendance is marked successfully',
+        buttonAction: null);
   }
 
   Widget userNotInLocationWidget() {
-    return SizedBox(
-      height: 110,
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: CustomText(
-              text: 'Attendance Not Marked',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: headingColor,
-            ),
+    return CustomDialogBox(
+        buttonColor: const Color(0xffE46A6A),
+        iconWidget: Container(
+          height: 50,
+          width: 50,
+          decoration: const BoxDecoration(
+              color: Color(0xffE46A6A),
+              borderRadius: BorderRadius.all(Radius.circular(80))),
+          child: const Icon(
+            Icons.close,
+            color: Colors.white,
+            size: 40,
           ),
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-                color: const Color(0xffE46A6A),
-                borderRadius: BorderRadius.all(Radius.circular(80))),
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: CustomText(
-              text: 'Please go inside gym to mark attendance',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: headingColor,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+        heading: 'Attendance Not Marked !',
+        subheading: 'Please go inside gym to mark attendance',
+        buttonAction: null);
   }
 
   userInGym() async {
@@ -233,7 +174,6 @@ class _AttendanceBarState extends State<AttendanceBar> {
           backgroundColor: Colors.transparent, // Set background color to white
           content: Container(
             width: double.infinity,
-            height: 300,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -342,22 +282,35 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(1, context);
-              },
-              child: Container(
-                width: decideWidth(1),
-                height: decideHeight(1),
-                decoration: BoxDecoration(
-                    color: currentWeekDay >= 1
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241),
+            Material(
+              color: currentWeekDay >= 1
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              borderRadius:
+                  const BorderRadius.horizontal(left: Radius.circular(10)),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(1, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 1
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.horizontal(left: Radius.circular(10)),
+                child: Container(
+                  width: decideWidth(1),
+                  height: decideHeight(1),
+                  decoration: BoxDecoration(
                     borderRadius: const BorderRadius.horizontal(
                         left: Radius.circular(10)),
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
-                child: Center(child: decideIcon(1)),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(1)),
+                ),
               ),
             ),
           ],
@@ -371,20 +324,33 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
+            Material(
+              color: currentWeekDay >= 2
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
                 onTap: () {
                   onAttendanceButtonClicked(2, context);
                 },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 2
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.horizontal(left: Radius.circular(10)),
                 child: Container(
-                    width: decideWidth(2),
-                    height: decideHeight(2),
-                    decoration: BoxDecoration(
-                        color: currentWeekDay >= 2
-                            ? Colors.white
-                            : const Color.fromARGB(255, 235, 238, 241),
-                        border: Border.all(
-                            width: 1, color: const Color(0xffD0D5DD))),
-                    child: Center(child: decideIcon(2)))),
+                  width: decideWidth(2),
+                  height: decideHeight(2),
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(2)),
+                ),
+              ),
+            )
           ],
         ),
         Column(
@@ -396,24 +362,33 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(3, context);
-              },
-              child: Container(
-                width: decideWidth(3),
-                height: decideHeight(3),
-                decoration: BoxDecoration(
+            Material(
+              color: currentWeekDay >= 3
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(3, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 3
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.horizontal(left: Radius.circular(10)),
+                child: Container(
+                  width: decideWidth(3),
+                  height: decideHeight(3),
+                  decoration: BoxDecoration(
                     border:
                         Border.all(width: 1, color: const Color(0xffD0D5DD)),
-                    color: currentWeekDay >= 3
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241)),
-                child: Center(
-                    // Centering the inner container
-                    child: decideIcon(3)),
+                  ),
+                  child: Center(child: decideIcon(3)),
+                ),
               ),
-            ),
+            )
           ],
         ),
         Column(
@@ -425,22 +400,28 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(4, context);
-              },
-              child: Container(
-                width: decideWidth(4),
-                height: decideHeight(4),
-                decoration: BoxDecoration(
-                    color: currentWeekDay >= 4
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241),
+            Material(
+              
+              color: currentWeekDay >= 4
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(4, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 4
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                child: Container(
+                  width: decideWidth(4),
+                  height: decideHeight(4),
+                  decoration: BoxDecoration(
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
-                child: Center(
-                  // Centering the inner container
-                  child: decideIcon(4),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),),
+                child: Center(child: decideIcon(4)),
                 ),
               ),
             ),
@@ -455,24 +436,31 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(5, context);
-              },
-              child: Container(
-                width: decideWidth(5),
-                height: decideHeight(5),
-                decoration: BoxDecoration(
-                    color: currentWeekDay >= 5
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241),
+            Material(
+              color: currentWeekDay >= 5
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(5, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 5
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                child: Container(
+                  width: decideWidth(5),
+                  height: decideHeight(5),
+                  decoration: BoxDecoration(
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
-                child: Center(
-                    // Centering the inner container
-                    child: decideIcon(5)),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(5)),
+                ),
               ),
-            ),
+            )
           ],
         ),
         Column(
@@ -484,25 +472,32 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(6, context);
-              },
-              child: Container(
-                width: decideWidth(6),
-                height: decideHeight(6),
-                decoration: BoxDecoration(
-                    color: currentWeekDay >= 6
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241),
+            Material(
+              color: currentWeekDay >= 6
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(6, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 6
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                child: Container(
+                  width: decideWidth(6),
+                  height: decideHeight(6),
+                  decoration: BoxDecoration(
+
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
-                child: Center(
-                  // Centering the inner container
-                  child: decideIcon(6),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(6)),
                 ),
               ),
-            ),
+            )
           ],
         ),
         Column(
@@ -514,27 +509,37 @@ class _AttendanceBarState extends State<AttendanceBar> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                onAttendanceButtonClicked(7, context);
-              },
-              child: Container(
-                width: decideWidth(7),
-                height: decideHeight(7),
-                decoration: BoxDecoration(
-                    color: currentWeekDay >= 7
-                        ? Colors.white
-                        : const Color.fromARGB(255, 235, 238, 241),
+            Material(
+              color: currentWeekDay >= 7
+                  ? Colors.white
+                  : const Color.fromARGB(255, 235, 238, 241),
+              borderRadius:
+                  const BorderRadius.horizontal(right: Radius.circular(10)),
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                onTap: () {
+                  onAttendanceButtonClicked(7, context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: currentWeekDay == 7
+                    ? const Color.fromARGB(255, 235, 238, 241)
+                    : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.horizontal(left: Radius.circular(10)),
+                child: Container(
+                  width: decideWidth(7),
+                  height: decideHeight(7),
+                  decoration: BoxDecoration(
                     borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(10)),
                     border:
-                        Border.all(width: 1, color: const Color(0xffD0D5DD))),
-                child: Center(
-                  // Centering the inner container
-                  child: decideIcon(7),
+                        Border.all(width: 1, color: const Color(0xffD0D5DD)),
+                  ),
+                  child: Center(child: decideIcon(7)),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ],
