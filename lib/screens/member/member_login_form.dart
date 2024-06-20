@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/member/homepage.dart';
 import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
@@ -45,7 +44,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
 
       if (memberLoginResponse.name == null) {
         setState(() {
-          showValidationError = 'Contact not registered with any gym';
+          showValidationError = 'This number is not registed with our Gym Partners';
         });
       } else {
         SharedPreferences sharedPreferences =
@@ -76,33 +75,17 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-              color: headingColor,
+              // color: headingColor,
               height: getScreenHeight(context),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          TextButton(
-                              onPressed: null,
-                              child: Text(
-                                "Log In",
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                              )),
-                        ],
-                      ),
-                    ),
                     Padding(
                         padding: const EdgeInsets.all(20),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Color(0xffF5F5F5),
                             borderRadius: BorderRadius.circular(20),
                             // color: const Color.fromARGB(255, 85, 84, 84)
                             //     .withOpacity(0.98),
@@ -129,7 +112,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                 padding: const EdgeInsets.only(
                                     left: 30, top: 30, bottom: 15, right: 30),
                                 child: LabeledTextField(
-                                  labelText: "Contact",
+                                  labelText: "Mobile Number",
                                   controller: _contactController,
                                   textInputType: TextInputType.number,
                                   textInputFormatter: [
@@ -161,16 +144,15 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                     child: OutlinedButton(
                                       onPressed: onLoginButtonPressed,
                                       style: OutlinedButton.styleFrom(
-                                        side: BorderSide(color: headingColor,width: 2),
                                         elevation: 0,
-                                        backgroundColor: Colors.white,
+                                        backgroundColor: headingColor,
                                       ),
                                       child: const Padding(
                                         padding: EdgeInsets.all(10),
                                         child: Text(
                                           "Log In",
                                           style: TextStyle(
-                                            color: headingColor,
+                                            color:  Colors.white,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),

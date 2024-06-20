@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/member/add_exercise.dart';
 import 'package:gym_buddy/components/member/attendance_bar.dart';
@@ -157,12 +155,12 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                                width: getScreenWidth(context) * 0.4,
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
                                 height: 40,
                                 decoration: const BoxDecoration(
                                   color: Color(0xffD3D3D3),
@@ -177,8 +175,10 @@ class _HomepageState extends State<Homepage> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
-                                )),
-                          )
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -294,7 +294,6 @@ class _HomepageState extends State<Homepage> {
                                             },
                                         style: OutlinedButton.styleFrom(
                                             elevation: 0,
-                                            
                                             backgroundColor: headingColor),
                                         child: Padding(
                                             padding: const EdgeInsets.all(10),
