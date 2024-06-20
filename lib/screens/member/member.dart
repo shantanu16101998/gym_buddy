@@ -79,10 +79,16 @@ class _MemberScreenState extends State<MemberScreen> {
                     // height: 50,
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0),
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(
+                              255, 247, 245, 245), // Shadow color
+                          spreadRadius: 1, // Spread radius
+                          blurRadius: 2, // Blur radius
+                          offset: Offset(
+                              0, -3), // Position the shadow above the Container
+                        ),
+                      ],
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

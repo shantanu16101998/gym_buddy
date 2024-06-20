@@ -44,7 +44,8 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
 
       if (memberLoginResponse.name == null) {
         setState(() {
-          showValidationError = 'This number is not registed with our Gym Partners';
+          showValidationError =
+              'This number is not registed with our Gym Partners';
         });
       } else {
         SharedPreferences sharedPreferences =
@@ -57,8 +58,12 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
               'userName', memberLoginResponse.name ?? "");
         }
         if (mounted) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MemberScreen(customerScreens: CustomerScreens.homepage,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const MemberScreen(
+                        customerScreens: CustomerScreens.homepage,
+                      )));
         }
       }
     }
@@ -70,11 +75,16 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
         body: Stack(children: <Widget>[
       Container(
           margin: EdgeInsets.only(top: getStatusBarHeight(context)),
-          decoration: const BoxDecoration(
-              )),
+          decoration: const BoxDecoration()),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/designer.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
               // color: headingColor,
               height: getScreenHeight(context),
               child: Column(
@@ -152,7 +162,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                         child: Text(
                                           "Log In",
                                           style: TextStyle(
-                                            color:  Colors.white,
+                                            color: Colors.white,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),

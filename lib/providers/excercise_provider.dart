@@ -11,7 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   List<Exercise> exerciseList = [];
-  bool exerciseInitialized = false;
+  bool exerciseFirstTimeInitialized = false;
+  bool currentWeekDayExerciseInitialized = false;
+  int providerDay = DateTime.now().weekday;
 
   Exercise lastRemovedExercise = Exercise(
       name: 'dumi',
@@ -34,6 +36,10 @@ class ExerciseProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     }
+  }
+
+  bool isProviderDayToday() {
+    return providerDay == DateTime.now().weekday;
   }
 
   void undoRemoveExercise() {
@@ -65,20 +71,44 @@ class ExerciseProvider extends ChangeNotifier {
         exerciseCompleted: false));
   }
 
-  void initExercise() async {
+  void initExercise(int weekDay) async {
     GetExerciseForDayResponse getExerciseForDayResponse =
         GetExerciseForDayResponse.fromJson(await backendAPICall(
-            '/template/getExercisesForDay', {}, 'GET', true));
+            '/template/getExercisesForDay', {'day': weekDay}, 'POST', true));
 
-    exerciseList =
-        await updateCompletedExercises(getExerciseForDayResponse.exercises);
+    providerDay = weekDay;
 
-    for (var entry in exerciseList.asMap().entries) {
-      areAllExerciseCompleted(entry.key);
+    if (weekDay == DateTime.now().weekday) {
+      exerciseList =
+          await updateCompletedExercises(getExerciseForDayResponse.exercises);
+
+      for (var entry in exerciseList.asMap().entries) {
+        areAllExerciseCompleted(entry.key);
+      }
+    } else {
+      exerciseList = getExerciseForDayResponse.exercises;
     }
 
-    exerciseInitialized = true;
+    if (!exerciseFirstTimeInitialized) {
+      exerciseFirstTimeInitialized = true;
+    }
+
+    currentWeekDayExerciseInitialized = true;
     notifyListeners();
+  }
+
+  void increaseProviderDay() async {
+    providerDay = providerDay + 1;
+    currentWeekDayExerciseInitialized = false;
+    notifyListeners();
+    initExercise(providerDay);
+  }
+
+  void decreaseProviderDay() async {
+    providerDay = providerDay - 1;
+    currentWeekDayExerciseInitialized = false;
+    notifyListeners();
+    initExercise(providerDay);
   }
 
   Future<List<Exercise>> updateCompletedExercises(

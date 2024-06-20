@@ -18,7 +18,6 @@ class ExerciseCard extends StatefulWidget {
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
-
   void _addSet() {
     Provider.of<ExerciseProvider>(context, listen: false)
         .addSetToExercise(widget.exerciseIndex);
@@ -72,7 +71,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (!widget.exercise.exerciseCompleted) {
+                    if (!widget.exercise.exerciseCompleted &&
+                        exerciseProvider.isProviderDayToday()) {
                       exerciseProvider.removeExercise(widget.exerciseIndex);
 
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,7 +95,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     decoration: BoxDecoration(
                         border: Border.all(
                             width: 2,
-                            color: !widget.exercise.exerciseCompleted
+                            color: !widget.exercise.exerciseCompleted &&
+                                    exerciseProvider.isProviderDayToday()
                                 ? const Color(0xffC61212)
                                 : Colors.transparent),
                         borderRadius:
@@ -103,7 +104,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     child: Icon(
                       Icons.close,
                       size: 20,
-                      color: !widget.exercise.exerciseCompleted
+                      color: !widget.exercise.exerciseCompleted &&
+                              exerciseProvider.isProviderDayToday()
                           ? const Color(0xffC61212)
                           : Colors.transparent,
                     ),
@@ -118,22 +120,24 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 exerciseCompleted: widget.exercise.exerciseCompleted),
             Padding(
               padding: const EdgeInsets.only(top: 26, bottom: 11),
-              child: SizedBox(
-                height: 40,
-                width: 120,
-                child: OutlinedButton(
-                  onPressed: _addSet,
-                  style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side:
-                          const BorderSide(color: Color(0xffDBDDE2), width: 1)),
-                  child: const CustomText(
-                    text: 'Add set',
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+              child: exerciseProvider.isProviderDayToday()
+                  ? SizedBox(
+                      height: 40,
+                      width: 120,
+                      child: OutlinedButton(
+                        onPressed: _addSet,
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            side: const BorderSide(
+                                color: Color(0xffDBDDE2), width: 1)),
+                        child: const CustomText(
+                          text: 'Add set',
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
             )
           ],
         ),

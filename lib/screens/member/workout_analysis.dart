@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
@@ -11,7 +10,6 @@ import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class WorkoutAnalayis extends StatefulWidget {
   const WorkoutAnalayis({super.key});
@@ -53,10 +51,10 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
         WorkoutAnalysisResponse.fromJson(await backendAPICall(
             '/customer/workoutAnalysis',
             {
-              'exerciseName':
-                  Provider.of<ExerciseListProvider>(context, listen: false)
-                      .analysisExerciseTableInformation[comparisionExerciseIndex]
-                      .name
+              'exerciseName': Provider.of<ExerciseListProvider>(context,
+                      listen: false)
+                  .analysisExerciseTableInformation[comparisionExerciseIndex]
+                  .name
             },
             'POST',
             true));
@@ -85,8 +83,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     color: entry.key ==
                             workoutAnalysisResponse
                                 .comparisionData.highlightTitle
-                        ? const Color(0xff344054)
-                        : const Color(0xff9FA5B3),
+                        ? headingColor
+                        : headingColor.withOpacity(0.5),
                     width: 20,
                     borderRadius: BorderRadius.circular(0))
               ],
@@ -105,8 +103,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     toY: entry.value.toDouble(),
                     color: entry.key ==
                             workoutAnalysisResponse.growthData.data.length - 1
-                        ? const Color(0xff344054)
-                        : const Color(0xff9FA5B3),
+                        ? headingColor
+                        : headingColor.withOpacity(0.5),
                     width: 20,
                     borderRadius: BorderRadius.circular(0))
               ],
@@ -157,7 +155,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(top: 20),
-                      child:  CustomText(
+                      child: CustomText(
                         text: 'Workout Analysis',
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -246,7 +244,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     const Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: CustomText(
-                        text: 'Peer analysis (Max Weight/ 8 reps)',
+                        text: 'Max Volume',
                         fontSize: 20,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,

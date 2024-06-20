@@ -33,6 +33,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
 
   @override
   Widget build(BuildContext context) {
+    final exerciseProvider = context.watch<ExerciseProvider>();
+
     return Selector<ExerciseProvider, List<ExerciseInformation>>(
         selector: (context, provider) =>
             provider.exerciseList[widget.exerciseIndex].exerciseInformationList,
@@ -61,7 +63,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if (!widget.exerciseCompleted) {
+                              if (!widget.exerciseCompleted &&
+                                  exerciseProvider.isProviderDayToday()) {
                                 widget.removeSet(i);
                               }
                             },
@@ -71,7 +74,9 @@ class _CardInformationTableState extends State<CardInformationTable> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 2,
-                                      color: !widget.exerciseCompleted
+                                      color: !widget.exerciseCompleted &&
+                                              exerciseProvider
+                                                  .isProviderDayToday()
                                           ? const Color(0xffCE8C8C)
                                           : Colors.transparent),
                                   borderRadius: const BorderRadius.all(
@@ -79,7 +84,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                               child: Icon(
                                 Icons.close,
                                 size: 15,
-                                color: !widget.exerciseCompleted
+                                color: !widget.exerciseCompleted &&
+                                        exerciseProvider.isProviderDayToday()
                                     ? const Color(0xffCE8C8C)
                                     : Colors.transparent,
                               ),
@@ -107,22 +113,24 @@ class _CardInformationTableState extends State<CardInformationTable> {
                   ),
                   for (var exerciseInformationEntry
                       in exerciseInformationList.asMap().entries)
-
                     Padding(
                         padding: EdgeInsets.all(interCellDistance),
                         child: SizedBox(
                             height: 50,
                             // width: 70,
                             child: IgnorePointer(
-                              ignoring:
-                                  exerciseInformationEntry.value.isCompleted,
+                              ignoring: !(!exerciseInformationEntry
+                                      .value.isCompleted &&
+                                  exerciseProvider.isProviderDayToday()),
                               child: DropdownButton2(
                                 underline: Container(
                                     height: 1,
-                                    color: exerciseInformationEntry
-                                            .value.isCompleted
-                                        ? Colors.transparent
-                                        : Color(0xff667085)),
+                                    color: !exerciseInformationEntry
+                                                .value.isCompleted &&
+                                            exerciseProvider
+                                                .isProviderDayToday()
+                                        ? Color(0xff667085)
+                                        : Colors.transparent),
                                 onMenuStateChange: (isOpen) {
                                   if (!isOpen) {
                                     weightSearchController.clear();
@@ -146,10 +154,12 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                   quarterTurns: 3,
                                   child: Icon(
                                     Icons.arrow_back_ios,
-                                    color: exerciseInformationEntry
-                                            .value.isCompleted
-                                        ? Colors.transparent
-                                        : Colors.black,
+                                    color: !exerciseInformationEntry
+                                                .value.isCompleted &&
+                                            exerciseProvider
+                                                .isProviderDayToday()
+                                        ? Colors.black
+                                        : Colors.transparent,
                                     size: 10,
                                   ),
                                 )),
@@ -224,7 +234,9 @@ class _CardInformationTableState extends State<CardInformationTable> {
                     Padding(
                         padding: EdgeInsets.all(interCellDistance),
                         child: IgnorePointer(
-                          ignoring: exerciseInformationEntry.value.isCompleted,
+                          ignoring:
+                              !(!exerciseInformationEntry.value.isCompleted &&
+                                  exerciseProvider.isProviderDayToday()),
                           child: SizedBox(
                             width: 55,
                             child: DropdownButton2(
@@ -236,10 +248,11 @@ class _CardInformationTableState extends State<CardInformationTable> {
                               isExpanded: true,
                               underline: Container(
                                   height: 1,
-                                  color:
-                                      exerciseInformationEntry.value.isCompleted
-                                          ? Colors.transparent
-                                          : Color(0xff667085)),
+                                  color: !exerciseInformationEntry
+                                              .value.isCompleted &&
+                                          exerciseProvider.isProviderDayToday()
+                                      ? Color(0xff667085)
+                                      : Colors.transparent),
                               dropdownSearchData: DropdownSearchData(
                                 searchController: weightSearchController,
                                 searchInnerWidgetHeight: 50,
@@ -278,10 +291,11 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   size: 10,
-                                  color:
-                                      exerciseInformationEntry.value.isCompleted
-                                          ? Colors.transparent
-                                          : Colors.black,
+                                  color: !exerciseInformationEntry
+                                              .value.isCompleted &&
+                                          exerciseProvider.isProviderDayToday()
+                                      ? Colors.black
+                                      : Colors.transparent,
                                 ),
                               )),
                               dropdownStyleData: const DropdownStyleData(
@@ -316,61 +330,65 @@ class _CardInformationTableState extends State<CardInformationTable> {
                           ),
                         ))
                 ]),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.all(interCellDistance),
-                        child: const CustomText(
-                            text: 'Done',
-                            fontSize: 16,
-                            color: Color(0xff667085),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      for (int i = 0; i < exerciseInformationList.length; i++)
-                        GestureDetector(
-                          onTap: () {
-                            widget.markStatus(i);
-                          },
-                          child: SizedBox(
-                            // width: 60,
-                            // height: 70,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: interSetNoDistance -7,
-                                  bottom: interSetNoDistance),
-                              child: Center(
-                                child: Container(
-                                  width: circleWidth,
-                                  height: circleWidth,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1.5,
+                exerciseProvider.isProviderDayToday()
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                            Padding(
+                              padding: EdgeInsets.all(interCellDistance),
+                              child: const CustomText(
+                                  text: 'Done',
+                                  fontSize: 16,
+                                  color: Color(0xff667085),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            for (int i = 0;
+                                i < exerciseInformationList.length;
+                                i++)
+                              GestureDetector(
+                                onTap: () {
+                                  widget.markStatus(i);
+                                },
+                                child: SizedBox(
+                                  // width: 60,
+                                  // height: 70,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: interSetNoDistance - 7,
+                                        bottom: interSetNoDistance),
+                                    child: Center(
+                                      child: Container(
+                                        width: circleWidth,
+                                        height: circleWidth,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 1.5,
+                                                color: exerciseInformationList[
+                                                            i]
+                                                        .isCompleted
+                                                    ? const Color(0xff3ABA2E)
+                                                    : headingColor),
+                                            color: exerciseInformationList[i]
+                                                    .isCompleted
+                                                ? const Color(0xff3ABA2E)
+                                                : Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(circleWidth))),
+                                        child: Icon(
+                                          Icons.check,
                                           color: exerciseInformationList[i]
                                                   .isCompleted
-                                              ? const Color(0xff3ABA2E)
-                                              : headingColor),
-                                      color:
-                                          exerciseInformationList[i].isCompleted
-                                              ? const Color(0xff3ABA2E)
-                                              : Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(circleWidth))),
-                                  child: Icon(
-                                    Icons.check,
-                                    color:
-                                        exerciseInformationList[i].isCompleted
-                                            ? Colors.white
-                                            : headingColor,
-                                    size: circleWidth / 1.1,
+                                              ? Colors.white
+                                              : headingColor,
+                                          size: circleWidth / 1.1,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                    ]),
+                          ])
+                    : const SizedBox(),
               ]);
         });
   }

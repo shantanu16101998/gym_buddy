@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:provider/provider.dart';
 
 class AttendanceBar extends StatefulWidget {
   final String attendanceString;
@@ -233,22 +235,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
     }
   }
 
-  double decideWidth(int weekDay) {
-    if (weekDay == currentWeekDay) {
-      return getScreenWidth(context) * 0.15;
-    } else {
-      return getScreenWidth(context) * 0.12;
-    }
-  }
-
-  double decideHeight(int weekDay) {
-    if (weekDay == currentWeekDay) {
-      return tabBarHeight * 1.2;
-    } else {
-      return tabBarHeight;
-    }
-  }
-
+  
 //
 
   Widget decideIcon(int weekDay) {
@@ -268,6 +255,28 @@ class _AttendanceBarState extends State<AttendanceBar> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+    final exerciseProvider = context.watch<ExerciseProvider>();
+
+    double decideWidth(int weekDay) {
+    if (weekDay == exerciseProvider.providerDay) {
+      return getScreenWidth(context) * 0.15;
+    } else {
+      return getScreenWidth(context) * 0.12;
+    }
+  }
+
+  double decideHeight(int weekDay) {
+    if (weekDay == exerciseProvider.providerDay) {
+      return tabBarHeight * 1.2;
+    } else {
+      return tabBarHeight;
+    }
+  }
+
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,

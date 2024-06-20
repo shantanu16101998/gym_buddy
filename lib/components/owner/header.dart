@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/utils/colors.dart';
-import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class Header extends StatefulWidget {
@@ -19,7 +17,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: getStatusBarHeight(context) + 20,bottom: 20),
-      color: headingColor,
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -37,7 +35,7 @@ class _HeaderState extends State<Header> {
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: Colors.white,
+                                color: headingColor,
                                 decoration: TextDecoration.none,
                               ),
                             )),
@@ -53,7 +51,7 @@ class _HeaderState extends State<Header> {
                 width: 40,
                 child: Icon(
                   Icons.more_vert,
-                  color: Colors.white,
+                  color: headingColor,
                 )),
           ),
         ],

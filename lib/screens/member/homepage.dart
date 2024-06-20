@@ -33,6 +33,7 @@ class _HomepageState extends State<Homepage> {
             .fetchIdCardResponse();
 
     ScreenshotController screenshotController = ScreenshotController();
+    // ignore: unused_local_variable
     bool isDowloaded = false;
 
     Future<bool> requestStoragePermission() async {
@@ -201,8 +202,9 @@ class _HomepageState extends State<Homepage> {
     fetchCustomerDetails();
 
     if (!Provider.of<ExerciseProvider>(context, listen: false)
-        .exerciseInitialized) {
-      Provider.of<ExerciseProvider>(context, listen: false).initExercise();
+        .exerciseFirstTimeInitialized) {
+      Provider.of<ExerciseProvider>(context, listen: false).initExercise(
+          Provider.of<ExerciseProvider>(context, listen: false).providerDay);
     }
   }
 
@@ -231,6 +233,8 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    final exerciseProvider = context.watch<ExerciseProvider>();
+
     return isApiDataLoaded
         ? Stack(
             children: [
@@ -248,7 +252,7 @@ class _HomepageState extends State<Homepage> {
                         )
                       : const SizedBox(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 20),
                     child: memberProfileResponse.gymLocationLat != null
                         ? AttendanceBar(
                             attendanceString:
@@ -263,7 +267,6 @@ class _HomepageState extends State<Homepage> {
                   Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        // height: 200,
                         color: Colors.white,
                         child: Align(
                             alignment: Alignment.center,
@@ -273,38 +276,55 @@ class _HomepageState extends State<Homepage> {
                                 child: SizedBox(
                                     height: 50,
                                     width: 340,
-                                    child: ElevatedButton(
-                                        onPressed: () => {
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  isScrollControlled: true,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return SingleChildScrollView(
-                                                        child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          bottom: MediaQuery.of(
-                                                                  context)
-                                                              .viewInsets
-                                                              .bottom),
-                                                      child:
-                                                          const AddExercisedDialog(),
-                                                    ));
-                                                  })
-                                            },
-                                        style: OutlinedButton.styleFrom(
-                                            elevation: 0,
-                                            backgroundColor: headingColor),
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Text(
-                                                "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold))))))),
+                                    child: exerciseProvider.providerDay ==
+                                            DateTime.now().weekday
+                                        ? ElevatedButton(
+                                            onPressed: () => {
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      isScrollControlled: true,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return SingleChildScrollView(
+                                                            child: Padding(
+                                                          padding: EdgeInsets.only(
+                                                              bottom: MediaQuery
+                                                                      .of(context)
+                                                                  .viewInsets
+                                                                  .bottom),
+                                                          child:
+                                                              const AddExercisedDialog(),
+                                                        ));
+                                                      })
+                                                },
+                                            style: OutlinedButton.styleFrom(
+                                                elevation: 0,
+                                                backgroundColor: headingColor),
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Text(
+                                                    "Add Exercise for ${expandedWeekdays[DateTime.now().weekday - 1]}",
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold))))
+                                        : const SizedBox()))),
                       )),
+                  exerciseProvider.exerciseList.isEmpty
+                      ? Center(
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/app-icon-faded.png'))),
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
             ],
