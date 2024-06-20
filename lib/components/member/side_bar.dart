@@ -133,7 +133,10 @@ class _SideBarState extends State<SideBar> {
                               top: 10,
                               right: 10,
                               bottom: 10),
-                          child: const Icon(Icons.person,color: headingColor,)),
+                          child: const Icon(
+                            Icons.person,
+                            color: headingColor,
+                          )),
                       const Text(
                         "Profile",
                         style: TextStyle(

@@ -56,7 +56,7 @@ class _UserSignUpState extends State<UserSignUp> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Padding(padding: EdgeInsets.only(top: 20.0)),
+                        // const Padding(padding: EdgeInsets.only(top: 20.0)),
                         Padding(
                             padding: const EdgeInsets.all(20),
                             child: AnimatedSwitcher(

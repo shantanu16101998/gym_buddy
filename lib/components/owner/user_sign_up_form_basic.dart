@@ -89,10 +89,12 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
               padding: const EdgeInsets.only(top: 30, bottom: 12),
               child: Center(
                 child: Text("Register New User",
+                
                     style: GoogleFonts.inter(
                         textStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
+                      color: headingColor
                     ))),
               )),
           const CustomImagePicker(),
@@ -106,7 +108,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField.passwordField(
+              child: LabeledTextField(
                   labelText: "Contact",
                   textInputType: TextInputType.number,
                   textInputFormatter: [
@@ -118,7 +120,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
+              child: LabeledTextField.passwordField(
                   labelText: "Confirm contact",
                   textInputType: TextInputType.number,
                   textInputFormatter: [
@@ -147,8 +149,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                         });
                       },
                       child: const CustomText(
-                          text: 'Have a referral code?',
-                          isUnderlined: true),
+                          text: 'Have a referral code?', isUnderlined: true),
                     )),
           Padding(
             padding:
@@ -172,8 +173,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                           onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              side: const BorderSide(color: Colors.black)
-                          ),
+                              side: const BorderSide(color: headingColor)),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",

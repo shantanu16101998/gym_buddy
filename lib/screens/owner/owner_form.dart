@@ -57,8 +57,8 @@ class _OwnerFormState extends State<OwnerForm> {
           margin: EdgeInsets.only(top: getStatusBarHeight(context)),
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage("assets/images/register.png"),
-            fit: BoxFit.fitWidth,
+            image: AssetImage("assets/images/designer.png"),
+            fit: BoxFit.cover,
           ))),
       SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

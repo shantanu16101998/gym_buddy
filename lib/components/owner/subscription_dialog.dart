@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
@@ -302,7 +303,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                                     padding: EdgeInsets.all(10),
                                     child: Text("Pay Now",
                                         style: TextStyle(
-                                            color: Color(0xff004576),
+                                            color: headingColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)))))))
               ]),

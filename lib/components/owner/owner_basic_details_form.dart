@@ -164,7 +164,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: headingColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

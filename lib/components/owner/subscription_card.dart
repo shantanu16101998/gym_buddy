@@ -94,7 +94,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                           textStyle: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 22,
-                                              color: Color(0xff344054)))),
+                                              color: headingColor))),
                                 ),
                               ],
                             ),
@@ -111,7 +111,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.normal,
                                             fontSize: 14,
-                                            color: Color(0xff344054)))),
+                                            color: Colors.black))),
                                 Container(
                                   width: 15,
                                 ),
@@ -128,7 +128,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.normal,
                                             fontSize: 14,
-                                            color: Color(0xff344054)))),
+                                            color: Colors.black))),
                               ])
                             ],
                           ),

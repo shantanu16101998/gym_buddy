@@ -75,17 +75,13 @@ class _AppScaffoldState extends State<AppScaffold> {
                 minHeight: getScreenHeight(context),
               ),
               child: Container(
-                padding: EdgeInsets.only(
-                  top: widget.noSpaceForStatusBar == true
-                      ? 0
-                      : getStatusBarHeight(context),
-                ),
+                
                 width: double.infinity,
                 color: widget.bodyColor ?? Colors.white,
                 child: Column(
                   children: [
                     widget.showHeader
-                        ? Header(userName: userName)
+                        ? Header()
                         : const SizedBox(),
                     Container(
                         child: widget.isApiDataLoaded

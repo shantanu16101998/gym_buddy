@@ -46,7 +46,9 @@ class _UserGoalFormState extends State<UserGoalForm> {
       OwnerDetails ownerDetails = OwnerDetails.fromJson(
           await backendAPICall('/owner/details', {}, 'GET', true));
 
-      List<List<String>> gymTrainee = [['default', 'Select Mentor']];
+      List<List<String>> gymTrainee = [
+        ['default', 'Select Mentor']
+      ];
 
       for (var trainee in ownerDetails.traineeDetails) {
         gymTrainee.add([trainee.id, trainee.name]);
@@ -115,10 +117,9 @@ class _UserGoalFormState extends State<UserGoalForm> {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          border: Border.all(color: Colors.black)
-        ),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            border: Border.all(color: Colors.black)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
@@ -126,6 +127,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: headingColor,
                     fontSize: 22,
                   )))),
           Padding(
@@ -210,7 +212,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                       child: CustomText(
                         text: value
                             .last, // Assuming the last string is the mentor's name
-                        color: mentorError != null ? Colors.red :  Colors.black,
+                        color: mentorError != null ? Colors.red : Colors.black,
                       ),
                     ),
                   );
@@ -239,8 +241,8 @@ class _UserGoalFormState extends State<UserGoalForm> {
                       child: ElevatedButton(
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              side: BorderSide(color: Colors.black),
+                            elevation: 0,
+                            side: BorderSide(color: headingColor),
                           ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),

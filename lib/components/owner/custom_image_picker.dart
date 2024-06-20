@@ -33,7 +33,6 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     if (pickedFile != null) {
       var base64file = base64Encode(await pickedFile.readAsBytes());
 
-
       setState(() {
         _imageFile = pickedFile;
         sharedPreferences.setString("profilePic", base64file);
@@ -135,20 +134,22 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             ),
           ),
           const SizedBox(height: 20),
-          _imageFile != null ?ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                elevation: 0, side: BorderSide(color: Colors.black)),
-            onPressed: _cropImage,
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: CustomText(
-                fontWeight: FontWeight.bold,
-                text: 'Crop Image',
-                fontSize: 18,
-                color: headingColor,
-              ),
-            ),
-          ) : const SizedBox(),
+          _imageFile != null
+              ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0, side: BorderSide(color: headingColor)),
+                  onPressed: _cropImage,
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: CustomText(
+                      fontWeight: FontWeight.bold,
+                      text: 'Crop Image',
+                      fontSize: 18,
+                      color: headingColor,
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

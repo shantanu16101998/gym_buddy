@@ -142,11 +142,10 @@ class _UserFurtherInformationFormState
               child: Text("Complete  $userName registration",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                    overflow: TextOverflow.clip
-                  )))),
+                          color: headingColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          overflow: TextOverflow.clip)))),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -214,7 +213,7 @@ class _UserFurtherInformationFormState
                             })
                           },
                       style: ElevatedButton.styleFrom(
-                        side: BorderSide(color: Colors.black),
+                          side: BorderSide(color: Colors.black),
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "6"
                               ? const Color.fromARGB(255, 233, 233, 233)
@@ -233,7 +232,7 @@ class _UserFurtherInformationFormState
                             })
                           },
                       style: ElevatedButton.styleFrom(
-                        side: BorderSide(color: Colors.black),
+                          side: BorderSide(color: Colors.black),
                           elevation: 0,
                           backgroundColor: _endMonthController.text == "12"
                               ? const Color.fromARGB(255, 233, 233, 233)
@@ -325,8 +324,8 @@ class _UserFurtherInformationFormState
                       child: ElevatedButton(
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
-                            side: BorderSide(color: Colors.black),
-                              elevation: 0,
+                            side: BorderSide(color: headingColor),
+                            elevation: 0,
                           ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),

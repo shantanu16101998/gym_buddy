@@ -57,7 +57,7 @@ class _MemberScreenState extends State<MemberScreen> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Header(userName: userName),
+                    Header(),
                     Container(
                         color: Colors.white,
                         child: customerScreens == CustomerScreens.homepage

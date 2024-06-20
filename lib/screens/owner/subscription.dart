@@ -115,7 +115,7 @@ class _SubscriptionState extends State<Subscription> {
                       bottom: 100),
                   child: Column(
                     children: [
-                      Header(userName: userName),
+                      Header(),
                       SizedBox(height: 20),
                       CustomTabBar(
                           setShouldShowCurrent: setShouldShowCurrent,
@@ -161,7 +161,11 @@ class _SubscriptionState extends State<Subscription> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   height: 100,
-                  color: Colors.white,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(blurRadius: 2, color: Colors.grey)
+                      ]),
                   child: Align(
                       alignment: Alignment.center,
                       child: Padding(
@@ -179,7 +183,7 @@ class _SubscriptionState extends State<Subscription> {
                                       },
                                   style: OutlinedButton.styleFrom(
                                       side: const BorderSide(
-                                          color: Colors.black, width: 1),
+                                          color: headingColor, width: 1),
                                       elevation: 0,
                                       backgroundColor:
                                           Color.fromARGB(255, 255, 255, 255)),

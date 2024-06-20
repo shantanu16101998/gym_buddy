@@ -4,9 +4,8 @@ import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class Header extends StatefulWidget {
-  final String userName;
 
-  const Header({super.key, required this.userName});
+  const Header({super.key});
 
   @override
   State<Header> createState() => _HeaderState();
@@ -16,7 +15,8 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: getStatusBarHeight(context) + 20,bottom: 20),
+      padding:
+          EdgeInsets.only(top: getStatusBarHeight(context) + 20, bottom: 20),
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

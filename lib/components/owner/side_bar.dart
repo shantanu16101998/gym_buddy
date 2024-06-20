@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,11 +37,12 @@ class _SideBarState extends State<SideBar> {
           SizedBox(
               height: getScreenHeight(context) * 0.25,
               child: Padding(
-                  padding: EdgeInsets.only(top: getScreenWidth(context) * 0.2,left: 10),
+                  padding: EdgeInsets.only(
+                      top: getScreenWidth(context) * 0.2, left: 10),
                   child: Text(
                     widget.userName,
                     style: const TextStyle(
-                        color: Color(0xff344054),
+                        color: headingColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 22),
                   ))),
@@ -69,7 +71,9 @@ class _SideBarState extends State<SideBar> {
                       const Text(
                         "Home",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: headingColor),
                       ),
                     ])),
               ),
@@ -95,7 +99,9 @@ class _SideBarState extends State<SideBar> {
                       const Text(
                         "Analysis",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: headingColor),
                       ),
                     ])),
               ),
@@ -116,7 +122,9 @@ class _SideBarState extends State<SideBar> {
                       const Text(
                         "Logout",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: headingColor),
                       ),
                     ])),
               )

@@ -79,12 +79,14 @@ class _ReferralDialogState extends State<ReferralDialog> {
             decoration: BoxDecoration(
                 border: Border.all(color: Color(0xff9FA5B3)),
                 borderRadius: BorderRadius.circular(24)),
-            child: apiDataLoaded ? Center(
-                child: CustomText(
-              text: displayCode,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )) : const Loader(),
+            child: apiDataLoaded
+                ? Center(
+                    child: CustomText(
+                    text: displayCode,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ))
+                : const Loader(),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 30),

@@ -229,7 +229,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                 onPressed: onSignUpButtonClicked,
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
-                                    side: BorderSide(color: Colors.black)),
+                                    side: BorderSide(color: headingColor)),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Sign up and share Id",

@@ -332,7 +332,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: headingColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));
