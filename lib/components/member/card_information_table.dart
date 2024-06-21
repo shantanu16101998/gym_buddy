@@ -24,10 +24,9 @@ class CardInformationTable extends StatefulWidget {
 }
 
 class _CardInformationTableState extends State<CardInformationTable> {
-  double interCellDistance = 8.0;
-  double interSetNoDistance = 20;
   double iconSize = 25;
   double circleWidth = 30;
+  double tableRowHeight = 50;
 
   final TextEditingController weightSearchController = TextEditingController();
 
@@ -35,39 +34,84 @@ class _CardInformationTableState extends State<CardInformationTable> {
   Widget build(BuildContext context) {
     final exerciseProvider = context.watch<ExerciseProvider>();
 
+    Map<int, TableColumnWidth> columnWidths = {
+      0: const FixedColumnWidth(20),
+      1: const FixedColumnWidth(30),
+      2: const FixedColumnWidth(100),
+      3: const FixedColumnWidth(100),
+      4: const FixedColumnWidth(50)
+    };
+
     return Selector<ExerciseProvider, List<ExerciseInformation>>(
         selector: (context, provider) =>
             provider.exerciseList[widget.exerciseIndex].exerciseInformationList,
         builder: (context, exerciseInformationList, child) {
-          return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Padding(
-                    padding: EdgeInsets.all(interCellDistance),
-                    child: const Row(
-                      children: [
-                        SizedBox(width: 20),
-                        CustomText(
+          return Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Table(
+              columnWidths: columnWidths,
+              children: <TableRow>[
+                TableRow(children: <Widget>[
+                  const SizedBox(
+                    height: 40,
+                    child: Center(
+                        child: CustomText(
+                            text: '',
+                            fontSize: 16,
+                            color: Color(0xff667085),
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                    child: Center(
+                        child: CustomText(
                             text: 'Set',
                             fontSize: 16,
                             color: Color(0xff667085),
-                            fontWeight: FontWeight.bold),
-                      ],
-                    ),
+                            fontWeight: FontWeight.bold)),
                   ),
-                  for (int i = 0; i < exerciseInformationList.length; i++)
-                    Padding(
-                      padding: EdgeInsets.all(interSetNoDistance),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              if (!widget.exerciseCompleted &&
-                                  exerciseProvider.isProviderDayToday()) {
-                                widget.removeSet(i);
-                              }
-                            },
+                  const SizedBox(
+                      height: 40,
+                      child: Center(
+                          child: CustomText(
+                              text: 'Weight',
+                              fontSize: 16,
+                              color: Color(0xff667085),
+                              fontWeight: FontWeight.bold))),
+                  const SizedBox(
+                      height: 40,
+                      child: Center(
+                          child: CustomText(
+                              text: 'Reps',
+                              fontSize: 16,
+                              color: Color(0xff667085),
+                              fontWeight: FontWeight.bold))),
+                  if (exerciseProvider.isProviderDayToday())
+                    const SizedBox(
+                        height: 40,
+                        child: Center(
+                            child: CustomText(
+                                text: 'Done',
+                                fontSize: 16,
+                                color: Color(0xff667085),
+                                fontWeight: FontWeight.bold)))
+                ]),
+                for (var exerciseInformationEntry
+                    in exerciseInformationList.asMap().entries)
+                  TableRow(children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        if (!widget.exerciseCompleted &&
+                            exerciseProvider.isProviderDayToday()) {
+                          widget.removeSet(exerciseInformationEntry.key);
+                        }
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: SizedBox(
+                            height: 20,
                             child: Container(
                               height: 20,
                               width: 20,
@@ -80,7 +124,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                           ? const Color(0xffCE8C8C)
                                           : Colors.transparent),
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(24))),
+                                      Radius.circular(10))),
                               child: Icon(
                                 Icons.close,
                                 size: 15,
@@ -91,9 +135,16 @@ class _CardInformationTableState extends State<CardInformationTable> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 20),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: tableRowHeight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
                           CustomText(
-                            text: (i + 1).toString(),
+                            text: (exerciseInformationEntry.key + 1).toString(),
                             fontSize: 16,
                             color: const Color(0xff667085),
                             fontWeight: FontWeight.bold,
@@ -101,295 +152,281 @@ class _CardInformationTableState extends State<CardInformationTable> {
                         ],
                       ),
                     ),
-                ]),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Padding(
-                    padding: EdgeInsets.all(interCellDistance),
-                    child: const CustomText(
-                        text: 'Weight',
-                        fontSize: 16,
-                        color: Color(0xff667085),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  for (var exerciseInformationEntry
-                      in exerciseInformationList.asMap().entries)
-                    Padding(
-                        padding: EdgeInsets.all(interCellDistance),
-                        child: SizedBox(
-                            height: 50,
-                            // width: 70,
-                            child: IgnorePointer(
-                              ignoring: !(!exerciseInformationEntry
-                                      .value.isCompleted &&
-                                  exerciseProvider.isProviderDayToday()),
-                              child: DropdownButton2(
-                                underline: Container(
-                                    height: 1,
-                                    color: !exerciseInformationEntry
-                                                .value.isCompleted &&
-                                            exerciseProvider
-                                                .isProviderDayToday()
-                                        ? Color(0xff667085)
-                                        : Colors.transparent),
-                                onMenuStateChange: (isOpen) {
-                                  if (!isOpen) {
-                                    weightSearchController.clear();
-                                  }
-                                },
-                                dropdownStyleData: const DropdownStyleData(
-                                    maxHeight: 250,
-                                    width: 100,
-                                    decoration:
-                                        BoxDecoration(color: Colors.white)),
+                    SizedBox(
+                        height: tableRowHeight,
+                        child: Center(
+                            child: exerciseProvider.isProviderDayToday()
+                                ? IgnorePointer(
+                                    ignoring: !(!exerciseInformationEntry
+                                            .value.isCompleted &&
+                                        exerciseProvider.isProviderDayToday()),
+                                    child: DropdownButton2(
+                                      underline: Container(
+                                          height: 1,
+                                          color: !exerciseInformationList[
+                                                          exerciseInformationEntry
+                                                              .key]
+                                                      .isCompleted &&
+                                                  exerciseProvider
+                                                      .isProviderDayToday()
+                                              ? const Color(0xff667085)
+                                              : Colors.transparent),
+                                      onMenuStateChange: (isOpen) {
+                                        if (!isOpen) {
+                                          weightSearchController.clear();
+                                        }
+                                      },
+                                      dropdownStyleData:
+                                          const DropdownStyleData(
+                                              maxHeight: 250,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white)),
 
-                                value: defaultExerciseWeights[
-                                        exerciseInformationList[
-                                                exerciseInformationEntry.key]
-                                            .weightIndex]
-                                    .toString(), // Ensure this is a String since items are mapped to String
-                                // dropdownColor: Colors.white,
-                                buttonStyleData: const ButtonStyleData(),
-                                iconStyleData: IconStyleData(
-                                    icon: RotatedBox(
-                                  quarterTurns: 3,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: !exerciseInformationEntry
-                                                .value.isCompleted &&
-                                            exerciseProvider
-                                                .isProviderDayToday()
-                                        ? Colors.black
-                                        : Colors.transparent,
-                                    size: 10,
-                                  ),
-                                )),
-                                dropdownSearchData: DropdownSearchData(
-                                  searchController: weightSearchController,
-                                  searchInnerWidgetHeight: 50,
-                                  searchInnerWidget: Container(
-                                      height: 50,
-                                      padding: const EdgeInsets.only(
-                                        top: 8,
-                                        bottom: 4,
-                                        right: 8,
-                                        left: 8,
-                                      ),
-                                      child: TextFormField(
-                                        expands: true,
-                                        maxLines: null,
-                                        controller: weightSearchController,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 8,
-                                          ),
-                                          hintText: 'Search',
-                                          hintStyle:
-                                              const TextStyle(fontSize: 12),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
+                                      value: defaultExerciseWeights[
+                                              exerciseInformationList[
+                                                      exerciseInformationEntry
+                                                          .key]
+                                                  .weightIndex]
+                                          .toString(), // Ensure this is a String since items are mapped to String
+                                      // dropdownColor: Colors.white,
+                                      buttonStyleData: const ButtonStyleData(),
+                                      iconStyleData: IconStyleData(
+                                          icon: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: !exerciseInformationEntry
+                                                      .value.isCompleted &&
+                                                  exerciseProvider
+                                                      .isProviderDayToday()
+                                              ? Colors.black
+                                              : Colors.transparent,
+                                          size: 10,
                                         ),
                                       )),
-                                ),
-
-                                onChanged: (value) {
-                                  Provider.of<ExerciseProvider>(context,
-                                          listen: false)
-                                      .updateExerciseInformationListWeight(
-                                          widget.exerciseIndex,
-                                          exerciseInformationEntry.key,
-                                          double.parse(value!.toString()));
-                                },
-                                items: defaultExerciseWeights
-                                    .map<DropdownMenuItem<String>>((num value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.toString(),
-                                    child: SizedBox(
-                                      child: Center(
-                                        child: CustomText(
-                                          text: '$value kg',
-                                        ),
+                                      dropdownSearchData: DropdownSearchData(
+                                        searchController:
+                                            weightSearchController,
+                                        searchInnerWidgetHeight: 50,
+                                        searchInnerWidget: Container(
+                                            height: 50,
+                                            padding: const EdgeInsets.only(
+                                              top: 8,
+                                              bottom: 4,
+                                              right: 8,
+                                              left: 8,
+                                            ),
+                                            child: TextFormField(
+                                              expands: true,
+                                              maxLines: null,
+                                              controller:
+                                                  weightSearchController,
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 8,
+                                                ),
+                                                hintText: 'Search',
+                                                hintStyle: const TextStyle(
+                                                    fontSize: 12),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                            )),
                                       ),
+
+                                      onChanged: (value) {
+                                        Provider.of<ExerciseProvider>(context,
+                                                listen: false)
+                                            .updateExerciseInformationListWeight(
+                                                widget.exerciseIndex,
+                                                exerciseInformationEntry.key,
+                                                double.parse(
+                                                    value!.toString()));
+                                      },
+                                      items: defaultExerciseWeights
+                                          .map<DropdownMenuItem<String>>(
+                                              (num value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value.toString(),
+                                          child: SizedBox(
+                                            child: Center(
+                                              child: CustomText(
+                                                text: '$value kg',
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            )))
-                ]),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Padding(
-                    padding: EdgeInsets.all(interCellDistance),
-                    child: const CustomText(
-                        text: 'Reps',
-                        fontSize: 16,
-                        color: Color(0xff667085),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  for (var exerciseInformationEntry
-                      in exerciseInformationList.asMap().entries)
-                    Padding(
-                        padding: EdgeInsets.all(interCellDistance),
-                        child: IgnorePointer(
-                          ignoring:
-                              !(!exerciseInformationEntry.value.isCompleted &&
-                                  exerciseProvider.isProviderDayToday()),
-                          child: SizedBox(
-                            width: 55,
-                            child: DropdownButton2(
-                              onMenuStateChange: (isOpen) {
-                                if (!isOpen) {
-                                  weightSearchController.clear();
-                                }
-                              },
-                              isExpanded: true,
-                              underline: Container(
-                                  height: 1,
-                                  color: !exerciseInformationEntry
-                                              .value.isCompleted &&
-                                          exerciseProvider.isProviderDayToday()
-                                      ? Color(0xff667085)
-                                      : Colors.transparent),
-                              dropdownSearchData: DropdownSearchData(
-                                searchController: weightSearchController,
-                                searchInnerWidgetHeight: 50,
-                                searchInnerWidget: Container(
-                                    height: 50,
-                                    padding: const EdgeInsets.only(
-                                      top: 8,
-                                      bottom: 4,
-                                      right: 8,
-                                      left: 8,
+                                  )
+                                : CustomText(
+                                    text:
+                                        '${defaultExerciseWeights[exerciseInformationEntry.value.weightIndex]} kg'))),
+                    SizedBox(
+                      height: tableRowHeight,
+                      child: Center(
+                        child: exerciseProvider.isProviderDayToday()
+                            ? IgnorePointer(
+                                ignoring: !(!exerciseInformationEntry
+                                        .value.isCompleted &&
+                                    exerciseProvider.isProviderDayToday()),
+                                child: SizedBox(
+                                  width: 55,
+                                  child: DropdownButton2(
+                                    onMenuStateChange: (isOpen) {
+                                      if (!isOpen) {
+                                        weightSearchController.clear();
+                                      }
+                                    },
+                                    isExpanded: true,
+                                    underline: Container(
+                                        height: 1,
+                                        color: !exerciseInformationEntry
+                                                    .value.isCompleted &&
+                                                exerciseProvider
+                                                    .isProviderDayToday()
+                                            ? const Color(0xff667085)
+                                            : Colors.transparent),
+                                    dropdownSearchData: DropdownSearchData(
+                                      searchController: weightSearchController,
+                                      searchInnerWidgetHeight: 50,
+                                      searchInnerWidget: Container(
+                                          height: 50,
+                                          padding: const EdgeInsets.only(
+                                            top: 8,
+                                            bottom: 4,
+                                            right: 8,
+                                            left: 8,
+                                          ),
+                                          child: TextFormField(
+                                            expands: true,
+                                            maxLines: null,
+                                            controller: weightSearchController,
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                                vertical: 8,
+                                              ),
+                                              hintText: 'Search',
+                                              hintStyle:
+                                                  const TextStyle(fontSize: 14),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                            ),
+                                          )),
                                     ),
-                                    child: TextFormField(
-                                      expands: true,
-                                      maxLines: null,
-                                      controller: weightSearchController,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                          vertical: 8,
-                                        ),
-                                        hintText: 'Search',
-                                        hintStyle:
-                                            const TextStyle(fontSize: 14),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
+                                    iconStyleData: IconStyleData(
+                                        icon: RotatedBox(
+                                      quarterTurns: 3,
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 10,
+                                        color: !exerciseInformationEntry
+                                                    .value.isCompleted &&
+                                                exerciseProvider
+                                                    .isProviderDayToday()
+                                            ? Colors.black
+                                            : Colors.transparent,
                                       ),
                                     )),
-                              ),
-                              iconStyleData: IconStyleData(
-                                  icon: RotatedBox(
-                                quarterTurns: 3,
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 10,
-                                  color: !exerciseInformationEntry
-                                              .value.isCompleted &&
-                                          exerciseProvider.isProviderDayToday()
-                                      ? Colors.black
-                                      : Colors.transparent,
+                                    dropdownStyleData: const DropdownStyleData(
+                                        maxHeight: 250,
+                                        width: 100,
+                                        decoration:
+                                            BoxDecoration(color: Colors.white)),
+                                    value: defaultExerciseReps[
+                                            exerciseInformationEntry
+                                                .value.repIndex]
+                                        .toString(),
+                                    onChanged: (value) {
+                                      Provider.of<ExerciseProvider>(context,
+                                              listen: false)
+                                          .updateExerciseInformationListReps(
+                                              widget.exerciseIndex,
+                                              exerciseInformationEntry.key,
+                                              int.parse(value!.toString()));
+                                    },
+                                    items: defaultExerciseReps
+                                        .map<DropdownMenuItem<String>>(
+                                            (int value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value.toString(),
+                                        child: SizedBox(
+                                            child: Center(
+                                          child: CustomText(
+                                            text: value.toString(),
+                                          ),
+                                        )),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ),
-                              )),
-                              dropdownStyleData: const DropdownStyleData(
-                                  maxHeight: 250,
-                                  width: 100,
-                                  decoration:
-                                      BoxDecoration(color: Colors.white)),
-                              value: defaultExerciseReps[
-                                      exerciseInformationEntry.value.repIndex]
-                                  .toString(),
-                              onChanged: (value) {
-                                Provider.of<ExerciseProvider>(context,
-                                        listen: false)
-                                    .updateExerciseInformationListReps(
-                                        widget.exerciseIndex,
-                                        exerciseInformationEntry.key,
-                                        int.parse(value!.toString()));
-                              },
-                              items: defaultExerciseReps
-                                  .map<DropdownMenuItem<String>>((int value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.toString(),
-                                  child: SizedBox(
-                                      child: Center(
-                                    child: CustomText(
-                                      text: value.toString(),
-                                    ),
-                                  )),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ))
-                ]),
-                exerciseProvider.isProviderDayToday()
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                            Padding(
-                              padding: EdgeInsets.all(interCellDistance),
-                              child: const CustomText(
-                                  text: 'Done',
-                                  fontSize: 16,
-                                  color: Color(0xff667085),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            for (int i = 0;
-                                i < exerciseInformationList.length;
-                                i++)
-                              GestureDetector(
-                                onTap: () {
-                                  widget.markStatus(i);
-                                },
-                                child: SizedBox(
-                                  // width: 60,
-                                  // height: 70,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: interSetNoDistance - 7,
-                                        bottom: interSetNoDistance),
-                                    child: Center(
-                                      child: Container(
-                                        width: circleWidth,
-                                        height: circleWidth,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 1.5,
-                                                color: exerciseInformationList[
-                                                            i]
-                                                        .isCompleted
-                                                    ? const Color(0xff3ABA2E)
-                                                    : headingColor),
-                                            color: exerciseInformationList[i]
-                                                    .isCompleted
-                                                ? const Color(0xff3ABA2E)
-                                                : Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(circleWidth))),
-                                        child: Icon(
-                                          Icons.check,
-                                          color: exerciseInformationList[i]
+                              )
+                            : CustomText(
+                                text: defaultExerciseReps[
+                                        exerciseInformationEntry.value.repIndex]
+                                    .toString()),
+                      ),
+                    ),
+                    if (exerciseProvider.isProviderDayToday())
+                      GestureDetector(
+                        onTap: () {
+                          widget.markStatus(exerciseInformationEntry.key);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: tableRowHeight,
+                          child: Center(
+                            child: SizedBox(
+                              child: Center(
+                                child: Container(
+                                  width: circleWidth,
+                                  height: circleWidth,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1.5,
+                                          color: exerciseInformationList[
+                                                      exerciseInformationEntry
+                                                          .key]
                                                   .isCompleted
-                                              ? Colors.white
-                                              : headingColor,
-                                          size: circleWidth / 1.1,
-                                        ),
-                                      ),
-                                    ),
+                                              ? const Color(0xff3ABA2E)
+                                              : headingColor),
+                                      color: exerciseInformationList[
+                                                  exerciseInformationEntry.key]
+                                              .isCompleted
+                                          ? const Color(0xff3ABA2E)
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(circleWidth))),
+                                  child: Icon(
+                                    Icons.check,
+                                    color: exerciseInformationList[
+                                                exerciseInformationEntry.key]
+                                            .isCompleted
+                                        ? Colors.white
+                                        : headingColor,
+                                    size: circleWidth / 1.1,
                                   ),
                                 ),
                               ),
-                          ])
-                    : const SizedBox(),
-              ]);
+                            ),
+                          ),
+                        ),
+                      )
+                  ]),
+              ],
+            ),
+          );
         });
   }
 }

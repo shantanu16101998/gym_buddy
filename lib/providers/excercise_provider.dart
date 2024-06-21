@@ -63,8 +63,8 @@ class ExerciseProvider extends ChangeNotifier {
         id: '66614fdc062ac001a7662f91',
         exerciseInformationList: [
           ExerciseInformation(
-              weightIndex: 0,
-              repIndex: 0,
+              weightIndex: 5,
+              repIndex: 10,
               isCompleted: false,
               exerciseDescriptionId: '')
         ],
@@ -208,8 +208,8 @@ class ExerciseProvider extends ChangeNotifier {
   ExerciseInformation getLastExerciseInformation(int exerciseIndex) {
     if (exerciseList[exerciseIndex].exerciseInformationList.isEmpty) {
       return ExerciseInformation(
-          weightIndex: 0,
-          repIndex: 0,
+          weightIndex: 4,
+          repIndex: 9,
           isCompleted: false,
           exerciseDescriptionId: '');
     } else {

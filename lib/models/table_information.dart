@@ -1,16 +1,16 @@
 import 'package:gym_buddy/utils/ui_constants.dart';
 
-class TableRow {
+class ExerciseTableRow {
   String? setNo;
   bool? isSetCompleted;
   String? weight;
   String? reps;
 
-  TableRow(this.isSetCompleted, this.reps, this.setNo, this.weight);
+  ExerciseTableRow(this.isSetCompleted, this.reps, this.setNo, this.weight);
 }
 
 class TableInformation {
-  final List<TableRow> tableRows;
+  final List<ExerciseTableRow> tableRows;
   TableInformation(this.tableRows);
 }
 
