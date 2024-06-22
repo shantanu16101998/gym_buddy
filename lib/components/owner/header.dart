@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class Header extends StatefulWidget {
@@ -29,7 +31,7 @@ class _HeaderState extends State<Header> {
                       padding:
                           const EdgeInsets.only(left: 17, bottom: 3, right: 10),
                       child: SizedBox(
-                        child: Text('Gym Buddy',
+                        child: Text(appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.inter(
                               textStyle: const TextStyle(
