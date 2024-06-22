@@ -15,7 +15,7 @@ class OwnerForm extends StatefulWidget {
 }
 
 class _OwnerFormState extends State<OwnerForm> {
-  OwnerFormState formState = OwnerFormState.additionalDetails;
+  OwnerFormState formState = OwnerFormState.loginPage;
 
   final TextEditingController nameController = TextEditingController();
 
