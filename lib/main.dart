@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
+import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/api_data_loaded.dart';
 import 'package:gym_buddy/providers/customer_details.dart';
@@ -18,6 +19,7 @@ import 'package:gym_buddy/screens/owner/qr_page.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/services/local_notification.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -72,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CustomerDetailsProvider()),
       ],
       child: MaterialApp(
-        title: 'Gym Buddy',
+        title: appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,

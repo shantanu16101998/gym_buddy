@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
+import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
             child: Text(
-              "Gym Buddy",
+              appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   color: headingColor,
