@@ -10,7 +10,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
 String capitalizeFirstLetter(String input) {
@@ -182,9 +181,9 @@ Future<LocationResult> getCurrentLocationSuccess() async {
   if (status.isGranted) {
     try {
       LocationData locationData = await Location().getLocation().timeout(
-        Duration(seconds: 5),
+        const Duration(seconds: 5),
         onTimeout: () async {
-          return await Location().getLocation().timeout(Duration(seconds: 5),
+          return await Location().getLocation().timeout(const Duration(seconds: 5),
               onTimeout: () async {
             throw TimeoutException('location timed out 2 times');
           });

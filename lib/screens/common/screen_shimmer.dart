@@ -24,6 +24,5 @@ class _ScreenShimmerState extends State<ScreenShimmer> {
             color: Colors.white,
           ),
         ));
-    ;
   }
 }
