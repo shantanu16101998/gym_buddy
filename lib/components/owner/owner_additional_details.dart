@@ -3,7 +3,7 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -105,7 +105,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             'gymName', ownerRegistrationResponse.gymName ?? "Gym");
         if (mounted) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Subscription()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen()));
         }
       }
     } else {

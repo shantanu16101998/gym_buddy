@@ -4,8 +4,8 @@ import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/common/test.dart';
 import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Subscription()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen()));
         }
       }
     } else if (appEnvironment == AppEnvironment.member) {
@@ -46,15 +46,17 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       } else {
         if (mounted) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const MemberScreen(customerScreens: CustomerScreens.homepage)));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const MemberScreen(
+                      customerScreens: CustomerScreens.homepage)));
         }
       }
-    }
-    else if(appEnvironment == AppEnvironment.test){
-      if(mounted){
-        Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Test()));
+    } else if (appEnvironment == AppEnvironment.test) {
+      if (mounted) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const Test()));
       }
     }
   }

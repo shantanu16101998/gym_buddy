@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
@@ -63,7 +63,7 @@ class _LoginFormState extends State<LoginForm> {
         }
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Subscription()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen()));
         }
       } else {
         setState(() {

@@ -4,7 +4,7 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
         "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
     if (mounted) {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Subscription()));
+          MaterialPageRoute(builder: (context) => const OwnerScreen()));
     }
   }
 

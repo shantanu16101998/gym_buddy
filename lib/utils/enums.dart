@@ -14,3 +14,5 @@ enum AppEnvironment { owner, member, test }
 enum UserCurrentScreen { home, analysis, profile }
 
 enum CustomerScreens { homepage, analysis, profile }
+
+enum OwnerScreens { subscriptionPage , analysis }

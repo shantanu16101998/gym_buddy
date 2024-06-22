@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +49,7 @@ class _SideBarState extends State<SideBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Subscription()))
+                          builder: (context) => const OwnerScreen()))
                 },
                 child: Container(
                     decoration: BoxDecoration(
