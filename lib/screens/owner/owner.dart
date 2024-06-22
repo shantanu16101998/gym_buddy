@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/components/owner/gym_analysis.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
@@ -9,14 +10,14 @@ import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 
 class OwnerScreen extends StatefulWidget {
-  const OwnerScreen({super.key});
+  final OwnerScreens ownerScreens;
+  const OwnerScreen({super.key,required this.ownerScreens});
 
   @override
   State<OwnerScreen> createState() => _OwnerScreenState();
 }
 
 class _OwnerScreenState extends State<OwnerScreen> {
-  OwnerScreens ownerScreens = OwnerScreens.subscriptionPage;
 
   @override
   void initState() {
@@ -43,15 +44,15 @@ class _OwnerScreenState extends State<OwnerScreen> {
                     const Header(),
                     Container(
                         color: Colors.white,
-                        child: ownerScreens == OwnerScreens.subscriptionPage
+                        child: widget.ownerScreens == OwnerScreens.subscriptionPage
                             ? const Subscription()
-                            : const AnalysisHomepage()),
+                            : const GymAnalysis()),
                   ],
                 ),
               ),
             ),
           ),
-          if (ownerScreens == OwnerScreens.subscriptionPage)
+          if (widget.ownerScreens == OwnerScreens.subscriptionPage)
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(

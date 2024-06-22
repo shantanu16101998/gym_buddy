@@ -38,16 +38,7 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
                         .toString(),
                     label: "People",
                     icon: Icons.person),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AnalysisCard(
-                    value:
-                        widget.analysisHomepageResponse.averageMonth.toString(),
-                    label: "Average Duration People stay",
-                    icon: Icons.lock_clock),
               )
-              
             ],
           ),
         )

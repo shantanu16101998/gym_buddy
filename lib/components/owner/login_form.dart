@@ -65,7 +65,7 @@ class _LoginFormState extends State<LoginForm> {
         }
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
         }
       } else {
         setState(() {

@@ -111,7 +111,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             'gymName', ownerRegistrationResponse.gymName ?? "Gym");
         if (mounted) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
         }
       }
     } else {

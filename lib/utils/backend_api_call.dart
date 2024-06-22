@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String defaultJwtToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY2NWUxMWJlNTZjMzdkYzZjOWExYmE2IiwiY29udGFjdCI6IjkzMTk2MTk3NzgiLCJpYXQiOjE3MTgwMzQyODEsImV4cCI6MzYwMDE3MTgwMzQyODF9.bl7clnDlcaWCq_Nz9N30wc4ZzMO6nkdUOtHQUiZcsK4";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjY3NmE4ZjdkYmFhNjI2MjA4ZDA1OWNlIiwiY29udGFjdCI6IjExMTExMTExMTIiLCJpYXQiOjE3MTkwNjcyOTEsImV4cCI6MzYwMDE3MTkwNjcyOTF9.ptR3Suwq1uLdhnCtAjPJT1ZOtfXWeemAwCYaOASnMso";
 
 Future<void> uploadImage(
     String path, XFile imageFile, String customerId) async {

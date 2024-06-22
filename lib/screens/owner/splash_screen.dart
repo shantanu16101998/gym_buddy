@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen()));
+              MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage)));
         }
       }
     } else if (appEnvironment == AppEnvironment.member) {

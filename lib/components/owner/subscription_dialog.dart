@@ -4,6 +4,7 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
@@ -96,7 +97,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
       if (mounted) {
         Navigator.pop(context);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const OwnerScreen()));
+            MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
       }
     }
   }

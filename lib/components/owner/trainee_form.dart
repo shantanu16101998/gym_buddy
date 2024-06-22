@@ -8,6 +8,7 @@ import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnerTraineeForm extends StatefulWidget {
@@ -95,7 +96,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
           'gymName', ownerRegistrationResponse.gymName ?? "Gym");
       if (mounted) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const OwnerScreen()));
+            MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
       }
     } else {
       setState(() {
