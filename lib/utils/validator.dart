@@ -31,3 +31,18 @@ String? validateUPIId(String inputText) {
     return null;
   }
 }
+
+String? chargeValidator(String charge) {
+  try {
+    int charges = int.parse(charge);
+
+    if (charges < 10) {
+      return "Isn't charge too low";
+    } else if (charges > 100000) {
+      return "Isn't charge too high";
+    }
+    return null;
+  } catch (e) {
+    return "Charges should be between 10 to 1,00,000";
+  }
+}

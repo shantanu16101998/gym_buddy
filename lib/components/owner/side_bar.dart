@@ -37,15 +37,10 @@ class _SideBarState extends State<SideBar> {
           SizedBox(
               height: getScreenHeight(context) * 0.25,
               child: Padding(
-                  padding: EdgeInsets.only(
-                      top: getScreenWidth(context) * 0.2, left: 10),
-                  child: Text(
-                    widget.userName,
-                    style: const TextStyle(
-                        color: headingColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22),
-                  ))),
+                padding: EdgeInsets.only(
+                    top: getScreenWidth(context) * 0.2, left: 10),
+                child: const SizedBox(),
+              )),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

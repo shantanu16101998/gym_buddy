@@ -247,7 +247,7 @@ class _HomepageState extends State<Homepage> {
                             text: 'Tap Here For Attendance',
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: headingColor,
+                            color: headerColor,
                           ),
                         )
                       : const SizedBox(),
@@ -299,7 +299,7 @@ class _HomepageState extends State<Homepage> {
                                                 },
                                             style: OutlinedButton.styleFrom(
                                                 elevation: 0,
-                                                backgroundColor: headingColor),
+                                                backgroundColor: headingColor.withOpacity(0.9)),
                                             child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10),

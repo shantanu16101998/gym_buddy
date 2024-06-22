@@ -254,7 +254,9 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                               (num value) {
                                         return DropdownMenuItem<String>(
                                           value: value.toString(),
-                                          child: SizedBox(
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            width: 90,
                                             child: Center(
                                               child: CustomText(
                                                 text: '$value kg',

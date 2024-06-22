@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
@@ -77,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+        color: Colors.white.withOpacity(0.98),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
               "Gym Buddy",
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
-                  color: Color(0xffFFFFFF),
+                  color: headingColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ),
@@ -101,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
               "Welcome Back",
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
-                  color: Color(0xffFFFFFF),
+                  color: headingColor,
                   fontWeight: FontWeight.normal,
                   fontSize: 18,
                 ),
@@ -114,12 +115,15 @@ class _LoginFormState extends State<LoginForm> {
             child: LabeledTextField(
               labelText: "Contact",
               textInputType: TextInputType.number,
-              textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+              textInputFormatter: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10)
+              ],
               controller: _contactController,
               errorText: contactError,
-              textColour: Colors.white,
-              borderColor: Colors.white,
-              cursorColor: Colors.white,
+              textColour: headingColor,
+              borderColor: headingColor,
+              cursorColor: headingColor,
             ),
           ),
           Padding(
@@ -129,10 +133,9 @@ class _LoginFormState extends State<LoginForm> {
               labelText: "Password",
               controller: _passwordController,
               errorText: passwordError,
-              textColour: Colors.white,
-              borderColor: Colors.white,
-              cursorColor: Colors.white,
-              
+              textColour: headingColor,
+              borderColor: headingColor,
+              cursorColor: headingColor,
             ),
           ),
           Padding(
@@ -157,14 +160,14 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: onLoginButtonPressed,
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: const Color(0xFFD9D9D9),
+                    backgroundColor: headingColor,
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
                       "Log In",
                       style: TextStyle(
-                        color: Color(0xff004576),
+                        color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

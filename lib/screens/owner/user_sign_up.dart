@@ -4,7 +4,6 @@ import 'package:gym_buddy/components/owner/user_goal_form.dart';
 import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/components/owner/user_sign_up_form_basic.dart';
 import 'package:gym_buddy/components/owner/user_further_information_form.dart';
-import 'dart:ui';
 
 import 'package:gym_buddy/utils/ui_constants.dart';
 

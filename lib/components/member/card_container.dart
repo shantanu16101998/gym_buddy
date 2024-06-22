@@ -43,13 +43,13 @@ class _CardContainerState extends State<CardContainer> {
                     child: Icon(Icons.arrow_left,
                         size: 40,
                         color: exerciseProvider.providerDay > 1
-                            ? headingColor
-                            : headingColor.withOpacity(0.5))),
+                            ? headerColor
+                            : headerColor.withOpacity(0.5))),
                 const CustomText(
                     text: 'Workouts',
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: headingColor),
+                    color: headerColor),
                 OutlinedButton(
                     style: ElevatedButton.styleFrom(elevation: 0),
                     onPressed: () {
@@ -60,8 +60,8 @@ class _CardContainerState extends State<CardContainer> {
                     child: Icon(Icons.arrow_right,
                         size: 40,
                         color: exerciseProvider.providerDay < currentDay
-                            ? headingColor
-                            : headingColor.withOpacity(0.5))),
+                            ? headerColor
+                            : headerColor.withOpacity(0.5))),
               ],
             ),
           ),

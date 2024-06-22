@@ -36,43 +36,46 @@ class _AnalysisCardState extends State<AnalysisCard> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [BoxShadow(blurRadius: 2, color: Colors.grey)]),
-        height: 160,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: CustomText(
-                text: widget.value,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xff344054),
+        // height: 160,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: CustomText(
+                  text: widget.value,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xff344054),
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 20),
-                    child: Icon(
-                      widget.icon,
-                      color: const Color(0xff344054),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 20),
+                      child: Icon(
+                        widget.icon,
+                        color: const Color(0xff344054),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: CustomText(
-                      text: widget.label,
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      color: const Color(0xff667085),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        text: widget.label,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: const Color(0xff667085),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

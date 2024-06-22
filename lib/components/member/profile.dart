@@ -4,7 +4,7 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/common/screen_shimmer.dart';
-import 'package:gym_buddy/screens/member/referral_dialog.dart';
+import 'package:gym_buddy/components/member/referral_dialog.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 

@@ -81,7 +81,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: Colors.white,
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -89,7 +89,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: Text("Register your gym",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
+                    color: headingColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -98,7 +98,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: Text("Welcome",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: Color(0xffFFFFFF),
+                          color: headingColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
@@ -107,18 +107,18 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField(
                   labelText: "Name",
                   controller: widget.nameController,
-                  textColour: Colors.white,
-              borderColor: Colors.white,
-              cursorColor: Colors.white,
+                  textColour: headingColor,
+              borderColor: headingColor,
+              cursorColor: headingColor,
                   errorText: nameError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
-                  textColour: Colors.white,
-              borderColor: Colors.white,
-              cursorColor: Colors.white,
+                  textColour: headingColor,
+              borderColor: headingColor,
+              cursorColor: headingColor,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -131,9 +131,9 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField.passwordField(
                   labelText: "Password",
-                  textColour: Colors.white,
-              borderColor: Colors.white,
-              cursorColor: Colors.white,
+                  textColour: headingColor,
+              borderColor: headingColor,
+              cursorColor: headingColor,
                   controller: _passwordController,
                   errorText: passwordError)),
           Padding(
@@ -155,16 +155,16 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   child: SizedBox(
                       height: 50,
                       width: 178,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                           onPressed: onNextButtonPressed,
-                          style: ElevatedButton.styleFrom(
+                          style: OutlinedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: headingColor,
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

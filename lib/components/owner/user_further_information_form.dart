@@ -321,9 +321,9 @@ class _UserFurtherInformationFormState
                   child: SizedBox(
                       height: 50,
                       width: 178,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                           onPressed: onPayNowButtonPressed,
-                          style: ElevatedButton.styleFrom(
+                          style: OutlinedButton.styleFrom(
                             side: BorderSide(color: headingColor),
                             elevation: 0,
                           ),

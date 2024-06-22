@@ -183,7 +183,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                                               textStyle: const TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 14,
-                                                  color: Color(0xff004576))))),
+                                                  color: headingColor)))),
                                 )
                               : const SizedBox(),
                           const Divider(

@@ -57,7 +57,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
       setState(() {
         userName = sharedPreference.getString("memberName") ?? "User's";
         mentors = gymTrainee;
-        mentor = mentors.isNotEmpty ? mentors[0] : ['', ''];
+        mentor = mentors.isNotEmpty ? mentors[0] : [];
       });
     } catch (e) {
       print('Exception: $e');
@@ -72,7 +72,11 @@ class _UserGoalFormState extends State<UserGoalForm> {
 
       await sharedPreferences.setString("goal", goal);
       await sharedPreferences.setString("experience", experience);
-      await sharedPreferences.setString("mentorId", mentor.first);
+
+      if (mentors.length > 1) {
+        await sharedPreferences.setString("mentorId", mentor.first);
+      }
+
       widget.onPageToShowChange(PageToShow.paymentPage);
     } else {
       setState(() {
@@ -94,12 +98,6 @@ class _UserGoalFormState extends State<UserGoalForm> {
       } else {
         experienceError = null;
       }
-
-      // if (mentor == mentors[0]) {
-      //   mentorError = "Please select mentor";
-      // } else {
-      //   mentorError = null;
-      // }
     });
     if (goalError != null || experienceError != null || mentorError != null) {
       return false;
@@ -188,38 +186,40 @@ class _UserGoalFormState extends State<UserGoalForm> {
                   }).toList(),
                 ),
               )),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: Center(
-              child: DropdownButton<List<String>>(
-                value: mentor,
-                dropdownColor: Colors.white,
-                onChanged: (List<String>? value) {
-                  setState(() {
-                    mentor = value ??
-                        ['', '']; // Ensure a default value if value is null
-                    mentorError = null;
-                  });
-                },
-                items: mentors
-                    .map<DropdownMenuItem<List<String>>>((List<String> value) {
-                  return DropdownMenuItem<List<String>>(
-                    value: value,
-                    child: SizedBox(
-                      // color: Colors.white,
-                      width: getScreenWidth(context) * 0.6,
-                      child: CustomText(
-                        text: value
-                            .last, // Assuming the last string is the mentor's name
-                        color: mentorError != null ? Colors.red : Colors.black,
+          if (mentors.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
+              child: Center(
+                child: DropdownButton<List<String>>(
+                  value: mentor,
+                  dropdownColor: Colors.white,
+                  onChanged: (List<String>? value) {
+                    setState(() {
+                      mentor = value ??
+                          ['', '']; // Ensure a default value if value is null
+                      mentorError = null;
+                    });
+                  },
+                  items: mentors.map<DropdownMenuItem<List<String>>>(
+                      (List<String> value) {
+                    return DropdownMenuItem<List<String>>(
+                      value: value,
+                      child: SizedBox(
+                        // color: Colors.white,
+                        width: getScreenWidth(context) * 0.6,
+                        child: CustomText(
+                          text: value
+                              .last, // Assuming the last string is the mentor's name
+                          color:
+                              mentorError != null ? Colors.red : Colors.black,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
-          ),
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),

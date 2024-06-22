@@ -4,11 +4,14 @@ import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/customer_details.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatefulWidget {
@@ -133,13 +136,13 @@ class _ProfileState extends State<Profile> {
                                       text: 'Name:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576)),
+                                      color: headingColor),
                                   const SizedBox(height: 20),
                                   const CustomText(
                                       text: 'Contact:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576)),
+                                      color: headingColor),
                                   userProfileResponse.traineeName != null
                                       ? const SizedBox(height: 20)
                                       : const SizedBox(),
@@ -148,20 +151,20 @@ class _ProfileState extends State<Profile> {
                                           text: 'Mentor:',
                                           fontWeight: FontWeight.bold,
                                           fontSize: 22,
-                                          color: Color(0xff004576))
+                                          color: headingColor)
                                       : const SizedBox(),
                                   const SizedBox(height: 20),
                                   const CustomText(
                                       text: 'Start Date:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576)),
+                                      color: headingColor),
                                   const SizedBox(height: 20),
                                   const CustomText(
                                       text: 'Plan:',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: Color(0xff004576)),
+                                      color: headingColor),
                                 ],
                               ),
                               const SizedBox(
@@ -236,7 +239,7 @@ class _ProfileState extends State<Profile> {
                               textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
-                                  color: Color(0xff004576)))),
+                                  color: headingColor))),
                     ),
                   )),
               Padding(

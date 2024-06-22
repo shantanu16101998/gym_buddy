@@ -119,7 +119,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
               'validTill': validTill ?? 0,
               'charges': charges ?? 0,
               'profilePic': profilePic,
-              'mentorId': mentorId,
+              if (mentorId != null) 'mentorId': mentorId,
               'goal': goal,
               'experience': experience
             },
@@ -158,7 +158,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CustomText(
-                    text: "Please verify your upi id",
+                    text: "Please verify your UPI Id",
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),

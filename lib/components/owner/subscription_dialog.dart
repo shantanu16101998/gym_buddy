@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +69,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
       startDateError =
           validateSimpleText(_startDateController.text, "Start Date");
       endMonthError = validateSimpleText(_endMonthController.text, "End Month");
-      chargesError = validateSimpleText(_chargesController.text, "charges");
+      chargesError = chargeValidator(_chargesController.text);
     });
     if (startDateError != null ||
         endMonthError != null ||
@@ -93,6 +94,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
           .fetchSubscription();
       if (mounted) {
         Navigator.pop(context);
+        Navigator.push(context,MaterialPageRoute(builder: (context) => Subscription()));
       }
     }
   }
@@ -294,11 +296,13 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                         child: SizedBox(
                             height: 50,
                             width: 340,
-                            child: ElevatedButton(
+                            child: OutlinedButton(
                                 onPressed: _onPayNowPressed,
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    backgroundColor: const Color(0xFFD9D9D9)),
+                                style: OutlinedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color: headingColor),
+                                ),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Pay Now",
@@ -317,7 +321,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: CustomText(
-                          text: "Please verify your upi id",
+                          text: "Please verify your UPI Id",
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -388,17 +392,17 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                               child: SizedBox(
                                   height: 50,
                                   width: 178,
-                                  child: ElevatedButton(
+                                  child: OutlinedButton(
                                       onPressed: _onUpdatePressed,
-                                      style: ElevatedButton.styleFrom(
+                                      style: OutlinedButton.styleFrom(
                                           elevation: 0,
-                                          backgroundColor:
-                                              const Color(0xFFD9D9D9)),
+                                          side: BorderSide(color: headingColor),
+                                          backgroundColor: Colors.white),
                                       child: const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text("Update",
                                               style: TextStyle(
-                                                  color: Color(0xff004576),
+                                                  color: headingColor,
                                                   fontSize: 18,
                                                   fontWeight:
                                                       FontWeight.bold)))))))

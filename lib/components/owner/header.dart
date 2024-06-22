@@ -35,7 +35,7 @@ class _HeaderState extends State<Header> {
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
-                                color: headingColor,
+                                color: headerColor,
                                 decoration: TextDecoration.none,
                               ),
                             )),
@@ -51,7 +51,7 @@ class _HeaderState extends State<Header> {
                 width: 40,
                 child: Icon(
                   Icons.more_vert,
-                  color: headingColor,
+                  color: headerColor,
                 )),
           ),
         ],

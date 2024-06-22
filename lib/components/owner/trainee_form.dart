@@ -111,7 +111,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: Colors.white.withOpacity(0.98),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -119,7 +119,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
               child: Text("Hi ${widget.nameController.text}",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
+                    color: headingColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -128,7 +128,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
               child: Text("Enter trainee details",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: Color(0xffFFFFFF),
+                          color: headingColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           for (int i = 0; i < numberOfTrainee; i++)
@@ -139,7 +139,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                     child: Text("Trainee ${i + 1}",
                         style: GoogleFonts.inter(
                             textStyle: const TextStyle(
-                                color: Color(0xffFFFFFF),
+                                color: headingColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)))),
                 Padding(
@@ -147,9 +147,9 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         left: 30, top: 30, bottom: 15, right: 30),
                     child: LabeledTextField(
                         labelText: "Name",
-                        textColour: Colors.white,
-                        borderColor: Colors.white,
-                        cursorColor: Colors.white,
+                        textColour: headingColor,
+                        borderColor: headingColor,
+                        cursorColor: headingColor,
                         controller: _namesControllers[i],
                         errorText: null)),
                 Padding(
@@ -157,9 +157,9 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         left: 30, top: 15, bottom: 15, right: 30),
                     child: LabeledTextField(
                         labelText: "Experience (years)",
-                        textColour: Colors.white,
-                        borderColor: Colors.white,
-                        cursorColor: Colors.white,
+                        textColour: headingColor,
+                        borderColor: headingColor,
+                        cursorColor: headingColor,
                         textInputType: TextInputType.number,
                         textInputFormatter: [
                           FilteringTextInputFormatter.digitsOnly
@@ -190,12 +190,12 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                           onPressed: addTraineeCount,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Add trainee",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))))))),
           Align(
@@ -209,12 +209,12 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                           onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("SignUp",
                                   style: TextStyle(
-                                      color: Color(0xff004576),
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

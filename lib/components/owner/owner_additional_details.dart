@@ -138,7 +138,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+          color: Colors.white.withOpacity(0.98),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -146,7 +146,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               child: Text("Hi ${widget.nameController.text}",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: Color(0xffFFFFFF),
+                    color: headingColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -155,7 +155,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               child: Text("Enter further details",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: Color(0xffFFFFFF),
+                          color: headingColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
@@ -163,9 +163,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Gym Name",
-                  textColour: Colors.white,
-                  borderColor: Colors.white,
-                  cursorColor: Colors.white,
+                  textColour: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   controller: _gymNameController,
                   errorText: gymNameError)),
           Padding(
@@ -173,9 +173,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Address",
-                  textColour: Colors.white,
-                  borderColor: Colors.white,
-                  cursorColor: Colors.white,
+                  textColour: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   controller: _addressController,
                   errorText: addressError)),
           Padding(
@@ -183,9 +183,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "UPI Id (optional)",
-                  textColour: Colors.white,
-                  borderColor: Colors.white,
-                  cursorColor: Colors.white,
+                  textColour: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   controller: _upiIdController,
                   errorText: null)),
           Padding(
@@ -194,7 +194,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   style: GoogleFonts.inter(
                       textStyle: TextStyle(
                           color: haveTraineeOptionValid
-                              ? const Color(0xffFFFFFF)
+                              ? headingColor
                               : formValidationErrorColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
@@ -205,7 +205,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                 children: [
                   ListTile(
                     leading: Radio<HaveTrainee>(
-                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      fillColor: MaterialStateProperty.all<Color>(headingColor),
                       value: HaveTrainee.yes,
                       groupValue: _haveTrainee,
                       onChanged: (HaveTrainee? value) {
@@ -215,11 +215,11 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       },
                     ),
                     title: const CustomText(
-                        text: 'Yes', fontSize: 18, color: Color(0xffFFFFFF)),
+                        text: 'Yes', fontSize: 18, color: headingColor),
                   ),
                   ListTile(
                     leading: Radio<HaveTrainee>(
-                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      fillColor: MaterialStateProperty.all<Color>(headingColor),
                       value: HaveTrainee.no,
                       groupValue: _haveTrainee,
                       onChanged: (HaveTrainee? value) {
@@ -229,7 +229,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       },
                     ),
                     title: const CustomText(
-                        text: 'No', fontSize: 18, color: Color(0xffFFFFFF)),
+                        text: 'No', fontSize: 18, color: headingColor),
                   ),
                 ],
               )),
@@ -239,7 +239,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   style: GoogleFonts.inter(
                       textStyle: TextStyle(
                           color: insideGymOptionValid
-                              ? const Color(0xffFFFFFF)
+                              ? headingColor
                               : formValidationErrorColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
@@ -250,7 +250,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                 children: [
                   ListTile(
                     leading: Radio<InsideGym>(
-                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      fillColor: MaterialStateProperty.all<Color>(headingColor),
                       value: InsideGym.yes,
                       groupValue: _insideGym,
                       onChanged: (InsideGym? value) {
@@ -263,11 +263,11 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       },
                     ),
                     title: const CustomText(
-                        text: 'Yes', fontSize: 18, color: Color(0xffFFFFFF)),
+                        text: 'Yes', fontSize: 18, color: headingColor),
                   ),
                   ListTile(
                     leading: Radio<InsideGym>(
-                      fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                      fillColor: MaterialStateProperty.all<Color>(headingColor),
                       value: InsideGym.no,
                       groupValue: _insideGym,
                       onChanged: (InsideGym? value) {
@@ -277,7 +277,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       },
                     ),
                     title: const CustomText(
-                        text: 'No', fontSize: 18, color: Color(0xffFFFFFF)),
+                        text: 'No', fontSize: 18, color: headingColor),
                   ),
                 ],
               )),
@@ -295,13 +295,13 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                                   side: BorderSide(
                                       width: 1,
                                       color: locationPermissionGivenWhenAsked
-                                          ? Colors.white
+                                          ? headingColor
                                           : formValidationErrorColor)),
                               child: const Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text("Grant Location Permission",
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: headingColor,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)))))))
               : const SizedBox(),
@@ -323,16 +323,17 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   child: SizedBox(
                       height: 50,
                       width: 178,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                           onPressed: onNextButtonPressed,
-                          style: ElevatedButton.styleFrom(
+                          style: OutlinedButton.styleFrom(
+                            
                               elevation: 0,
-                              backgroundColor: const Color(0xFFD9D9D9)),
+                              backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: headingColor,
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

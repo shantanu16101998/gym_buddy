@@ -44,7 +44,7 @@ class _AnalysisCardContainerState extends State<AnalysisCardContainer> {
                 child: AnalysisCard(
                     value:
                         widget.analysisHomepageResponse.averageMonth.toString(),
-                    label: "Average",
+                    label: "Average Duration People stay",
                     icon: Icons.lock_clock),
               )
               

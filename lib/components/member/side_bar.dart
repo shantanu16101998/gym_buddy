@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/screens/member/homepage.dart';
+import 'package:gym_buddy/components/member/homepage.dart';
 import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/utils/colors.dart';

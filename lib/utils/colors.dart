@@ -11,3 +11,5 @@ const subscriptionCardNewbie = Color(0xff19AE01);
 const headingColor = appEnvironment == AppEnvironment.member
     ? Color(0xffE63744)
     : Color(0xff344054);
+
+const headerColor = Colors.black;

@@ -169,9 +169,9 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   child: SizedBox(
                       height: 50,
                       width: 178,
-                      child: ElevatedButton(
+                      child: OutlinedButton(
                           onPressed: onNextButtonPressed,
-                          style: ElevatedButton.styleFrom(
+                          style: OutlinedButton.styleFrom(
                               elevation: 0,
                               side: const BorderSide(color: headingColor)),
                           child: const Padding(
