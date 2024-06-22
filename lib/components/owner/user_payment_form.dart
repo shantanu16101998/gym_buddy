@@ -69,18 +69,6 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     }
   }
 
-  int? tryParseInt(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
-    try {
-      return int.parse(value);
-    } catch (e) {
-      print("Error parsing integer: $e");
-      return null;
-    }
-  }
-
   void onSignUpButtonClicked() async {
     var sharedPreferences = await SharedPreferences.getInstance();
 

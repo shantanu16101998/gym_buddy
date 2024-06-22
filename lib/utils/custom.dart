@@ -175,6 +175,18 @@ class LocationResult {
       {required this.success, required this.latitude, required this.longitude});
 }
 
+int? tryParseInt(String? value) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+    try {
+      return int.parse(value);
+    } catch (e) {
+      print("Error parsing integer: $e");
+      return null;
+    }
+  }
+
 Future<LocationResult> getCurrentLocationSuccess() async {
   var status = await Permission.location.request();
 

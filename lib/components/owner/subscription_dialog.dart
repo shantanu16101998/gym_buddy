@@ -84,7 +84,8 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
         '/customer/updateSubscription/${widget.userId}',
         {
           'currentBeginDate': _startDateController.text,
-          'validTill': _endMonthController.text,
+          if (tryParseInt(_endMonthController.text) != null)
+            'validTill': tryParseInt(_endMonthController.text),
           'charges': _chargesController.text
         },
         'PUT',
@@ -94,7 +95,8 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
           .fetchSubscription();
       if (mounted) {
         Navigator.pop(context);
-        Navigator.push(context,MaterialPageRoute(builder: (context) => const OwnerScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const OwnerScreen()));
       }
     }
   }
