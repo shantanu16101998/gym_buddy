@@ -140,26 +140,13 @@ class _GymAnalysisState extends State<GymAnalysis> {
                 child: Container(
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: LineChart(
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      LineChartData(
-                        
-                           
+                    child: LineChart(LineChartData(
                         lineTouchData: LineTouchData(
                             getTouchedSpotIndicator: (LineChartBarData barData,
                                 List<int> spotIndexes) {
                               return spotIndexes.map((index) {
                                 return TouchedSpotIndicatorData(
-                                   FlLine(
+                                  FlLine(
                                     color: headingColor,
                                   ),
                                   FlDotData(
@@ -326,7 +313,6 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: LineChart(LineChartData(
-                        
                         lineTouchData: LineTouchData(
                             getTouchedSpotIndicator: (LineChartBarData barData,
                                 List<int> spotIndexes) {
@@ -357,7 +343,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                           LineChartBarData(
                               belowBarData: BarAreaData(
                                   show: true,
-                                  gradient:  LinearGradient(colors: [
+                                  gradient: LinearGradient(colors: [
                                     headingColor.withOpacity(0.5),
                                     Color(0xffE5E6EB)
                                   ])),
@@ -436,8 +422,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text:
-                                    peopleExpandedAnalysisResponse.average,
+                                text: peopleExpandedAnalysisResponse.average,
                                 fontSize: 20,
                               ),
                               const SizedBox(height: 5),
