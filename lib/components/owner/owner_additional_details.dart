@@ -3,7 +3,6 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -50,13 +49,17 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
   bool locationPermissionGivenWhenAsked = true;
   bool isLocationPermissionNeeded = false;
 
-  onLocationPermissionPressed() async {
+  Future<LocationResult> onLocationPermissionPressed() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool verdict = (await getCurrentLocationSuccess()).success;
+    LocationResult result = await getCurrentLocationSuccess();
+    bool verdict = result.success;
+    sharedPreferences.setDouble("latitude", result.latitude);
+    sharedPreferences.setDouble("longitude", result.longitude);
     sharedPreferences.setBool('isLocationPermissionGiven', verdict);
     setState(() {
       locationPermissionGivenWhenAsked = verdict;
     });
+    return result;
   }
 
   onNextButtonPressed() async {
@@ -91,8 +94,10 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   'address': _addressController.text,
                   'upiId': _upiIdController.text,
                   'token': sharedPreferences.getString("fcmToken"),
-                  'lat': sharedPreferences.getDouble("latitude"),
-                  'lon': sharedPreferences.getDouble("longitude"),
+                  if (_insideGym ==  InsideGym.yes &&  sharedPreferences.getDouble("latitude") != null)
+                    'lat': sharedPreferences.getDouble("latitude"),
+                  if (_insideGym ==  InsideGym.yes && sharedPreferences.getDouble("longitude") != null)
+                    'lon': sharedPreferences.getDouble("longitude"),
                   'trainees': []
                 },
                 'POST',
@@ -103,10 +108,10 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
 
         sharedPreferences.setString(
             'gymName', ownerRegistrationResponse.gymName ?? "Gym");
-        if (mounted) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen()));
-        }
+        // if (mounted) {
+        //   Navigator.push(context,
+        //       MaterialPageRoute(builder: (context) => const OwnerScreen()));
+        // }
       }
     } else {
       setState(() {
@@ -182,7 +187,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "UPI Id (optional)",
+                  labelText: "UPI Id",
                   textColour: headingColor,
                   borderColor: headingColor,
                   cursorColor: headingColor,
@@ -259,6 +264,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                           isLocationPermissionNeeded = true;
                           locationPermissionGivenWhenAsked = false;
                           _insideGym = value;
+                          print(_insideGym);
                         });
                       },
                     ),
@@ -326,9 +332,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       child: OutlinedButton(
                           onPressed: onNextButtonPressed,
                           style: OutlinedButton.styleFrom(
-                            
-                              elevation: 0,
-                              backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",

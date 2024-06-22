@@ -4,6 +4,7 @@ import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
+import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -21,15 +22,21 @@ class _SubscriptionState extends State<Subscription> {
   final TextEditingController _searchController = TextEditingController();
 
   bool ownerGivenLocation = true;
-  String userName = "Owner";
 
   initialConfigs() async {
-    var sharedPreferences = await SharedPreferences.getInstance();
+    OwnerDetails ownerDetails = OwnerDetails.fromJson(
+        await backendAPICall('/owner/details', {}, 'GET', true));
 
     setState(() {
-      userName = sharedPreferences.getString("userName") ?? "Owner";
-      ownerGivenLocation =
-          sharedPreferences.getBool('isLocationPermissionGiven') ?? false;
+      ownerGivenLocation = ownerDetails.gymLocationLat != null;
+      print('ixi');
+      print(ownerDetails.gymLocationLat != null);
+
+      if (!ownerGivenLocation) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showAlertDialog();
+        });
+      }
     });
   }
 
@@ -39,14 +46,9 @@ class _SubscriptionState extends State<Subscription> {
   void initState() {
     super.initState();
     initialConfigs();
+    print('inity');
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
-
-    if (!ownerGivenLocation) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showAlertDialog();
-      });
-    }
   }
 
   grantLocationPermission() async {
@@ -59,6 +61,10 @@ class _SubscriptionState extends State<Subscription> {
           {'lat': locationResult.latitude, 'lon': locationResult.longitude},
           'PUT',
           true);
+    }
+
+    if (mounted) {
+      Navigator.pop(context);
     }
 
     setState(() {
@@ -83,10 +89,11 @@ class _SubscriptionState extends State<Subscription> {
               backgroundColor:
                   Colors.transparent, // Set background color to white
               content: CustomDialogBox(
+                  shouldShowExtraDismissButton: true,
                   buttonColor: const Color(0xff888A12),
                   iconWidget: const Icon(Icons.warning_rounded,
                       size: 50, color: Color(0xff888A12)),
-                  heading: 'Grant location permission !',
+                  heading: 'Are you inside gym !',
                   subheading:
                       'Please grant permission for users attendance verification',
                   buttonName: 'Allow',

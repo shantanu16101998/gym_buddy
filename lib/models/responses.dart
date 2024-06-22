@@ -237,6 +237,8 @@ class OwnerDetails {
   final String name;
   final String gymName;
   final String contact;
+  final String? gymLocationLat;
+  final String? gymLocationLon;
   final List<TraineeDetailsResponse> traineeDetails;
 
   OwnerDetails({
@@ -244,6 +246,8 @@ class OwnerDetails {
     required this.contact,
     required this.gymName,
     required this.traineeDetails,
+    this.gymLocationLat,
+    this.gymLocationLon
   });
 
   factory OwnerDetails.fromJson(Map<String, dynamic> json) {
@@ -258,6 +262,8 @@ class OwnerDetails {
       name: json['name'] as String,
       gymName: json['gymName'] as String,
       contact: json['contact'] as String,
+      gymLocationLat: json['gymLocationLat'],
+      gymLocationLon: json['gymLocationLon'],
       traineeDetails: trainees,
     );
   }

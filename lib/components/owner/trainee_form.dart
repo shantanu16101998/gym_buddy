@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/requests.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
@@ -78,8 +78,10 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                 'address': address,
                 'upiId': upiId,
                 'token': sharedPreferences.getString("fcmToken"),
-                'lat': sharedPreferences.getString("latitude"),
-                'lon': sharedPreferences.getString("longitude"),
+                if (sharedPreferences.getDouble("latitude") != null)
+                  'lat': sharedPreferences.getDouble("latitude"),
+                if (sharedPreferences.getDouble("longitude") != null)
+                  'lon': sharedPreferences.getDouble("longitude"),
                 'trainees':
                     traineeDetails.map((trainee) => trainee.toJson()).toList(),
               },
@@ -93,7 +95,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
           'gymName', ownerRegistrationResponse.gymName ?? "Gym");
       if (mounted) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Subscription()));
+            MaterialPageRoute(builder: (context) => const OwnerScreen()));
       }
     } else {
       setState(() {
@@ -189,8 +191,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                       child: ElevatedButton(
                           onPressed: addTraineeCount,
                           style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Add trainee",
@@ -208,8 +209,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                       child: ElevatedButton(
                           onPressed: onNextButtonPressed,
                           style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("SignUp",

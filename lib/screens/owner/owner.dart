@@ -19,6 +19,12 @@ class _OwnerScreenState extends State<OwnerScreen> {
   OwnerScreens ownerScreens = OwnerScreens.subscriptionPage;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const SideBar(userName: ''),

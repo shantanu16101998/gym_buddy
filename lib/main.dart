@@ -11,16 +11,11 @@ import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/components/member/homepage.dart';
 import 'package:gym_buddy/components/member/profile.dart';
 import 'package:gym_buddy/components/member/workout_analysis.dart';
-// import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
-// import 'package:gym_buddy/screens/owner/profile.dart';
-// import 'package:gym_buddy/screens/member/profile.dart';
 import 'package:gym_buddy/screens/owner/qr_page.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
-// import 'package:gym_buddy/screens/owner/splash_screen.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/services/local_notification.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
@@ -92,9 +87,6 @@ class _MyAppState extends State<MyApp> {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
           '/user-sign-up': (context) => const UserSignUp(),
-          '/subscription': (context) => const Subscription(),
-          // '/profile': (context) => const Profile(
-          //     ),
           '/analysis': (context) => const AnalysisHomepage(),
           'qr-page': (context) => const QrPage(),
           '/analysis-expanded': (context) =>

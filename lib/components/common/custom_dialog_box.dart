@@ -10,6 +10,7 @@ class CustomDialogBox extends StatefulWidget {
   final String subheading;
   final Function()? buttonAction;
   final String? buttonName;
+  final bool? shouldShowExtraDismissButton;
   const CustomDialogBox(
       {super.key,
       required this.buttonColor,
@@ -17,7 +18,8 @@ class CustomDialogBox extends StatefulWidget {
       required this.heading,
       required this.subheading,
       this.buttonAction,
-      this.buttonName});
+      this.buttonName,
+      this.shouldShowExtraDismissButton});
 
   @override
   State<CustomDialogBox> createState() => _CustomDialogBoxState();
@@ -71,31 +73,63 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () async {
-              if (widget.buttonAction != null) {
-                await widget.buttonAction!();
-              } else {
-                Navigator.pop(context);
-              }
-            },
-            child: Container(
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: widget.buttonColor,
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12))),
-              child: Center(
-                  child: CustomText(
-                text:
-                    widget.buttonName != null ? widget.buttonName! : 'Dismiss',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              )),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    if (widget.buttonAction != null) {
+                      await widget.buttonAction!();
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 140,
+                    decoration: BoxDecoration(
+                        color: widget.buttonColor,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(12),
+                            bottomRight: Radius.circular(
+                                widget.shouldShowExtraDismissButton == true
+                                    ? 0
+                                    : 12))),
+                    child: Center(
+                        child: CustomText(
+                      text: widget.buttonName != null
+                          ? widget.buttonName!
+                          : 'Dismiss',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    )),
+                  ),
+                ),
+              ),
+              if (widget.shouldShowExtraDismissButton == true)
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 140,
+                    decoration: BoxDecoration(
+                        color: Color(0xffD3D3D3),
+                        borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(12))),
+                    child: Center(
+                        child: CustomText(
+                      text: 'Dismiss',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    )),
+                  ),
+                ),
+            ],
           )
         ],
       ),
