@@ -6,8 +6,8 @@ class TraineeDetails {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name.toString(),
-      'experience': experience.toString(),
+      'name': name.toString().trim(),
+      if (experience != '') 'experience': experience.toString().trim(),
     };
   }
 }

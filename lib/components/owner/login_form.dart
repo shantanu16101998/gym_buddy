@@ -42,8 +42,8 @@ class _LoginFormState extends State<LoginForm> {
       LoginResponse loginResponse = LoginResponse.fromJson(await backendAPICall(
           '/owner/login',
           {
-            'contact': _contactController.text,
-            'password': _passwordController.text,
+            'contact': _contactController.text.trim(),
+            'password': _passwordController.text.trim(),
             'deviceToken': sharedPreferences.getString("fcmToken")
           },
           'POST',
@@ -113,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.only(left: 30, top: 30, bottom: 15, right: 30),
             child: LabeledTextField(
-              labelText: "Contact",
+              labelText: "Mobile Number",
               textInputType: TextInputType.number,
               textInputFormatter: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -142,9 +142,9 @@ class _LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
             child: showEmailPasswordNotMatchedError
-                ? const Text("Contact or password does not match",
+                ? Text("Phone number or password does not match",
                     style: TextStyle(
-                        color: Colors.red,
+                        color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),

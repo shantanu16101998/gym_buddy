@@ -54,7 +54,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
         widget.formStateChanger(OwnerFormState.additionalDetails);
       } else {
         setState(() {
-          showValidationError = 'Contact already exists please log in';
+          showValidationError = 'Contact already exists please log In';
         });
       }
     } else {
@@ -115,7 +115,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
-                  labelText: "Contact",
+                  labelText: "Mobile Number",
                   textColour: headingColor,
               borderColor: headingColor,
               cursorColor: headingColor,

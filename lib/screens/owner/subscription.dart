@@ -29,8 +29,6 @@ class _SubscriptionState extends State<Subscription> {
 
     setState(() {
       ownerGivenLocation = ownerDetails.gymLocationLat != null;
-      print('ixi');
-      print(ownerDetails.gymLocationLat != null);
 
       if (!ownerGivenLocation) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -46,7 +44,6 @@ class _SubscriptionState extends State<Subscription> {
   void initState() {
     super.initState();
     initialConfigs();
-    print('inity');
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
   }
@@ -147,7 +144,8 @@ class _SubscriptionState extends State<Subscription> {
                               .watch<SubscriptionProvider>()
                               .expiredUsers,
                         )
-                      : const SizedBox(child: Loader())
+                      : const SizedBox(child: Loader()),
+                      SizedBox(height: 100)
                 ],
               ),
             )),

@@ -63,20 +63,20 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
       var userName = sharedPreferences.getString("userName") ?? "";
       var ownerPassword = sharedPreferences.getString("ownerPassword") ?? "";
       var ownerContact = sharedPreferences.getString("ownerContact") ?? "";
-      var gymName = sharedPreferences.getString("gymName");
-      var address = sharedPreferences.getString("address");
-      var upiId = sharedPreferences.getString("upiId");
+      var gymName = sharedPreferences.getString("gymName") ?? "";
+      var address = sharedPreferences.getString("address") ?? "";
+      var upiId = sharedPreferences.getString("upiId") ?? "";
 
       OwnerRegistrationResponse ownerRegistrationResponse =
           OwnerRegistrationResponse.fromJson(await backendAPICall(
               '/owner/signup',
               {
-                'name': userName,
-                'password': ownerPassword,
-                'gymName': gymName,
-                'contact': ownerContact,
-                'address': address,
-                'upiId': upiId,
+                'name': userName.trim(),
+                'password': ownerPassword.trim(),
+                'gymName': gymName.trim(),
+                'contact': ownerContact.trim(),
+                'address': address.trim(),
+                'upiId': upiId.trim(),
                 'token': sharedPreferences.getString("fcmToken"),
                 if (sharedPreferences.getDouble("latitude") != null)
                   'lat': sharedPreferences.getDouble("latitude"),

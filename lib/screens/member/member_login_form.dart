@@ -40,7 +40,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
     if (validateForm()) {
       MemberLoginResponse memberLoginResponse = MemberLoginResponse.fromJson(
           await backendAPICall('/customer/login',
-              {'contact': _contactController.text}, 'POST', false));
+              {'contact': _contactController.text.trim()}, 'POST', false));
 
       if (memberLoginResponse.name == null) {
         setState(() {

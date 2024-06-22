@@ -3,6 +3,7 @@ import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -87,12 +88,12 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             OwnerRegistrationResponse.fromJson(await backendAPICall(
                 '/owner/signup',
                 {
-                  'name': userName,
-                  'password': ownerPassword,
-                  'gymName': _gymNameController.text,
-                  'contact': ownerContact,
-                  'address': _addressController.text,
-                  'upiId': _upiIdController.text,
+                  'name': userName.trim(),
+                  'password': ownerPassword.trim(),
+                  'gymName': _gymNameController.text.trim(),
+                  'contact': ownerContact.trim(),
+                  'address': _addressController.text.trim(),
+                  'upiId': _upiIdController.text.trim(),
                   'token': sharedPreferences.getString("fcmToken"),
                   if (_insideGym ==  InsideGym.yes &&  sharedPreferences.getDouble("latitude") != null)
                     'lat': sharedPreferences.getDouble("latitude"),
@@ -108,10 +109,10 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
 
         sharedPreferences.setString(
             'gymName', ownerRegistrationResponse.gymName ?? "Gym");
-        // if (mounted) {
-        //   Navigator.push(context,
-        //       MaterialPageRoute(builder: (context) => const OwnerScreen()));
-        // }
+        if (mounted) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OwnerScreen()));
+        }
       }
     } else {
       setState(() {

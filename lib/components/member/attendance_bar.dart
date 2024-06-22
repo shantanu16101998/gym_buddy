@@ -126,7 +126,7 @@ class _AttendanceBarState extends State<AttendanceBar> {
         widget.gymLocationLat.toDouble(),
         widget.gymLocationLon.toDouble());
 
-    if (distanceBetweenGymAndPerson < 0.05) {
+    if (distanceBetweenGymAndPerson < 0.02) {
       return true;
     } else {
       return false;

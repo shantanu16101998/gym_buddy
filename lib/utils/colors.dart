@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/utils/enums.dart';
 
-const formValidationErrorColor = Color(0xffE7AA0F);
+const formValidationErrorColor = Colors.red;
 
 const attendanceMarkPresent = Color(0xff3ABA2E);
 const attendanceMarkAbsent = Color(0xffE56B6B);

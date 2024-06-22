@@ -84,14 +84,11 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
   void onSignUpButtonClicked() async {
     var sharedPreferences = await SharedPreferences.getInstance();
 
-    var userAge = sharedPreferences.getString("age");
     var memberName = sharedPreferences.getString("memberName") ?? "";
-    var userEmail = sharedPreferences.getString("userEmail");
-    var userContact = sharedPreferences.getString("userContact");
-    var userAddress = sharedPreferences.getString("userAddress");
-    var gender = sharedPreferences.getString("gender");
-    var startDate = sharedPreferences.getString("startDate");
-    var bloodGroup = sharedPreferences.getString("bloodGroup");
+    var userEmail = sharedPreferences.getString("userEmail") ?? "";
+    var userContact = sharedPreferences.getString("userContact") ?? "";
+    var userAddress = sharedPreferences.getString("userAddress") ?? "";
+    var startDate = sharedPreferences.getString("startDate") ?? "";
     var validTillString = sharedPreferences.getString("validTill");
     var chargesString = sharedPreferences.getString("charges");
     var profilePic = sharedPreferences.getString('profilePic');
@@ -102,20 +99,16 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
 
     int? validTill = tryParseInt(validTillString);
     int? charges = tryParseInt(chargesString);
-    int? age = userAge != null ? tryParseInt(userAge) : null;
 
     RegisterCustomerResponse _ =
         RegisterCustomerResponse.fromJson(await backendAPICall(
             '/customer/registerCustomer',
             {
-              'name': capitalizeFirstLetter(memberName),
-              'email': userEmail,
-              'contact': userContact,
-              'address': userAddress,
-              'age': age,
-              'gender': gender,
-              'currentBeginDate': startDate,
-              'bloodGroup': bloodGroup,
+              'name': capitalizeFirstLetter(memberName).trim(),
+              'email': userEmail.trim(),
+              'contact': userContact.trim(),
+              'address': userAddress.trim(),
+              'currentBeginDate': startDate.trim(),
               'validTill': validTill ?? 0,
               'charges': charges ?? 0,
               'profilePic': profilePic,
