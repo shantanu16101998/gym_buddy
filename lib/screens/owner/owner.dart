@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/gym_analysis.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
-import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/colors.dart';

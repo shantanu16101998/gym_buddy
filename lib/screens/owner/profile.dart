@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/common/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
@@ -55,8 +56,12 @@ class _ProfileState extends State<Profile> {
     await backendAPICall(
         "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
     if (mounted) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const OwnerScreen(
+                    ownerScreens: OwnerScreens.subscriptionPage,
+                  )));
     }
   }
 
@@ -84,7 +89,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Container(
                 width: double.infinity,
-                height: 450,
+                height: 500,
                 decoration: const BoxDecoration(
                     border: Border(
                         bottom:
@@ -107,118 +112,157 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 70),
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 12.0, 24.0),
-                    child: !isApiDataLoaded
-                        ? SizedBox(
-                            width: 300.0,
-                            height: 200.0,
-                            child: Shimmer.fromColors(
-                              baseColor:
-                                  const Color.fromARGB(255, 255, 255, 255),
-                              highlightColor:
-                                  const Color.fromARGB(255, 227, 227, 226),
-                              child: Container(
-                                height: 20,
-                                width: 100,
-                                color: Colors.white,
-                              ),
-                            ))
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const CustomText(
-                                      text: 'Name:',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: headingColor),
-                                  const SizedBox(height: 20),
-                                  const CustomText(
-                                      text: 'Contact:',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: headingColor),
-                                  userProfileResponse.traineeName != null
-                                      ? const SizedBox(height: 20)
-                                      : const SizedBox(),
-                                  userProfileResponse.traineeName != null
-                                      ? const CustomText(
-                                          text: 'Mentor:',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: headingColor)
-                                      : const SizedBox(),
-                                  const SizedBox(height: 20),
-                                  const CustomText(
-                                      text: 'Start Date:',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: headingColor),
-                                  const SizedBox(height: 20),
-                                  const CustomText(
-                                      text: 'Plan:',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                      color: headingColor),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(userProfileResponse.name,
-                                      style: GoogleFonts.inter(
-                                          textStyle:
-                                              const TextStyle(fontSize: 22))),
-                                  const SizedBox(height: 20),
-                                  Text(userProfileResponse.phone,
-                                      style: GoogleFonts.inter(
-                                          textStyle:
-                                              const TextStyle(fontSize: 22))),
-                                  userProfileResponse.traineeName != null
-                                      ? const SizedBox(height: 20)
-                                      : const SizedBox(),
-                                  userProfileResponse.traineeName != null
-                                      ? Text(
-                                          userProfileResponse.traineeName ?? "",
-                                          style: GoogleFonts.inter(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 22)))
-                                      : const SizedBox(),
-                                  const SizedBox(height: 20),
-                                  Text(userProfileResponse.startDate ?? "",
-                                      style: GoogleFonts.inter(
-                                          textStyle:
-                                              const TextStyle(fontSize: 22))),
-                                  const SizedBox(height: 20),
-                                  Text(
-                                      '${userProfileResponse.validTill ?? 0} months',
-                                      style: GoogleFonts.inter(
-                                          textStyle:
-                                              const TextStyle(fontSize: 22))),
-                                ],
-                              )
-                            ],
+                  const SizedBox(height: 70),
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Name',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text: userProfileResponse.name,
+                              fontSize: 22,
+                              color: headingColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Contact',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text: '+91 ${userProfileResponse.phone}',
+                              fontSize: 22,
+                              color: headingColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Start Date',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text: userProfileResponse.startDate ?? '',
+                              fontSize: 22,
+                              color: headingColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Plan',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text:
+                                  '${userProfileResponse.validTill} ${userProfileResponse.validTill == 1 ? 'month' : 'months'}',
+                              fontSize: 22,
+                              color: headingColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  if(userProfileResponse.traineeName != null)
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Mentor',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text:
+                                  '${userProfileResponse.traineeName}',
+                              fontSize: 22,
+                              color: headingColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
               Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
+                  padding: const EdgeInsets.only(top: 50, bottom: 25),
                   child: SizedBox(
                     height: 45,
                     width: 300,
                     child: TextButton(
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 2, color: Color(0xffD0D5DD)),
+                            side: BorderSide(
+                                width: 2, color: headingColor.withOpacity(0.8)),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           textStyle: const TextStyle(
@@ -249,8 +293,9 @@ class _ProfileState extends State<Profile> {
                     child: TextButton(
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 2, color: Color(0xffD0D5DD)),
+                              side: BorderSide(
+                                  width: 2,
+                                  color: Color(0xffB01D1D).withOpacity(0.5)),
                               borderRadius: BorderRadius.circular(20)),
                           textStyle: const TextStyle(
                               fontSize: 22,
@@ -269,7 +314,7 @@ class _ProfileState extends State<Profile> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 400),
+            padding: const EdgeInsets.only(top: 450),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -294,15 +339,36 @@ class _ProfileState extends State<Profile> {
                                 color: const Color(0xffD9D9D9),
                               )),
                         )
-                      : Container(
-                          width: getScreenHeight(context) * 0.15,
-                          height: getScreenHeight(context) * 0.15,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 2, color: const Color(0xffD9D9D9)),
-                            borderRadius: BorderRadius.circular(70),
-                            image:
-                                DecorationImage(image: image, fit: BoxFit.fill),
+                      : SizedBox(
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: getScreenHeight(context) * 0.15,
+                                height: getScreenHeight(context) * 0.15,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: const Color(0xffD9D9D9)),
+                                  borderRadius: BorderRadius.circular(70),
+                                  image: DecorationImage(
+                                      image: image, fit: BoxFit.fill),
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: headingColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    child: Icon(
+                                      Icons.camera_alt_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    height: 40,
+                                    width: 40,
+                                  ))
+                            ],
                           ),
                         ),
                 )

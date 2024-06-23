@@ -31,9 +31,36 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
 
   bool showReferralTextBox = false;
 
+  bool shouldHidePhoneNumber = false;
+
+  final FocusNode confirmContactFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    confirmContactFocus.addListener(_onconfirmContactFocusChange);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    confirmContactFocus.removeListener(_onconfirmContactFocusChange);
+    confirmContactFocus.dispose();
+  }
+
   String? _nameError;
   String? _contactError;
   String? _confirmContactError;
+
+  void _onconfirmContactFocusChange() {
+
+    if (confirmContactFocus.hasFocus) {
+      setState(() {
+        shouldHidePhoneNumber = true;
+      });
+    }
+  }
+
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -89,13 +116,11 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
               padding: const EdgeInsets.only(top: 30, bottom: 12),
               child: Center(
                 child: Text("Register New User",
-                
                     style: GoogleFonts.inter(
                         textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: headingColor
-                    ))),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: headingColor))),
               )),
           const CustomImagePicker(),
           Padding(
@@ -110,6 +135,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Contact",
+                  shouldObscure: shouldHidePhoneNumber,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -120,8 +146,9 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField.passwordField(
+              child: LabeledTextField(
                   labelText: "Confirm contact",
+                  focusNode: confirmContactFocus,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,

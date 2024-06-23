@@ -25,19 +25,21 @@ class OwnerBasicDetailsForm extends StatefulWidget {
 class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   String? contactError;
   String? passwordError;
   String? nameError;
   String? showValidationError;
+  String? confirmPasswordError;
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
 
     if (isInformationValidated) {
       final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString(
-          "userName", widget.nameController.text);
+      await sharedPreferences.setString("userName", widget.nameController.text);
       await sharedPreferences.setString(
           "ownerContact", _contactController.text);
       await sharedPreferences.setString(
@@ -69,8 +71,17 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
       contactError = contactValidator(_contactController.text);
       passwordError = validateSimpleText(_passwordController.text, "Password");
       nameError = validateSimpleText(widget.nameController.text, "Name");
+
+      if (_passwordController.text != _confirmPasswordController.text) {
+        confirmPasswordError = 'Passwords do not match';
+      } else {
+        confirmPasswordError = null;
+      }
     });
-    if (contactError != null || passwordError != null || nameError != null) {
+    if (contactError != null ||
+        passwordError != null ||
+        nameError != null ||
+        confirmPasswordError != null) {
       return false;
     }
     return true;
@@ -108,8 +119,8 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   labelText: "Name",
                   controller: widget.nameController,
                   textColour: headingColor,
-              borderColor: headingColor,
-              cursorColor: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   errorText: nameError)),
           Padding(
               padding: const EdgeInsets.only(
@@ -117,8 +128,8 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField(
                   labelText: "Mobile Number",
                   textColour: headingColor,
-              borderColor: headingColor,
-              cursorColor: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -132,10 +143,20 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField.passwordField(
                   labelText: "Password",
                   textColour: headingColor,
-              borderColor: headingColor,
-              cursorColor: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
                   controller: _passwordController,
                   errorText: passwordError)),
+          Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, top: 15, bottom: 15, right: 30),
+              child: LabeledTextField.passwordField(
+                  labelText: "Confirm password",
+                  textColour: headingColor,
+                  borderColor: headingColor,
+                  cursorColor: headingColor,
+                  controller: _confirmPasswordController,
+                  errorText: confirmPasswordError)),
           Padding(
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
@@ -143,7 +164,6 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                 ? Text(showValidationError ?? "",
                     style: const TextStyle(
                         color: formValidationErrorColor,
-                        
                         fontWeight: FontWeight.bold,
                         fontSize: 15))
                 : const SizedBox(),
@@ -158,8 +178,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                       child: OutlinedButton(
                           onPressed: onNextButtonPressed,
                           style: OutlinedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: headingColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",

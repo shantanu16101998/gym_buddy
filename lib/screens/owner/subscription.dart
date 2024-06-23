@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
-import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Subscription extends StatefulWidget {
   const Subscription({super.key});
@@ -22,6 +23,7 @@ class _SubscriptionState extends State<Subscription> {
   final TextEditingController _searchController = TextEditingController();
 
   bool ownerGivenLocation = true;
+
 
   initialConfigs() async {
     OwnerDetails ownerDetails = OwnerDetails.fromJson(
@@ -87,12 +89,15 @@ class _SubscriptionState extends State<Subscription> {
                   Colors.transparent, // Set background color to white
               content: CustomDialogBox(
                   shouldShowExtraDismissButton: true,
-                  buttonColor: const Color(0xff888A12),
-                  iconWidget: const Icon(Icons.warning_rounded,
-                      size: 50, color: Color(0xff888A12)),
-                  heading: 'Are you inside gym !',
+                  buttonColor: headingColor,
+                  iconWidget: const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Icon(Icons.location_on,
+                        size: 60, color: headingColor),
+                  ),
+                  heading: 'Are you inside gym ?',
                   subheading:
-                      'Please grant permission for users attendance verification',
+                      'Please grant location permission for users to mark their attendance',
                   buttonName: 'Allow',
                   buttonAction: grantLocationPermission));
         });
@@ -144,8 +149,69 @@ class _SubscriptionState extends State<Subscription> {
                               .watch<SubscriptionProvider>()
                               .expiredUsers,
                         )
-                      : const SizedBox(child: Loader()),
-                      SizedBox(height: 100)
+                      : SizedBox(
+                          child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Shimmer.fromColors(
+                                  baseColor:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  highlightColor:
+                                      const Color.fromARGB(255, 227, 227, 226),
+                                  child: Container(
+                                    height: 200,
+                                    width: 360,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(0xffDBDDE2)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12)),
+                                    ),
+                                  ),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Shimmer.fromColors(
+                                  baseColor:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  highlightColor:
+                                      const Color.fromARGB(255, 227, 227, 226),
+                                  child: Container(
+                                    height: 200,
+                                    width: 360,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(0xffDBDDE2)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12)),
+                                    ),
+                                  ),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Shimmer.fromColors(
+                                  baseColor:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  highlightColor:
+                                      const Color.fromARGB(255, 227, 227, 226),
+                                  child: Container(
+                                    height: 150,
+                                    width: 360,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(0xffDBDDE2)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12)),
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        )),
+                  const SizedBox(height: 100)
                 ],
               ),
             )),

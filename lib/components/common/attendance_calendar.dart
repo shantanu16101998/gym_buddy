@@ -102,11 +102,11 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         Padding(
           padding: EdgeInsets.only(
               top: 50,
-              left: getScreenWidth(context) * 0.2,
-              right: getScreenWidth(context) * 0.2),
+              left: getScreenWidth(context) * 0.1,
+              right: getScreenWidth(context) * 0.1),
           child: SizedBox(
             
-            height: 300,
+            // height: 300,
             width: double.infinity,
             child: PageView.builder(
               controller: _pageController,

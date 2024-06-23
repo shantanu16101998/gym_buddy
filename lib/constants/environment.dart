@@ -1,3 +1,3 @@
 import 'package:gym_buddy/utils/enums.dart';
 
-const AppEnvironment appEnvironment = AppEnvironment.test;
+const AppEnvironment appEnvironment = AppEnvironment.owner;

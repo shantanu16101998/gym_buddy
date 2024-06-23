@@ -10,7 +10,7 @@ import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/providers/exercise_list_provider.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/components/member/homepage.dart';
-import 'package:gym_buddy/components/member/profile.dart';
+import 'package:gym_buddy/components/member/profile.dart' as MemberProfile;
 import 'package:gym_buddy/components/member/workout_analysis.dart';
 import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/expanded_analysis.dart';
@@ -27,6 +27,9 @@ import 'package:provider/provider.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+/* 
+  IMP: Uncheck in production
+*/
 bool shouldEnableFirebase = false;
 
 void main() async {
@@ -74,7 +77,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CustomerDetailsProvider()),
       ],
       child: MaterialApp(
-        title: appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
+        title:
+            appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
@@ -84,7 +88,8 @@ class _MyAppState extends State<MyApp> {
         ),
         // uncomment when in prod
         home: const SplashScreen(),
-        // home: const UserSignUp(),
+        // home: UserSignUp(),
+        // home: const Profile(userId: '66771637e3292704450a7dbd'),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),
@@ -95,7 +100,7 @@ class _MyAppState extends State<MyApp> {
               const ExpandedAnalysis(label: "earnings"),
           '/member/homepage': (context) => const Homepage(),
           '/member/analysis': (context) => const WorkoutAnalayis(),
-          '/member/profile': (context) => const Profile()
+          '/member/profile': (context) => const MemberProfile.Profile()
         },
       ),
     );

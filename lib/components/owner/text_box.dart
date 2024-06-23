@@ -5,7 +5,7 @@ class LabeledTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
   final String? errorText;
-  final bool shouldObscure;
+  final bool? shouldObscure;
   final Color textColour;
   final Color borderColor;
   final Color cursorColor;
@@ -15,6 +15,8 @@ class LabeledTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final List<TextInputFormatter>? textInputFormatter;
   final bool? readOnly;
+  final FocusNode? focusNode;
+  
 
   const LabeledTextField.passwordField(
       {super.key,
@@ -30,6 +32,7 @@ class LabeledTextField extends StatelessWidget {
       this.prefixIcon,
       this.textInputType,
       this.textInputFormatter,
+      this.focusNode,
       this.readOnly});
 
   const LabeledTextField(
@@ -37,7 +40,7 @@ class LabeledTextField extends StatelessWidget {
       required this.labelText,
       required this.controller,
       required this.errorText,
-      this.shouldObscure = false,
+      this.shouldObscure,
       this.textColour = Colors.black,
       this.cursorColor = Colors.black,
       this.borderColor = Colors.black,
@@ -46,6 +49,7 @@ class LabeledTextField extends StatelessWidget {
       this.prefixIcon,
       this.textInputType,
       this.textInputFormatter,
+      this.focusNode,
       this.readOnly});
 
   const LabeledTextField.homepageText(
@@ -62,6 +66,7 @@ class LabeledTextField extends StatelessWidget {
       this.prefixIcon,
       this.textInputType,
       this.textInputFormatter,
+      this.focusNode,
       this.readOnly});
 
   @override
@@ -74,6 +79,7 @@ class LabeledTextField extends StatelessWidget {
             style: TextStyle(color: textColour),
             cursorColor: cursorColor,
             controller: controller,
+            focusNode: focusNode,
             onTap: onTap,
             inputFormatters: textInputFormatter ??
                 [
@@ -83,7 +89,7 @@ class LabeledTextField extends StatelessWidget {
                 ],
             keyboardType: textInputType,
             onChanged: onChange,
-            obscureText: shouldObscure,
+            obscureText: shouldObscure != null ? shouldObscure! : false,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,
               labelText: labelText,

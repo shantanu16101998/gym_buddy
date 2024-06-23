@@ -90,6 +90,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                                 width: double.infinity,
                                 height: getEffectiveScreenHeight(context),
                                 child: Shimmer.fromColors(
+                                  
                                   baseColor:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   highlightColor:

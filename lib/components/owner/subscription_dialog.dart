@@ -130,6 +130,22 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now().subtract(const Duration(days: 1)),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: formPrimaryColor,
+              onPrimary: Colors.white,
+              onSurface: formPrimaryColor,
+            ),
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(color: Colors.white),
+              titleMedium: TextStyle(color: Colors.white),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null) {
       setState(() {

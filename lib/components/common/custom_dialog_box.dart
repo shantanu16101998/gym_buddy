@@ -29,7 +29,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 312,
       height: 240,
       decoration: const BoxDecoration(
         color: Colors.transparent,
@@ -46,7 +46,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             height: 200,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(left: 40, right: 40),
+                padding: const EdgeInsets.only(left: 27, right: 27),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -55,7 +55,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: CustomText(
                         text: widget.heading,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center,
                       ),
@@ -87,7 +87,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   },
                   child: Container(
                     height: 40,
-                    width: 140,
+                    width: widget.shouldShowExtraDismissButton == true ? 156 : 312,
                     decoration: BoxDecoration(
                         color: widget.buttonColor,
                         borderRadius: BorderRadius.only(
@@ -115,9 +115,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   },
                   child: Container(
                     height: 40,
-                    width: 140,
+                    width: 156,
                     decoration: BoxDecoration(
-                        color: Color(0xffD3D3D3),
+                        color: widget.buttonColor.withOpacity(0.5),
                         borderRadius: const BorderRadius.only(
                             bottomRight: Radius.circular(12))),
                     child: Center(

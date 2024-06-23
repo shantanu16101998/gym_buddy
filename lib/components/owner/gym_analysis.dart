@@ -1,7 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
@@ -18,11 +16,19 @@ class GymAnalysis extends StatefulWidget {
 class _GymAnalysisState extends State<GymAnalysis> {
   ExpandedAnalysisResponse earningExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+          titles: [],
+          data: [],
+          average: "",
+          total: "",
+          maxLimitOfData: 100);
 
   ExpandedAnalysisResponse peopleExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+          titles: [],
+          data: [],
+          average: "",
+          total: "",
+          maxLimitOfData: 100);
 
   Widget getBottomTitlesWidget(double x, TitleMeta titleMeta) {
     return CustomText(
@@ -50,16 +56,6 @@ class _GymAnalysisState extends State<GymAnalysis> {
     fetchData();
   }
 
-  List<LineChartBarData> getLineChartBarData() {
-    return [
-      LineChartBarData(
-          belowBarData: BarAreaData(
-              show: true,
-              gradient: const LinearGradient(
-                  colors: [headingColor, Color(0xffE5E6EB)])))
-    ];
-  }
-
   fetchData() async {
     ExpandedAnalysisResponse _expandedAnalysisResponse =
         ExpandedAnalysisResponse.fromJson(
@@ -75,10 +71,22 @@ class _GymAnalysisState extends State<GymAnalysis> {
     });
   }
 
+  LinearGradient lowToHighGradient() {
+    return LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.green, Colors.white]);
+  }
+
+  LinearGradient highToLowGradient() {
+    return LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.red, Colors.white]);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<int> showingTooltipOnSpots = [];
-
     List<FlSpot> makeData() {
       return earningExpandedAnalysisResponse.data
           .asMap()
@@ -94,8 +102,6 @@ class _GymAnalysisState extends State<GymAnalysis> {
           .map((entry) => FlSpot(entry.key.toDouble(), entry.value.toDouble()))
           .toList();
     }
-
-    final tooltiponbar = getLineChartBarData()[0];
 
     return Column(
       children: [
@@ -147,7 +153,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                               return spotIndexes.map((index) {
                                 return TouchedSpotIndicatorData(
                                   FlLine(
-                                    color: headingColor,
+                                    color: Colors.black,
                                   ),
                                   FlDotData(
                                     show: true,
@@ -170,11 +176,16 @@ class _GymAnalysisState extends State<GymAnalysis> {
                         lineBarsData: [
                           LineChartBarData(
                               belowBarData: BarAreaData(
-                                  show: true,
-                                  gradient: LinearGradient(colors: [
-                                    headingColor.withOpacity(0.5),
-                                    Color(0xffE5E6EB)
-                                  ])),
+                                show: true,
+                                gradient:
+                                peopleExpandedAnalysisResponse
+                                                  .data.isNotEmpty &&
+                                    earningExpandedAnalysisResponse.data.first <
+                                            earningExpandedAnalysisResponse
+                                                .data.last
+                                        ? lowToHighGradient()
+                                        : highToLowGradient(),
+                              ),
                               dotData: const FlDotData(show: true),
                               color: headingColor,
                               spots: makeData())
@@ -343,10 +354,15 @@ class _GymAnalysisState extends State<GymAnalysis> {
                           LineChartBarData(
                               belowBarData: BarAreaData(
                                   show: true,
-                                  gradient: LinearGradient(colors: [
-                                    headingColor.withOpacity(0.5),
-                                    Color(0xffE5E6EB)
-                                  ])),
+                                  gradient: peopleExpandedAnalysisResponse
+                                                  .data.isNotEmpty 
+                                               &&
+                                          peopleExpandedAnalysisResponse
+                                                  .data.first <
+                                              peopleExpandedAnalysisResponse
+                                                  .data.last
+                                      ? lowToHighGradient()
+                                      : highToLowGradient()),
                               dotData: const FlDotData(show: true),
                               color: headingColor,
                               spots: makePeopleData())

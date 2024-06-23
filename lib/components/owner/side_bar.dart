@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_buddy/components/owner/gym_analysis.dart';
-import 'package:gym_buddy/screens/owner/analysis_homepage.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
 import 'package:gym_buddy/utils/colors.dart';
