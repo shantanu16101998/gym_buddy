@@ -50,7 +50,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
             provider.exerciseList[widget.exerciseIndex].exerciseInformationList,
         builder: (context, exerciseInformationList, child) {
           return AnimatedContainer(
-            duration: new Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             height: heighty,
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
