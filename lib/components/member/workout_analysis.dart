@@ -21,6 +21,7 @@ class WorkoutAnalayis extends StatefulWidget {
 class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
   int comparisionExerciseIndex = 0;
   bool isApiDataLoaded = false;
+  num maxGrowthValue = 0;
 
   WorkoutAnalysisResponse workoutAnalysisResponse = WorkoutAnalysisResponse(
       comparisionData: ComparisionData(
@@ -76,6 +77,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
         .asMap()
         .entries
         .map((entry) => BarChartGroupData(
+              showingTooltipIndicators: [0],
               x: entry.key,
               barRods: [
                 BarChartRodData(
@@ -97,6 +99,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
         .asMap()
         .entries
         .map((entry) => BarChartGroupData(
+              showingTooltipIndicators: [0],
               x: entry.key,
               barRods: [
                 BarChartRodData(
@@ -126,9 +129,21 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
   }
 
   Widget getLeftTitlesWidget(double x, TitleMeta titleMeta) {
-    return CustomText(
-        text: NumberFormat.compact(locale: 'en_IN').format(x),
-        color: const Color(0XFF86909C));
+    if (x != workoutAnalysisResponse.growthData.maxLimitOfData && x != workoutAnalysisResponse.growthData.minLimitOfData) {
+      return CustomText(
+          text: NumberFormat.compact(locale: 'en_IN').format(x),
+          color: const Color(0XFF86909C));
+    }
+    return SizedBox();
+  }
+
+  Widget getPeopleLeftTitleWidget(double x, TitleMeta titleMeta) {
+    if (x == x.round()) {
+      return CustomText(
+          text: NumberFormat.compact(locale: 'en_IN').format(x),
+          color: const Color(0XFF86909C));
+    }
+    return SizedBox();
   }
 
   @override
@@ -288,6 +303,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                         BarChartData(
                             barTouchData: BarTouchData(
                                 touchTooltipData: BarTouchTooltipData(
+                                    tooltipBorder: const BorderSide(
+                                        color: Color(0xffDBDDE2)),
                                     getTooltipColor: (_) => Colors.white)),
                             maxY: workoutAnalysisResponse
                                 .comparisionData.maxLimitOfData
@@ -309,7 +326,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                                   sideTitles: SideTitles(
                                       reservedSize: 44,
                                       showTitles: true,
-                                      getTitlesWidget: getLeftTitlesWidget)),
+                                      getTitlesWidget:
+                                          getPeopleLeftTitleWidget)),
                               rightTitles: const AxisTitles(
                                   sideTitles: SideTitles(
                                       reservedSize: 44, showTitles: false)),
@@ -356,6 +374,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                         BarChartData(
                             barTouchData: BarTouchData(
                                 touchTooltipData: BarTouchTooltipData(
+                                    tooltipBorder: const BorderSide(
+                                        color: Color(0xffDBDDE2)),
                                     getTooltipColor: (_) => Colors.white)),
                             minY: workoutAnalysisResponse
                                 .growthData.minLimitOfData

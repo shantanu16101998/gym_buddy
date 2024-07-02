@@ -239,8 +239,8 @@ class ExerciseProvider extends ChangeNotifier {
             {
               'exerciseId': exerciseList[exerciseIndex].id,
               'exerciseName': exerciseList[exerciseIndex].name,
-              'reps': defaultExerciseReps[0],
-              'weight': defaultExerciseWeights[0]
+              'reps': defaultExerciseReps[exerciseList[exerciseIndex].exerciseInformationList[0].repIndex],
+              'weight': defaultExerciseWeights[exerciseList[exerciseIndex].exerciseInformationList[0].weightIndex]
             },
             'POST',
             true));

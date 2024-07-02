@@ -106,9 +106,10 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               right: getScreenWidth(context) * 0.1),
           child: SizedBox(
             
-            // height: 300,
+            height: 400,
             width: double.infinity,
             child: PageView.builder(
+              
               controller: _pageController,
               onPageChanged: (index) {
                 setState(() {

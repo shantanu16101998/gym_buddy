@@ -206,12 +206,12 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                         padding: const EdgeInsets.only(bottom: 50, top: 30),
                         child: SizedBox(
                             height: 50,
-                            width: 278,
-                            child: ElevatedButton(
+                            // width: 278,
+                            child: OutlinedButton(
                                 onPressed: onSignUpButtonClicked,
-                                style: ElevatedButton.styleFrom(
+                                style: OutlinedButton.styleFrom(
                                     elevation: 0,
-                                    side: BorderSide(color: headingColor)),
+                                    side: const BorderSide(color: headingColor)),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Sign up and share Gym Card",

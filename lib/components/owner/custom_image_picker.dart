@@ -51,6 +51,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
         compressFormat: ImageCompressFormat.jpg,
         uiSettings: [
           AndroidUiSettings(
+            lockAspectRatio: false,
             toolbarTitle: 'Crop Image',
             toolbarColor:
                 const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
@@ -92,6 +93,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
+                    elevation: 0,
                     backgroundColor: Colors.grey[200],
                     title: const Text('Choose an option'),
                     content: Column(

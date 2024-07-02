@@ -45,7 +45,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
       if (memberLoginResponse.name == null) {
         setState(() {
           showValidationError =
-              'This number is not registed with our Gym Partners';
+              'This number is not registered with our Gym Partners';
         });
       } else {
         SharedPreferences sharedPreferences =

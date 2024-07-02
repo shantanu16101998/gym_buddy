@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -30,7 +33,7 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 /* 
   IMP: Uncheck in production
 */
-bool shouldEnableFirebase = false;
+bool shouldEnableFirebase =  !kIsWeb;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

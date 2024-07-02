@@ -99,7 +99,7 @@ class _HomepageState extends State<Homepage> {
             contentPadding: EdgeInsets.zero,
             backgroundColor: Colors.white,
             content: Container(
-              width: getScreenWidth(context) * 0.8,
+              width: 312,
               child: IntrinsicHeight(
                 child: Column(
                   children: [
@@ -144,11 +144,11 @@ class _HomepageState extends State<Homepage> {
                                   bottomLeft: Radius.circular(12),
                                 ),
                               ),
-                              width: getScreenWidth(context) * 0.4,
+                              width: 156,
                               height: 40,
                               child: const Center(
                                 child: CustomText(
-                                  text: 'Save',
+                                  text: 'Dowload',
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
