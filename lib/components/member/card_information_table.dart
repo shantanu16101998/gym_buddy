@@ -33,6 +33,9 @@ class _CardInformationTableState extends State<CardInformationTable> {
   @override
   Widget build(BuildContext context) {
     final exerciseProvider = context.watch<ExerciseProvider>();
+    final double heighty = 60 + Provider.of<ExerciseProvider>(context, listen: false)
+        .exerciseList[widget.exerciseIndex]
+        .exerciseInformationList.length * 50;
 
     Map<int, TableColumnWidth> columnWidths = {
       0: const FixedColumnWidth(20),
@@ -46,168 +49,260 @@ class _CardInformationTableState extends State<CardInformationTable> {
         selector: (context, provider) =>
             provider.exerciseList[widget.exerciseIndex].exerciseInformationList,
         builder: (context, exerciseInformationList, child) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Table(
-              columnWidths: columnWidths,
-              children: <TableRow>[
-                TableRow(children: <Widget>[
-                  const SizedBox(
-                    height: 40,
-                    child: Center(
-                        child: CustomText(
-                            text: '',
-                            fontSize: 16,
-                            color: Color(0xff667085),
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                    child: Center(
-                        child: CustomText(
-                            text: 'Set',
-                            fontSize: 16,
-                            color: Color(0xff667085),
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(
+          return AnimatedContainer(
+            duration: new Duration(seconds: 2),
+            height: heighty,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Table(
+                columnWidths: columnWidths,
+                children: <TableRow>[
+                  TableRow(children: <Widget>[
+                    const SizedBox(
                       height: 40,
                       child: Center(
                           child: CustomText(
-                              text: 'Weight',
+                              text: '',
                               fontSize: 16,
                               color: Color(0xff667085),
-                              fontWeight: FontWeight.bold))),
-                  const SizedBox(
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(
                       height: 40,
                       child: Center(
                           child: CustomText(
-                              text: 'Reps',
+                              text: 'Set',
                               fontSize: 16,
                               color: Color(0xff667085),
-                              fontWeight: FontWeight.bold))),
-                  if (exerciseProvider.isProviderDayToday())
+                              fontWeight: FontWeight.bold)),
+                    ),
                     const SizedBox(
                         height: 40,
                         child: Center(
                             child: CustomText(
-                                text: 'Done',
+                                text: 'Weight',
                                 fontSize: 16,
                                 color: Color(0xff667085),
-                                fontWeight: FontWeight.bold)))
-                ]),
-                for (var exerciseInformationEntry
-                    in exerciseInformationList.asMap().entries)
-                  TableRow(children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        if (!widget.exerciseCompleted &&
-                            exerciseProvider.isProviderDayToday()) {
-                          widget.removeSet(exerciseInformationEntry.key);
-                        }
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: SizedBox(
-                            height: 20,
-                            child: Container(
+                                fontWeight: FontWeight.bold))),
+                    const SizedBox(
+                        height: 40,
+                        child: Center(
+                            child: CustomText(
+                                text: 'Reps',
+                                fontSize: 16,
+                                color: Color(0xff667085),
+                                fontWeight: FontWeight.bold))),
+                    if (exerciseProvider.isProviderDayToday())
+                      const SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: CustomText(
+                                  text: 'Done',
+                                  fontSize: 16,
+                                  color: Color(0xff667085),
+                                  fontWeight: FontWeight.bold)))
+                  ]),
+                  for (var exerciseInformationEntry
+                      in exerciseInformationList.asMap().entries)
+                    TableRow(children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          if (!widget.exerciseCompleted &&
+                              exerciseProvider.isProviderDayToday()) {
+                            widget.removeSet(exerciseInformationEntry.key);
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: SizedBox(
                               height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2,
-                                      color: !widget.exerciseCompleted &&
-                                              exerciseProvider
-                                                  .isProviderDayToday()
-                                          ? const Color(0xffCE8C8C)
-                                          : Colors.transparent),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Icon(
-                                Icons.close,
-                                size: 15,
-                                color: !widget.exerciseCompleted &&
-                                        exerciseProvider.isProviderDayToday()
-                                    ? const Color(0xffCE8C8C)
-                                    : Colors.transparent,
+                              child: Container(
+                                height: 20,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: !widget.exerciseCompleted &&
+                                                exerciseProvider
+                                                    .isProviderDayToday()
+                                            ? const Color(0xffCE8C8C)
+                                            : Colors.transparent),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 15,
+                                  color: !widget.exerciseCompleted &&
+                                          exerciseProvider.isProviderDayToday()
+                                      ? const Color(0xffCE8C8C)
+                                      : Colors.transparent,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: tableRowHeight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CustomText(
-                            text: (exerciseInformationEntry.key + 1).toString(),
-                            fontSize: 16,
-                            color: const Color(0xff667085),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
+                      SizedBox(
+                        height: tableRowHeight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomText(
+                              text: (exerciseInformationEntry.key + 1).toString(),
+                              fontSize: 16,
+                              color: const Color(0xff667085),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
+                      SizedBox(
+                          height: tableRowHeight,
+                          child: Center(
+                              child: exerciseProvider.isProviderDayToday()
+                                  ? IgnorePointer(
+                                      ignoring: !(!exerciseInformationEntry
+                                              .value.isCompleted &&
+                                          exerciseProvider.isProviderDayToday()),
+                                      child: DropdownButton2(
+                                        underline: Container(
+                                            height: 1,
+                                            color: !exerciseInformationList[
+                                                            exerciseInformationEntry
+                                                                .key]
+                                                        .isCompleted &&
+                                                    exerciseProvider
+                                                        .isProviderDayToday()
+                                                ? const Color(0xff667085)
+                                                : Colors.transparent),
+                                        onMenuStateChange: (isOpen) {
+                                          if (!isOpen) {
+                                            weightSearchController.clear();
+                                          }
+                                        },
+                                        dropdownStyleData:
+                                            const DropdownStyleData(
+                                                maxHeight: 250,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white)),
+            
+                                        value: defaultExerciseWeights[
+                                                exerciseInformationList[
+                                                        exerciseInformationEntry
+                                                            .key]
+                                                    .weightIndex]
+                                            .toString(), // Ensure this is a String since items are mapped to String
+                                        // dropdownColor: Colors.white,
+                                        buttonStyleData: const ButtonStyleData(),
+                                        iconStyleData: IconStyleData(
+                                            icon: RotatedBox(
+                                          quarterTurns: 3,
+                                          child: Icon(
+                                            Icons.arrow_back_ios,
+                                            color: !exerciseInformationEntry
+                                                        .value.isCompleted &&
+                                                    exerciseProvider
+                                                        .isProviderDayToday()
+                                                ? Colors.black
+                                                : Colors.transparent,
+                                            size: 10,
+                                          ),
+                                        )),
+                                        dropdownSearchData: DropdownSearchData(
+                                          searchController:
+                                              weightSearchController,
+                                          searchInnerWidgetHeight: 50,
+                                          searchInnerWidget: Container(
+                                              height: 50,
+                                              padding: const EdgeInsets.only(
+                                                top: 8,
+                                                bottom: 4,
+                                                right: 8,
+                                                left: 8,
+                                              ),
+                                              child: TextFormField(
+                                                expands: true,
+                                                maxLines: null,
+                                                controller:
+                                                    weightSearchController,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 8,
+                                                  ),
+                                                  hintText: 'Search',
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 12),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(8),
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+            
+                                        onChanged: (value) {
+                                          Provider.of<ExerciseProvider>(context,
+                                                  listen: false)
+                                              .updateExerciseInformationListWeight(
+                                                  widget.exerciseIndex,
+                                                  exerciseInformationEntry.key,
+                                                  double.parse(
+                                                      value!.toString()));
+                                        },
+                                        items: defaultExerciseWeights
+                                            .map<DropdownMenuItem<String>>(
+                                                (num value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value.toString(),
+                                            child: Container(
+                                              color: Colors.transparent,
+                                              width: 90,
+                                              child: Center(
+                                                child: CustomText(
+                                                  text: '$value kg',
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    )
+                                  : CustomText(
+                                      text:
+                                          '${defaultExerciseWeights[exerciseInformationEntry.value.weightIndex]} kg'))),
+                      SizedBox(
                         height: tableRowHeight,
                         child: Center(
-                            child: exerciseProvider.isProviderDayToday()
-                                ? IgnorePointer(
-                                    ignoring: !(!exerciseInformationEntry
-                                            .value.isCompleted &&
-                                        exerciseProvider.isProviderDayToday()),
+                          child: exerciseProvider.isProviderDayToday()
+                              ? IgnorePointer(
+                                  ignoring: !(!exerciseInformationEntry
+                                          .value.isCompleted &&
+                                      exerciseProvider.isProviderDayToday()),
+                                  child: SizedBox(
+                                    width: 55,
                                     child: DropdownButton2(
-                                      underline: Container(
-                                          height: 1,
-                                          color: !exerciseInformationList[
-                                                          exerciseInformationEntry
-                                                              .key]
-                                                      .isCompleted &&
-                                                  exerciseProvider
-                                                      .isProviderDayToday()
-                                              ? const Color(0xff667085)
-                                              : Colors.transparent),
                                       onMenuStateChange: (isOpen) {
                                         if (!isOpen) {
                                           weightSearchController.clear();
                                         }
                                       },
-                                      dropdownStyleData:
-                                          const DropdownStyleData(
-                                              maxHeight: 250,
-                                              width: 100,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white)),
-
-                                      value: defaultExerciseWeights[
-                                              exerciseInformationList[
-                                                      exerciseInformationEntry
-                                                          .key]
-                                                  .weightIndex]
-                                          .toString(), // Ensure this is a String since items are mapped to String
-                                      // dropdownColor: Colors.white,
-                                      buttonStyleData: const ButtonStyleData(),
-                                      iconStyleData: IconStyleData(
-                                          icon: RotatedBox(
-                                        quarterTurns: 3,
-                                        child: Icon(
-                                          Icons.arrow_back_ios,
+                                      isExpanded: true,
+                                      underline: Container(
+                                          height: 1,
                                           color: !exerciseInformationEntry
                                                       .value.isCompleted &&
                                                   exerciseProvider
                                                       .isProviderDayToday()
-                                              ? Colors.black
-                                              : Colors.transparent,
-                                          size: 10,
-                                        ),
-                                      )),
+                                              ? const Color(0xff667085)
+                                              : Colors.transparent),
                                       dropdownSearchData: DropdownSearchData(
-                                        searchController:
-                                            weightSearchController,
+                                        searchController: weightSearchController,
                                         searchInnerWidgetHeight: 50,
                                         searchInnerWidget: Container(
                                             height: 50,
@@ -220,8 +315,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                             child: TextFormField(
                                               expands: true,
                                               maxLines: null,
-                                              controller:
-                                                  weightSearchController,
+                                              controller: weightSearchController,
                                               decoration: InputDecoration(
                                                 isDense: true,
                                                 contentPadding:
@@ -230,8 +324,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                   vertical: 8,
                                                 ),
                                                 hintText: 'Search',
-                                                hintStyle: const TextStyle(
-                                                    fontSize: 12),
+                                                hintStyle:
+                                                    const TextStyle(fontSize: 14),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -239,194 +333,107 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                               ),
                                             )),
                                       ),
-
+                                      iconStyleData: IconStyleData(
+                                          icon: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Icon(
+                                          Icons.arrow_back_ios,
+                                          size: 10,
+                                          color: !exerciseInformationEntry
+                                                      .value.isCompleted &&
+                                                  exerciseProvider
+                                                      .isProviderDayToday()
+                                              ? Colors.black
+                                              : Colors.transparent,
+                                        ),
+                                      )),
+                                      dropdownStyleData: const DropdownStyleData(
+                                          maxHeight: 250,
+                                          width: 100,
+                                          decoration:
+                                              BoxDecoration(color: Colors.white)),
+                                      value: defaultExerciseReps[
+                                              exerciseInformationEntry
+                                                  .value.repIndex]
+                                          .toString(),
                                       onChanged: (value) {
                                         Provider.of<ExerciseProvider>(context,
                                                 listen: false)
-                                            .updateExerciseInformationListWeight(
+                                            .updateExerciseInformationListReps(
                                                 widget.exerciseIndex,
                                                 exerciseInformationEntry.key,
-                                                double.parse(
-                                                    value!.toString()));
+                                                int.parse(value!.toString()));
                                       },
-                                      items: defaultExerciseWeights
+                                      items: defaultExerciseReps
                                           .map<DropdownMenuItem<String>>(
-                                              (num value) {
+                                              (int value) {
                                         return DropdownMenuItem<String>(
                                           value: value.toString(),
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            width: 90,
-                                            child: Center(
-                                              child: CustomText(
-                                                text: '$value kg',
-                                              ),
+                                          child: SizedBox(
+                                              child: Center(
+                                            child: CustomText(
+                                              text: value.toString(),
                                             ),
-                                          ),
+                                          )),
                                         );
                                       }).toList(),
                                     ),
-                                  )
-                                : CustomText(
-                                    text:
-                                        '${defaultExerciseWeights[exerciseInformationEntry.value.weightIndex]} kg'))),
-                    SizedBox(
-                      height: tableRowHeight,
-                      child: Center(
-                        child: exerciseProvider.isProviderDayToday()
-                            ? IgnorePointer(
-                                ignoring: !(!exerciseInformationEntry
-                                        .value.isCompleted &&
-                                    exerciseProvider.isProviderDayToday()),
-                                child: SizedBox(
-                                  width: 55,
-                                  child: DropdownButton2(
-                                    onMenuStateChange: (isOpen) {
-                                      if (!isOpen) {
-                                        weightSearchController.clear();
-                                      }
-                                    },
-                                    isExpanded: true,
-                                    underline: Container(
-                                        height: 1,
-                                        color: !exerciseInformationEntry
-                                                    .value.isCompleted &&
-                                                exerciseProvider
-                                                    .isProviderDayToday()
-                                            ? const Color(0xff667085)
-                                            : Colors.transparent),
-                                    dropdownSearchData: DropdownSearchData(
-                                      searchController: weightSearchController,
-                                      searchInnerWidgetHeight: 50,
-                                      searchInnerWidget: Container(
-                                          height: 50,
-                                          padding: const EdgeInsets.only(
-                                            top: 8,
-                                            bottom: 4,
-                                            right: 8,
-                                            left: 8,
-                                          ),
-                                          child: TextFormField(
-                                            expands: true,
-                                            maxLines: null,
-                                            controller: weightSearchController,
-                                            decoration: InputDecoration(
-                                              isDense: true,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                                vertical: 8,
-                                              ),
-                                              hintText: 'Search',
-                                              hintStyle:
-                                                  const TextStyle(fontSize: 14),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                            ),
-                                          )),
-                                    ),
-                                    iconStyleData: IconStyleData(
-                                        icon: RotatedBox(
-                                      quarterTurns: 3,
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        size: 10,
-                                        color: !exerciseInformationEntry
-                                                    .value.isCompleted &&
-                                                exerciseProvider
-                                                    .isProviderDayToday()
-                                            ? Colors.black
-                                            : Colors.transparent,
-                                      ),
-                                    )),
-                                    dropdownStyleData: const DropdownStyleData(
-                                        maxHeight: 250,
-                                        width: 100,
-                                        decoration:
-                                            BoxDecoration(color: Colors.white)),
-                                    value: defaultExerciseReps[
-                                            exerciseInformationEntry
-                                                .value.repIndex]
-                                        .toString(),
-                                    onChanged: (value) {
-                                      Provider.of<ExerciseProvider>(context,
-                                              listen: false)
-                                          .updateExerciseInformationListReps(
-                                              widget.exerciseIndex,
-                                              exerciseInformationEntry.key,
-                                              int.parse(value!.toString()));
-                                    },
-                                    items: defaultExerciseReps
-                                        .map<DropdownMenuItem<String>>(
-                                            (int value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.toString(),
-                                        child: SizedBox(
-                                            child: Center(
-                                          child: CustomText(
-                                            text: value.toString(),
-                                          ),
-                                        )),
-                                      );
-                                    }).toList(),
                                   ),
-                                ),
-                              )
-                            : CustomText(
-                                text: defaultExerciseReps[
-                                        exerciseInformationEntry.value.repIndex]
-                                    .toString()),
+                                )
+                              : CustomText(
+                                  text: defaultExerciseReps[
+                                          exerciseInformationEntry.value.repIndex]
+                                      .toString()),
+                        ),
                       ),
-                    ),
-                    if (exerciseProvider.isProviderDayToday())
-                      GestureDetector(
-                        onTap: () {
-                          widget.markStatus(exerciseInformationEntry.key);
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          height: tableRowHeight,
-                          child: Center(
-                            child: SizedBox(
-                              child: Center(
-                                child: Container(
-                                  width: circleWidth,
-                                  height: circleWidth,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1.5,
-                                          color: exerciseInformationList[
-                                                      exerciseInformationEntry
-                                                          .key]
-                                                  .isCompleted
-                                              ? const Color(0xff3ABA2E)
-                                              : headingColor),
+                      if (exerciseProvider.isProviderDayToday())
+                        GestureDetector(
+                          onTap: () {
+                            widget.markStatus(exerciseInformationEntry.key);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            height: tableRowHeight,
+                            child: Center(
+                              child: SizedBox(
+                                child: Center(
+                                  child: Container(
+                                    width: circleWidth,
+                                    height: circleWidth,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 1.5,
+                                            color: exerciseInformationList[
+                                                        exerciseInformationEntry
+                                                            .key]
+                                                    .isCompleted
+                                                ? const Color(0xff3ABA2E)
+                                                : headingColor),
+                                        color: exerciseInformationList[
+                                                    exerciseInformationEntry.key]
+                                                .isCompleted
+                                            ? const Color(0xff3ABA2E)
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(circleWidth))),
+                                    child: Icon(
+                                      Icons.check,
                                       color: exerciseInformationList[
                                                   exerciseInformationEntry.key]
                                               .isCompleted
-                                          ? const Color(0xff3ABA2E)
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(circleWidth))),
-                                  child: Icon(
-                                    Icons.check,
-                                    color: exerciseInformationList[
-                                                exerciseInformationEntry.key]
-                                            .isCompleted
-                                        ? Colors.white
-                                        : headingColor,
-                                    size: circleWidth / 1.1,
+                                          ? Colors.white
+                                          : headingColor,
+                                      size: circleWidth / 1.1,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                  ]),
-              ],
+                        )
+                    ]),
+                ],
+              ),
             ),
           );
         });
