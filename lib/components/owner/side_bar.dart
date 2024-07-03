@@ -49,7 +49,9 @@ class _SideBarState extends State<SideBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)))
+                          builder: (context) => const OwnerScreen(
+                                ownerScreens: OwnerScreens.subscriptionPage,
+                              )))
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -68,7 +70,7 @@ class _SideBarState extends State<SideBar> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: headingColor),
+                            color: primaryColor),
                       ),
                     ])),
               ),
@@ -77,7 +79,8 @@ class _SideBarState extends State<SideBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.analysis)))
+                          builder: (context) => const OwnerScreen(
+                              ownerScreens: OwnerScreens.analysis)))
                 },
                 child: Container(
                     decoration: BoxDecoration(
@@ -96,7 +99,7 @@ class _SideBarState extends State<SideBar> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: headingColor),
+                            color: primaryColor),
                       ),
                     ])),
               ),
@@ -119,7 +122,7 @@ class _SideBarState extends State<SideBar> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: headingColor),
+                            color: primaryColor),
                       ),
                     ])),
               )

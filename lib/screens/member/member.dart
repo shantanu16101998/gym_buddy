@@ -110,7 +110,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 size: 20,
                                 color: customerScreens ==
                                         CustomerScreens.homepage
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                             CustomText(
                                 text: 'Home',
@@ -118,7 +118,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: customerScreens ==
                                         CustomerScreens.homepage
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                           ],
                         ),
@@ -145,7 +145,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 size: 20,
                                 color: customerScreens ==
                                         CustomerScreens.analysis
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                             CustomText(
                                 text: 'Analyse',
@@ -153,7 +153,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 fontSize: 14,
                                 color: customerScreens ==
                                         CustomerScreens.analysis
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                           ],
                         ),
@@ -181,7 +181,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 size: 20,
                                 color: customerScreens ==
                                         CustomerScreens.profile
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                             CustomText(
                                 text: 'Profile',
@@ -189,7 +189,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: customerScreens ==
                                         CustomerScreens.profile
-                                    ? headingColor
+                                    ? primaryColor
                                     : const Color.fromARGB(255, 149, 142, 142)),
                           ],
                         ),

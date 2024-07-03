@@ -75,14 +75,11 @@ class _AppScaffoldState extends State<AppScaffold> {
                 minHeight: getScreenHeight(context),
               ),
               child: Container(
-                
                 width: double.infinity,
                 color: widget.bodyColor ?? Colors.white,
                 child: Column(
                   children: [
-                    widget.showHeader
-                        ? Header()
-                        : const SizedBox(),
+                    widget.showHeader ? Header() : const SizedBox(),
                     Container(
                         child: widget.isApiDataLoaded
                             ? widget.child
@@ -90,7 +87,6 @@ class _AppScaffoldState extends State<AppScaffold> {
                                 width: double.infinity,
                                 height: getEffectiveScreenHeight(context),
                                 child: Shimmer.fromColors(
-                                  
                                   baseColor:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   highlightColor:
@@ -141,7 +137,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                               child: Icon(Icons.home,
                                   size: 30,
                                   color: currentScreen == "home"
-                                      ? headingColor
+                                      ? primaryColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
                             ),
@@ -165,7 +161,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                               child: Icon(Icons.auto_graph,
                                   size: 30,
                                   color: currentScreen == "analysis"
-                                      ? headingColor
+                                      ? primaryColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
                             ),
@@ -190,7 +186,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                               child: Icon(Icons.person,
                                   size: 30,
                                   color: currentScreen == "profile"
-                                      ? headingColor
+                                      ? primaryColor
                                       : const Color.fromARGB(
                                           255, 149, 142, 142)),
                             ),

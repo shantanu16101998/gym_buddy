@@ -17,7 +17,7 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  PageToShow pageToShow = PageToShow.basicPage;
+  PageToShow pageToShow = PageToShow.signUpDetails;
 
   void intialRouteDecider() async {
     // var sharedPreference = await SharedPreferences.getInstance();

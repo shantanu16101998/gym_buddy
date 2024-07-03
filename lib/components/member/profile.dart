@@ -88,7 +88,7 @@ class _ProfileState extends State<Profile> {
                                         child: CustomText(
                                           text: memberProfileResponse.name,
                                           fontSize: 22,
-                                          color: headingColor,
+                                          color: primaryColor,
                                         ),
                                       )
                                     ],
@@ -119,7 +119,7 @@ class _ProfileState extends State<Profile> {
                                           text:
                                               '+91 ${memberProfileResponse.contact}',
                                           fontSize: 22,
-                                          color: headingColor,
+                                          color: primaryColor,
                                         ),
                                       )
                                     ],
@@ -151,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                               memberProfileResponse.startDate ??
                                                   '',
                                           fontSize: 22,
-                                          color: headingColor,
+                                          color: primaryColor,
                                         ),
                                       )
                                     ],
@@ -182,7 +182,7 @@ class _ProfileState extends State<Profile> {
                                           text:
                                               '${memberProfileResponse.validTill} ${memberProfileResponse.validTill == 1 ? 'month' : 'months'}',
                                           fontSize: 22,
-                                          color: headingColor,
+                                          color: primaryColor,
                                         ),
                                       )
                                     ],
@@ -215,7 +215,7 @@ class _ProfileState extends State<Profile> {
                                             text:
                                                 '${memberProfileResponse.trainerName}',
                                             fontSize: 22,
-                                            color: headingColor,
+                                            color: primaryColor,
                                           ),
                                         )
                                       ],
@@ -254,7 +254,7 @@ class _ProfileState extends State<Profile> {
                                   textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
-                                      color: headingColor)))))),
+                                      color: primaryColor)))))),
             ],
           )
         : const ScreenShimmer();

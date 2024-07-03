@@ -133,7 +133,7 @@ class _ProfileState extends State<Profile> {
                             child: CustomText(
                               text: userProfileResponse.name,
                               fontSize: 22,
-                              color: headingColor,
+                              color: primaryColor,
                             ),
                           )
                         ],
@@ -160,7 +160,7 @@ class _ProfileState extends State<Profile> {
                             child: CustomText(
                               text: '+91 ${userProfileResponse.phone}',
                               fontSize: 22,
-                              color: headingColor,
+                              color: primaryColor,
                             ),
                           )
                         ],
@@ -187,7 +187,7 @@ class _ProfileState extends State<Profile> {
                             child: CustomText(
                               text: userProfileResponse.startDate ?? '',
                               fontSize: 22,
-                              color: headingColor,
+                              color: primaryColor,
                             ),
                           )
                         ],
@@ -215,42 +215,41 @@ class _ProfileState extends State<Profile> {
                               text:
                                   '${userProfileResponse.validTill} ${userProfileResponse.validTill == 1 ? 'month' : 'months'}',
                               fontSize: 22,
-                              color: headingColor,
+                              color: primaryColor,
                             ),
                           )
                         ],
                       ),
                     ),
                   ),
-                  if(userProfileResponse.traineeName != null)
-                  Container(
-                    width: getScreenWidth(context) * 0.8,
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 30, bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: 'Mentor',
-                            fontSize: 16,
-                            color: Color(0xff7A7F93),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: CustomText(
-                              text:
-                                  '${userProfileResponse.traineeName}',
-                              fontSize: 22,
-                              color: headingColor,
+                  if (userProfileResponse.traineeName != null)
+                    Container(
+                      width: getScreenWidth(context) * 0.8,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30, bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: 'Mentor',
+                              fontSize: 16,
+                              color: Color(0xff7A7F93),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: CustomText(
+                                text: '${userProfileResponse.traineeName}',
+                                fontSize: 22,
+                                color: primaryColor,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               Padding(
@@ -262,7 +261,7 @@ class _ProfileState extends State<Profile> {
                       style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(
-                                width: 2, color: headingColor.withOpacity(0.8)),
+                                width: 2, color: primaryColor.withOpacity(0.8)),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           textStyle: const TextStyle(
@@ -282,7 +281,7 @@ class _ProfileState extends State<Profile> {
                               textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
-                                  color: headingColor))),
+                                  color: primaryColor))),
                     ),
                   )),
               Padding(
@@ -358,7 +357,7 @@ class _ProfileState extends State<Profile> {
                                   right: 0,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: headingColor,
+                                        color: primaryColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
                                     child: Icon(

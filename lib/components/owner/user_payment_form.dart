@@ -119,7 +119,9 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage)),
+        MaterialPageRoute(
+            builder: (context) =>
+                const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage)),
       );
     }
   }
@@ -211,12 +213,13 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                 onPressed: onSignUpButtonClicked,
                                 style: OutlinedButton.styleFrom(
                                     elevation: 0,
-                                    side: const BorderSide(color: headingColor)),
+                                    side:
+                                        const BorderSide(color: primaryColor)),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Sign up and share Gym Card",
                                         style: TextStyle(
-                                            color: headingColor,
+                                            color: primaryColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)))))))
               ],

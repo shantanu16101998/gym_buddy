@@ -137,27 +137,14 @@ class _UserFurtherInformationFormState
           color: const Color(0xffFCFCFD),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-              padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-              child: Text("Complete  $userName registration",
+
+              Text("Enter subscription details",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: headingColor,
+                          color: primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                          overflow: TextOverflow.clip)))),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 30, top: 15, bottom: 15, right: 30),
-                child: Text('Enter subscription details',
-                    style: GoogleFonts.roboto(
-                        textStyle: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 18,
-                    )))),
-          ),
+                          overflow: TextOverflow.clip))),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
@@ -324,14 +311,14 @@ class _UserFurtherInformationFormState
                       child: OutlinedButton(
                           onPressed: onPayNowButtonPressed,
                           style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: headingColor),
+                            side: BorderSide(color: primaryColor),
                             elevation: 0,
                           ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",
                                   style: TextStyle(
-                                      color: headingColor,
+                                      color: primaryColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

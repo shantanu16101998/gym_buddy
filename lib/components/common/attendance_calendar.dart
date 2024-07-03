@@ -105,11 +105,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               left: getScreenWidth(context) * 0.1,
               right: getScreenWidth(context) * 0.1),
           child: SizedBox(
-            
             height: 400,
             width: double.infinity,
             child: PageView.builder(
-              
               controller: _pageController,
               onPageChanged: (index) {
                 setState(() {
@@ -217,7 +215,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             children: [
               Text(monthNames[currentMonth],
                   style: const TextStyle(
-                      color: headingColor,
+                      color: primaryColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold)),
               Row(
@@ -225,8 +223,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_back,
                         color: (minYear < year || minMonth < currentMonth)
-                            ? headingColor
-                            : headingColor.withOpacity(0.5)),
+                            ? primaryColor
+                            : primaryColor.withOpacity(0.5)),
                     onPressed: () {
                       if (minYear < year || minMonth < currentMonth) {
                         setState(() {
@@ -247,8 +245,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   IconButton(
                     icon: Icon(Icons.arrow_forward,
                         color: (maxYear > year || maxMonth > currentMonth)
-                            ? headingColor
-                            : headingColor.withOpacity(0.5)),
+                            ? primaryColor
+                            : primaryColor.withOpacity(0.5)),
                     onPressed: () {
                       if (maxMonth > currentMonth || maxYear > year) {
                         setState(() {

@@ -16,19 +16,11 @@ class GymAnalysis extends StatefulWidget {
 class _GymAnalysisState extends State<GymAnalysis> {
   ExpandedAnalysisResponse earningExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [],
-          data: [],
-          average: "",
-          total: "",
-          maxLimitOfData: 100);
+          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
 
   ExpandedAnalysisResponse peopleExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [],
-          data: [],
-          average: "",
-          total: "",
-          maxLimitOfData: 100);
+          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
 
   Widget getBottomTitlesWidget(double x, TitleMeta titleMeta) {
     return CustomText(
@@ -109,7 +101,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
           text: 'Gym Analysis',
           fontSize: 22,
           fontWeight: FontWeight.bold,
-          color: headingColor,
+          color: primaryColor,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 25),
@@ -125,7 +117,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   text: 'Earnings',
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: headingColor,
+                  color: primaryColor,
                 ),
               ),
               const Padding(
@@ -134,7 +126,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   alignment: Alignment.centerLeft,
                   child: CustomText(
                     text: 'Rupees',
-                    color: headingColor,
+                    color: primaryColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -161,7 +153,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                                         (spot, percent, barData, index) =>
                                             FlDotCirclePainter(
                                       // radius: 8,
-                                      color: headingColor,
+                                      color: primaryColor,
                                       strokeWidth: 2,
                                       // strokeColor: widget.indicatorStrokeColor,
                                     ),
@@ -177,17 +169,17 @@ class _GymAnalysisState extends State<GymAnalysis> {
                           LineChartBarData(
                               belowBarData: BarAreaData(
                                 show: true,
-                                gradient:
-                                peopleExpandedAnalysisResponse
-                                                  .data.isNotEmpty &&
-                                    earningExpandedAnalysisResponse.data.first <
+                                gradient: peopleExpandedAnalysisResponse
+                                            .data.isNotEmpty &&
+                                        earningExpandedAnalysisResponse
+                                                .data.first <
                                             earningExpandedAnalysisResponse
                                                 .data.last
-                                        ? lowToHighGradient()
-                                        : highToLowGradient(),
+                                    ? lowToHighGradient()
+                                    : highToLowGradient(),
                               ),
                               dotData: const FlDotData(show: true),
-                              color: headingColor,
+                              color: primaryColor,
                               spots: makeData())
                         ],
                         maxY: earningExpandedAnalysisResponse.maxLimitOfData
@@ -222,7 +214,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
               ),
               const CustomText(
                 text: 'Months',
-                color: headingColor,
+                color: primaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -245,14 +237,14 @@ class _GymAnalysisState extends State<GymAnalysis> {
                                 text: 'Monthly avg:',
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: headingColor,
+                                color: primaryColor,
                               ),
                               SizedBox(height: 5),
                               CustomText(
                                 text: 'Total:',
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: headingColor,
+                                color: primaryColor,
                               ),
                             ],
                           ),
@@ -302,7 +294,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   text: 'Active Members',
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: headingColor,
+                  color: primaryColor,
                 ),
               ),
               const Padding(
@@ -311,7 +303,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   alignment: Alignment.centerLeft,
                   child: CustomText(
                     text: 'People',
-                    color: headingColor,
+                    color: primaryColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -330,7 +322,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                               return spotIndexes.map((index) {
                                 return TouchedSpotIndicatorData(
                                   const FlLine(
-                                    color: headingColor,
+                                    color: primaryColor,
                                   ),
                                   FlDotData(
                                     show: true,
@@ -338,7 +330,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                                         (spot, percent, barData, index) =>
                                             FlDotCirclePainter(
                                       // radius: 8,
-                                      color: headingColor,
+                                      color: primaryColor,
                                       strokeWidth: 2,
                                       // strokeColor: widget.indicatorStrokeColor,
                                     ),
@@ -355,8 +347,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                               belowBarData: BarAreaData(
                                   show: true,
                                   gradient: peopleExpandedAnalysisResponse
-                                                  .data.isNotEmpty 
-                                               &&
+                                              .data.isNotEmpty &&
                                           peopleExpandedAnalysisResponse
                                                   .data.first <
                                               peopleExpandedAnalysisResponse
@@ -364,7 +355,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                                       ? lowToHighGradient()
                                       : highToLowGradient()),
                               dotData: const FlDotData(show: true),
-                              color: headingColor,
+                              color: primaryColor,
                               spots: makePeopleData())
                         ],
                         maxY: peopleExpandedAnalysisResponse.maxLimitOfData
@@ -399,7 +390,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
               ),
               const CustomText(
                 text: 'Months',
-                color: headingColor,
+                color: primaryColor,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -422,7 +413,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                                 text: 'Monthly avg:',
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: headingColor,
+                                color: primaryColor,
                               ),
                               SizedBox(height: 5),
                             ],

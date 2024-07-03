@@ -29,7 +29,7 @@ class _HeaderState extends State<Header> {
                 children: [
                   Padding(
                       padding:
-                          const EdgeInsets.only(left: 17, bottom: 3, right: 10),
+                          const EdgeInsets.only(left: 20, bottom: 3, right: 10),
                       child: SizedBox(
                         child: Text(appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
                             overflow: TextOverflow.clip,
@@ -48,11 +48,12 @@ class _HeaderState extends State<Header> {
           ),
           InkWell(
             onTap: () => {Scaffold.of(context).openDrawer()},
-            child: const SizedBox(
-                height: 40,
-                width: 40,
+            child: const Padding(
+                padding: EdgeInsets.only(right: 20),
+
                 child: Icon(
-                  Icons.more_vert,
+                  Icons.menu,
+                  size: 30,
                   color: headerColor,
                 )),
           ),

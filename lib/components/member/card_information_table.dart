@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/table_information.dart';
 import 'package:gym_buddy/providers/excercise_provider.dart';
@@ -33,9 +35,12 @@ class _CardInformationTableState extends State<CardInformationTable> {
   @override
   Widget build(BuildContext context) {
     final exerciseProvider = context.watch<ExerciseProvider>();
-    final double heighty = 60 + Provider.of<ExerciseProvider>(context, listen: false)
-        .exerciseList[widget.exerciseIndex]
-        .exerciseInformationList.length * 50;
+    final double heighty = 60 +
+        Provider.of<ExerciseProvider>(context, listen: false)
+                .exerciseList[widget.exerciseIndex]
+                .exerciseInformationList
+                .length *
+            50;
 
     Map<int, TableColumnWidth> columnWidths = {
       0: const FixedColumnWidth(20),
@@ -50,7 +55,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
             provider.exerciseList[widget.exerciseIndex].exerciseInformationList,
         builder: (context, exerciseInformationList, child) {
           return AnimatedContainer(
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 1),
             height: heighty,
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -150,7 +155,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CustomText(
-                              text: (exerciseInformationEntry.key + 1).toString(),
+                              text:
+                                  (exerciseInformationEntry.key + 1).toString(),
                               fontSize: 16,
                               color: const Color(0xff667085),
                               fontWeight: FontWeight.bold,
@@ -158,25 +164,21 @@ class _CardInformationTableState extends State<CardInformationTable> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      Container(
                           height: tableRowHeight,
                           child: Center(
                               child: exerciseProvider.isProviderDayToday()
                                   ? IgnorePointer(
                                       ignoring: !(!exerciseInformationEntry
                                               .value.isCompleted &&
-                                          exerciseProvider.isProviderDayToday()),
+                                          exerciseProvider
+                                              .isProviderDayToday()),
                                       child: DropdownButton2(
+                                        isExpanded: true,
                                         underline: Container(
-                                            height: 1,
-                                            color: !exerciseInformationList[
-                                                            exerciseInformationEntry
-                                                                .key]
-                                                        .isCompleted &&
-                                                    exerciseProvider
-                                                        .isProviderDayToday()
-                                                ? const Color(0xff667085)
-                                                : Colors.transparent),
+                                          height: 1,
+                                          color: Colors.transparent,
+                                        ),
                                         onMenuStateChange: (isOpen) {
                                           if (!isOpen) {
                                             weightSearchController.clear();
@@ -188,7 +190,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                 width: 100,
                                                 decoration: BoxDecoration(
                                                     color: Colors.white)),
-            
+
                                         value: defaultExerciseWeights[
                                                 exerciseInformationList[
                                                         exerciseInformationEntry
@@ -196,7 +198,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                     .weightIndex]
                                             .toString(), // Ensure this is a String since items are mapped to String
                                         // dropdownColor: Colors.white,
-                                        buttonStyleData: const ButtonStyleData(),
+                                        buttonStyleData:
+                                            const ButtonStyleData(width: 75),
                                         iconStyleData: IconStyleData(
                                             icon: RotatedBox(
                                           quarterTurns: 3,
@@ -231,7 +234,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                 decoration: InputDecoration(
                                                   isDense: true,
                                                   contentPadding:
-                                                      const EdgeInsets.symmetric(
+                                                      const EdgeInsets
+                                                          .symmetric(
                                                     horizontal: 10,
                                                     vertical: 8,
                                                   ),
@@ -240,12 +244,13 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                       fontSize: 12),
                                                   border: OutlineInputBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
                                                 ),
                                               )),
                                         ),
-            
+
                                         onChanged: (value) {
                                           Provider.of<ExerciseProvider>(context,
                                                   listen: false)
@@ -293,16 +298,13 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                         }
                                       },
                                       isExpanded: true,
+                                      buttonStyleData:
+                                          const ButtonStyleData(width: 40),
                                       underline: Container(
-                                          height: 1,
-                                          color: !exerciseInformationEntry
-                                                      .value.isCompleted &&
-                                                  exerciseProvider
-                                                      .isProviderDayToday()
-                                              ? const Color(0xff667085)
-                                              : Colors.transparent),
+                                          height: 1, color: Colors.transparent),
                                       dropdownSearchData: DropdownSearchData(
-                                        searchController: weightSearchController,
+                                        searchController:
+                                            weightSearchController,
                                         searchInnerWidgetHeight: 50,
                                         searchInnerWidget: Container(
                                             height: 50,
@@ -315,7 +317,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                             child: TextFormField(
                                               expands: true,
                                               maxLines: null,
-                                              controller: weightSearchController,
+                                              controller:
+                                                  weightSearchController,
                                               decoration: InputDecoration(
                                                 isDense: true,
                                                 contentPadding:
@@ -324,8 +327,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                   vertical: 8,
                                                 ),
                                                 hintText: 'Search',
-                                                hintStyle:
-                                                    const TextStyle(fontSize: 14),
+                                                hintStyle: const TextStyle(
+                                                    fontSize: 14),
                                                 border: OutlineInputBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -347,11 +350,12 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                               : Colors.transparent,
                                         ),
                                       )),
-                                      dropdownStyleData: const DropdownStyleData(
-                                          maxHeight: 250,
-                                          width: 100,
-                                          decoration:
-                                              BoxDecoration(color: Colors.white)),
+                                      dropdownStyleData:
+                                          const DropdownStyleData(
+                                              maxHeight: 250,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white)),
                                       value: defaultExerciseReps[
                                               exerciseInformationEntry
                                                   .value.repIndex]
@@ -382,7 +386,8 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                 )
                               : CustomText(
                                   text: defaultExerciseReps[
-                                          exerciseInformationEntry.value.repIndex]
+                                          exerciseInformationEntry
+                                              .value.repIndex]
                                       .toString()),
                         ),
                       ),
@@ -390,6 +395,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                         GestureDetector(
                           onTap: () {
                             widget.markStatus(exerciseInformationEntry.key);
+                            HapticFeedback.vibrate();
                           },
                           child: Container(
                             color: Colors.transparent,
@@ -408,9 +414,10 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                             .key]
                                                     .isCompleted
                                                 ? const Color(0xff3ABA2E)
-                                                : headingColor),
+                                                : primaryColor),
                                         color: exerciseInformationList[
-                                                    exerciseInformationEntry.key]
+                                                    exerciseInformationEntry
+                                                        .key]
                                                 .isCompleted
                                             ? const Color(0xff3ABA2E)
                                             : Colors.white,
@@ -422,7 +429,7 @@ class _CardInformationTableState extends State<CardInformationTable> {
                                                   exerciseInformationEntry.key]
                                               .isCompleted
                                           ? Colors.white
-                                          : headingColor,
+                                          : primaryColor,
                                       size: circleWidth / 1.1,
                                     ),
                                   ),

@@ -299,7 +299,8 @@ class _HomepageState extends State<Homepage> {
                                                 },
                                             style: OutlinedButton.styleFrom(
                                                 elevation: 0,
-                                                backgroundColor: headingColor.withOpacity(0.9)),
+                                                backgroundColor: primaryColor
+                                                    .withOpacity(0.9)),
                                             child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(10),
@@ -329,7 +330,7 @@ class _HomepageState extends State<Homepage> {
                                   fontSize: 40,
                                   textAlign: TextAlign.center,
                                   fontWeight: FontWeight.bold,
-                                  color: headingColor.withOpacity(0.5),
+                                  color: primaryColor.withOpacity(0.5),
                                 ),
                         )
                       : const SizedBox()

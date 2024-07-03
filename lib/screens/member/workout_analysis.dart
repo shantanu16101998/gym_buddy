@@ -83,8 +83,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     color: entry.key ==
                             workoutAnalysisResponse
                                 .comparisionData.highlightTitle
-                        ? headingColor
-                        : headingColor.withOpacity(0.5),
+                        ? primaryColor
+                        : primaryColor.withOpacity(0.5),
                     width: 20,
                     borderRadius: BorderRadius.circular(0))
               ],
@@ -103,8 +103,8 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                     toY: entry.value.toDouble(),
                     color: entry.key ==
                             workoutAnalysisResponse.growthData.data.length - 1
-                        ? headingColor
-                        : headingColor.withOpacity(0.5),
+                        ? primaryColor
+                        : primaryColor.withOpacity(0.5),
                     width: 20,
                     borderRadius: BorderRadius.circular(0))
               ],
@@ -159,7 +159,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                         text: 'Workout Analysis',
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: headingColor,
+                        color: primaryColor,
                       ),
                     ),
                     Padding(
@@ -248,7 +248,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                         fontSize: 20,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
-                        color: headingColor,
+                        color: primaryColor,
                       ),
                     ),
                     Row(
@@ -274,7 +274,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                                     'Top ${workoutAnalysisResponse.comparisionData.top}%',
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: headingColor,
+                                color: primaryColor,
                               ),
                             ],
                           ),
@@ -335,7 +335,7 @@ class _WorkoutAnalayisState extends State<WorkoutAnalayis> {
                         text: 'Growth',
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: headingColor,
+                        color: primaryColor,
                       ),
                     ),
                     const Padding(

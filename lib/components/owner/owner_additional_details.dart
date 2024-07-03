@@ -32,7 +32,6 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
   String? contactError;
   String? upiIdError;
 
-
   bool showValidationError = false;
 
   onNextButtonPressed() async {
@@ -74,7 +73,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               child: Text("Hi ${widget.nameController.text}",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: headingColor,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -83,7 +82,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
               child: Text("Enter further details",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: headingColor,
+                          color: primaryColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
@@ -91,9 +90,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 30, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Gym Name",
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   controller: _gymNameController,
                   errorText: gymNameError)),
           Padding(
@@ -101,9 +100,9 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "UPI Id",
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   controller: _upiIdController,
                   errorText: null)),
           Padding(
@@ -127,7 +126,7 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
                       child: OutlinedButton(
                           onPressed: onNextButtonPressed,
                           style: OutlinedButton.styleFrom(
-                              elevation: 0, backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: primaryColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",

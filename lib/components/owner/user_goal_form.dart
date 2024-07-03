@@ -125,7 +125,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: headingColor,
+                    color: primaryColor,
                     fontSize: 22,
                   )))),
           Padding(
@@ -242,13 +242,13 @@ class _UserGoalFormState extends State<UserGoalForm> {
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            side: BorderSide(color: headingColor),
+                            side: BorderSide(color: primaryColor),
                           ),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Pay Now",
                                   style: TextStyle(
-                                      color: headingColor,
+                                      color: primaryColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

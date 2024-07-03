@@ -108,7 +108,10 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.camera_alt),
+                          leading: const Icon(
+                            Icons.camera_alt,
+                            size: 100,
+                          ),
                           title: const Text('Take a photo'),
                           onTap: () {
                             Navigator.pop(context);
@@ -139,7 +142,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
           _imageFile != null
               ? ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      elevation: 0, side: BorderSide(color: headingColor)),
+                      elevation: 0, side: BorderSide(color: primaryColor)),
                   onPressed: _cropImage,
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
@@ -147,7 +150,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                       fontWeight: FontWeight.bold,
                       text: 'Crop Image',
                       fontSize: 18,
-                      color: headingColor,
+                      color: primaryColor,
                     ),
                   ),
                 )

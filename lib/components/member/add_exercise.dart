@@ -113,7 +113,7 @@ class _AddExercisedDialogState extends State<AddExercisedDialog> {
                       textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                          color: headingColor))),
+                          color: primaryColor))),
             ),
             isNewExercise == true
                 ? Padding(

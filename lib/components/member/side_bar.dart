@@ -70,12 +70,12 @@ class _SideBarState extends State<SideBar> {
                               bottom: 10),
                           child: const Icon(
                             Icons.home,
-                            color: headingColor,
+                            color: primaryColor,
                           )),
                       const Text(
                         "Home",
                         style: TextStyle(
-                            color: headingColor,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 18),
                       ),
@@ -102,12 +102,12 @@ class _SideBarState extends State<SideBar> {
                               bottom: 10),
                           child: const Icon(
                             Icons.auto_graph,
-                            color: headingColor,
+                            color: primaryColor,
                           )),
                       const Text(
                         "Analysis",
                         style: TextStyle(
-                            color: headingColor,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 18),
                       ),
@@ -134,12 +134,12 @@ class _SideBarState extends State<SideBar> {
                               bottom: 10),
                           child: const Icon(
                             Icons.person,
-                            color: headingColor,
+                            color: primaryColor,
                           )),
                       const Text(
                         "Profile",
                         style: TextStyle(
-                            color: headingColor,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 18),
                       ),

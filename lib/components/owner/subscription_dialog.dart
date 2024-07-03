@@ -96,8 +96,12 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
           .fetchSubscription();
       if (mounted) {
         Navigator.pop(context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const OwnerScreen(
+                      ownerScreens: OwnerScreens.subscriptionPage,
+                    )));
       }
     }
   }
@@ -320,13 +324,13 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                                 style: OutlinedButton.styleFrom(
                                   elevation: 0,
                                   backgroundColor: Colors.white,
-                                  side: BorderSide(color: headingColor),
+                                  side: BorderSide(color: primaryColor),
                                 ),
                                 child: const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text("Pay Now",
                                         style: TextStyle(
-                                            color: headingColor,
+                                            color: primaryColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold)))))))
               ]),
@@ -415,13 +419,13 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                                       onPressed: _onUpdatePressed,
                                       style: OutlinedButton.styleFrom(
                                           elevation: 0,
-                                          side: BorderSide(color: headingColor),
+                                          side: BorderSide(color: primaryColor),
                                           backgroundColor: Colors.white),
                                       child: const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text("Update",
                                               style: TextStyle(
-                                                  color: headingColor,
+                                                  color: primaryColor,
                                                   fontSize: 18,
                                                   fontWeight:
                                                       FontWeight.bold)))))))

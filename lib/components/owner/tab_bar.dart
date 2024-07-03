@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 
 class CustomTabBar extends StatefulWidget {
   final Function setShouldShowCurrent;
@@ -19,43 +22,55 @@ class CustomTabBar extends StatefulWidget {
 class _CustomTabBarState extends State<CustomTabBar> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 180,
-          height: 40,
-          child: OutlinedButton(
-            onPressed: () => {widget.setShouldShowCurrent(true)},
-            style: OutlinedButton.styleFrom(
-                backgroundColor: widget.showCurrentUsers
-                    ? const Color(0xffD0D5DD)
-                    : Colors.white,
-                side: const BorderSide(width: 1.0, color: Color(0xffD0D5DD)),
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.horizontal(left: Radius.circular(10)),
-                )),
-            child: Text("Current (${widget.numberOfCurrentUsers})"),
+    return Container(
+      color: Colors.amber,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => {widget.setShouldShowCurrent(true)},
+            child: Padding(
+              padding: const EdgeInsets.only(left: 66),
+              child: Container(
+                color: Colors.transparent,
+                width: 100,
+                height: 50,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CustomText(
+                      text: "Current (${widget.numberOfCurrentUsers})",
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: widget.showCurrentUsers
+                          ? Color(0xff344054)
+                          : Color(0xff344054).withOpacity(0.64)),
+                ),
+              ),
+            ),
           ),
-        ),
-        SizedBox(
-          width: 180,
-          height: 40,
-          child: OutlinedButton(
-            onPressed: () => {widget.setShouldShowCurrent(false)},
-            style: OutlinedButton.styleFrom(
-                backgroundColor:
-                    widget.showCurrentUsers ? Colors.white : const Color(0xffD0D5DD),
-                side: const BorderSide(width: 1.0, color: Color(0xffD0D5DD)),
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(10)),
-                )),
-            child: Text("Expired (${widget.numberOfExpiredUsers})"),
-          ),
-        )
-      ],
+          GestureDetector(
+            onTap: () => {widget.setShouldShowCurrent(false)},
+            child: Padding(
+              padding: const EdgeInsets.only(right: 66),
+              child: Container(
+                color: Colors.transparent,
+                width: 100,
+                height: 50,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CustomText(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: !widget.showCurrentUsers
+                          ? Color(0xff344054)
+                          : Color(0xff344054).withOpacity(0.64),
+                      text: "Expired (${widget.numberOfExpiredUsers})"),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

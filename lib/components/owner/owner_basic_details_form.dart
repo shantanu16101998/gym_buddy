@@ -100,7 +100,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: Text("Register your gym",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                    color: headingColor,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                   )))),
@@ -109,7 +109,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: Text("Welcome",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
-                          color: headingColor,
+                          color: primaryColor,
                           fontWeight: FontWeight.normal,
                           fontSize: 18)))),
           Padding(
@@ -118,18 +118,18 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
               child: LabeledTextField(
                   labelText: "Name",
                   controller: widget.nameController,
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   errorText: nameError)),
           Padding(
               padding: const EdgeInsets.only(
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField(
                   labelText: "Mobile Number",
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   textInputType: TextInputType.number,
                   textInputFormatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -142,9 +142,9 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField.passwordField(
                   labelText: "Password",
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   controller: _passwordController,
                   errorText: passwordError)),
           Padding(
@@ -152,9 +152,9 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                   left: 30, top: 15, bottom: 15, right: 30),
               child: LabeledTextField.passwordField(
                   labelText: "Confirm password",
-                  textColour: headingColor,
-                  borderColor: headingColor,
-                  cursorColor: headingColor,
+                  textColour: primaryColor,
+                  borderColor: primaryColor,
+                  cursorColor: primaryColor,
                   controller: _confirmPasswordController,
                   errorText: confirmPasswordError)),
           Padding(
@@ -178,7 +178,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                       child: OutlinedButton(
                           onPressed: onNextButtonPressed,
                           style: OutlinedButton.styleFrom(
-                              elevation: 0, backgroundColor: headingColor),
+                              elevation: 0, backgroundColor: primaryColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Next",

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
@@ -8,6 +10,7 @@ import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -19,11 +22,11 @@ class Subscription extends StatefulWidget {
   State<Subscription> createState() => _SubscriptionState();
 }
 
-class _SubscriptionState extends State<Subscription> {
+class _SubscriptionState extends State<Subscription>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
 
   bool ownerGivenLocation = true;
-
 
   initialConfigs() async {
     OwnerDetails ownerDetails = OwnerDetails.fromJson(
@@ -42,9 +45,12 @@ class _SubscriptionState extends State<Subscription> {
 
   bool showCurrentUsers = true;
 
+  late TabController tabController;
   @override
   void initState() {
     super.initState();
+    tabController = TabController(length: 2, vsync: this);
+
     initialConfigs();
     Provider.of<SubscriptionProvider>(context, listen: false)
         .fetchSubscription();
@@ -89,11 +95,11 @@ class _SubscriptionState extends State<Subscription> {
                   Colors.transparent, // Set background color to white
               content: CustomDialogBox(
                   shouldShowExtraDismissButton: true,
-                  buttonColor: headingColor,
+                  buttonColor: primaryColor,
                   iconWidget: const Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: Icon(Icons.location_on,
-                        size: 60, color: headingColor),
+                    child:
+                        Icon(Icons.location_on, size: 60, color: primaryColor),
                   ),
                   heading: 'Are you inside gym ?',
                   subheading:
@@ -110,24 +116,15 @@ class _SubscriptionState extends State<Subscription> {
         SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Container(
-              // padding: EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
-                  CustomTabBar(
-                      setShouldShowCurrent: setShouldShowCurrent,
-                      showCurrentUsers: showCurrentUsers,
-                      numberOfCurrentUsers: context
-                          .watch<SubscriptionProvider>()
-                          .allCurrentUsers
-                          .length,
-                      numberOfExpiredUsers: context
-                          .watch<SubscriptionProvider>()
-                          .allExpiredUsers
-                          .length),
-                  SizedBox(
-                    width: 360,
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    // width: 360,
                     child: LabeledTextField(
-                        labelText: "Search members",
+                        prefixIcon:
+                            Icon(Icons.search, color: const Color(0xff667085)),
+                        labelText: "Search members...",
                         controller: _searchController,
                         onChange: context
                             .read<SubscriptionProvider>()
@@ -137,80 +134,136 @@ class _SubscriptionState extends State<Subscription> {
                         cursorColor: const Color(0xff667085),
                         errorText: null),
                   ),
-                  context
-                          .watch<SubscriptionProvider>()
-                          .subcriptionAPIDataFetched
-                      ? SubscriptionCardContainer(
-                          showCurrentUsers: showCurrentUsers,
-                          currentUsers: context
-                              .watch<SubscriptionProvider>()
-                              .currentUsers,
-                          expiredUsers: context
-                              .watch<SubscriptionProvider>()
-                              .expiredUsers,
-                        )
-                      : SizedBox(
-                          child: Column(
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 227, 227, 226),
-                                  child: Container(
-                                    height: 200,
-                                    width: 360,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: const Color(0xffDBDDE2)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(12)),
+                  TabBar(
+                    dividerColor: Color(0xffD0D5DD),
+                    onTap: (value) {
+                      if (value == 0) {
+                        setShouldShowCurrent(true);
+                      } else {
+                        setShouldShowCurrent(false);
+                      }
+                    },
+                    controller: tabController,
+                    indicatorColor: Color(0xff344054),
+                    labelColor: Color(0xff344054),
+                    unselectedLabelColor: Color(0xff344054).withOpacity(0.64),
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          color: Colors.transparent,
+                          width: 100,
+                          height: 50,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: CustomText(
+                                text:
+                                    "Current (${context.watch<SubscriptionProvider>().allCurrentUsers.length})",
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          color: Colors.transparent,
+                          width: 100,
+                          height: 50,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: CustomText(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  text:
+                                      "Expired (${context.watch<SubscriptionProvider>().allExpiredUsers.length})"),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: context
+                            .watch<SubscriptionProvider>()
+                            .subcriptionAPIDataFetched
+                        ? SubscriptionCardContainer(
+                            showCurrentUsers: showCurrentUsers,
+                            currentUsers: context
+                                .watch<SubscriptionProvider>()
+                                .currentUsers,
+                            expiredUsers: context
+                                .watch<SubscriptionProvider>()
+                                .expiredUsers,
+                          )
+                        : SizedBox(
+                            child: Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Shimmer.fromColors(
+                                    baseColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    highlightColor: const Color.fromARGB(
+                                        255, 227, 227, 226),
+                                    child: Container(
+                                      height: 200,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: const Color(0xffDBDDE2)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(12)),
+                                      ),
                                     ),
-                                  ),
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 227, 227, 226),
-                                  child: Container(
-                                    height: 200,
-                                    width: 360,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: const Color(0xffDBDDE2)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(12)),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Shimmer.fromColors(
+                                    baseColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    highlightColor: const Color.fromARGB(
+                                        255, 227, 227, 226),
+                                    child: Container(
+                                      height: 200,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: const Color(0xffDBDDE2)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(12)),
+                                      ),
                                     ),
-                                  ),
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 227, 227, 226),
-                                  child: Container(
-                                    height: 150,
-                                    width: 360,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: const Color(0xffDBDDE2)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(12)),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Shimmer.fromColors(
+                                    baseColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    highlightColor: const Color.fromARGB(
+                                        255, 227, 227, 226),
+                                    child: Container(
+                                      height: 150,
+                                      width: 360,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: const Color(0xffDBDDE2)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(12)),
+                                      ),
                                     ),
-                                  ),
-                                )),
-                          ],
-                        )),
+                                  )),
+                            ],
+                          )),
+                  ),
                   const SizedBox(height: 100)
                 ],
               ),

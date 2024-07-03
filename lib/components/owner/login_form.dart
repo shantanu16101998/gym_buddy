@@ -64,8 +64,12 @@ class _LoginFormState extends State<LoginForm> {
           sharedPreferences.setBool('isLocationPermissionGiven', true);
         }
         if (mounted) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage,)));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const OwnerScreen(
+                        ownerScreens: OwnerScreens.subscriptionPage,
+                      )));
         }
       } else {
         setState(() {
@@ -91,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
               appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
-                  color: headingColor,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ),
@@ -104,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
               "Welcome Back",
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
-                  color: headingColor,
+                  color: primaryColor,
                   fontWeight: FontWeight.normal,
                   fontSize: 18,
                 ),
@@ -123,9 +127,9 @@ class _LoginFormState extends State<LoginForm> {
               ],
               controller: _contactController,
               errorText: contactError,
-              textColour: headingColor,
-              borderColor: headingColor,
-              cursorColor: headingColor,
+              textColour: primaryColor,
+              borderColor: primaryColor,
+              cursorColor: primaryColor,
             ),
           ),
           Padding(
@@ -135,9 +139,9 @@ class _LoginFormState extends State<LoginForm> {
               labelText: "Password",
               controller: _passwordController,
               errorText: passwordError,
-              textColour: headingColor,
-              borderColor: headingColor,
-              cursorColor: headingColor,
+              textColour: primaryColor,
+              borderColor: primaryColor,
+              cursorColor: primaryColor,
             ),
           ),
           Padding(
@@ -162,7 +166,7 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: onLoginButtonPressed,
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: headingColor,
+                    backgroundColor: primaryColor,
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(10),

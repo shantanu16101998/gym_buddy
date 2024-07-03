@@ -10,14 +10,13 @@ import 'package:gym_buddy/utils/ui_constants.dart';
 
 class OwnerScreen extends StatefulWidget {
   final OwnerScreens ownerScreens;
-  const OwnerScreen({super.key,required this.ownerScreens});
+  const OwnerScreen({super.key, required this.ownerScreens});
 
   @override
   State<OwnerScreen> createState() => _OwnerScreenState();
 }
 
 class _OwnerScreenState extends State<OwnerScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -43,9 +42,10 @@ class _OwnerScreenState extends State<OwnerScreen> {
                     const Header(),
                     Container(
                         color: Colors.white,
-                        child: widget.ownerScreens == OwnerScreens.subscriptionPage
-                            ? const Subscription()
-                            : const GymAnalysis()),
+                        child:
+                            widget.ownerScreens == OwnerScreens.subscriptionPage
+                                ? const Subscription()
+                                : const GymAnalysis()),
                   ],
                 ),
               ),
@@ -53,43 +53,35 @@ class _OwnerScreenState extends State<OwnerScreen> {
           ),
           if (widget.ownerScreens == OwnerScreens.subscriptionPage)
             Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    height: 100,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(blurRadius: 2, color: Colors.grey)
-                        ]),
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: const EdgeInsets.only(bottom: 10, top: 10),
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 25, bottom: 25),
+                  child: GestureDetector(
+                    onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserSignUp()))
+                    },
+                    child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: const BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            boxShadow: [
+                              BoxShadow(blurRadius: 2, color: Colors.grey)
+                            ]),
+                        child: Align(
+                            alignment: Alignment.center,
                             child: SizedBox(
-                                height: 50,
-                                width: 340,
-                                child: ElevatedButton(
-                                    onPressed: () => {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const UserSignUp()))
-                                        },
-                                    style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                            color: headingColor, width: 1),
-                                        elevation: 0,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 255, 255, 255)),
-                                    child: const Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Text("Add Members",
-                                            style: TextStyle(
-                                                color: headingColor,
-                                                fontSize: 18,
-                                                fontWeight:
-                                                    FontWeight.bold))))))))),
+                                child: Text("+",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold))))),
+                  ),
+                )),
         ],
       ),
     );

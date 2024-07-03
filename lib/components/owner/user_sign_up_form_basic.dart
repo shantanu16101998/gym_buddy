@@ -53,14 +53,12 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   String? _confirmContactError;
 
   void _onconfirmContactFocusChange() {
-
     if (confirmContactFocus.hasFocus) {
       setState(() {
         shouldHidePhoneNumber = true;
       });
     }
   }
-
 
   onNextButtonPressed() async {
     bool isInformationValidated = validateForm();
@@ -106,108 +104,109 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffDBDDE2)),
-          borderRadius: BorderRadius.circular(20),
-          color: const Color(0xffFCFCFD),
-        ),
+        // decoration: BoxDecoration(
+        //   border: Border.all(color: Color(0xffDBDDE2)),
+        //   borderRadius: BorderRadius.circular(20),
+        //   color: const Color(0xffFCFCFD),
+        // ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 12),
-              child: Center(
-                child: Text("Register New User",
-                    style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: headingColor))),
-              )),
-          const CustomImagePicker(),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 30, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Name",
-                  controller: _nameController,
-                  errorText: _nameError)),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Contact",
-                  shouldObscure: shouldHidePhoneNumber,
-                  textInputType: TextInputType.number,
-                  textInputFormatter: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(10)
-                  ],
-                  controller: _contactController,
-                  errorText: _contactError)),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: LabeledTextField(
-                  labelText: "Confirm contact",
-                  focusNode: confirmContactFocus,
-                  textInputType: TextInputType.number,
-                  textInputFormatter: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(10)
-                  ],
-                  controller: _confirmContactController,
-                  errorText: _confirmContactError)),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: showReferralTextBox
-                  ? LabeledTextField(
-                      labelText: "Referral code",
-                      textInputType: TextInputType.number,
-                      textInputFormatter: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(10)
-                      ],
-                      controller: _referralCodeController,
-                      errorText: null)
-                  : GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showReferralTextBox = true;
-                        });
-                      },
-                      child: const CustomText(
-                          text: 'Have a referral code?', isUnderlined: true),
-                    )),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: showValidationError
-                ? Text(formNotValidated,
-                    style: const TextStyle(
-                        color: formValidationErrorColor,
+      Padding(
+          padding: const EdgeInsets.only(top: 30, bottom: 30),
+          child: Center(
+            child: Text("Register New User",
+                style: GoogleFonts.inter(
+                    textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15))
-                : const SizedBox(),
-          ),
-          Align(
-              alignment: Alignment.center,
-              child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50, top: 30),
-                  child: SizedBox(
-                      height: 50,
-                      width: 178,
-                      child: OutlinedButton(
-                          onPressed: onNextButtonPressed,
-                          style: OutlinedButton.styleFrom(
-                              elevation: 0,
-                              side: const BorderSide(color: headingColor)),
-                          child: const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text("Next",
-                                  style: TextStyle(
-                                      color: headingColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)))))))
-        ]));
+                        fontSize: 22,
+                        color: primaryColor))),
+          )),
+      const CustomImagePicker(),
+      Padding(
+          padding:
+              const EdgeInsets.only(left: 30, top: 30, bottom: 15, right: 30),
+          child: LabeledTextField(
+              labelText: "Name",
+              controller: _nameController,
+              errorText: _nameError)),
+      Padding(
+          padding:
+              const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+          child: LabeledTextField(
+              labelText: "Contact",
+              shouldObscure: shouldHidePhoneNumber,
+              textInputType: TextInputType.number,
+              textInputFormatter: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10)
+              ],
+              controller: _contactController,
+              errorText: _contactError)),
+      Padding(
+          padding:
+              const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+          child: LabeledTextField(
+              labelText: "Confirm contact",
+              focusNode: confirmContactFocus,
+              textInputType: TextInputType.number,
+              textInputFormatter: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10)
+              ],
+              controller: _confirmContactController,
+              errorText: _confirmContactError)),
+      Padding(
+          padding:
+              const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+          child: showReferralTextBox
+              ? LabeledTextField(
+                  labelText: "Referral code",
+                  textInputType: TextInputType.number,
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
+                  controller: _referralCodeController,
+                  errorText: null)
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showReferralTextBox = true;
+                    });
+                  },
+                  child: const CustomText(
+                      text: 'Have a referral code?', isUnderlined: true),
+                )),
+      Padding(
+        padding:
+            const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+        child: showValidationError
+            ? Text(formNotValidated,
+                style: const TextStyle(
+                    color: formValidationErrorColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15))
+            : const SizedBox(),
+      ),
+      Align(
+          alignment: Alignment.center,
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 50, top: 30),
+              child: SizedBox(
+                  height: 50,
+                  width: 250,
+                  child: OutlinedButton(
+                      onPressed: onNextButtonPressed,
+                      style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: primaryColor,
+                          side: const BorderSide(color: primaryColor)),
+                      child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text("Next",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)))))))
+    ]));
   }
 }

@@ -63,7 +63,7 @@ class _ReferralDialogState extends State<ReferralDialog> {
                 text: 'Refer and get 1 month of',
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: headingColor),
+                color: primaryColor),
           ),
           const Padding(
             padding: EdgeInsets.only(bottom: 20),
@@ -71,7 +71,7 @@ class _ReferralDialogState extends State<ReferralDialog> {
                 text: 'free gym subscription',
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: headingColor),
+                color: primaryColor),
           ),
           Container(
             height: 200,

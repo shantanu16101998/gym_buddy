@@ -85,7 +85,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                   fit: BoxFit.cover,
                 ),
               ),
-              // color: headingColor,
+              // color: primaryColor,
               height: getScreenHeight(context),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +110,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                     "Login",
                                     style: GoogleFonts.inter(
                                       textStyle: const TextStyle(
-                                        color: headingColor,
+                                        color: primaryColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 30,
                                       ),
@@ -155,7 +155,7 @@ class _MemberLoginFormState extends State<MemberLoginForm> {
                                       onPressed: onLoginButtonPressed,
                                       style: OutlinedButton.styleFrom(
                                         elevation: 0,
-                                        backgroundColor: headingColor,
+                                        backgroundColor: primaryColor,
                                       ),
                                       child: const Padding(
                                         padding: EdgeInsets.all(10),

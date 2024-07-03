@@ -31,7 +31,7 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: listToShow()
           .map((userSubscription) => Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(0),
               child: Column(
                 children: [
                   SubscriptionCard(
