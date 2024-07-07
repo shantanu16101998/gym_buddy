@@ -86,6 +86,7 @@ class UserProfileResponse {
   final String phone;
   final String? profilePic;
   final String? startDate;
+  final String? endDate;
   final num? validTill;
   final String? traineeName;
 
@@ -95,6 +96,7 @@ class UserProfileResponse {
       required this.profilePic,
       required this.validTill,
       required this.startDate,
+      required this.endDate,
       required this.traineeName});
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
@@ -103,6 +105,7 @@ class UserProfileResponse {
         phone: json["contact"].toString(),
         validTill: json["validTill"],
         startDate: json["currentBeginDate"],
+        endDate: json["currentFinishDate"],
         traineeName: json["trainerName"],
         profilePic: json["profilePic"]);
   }
@@ -241,14 +244,13 @@ class OwnerDetails {
   final String? gymLocationLon;
   final List<TraineeDetailsResponse> traineeDetails;
 
-  OwnerDetails({
-    required this.name,
-    required this.contact,
-    required this.gymName,
-    required this.traineeDetails,
-    this.gymLocationLat,
-    this.gymLocationLon
-  });
+  OwnerDetails(
+      {required this.name,
+      required this.contact,
+      required this.gymName,
+      required this.traineeDetails,
+      this.gymLocationLat,
+      this.gymLocationLon});
 
   factory OwnerDetails.fromJson(Map<String, dynamic> json) {
     final List<TraineeDetailsResponse> trainees =

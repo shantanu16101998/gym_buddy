@@ -2,11 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/user_sign_up.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/constants/url.dart';
 
@@ -39,6 +40,56 @@ class _UserGoalFormState extends State<UserGoalForm> {
   List<List<String>> mentors = [];
   List<String> mentor = ['default', 'Select Mentor'];
   late String userName = "User's";
+
+  void onSignUpButtonClicked() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+
+    var memberName = sharedPreferences.getString("memberName") ?? "";
+    var userContact = sharedPreferences.getString("userContact") ?? "";
+    var startDate = sharedPreferences.getString("startDate") ?? "";
+    var validTillString = sharedPreferences.getString("validTill");
+    var chargesString = sharedPreferences.getString("charges");
+    var profilePic = sharedPreferences.getString('profilePic');
+    var mentorId = sharedPreferences.getString('mentorId');
+    var goal = sharedPreferences.getString('goal');
+    var experience = sharedPreferences.getString('experience');
+    sharedPreferences.remove('profilePic');
+
+    int? validTill = tryParseInt(validTillString);
+    int? charges = tryParseInt(chargesString);
+
+    RegisterCustomerResponse _ =
+        RegisterCustomerResponse.fromJson(await backendAPICall(
+            '/customer/registerCustomer',
+            {
+              'name': capitalizeFirstLetter(memberName).trim(),
+              'contact': userContact.trim(),
+              'currentBeginDate': startDate.trim(),
+              'validTill': validTill ?? 0,
+              'charges': charges ?? 0,
+              'profilePic': profilePic,
+              if (mentorId != null) 'mentorId': mentorId,
+              'goal': goal,
+              'experience': experience
+            },
+            "POST",
+            true));
+
+    if (sharedPreferences.getString('referralCode') != '') {
+      backendAPICall(
+          '/verifyReferralCode/${sharedPreferences.getString('referralCode')}',
+          {},
+          'POST',
+          true);
+    }
+
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Subscription()),
+      );
+    }
+  }
 
   void intialConfigs() async {
     try {
@@ -78,7 +129,13 @@ class _UserGoalFormState extends State<UserGoalForm> {
         await sharedPreferences.setString("mentorId", mentor.first);
       }
 
-      widget.onPageToShowChange(PageToShow.paymentPage);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => UserPaymentForm(
+                    onButtonPressed: onSignUpButtonClicked,
+                    buttonText: "Sign up and share Gym Card",
+                  )));
     } else {
       setState(() {
         showValidationError = true;

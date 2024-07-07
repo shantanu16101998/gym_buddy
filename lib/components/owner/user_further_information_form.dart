@@ -8,26 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/exercise_constant.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:gym_buddy/constants/url.dart';
 
-final List<String> durations = [
-  'Duration (months)',
-  '1 month',
-  '2 months',
-  '3 months',
-  '4 months',
-  '5 months',
-  '7 months',
-  '8 months',
-  '9 months',
-  '10 months',
-  '11 months',
-  '12 months'
-];
+
 
 class UserFurtherInformationForm extends StatefulWidget {
   final Function onPageToShowChange;
@@ -80,7 +68,7 @@ class _UserFurtherInformationFormState
           "bloodGroup", _bloodGroupController.text);
       await sharedPreferences.setString("startDate", _startDateController.text);
       await sharedPreferences.setString("validTill", _endMonthController.text);
-      widget.onPageToShowChange(PageToShow.futherInformationPage);
+      widget.onPageToShowChange(PageToShow.userGoalForm);
     } else {
       setState(() {
         showValidationError = true;
@@ -95,7 +83,7 @@ class _UserFurtherInformationFormState
       endMonthError = _endMonthController.text == "0"
           ? "End month cannot be zero"
           : validateSimpleText(_endMonthController.text, "Valid till");
-      chargesError = validateSimpleText(_chargesController.text, "charges");
+      chargesError = chargeValidator(_chargesController.text);
     });
     if (genderError != null ||
         startDateError != null ||

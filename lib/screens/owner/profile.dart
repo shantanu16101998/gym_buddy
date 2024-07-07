@@ -32,6 +32,7 @@ class _ProfileState extends State<Profile> {
       phone: "7424948001",
       profilePic: null,
       validTill: null,
+      endDate: null,
       startDate: null,
       traineeName: null);
 
@@ -143,21 +144,22 @@ class _ProfileState extends State<Profile> {
                               width: 84,
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  border: Border.all(color: Color(0xffD9D9D9)),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: Column(
+                                  border: Border.all(
+                                      color: const Color(0xffD9D9D9)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12))),
+                              child: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 5),
+                                    padding: EdgeInsets.only(top: 5),
                                     child: CircleAvatar(
                                         maxRadius: 15,
                                         backgroundImage: AssetImage(
                                             "assets/images/phone.png")),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 8),
+                                    padding: EdgeInsets.only(top: 8),
                                     child: CustomText(
                                       text: 'Call',
                                       color: Color(0xff757575),
@@ -174,10 +176,11 @@ class _ProfileState extends State<Profile> {
                               width: 84,
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  border: Border.all(color: Color(0xffD9D9D9)),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12))),
-                              child: Column(
+                                  border: Border.all(
+                                      color: const Color(0xffD9D9D9)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12))),
+                              child: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   // FaIcon(FontAwesomeIcons.whatsapp,color: Colors.green,size: 30,),
@@ -187,7 +190,7 @@ class _ProfileState extends State<Profile> {
                                       backgroundImage: AssetImage(
                                           "assets/images/whatsapp.png")),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 8),
+                                    padding: EdgeInsets.only(top: 8),
                                     child: CustomText(
                                       text: 'Whatsapp',
                                       color: Color(0xff757575),
@@ -201,7 +204,7 @@ class _ProfileState extends State<Profile> {
                       )),
                   Container(
                     width: getScreenWidth(context) * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         border: Border(
                             bottom: BorderSide(color: Color(0xffD0D5DD)))),
                     child: Padding(
@@ -209,7 +212,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          const CustomText(
                             text: 'Name',
                             fontSize: 16,
                             color: Color(0xff7A7F93),
@@ -228,7 +231,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Container(
                     width: getScreenWidth(context) * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         border: Border(
                             bottom: BorderSide(color: Color(0xffD0D5DD)))),
                     child: Padding(
@@ -236,7 +239,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          const CustomText(
                             text: 'Contact',
                             fontSize: 16,
                             color: Color(0xff7A7F93),
@@ -255,7 +258,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Container(
                     width: getScreenWidth(context) * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         border: Border(
                             bottom: BorderSide(color: Color(0xffD0D5DD)))),
                     child: Padding(
@@ -263,7 +266,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          const CustomText(
                             text: 'Start Date',
                             fontSize: 16,
                             color: Color(0xff7A7F93),
@@ -282,7 +285,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Container(
                     width: getScreenWidth(context) * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         border: Border(
                             bottom: BorderSide(color: Color(0xffD0D5DD)))),
                     child: Padding(
@@ -290,7 +293,34 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
+                          const CustomText(
+                            text: 'End Date',
+                            fontSize: 16,
+                            color: Color(0xff7A7F93),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: CustomText(
+                              text: userProfileResponse.endDate ?? '',
+                              fontSize: 22,
+                              color: primaryColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: getScreenWidth(context) * 0.8,
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffD0D5DD)))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CustomText(
                             text: 'Plan',
                             fontSize: 16,
                             color: Color(0xff7A7F93),
@@ -311,7 +341,7 @@ class _ProfileState extends State<Profile> {
                   if (userProfileResponse.traineeName != null)
                     Container(
                       width: getScreenWidth(context) * 0.8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           border: Border(
                               bottom: BorderSide(color: Color(0xffD0D5DD)))),
                       child: Padding(
@@ -319,7 +349,7 @@ class _ProfileState extends State<Profile> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
+                            const CustomText(
                               text: 'Mentor',
                               fontSize: 16,
                               color: Color(0xff7A7F93),
@@ -378,7 +408,7 @@ class _ProfileState extends State<Profile> {
                     width: 300,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                          backgroundColor: Color(0xffB01D1D),
+                          backgroundColor: const Color(0xffB01D1D),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
                           textStyle: const TextStyle(
@@ -441,11 +471,11 @@ class _ProfileState extends State<Profile> {
                                   bottom: 0,
                                   right: 0,
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         color: primaryColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.camera_alt_rounded,
                                       color: Colors.white,
                                     ),

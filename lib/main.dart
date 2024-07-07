@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
+import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/api_data_loaded.dart';
@@ -93,9 +94,11 @@ class _MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
         // uncomment when in prod
-        // home: const SplashScreen(),
+        home: const SplashScreen(),
+        // home: UserSignUp(),
         // home: OwnerScreen(ownerScreens: OwnerScreens.analysis),
-        home: const Profile(userId: '667869fd29d826816fd0aa6e'),
+        // home: const Profile(userId: '667869fd29d826816fd0aa6e'),
+        // home: UserPaymentForm(nextPageToShow: const Subscription()),
         routes: {
           '/owner-sign-up': (context) => const OwnerForm(),
           '/pic': (context) => const CustomImagePicker(),

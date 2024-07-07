@@ -1,9 +1,14 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
+import 'package:gym_buddy/components/owner/user_payment_form.dart';
+import 'package:gym_buddy/screens/owner/profile.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/exercise_constant.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +40,8 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
   String? endMonthError;
   String? chargesError;
   String? upiError;
+
+  String duration = durations[0];
 
   onTickIconClicked() {
     upiError = validateSimpleText(_upiController.text, "UPI Id");
@@ -77,7 +84,7 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
     return true;
   }
 
-  _onUpdatePressed() async {
+  onUpdatePressed() async {
     await backendAPICall(
         '/customer/updateSubscription/${widget.userId}',
         {
@@ -93,15 +100,21 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
           .fetchSubscription();
       if (mounted) {
         Navigator.pop(context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Subscription()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Profile(userId: widget.userId)));
       }
     }
   }
 
   _onPayNowPressed() async {
     if (validateForm()) {
-      showQR = true;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  UserPaymentForm(onButtonPressed: onUpdatePressed,buttonText: 'Renew Subscription')));
     }
   }
 
@@ -157,8 +170,9 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
         physics: const BouncingScrollPhysics(),
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-          
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.only(top: 33),
@@ -170,125 +184,84 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                           color: primaryColor))),
             ),
             Padding(
-                padding: const EdgeInsets.only(left: 30, top: 15, right: 30),
+                padding: const EdgeInsets.only(
+                    left: 30, top: 30, right: 30, bottom: 10),
                 child: SizedBox(
-                  width: 340,
-                  child: LabeledTextField.homepageText(
+                  width: 320,
+                  child: LabeledTextField(
                       labelText: "Start Date",
                       controller: _startDateController,
                       readOnly: true,
                       onTap: () => {_selectDate(context, _startDateController)},
                       errorText: startDateError),
                 )),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 10, right: 30),
-                  child: Text('Valid Till',
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(
-                        color: Color(0xff344054),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                      )))),
-            ),
+            // CustomText(text: 'Duration',fontSize: 16,fontWeight: FontWeight.bold,color: primaryColor,),
             Padding(
-                padding: const EdgeInsets.only(
-                    left: 30, top: 15, bottom: 15, right: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OutlinedButton(
-                        onPressed: () => {
-                              setState(() {
-                                _endMonthController.text = "3";
-                              })
-                            },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: _endMonthController.text == "3"
-                              ? const Color.fromARGB(255, 203, 203, 203)
-                              : Colors.white,
-                          side: const BorderSide(
-                              width: 1.0, color: Color(0xffD0D5DD)),
-                        ),
-                        child: const Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Center(
+                child: DropdownButton2(
+                  iconStyleData: const IconStyleData(
+                      icon: RotatedBox(
+                          quarterTurns: 3,
+                          child: Padding(
                             padding: EdgeInsets.all(10),
-                            child: Text("3",
-                                style: TextStyle(
-                                    color: Color(0xff667085),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)))),
-                    OutlinedButton(
-                        onPressed: () => {
-                              setState(() {
-                                _endMonthController.text = "6";
-                              })
-                            },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _endMonthController.text == "6"
-                              ? const Color.fromARGB(255, 203, 203, 203)
-                              : Colors.white,
-                          elevation: 0,
-                          side: const BorderSide(
-                            width: 1.0,
-                            color: Color(0xffD0D5DD),
-                          ),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          ))),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.transparent,
+                  ),
+                  buttonStyleData: ButtonStyleData(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: endMonthError != null
+                                  ? Colors.red
+                                  : Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)))),
+                  dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 400,
+                      // width: 100,
+                      decoration: BoxDecoration(color: Colors.white)),
+                  value: duration,
+                  onChanged: (value) {
+                    setState(() {
+                      duration = value!;
+                      _endMonthController.text =
+                          durations.indexOf(value).toString();
+                    });
+                  },
+                  items:
+                      durations.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Container(
+                          child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomText(
+                          text: value,
+                          fontSize: 17,
                         ),
-                        child: const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text("6",
-                                style: TextStyle(
-                                    color: Color(0xff667085),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)))),
-                    OutlinedButton(
-                        onPressed: () => {
-                              setState(() {
-                                _endMonthController.text = "12";
-                              })
-                            },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: _endMonthController.text == "12"
-                              ? const Color.fromARGB(255, 203, 203, 203)
-                              : Colors.white,
-                          side: const BorderSide(
-                            width: 1.0,
-                            color: Color(0xffD0D5DD),
-                          ),
-                        ),
-                        child: const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text("12",
-                                style: TextStyle(
-                                    color: Color(0xff667085),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal)))),
-                  ],
-                )),
+                      )),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
             Align(
                 alignment: Alignment.center,
                 child: Padding(
-                    padding: const EdgeInsets.all(1),
+                    padding: const EdgeInsets.only(top: 20),
                     child: SizedBox(
-                        width: 340,
-                        child: LabeledTextField.homepageText(
-                            labelText: "Add Month",
-                            controller: _endMonthController,
-                            onTap: () => {
-                                  setState(() {
-                                    _endMonthController.text = "";
-                                  })
-                                },
-                            errorText: endMonthError)))),
-            Align(
-                alignment: Alignment.center,
-                child: Padding(
-                    padding: const EdgeInsets.all(1),
-                    child: SizedBox(
-                      width: 340,
-                      child: LabeledTextField.homepageText(
+                      width: 320,
+                      child: LabeledTextField(
                         textInputType: TextInputType.number,
                         labelText: "Charges",
                         controller: _chargesController,
@@ -298,14 +271,14 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                         errorText: chargesError,
                         prefixIcon: const Icon(
                           Icons.currency_rupee,
-                          color: Color(0xff667085),
+                          color: primaryColor,
                         ),
                       ),
                     ))),
             Align(
                 alignment: Alignment.center,
                 child: Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    padding: const EdgeInsets.only(top: 20, bottom: 30),
                     child: SizedBox(
                         height: 50,
                         width: 340,
@@ -313,14 +286,13 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
                             onPressed: _onPayNowPressed,
                             style: OutlinedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: Colors.white,
-                              side: BorderSide(color: primaryColor),
+                              backgroundColor: primaryColor,
                             ),
                             child: const Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text("Pay Now",
                                     style: TextStyle(
-                                        color: primaryColor,
+                                        color: Colors.white,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold)))))))
           ]),
