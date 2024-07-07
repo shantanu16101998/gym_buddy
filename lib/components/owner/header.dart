@@ -40,7 +40,7 @@ class _HeaderState extends State<Header> {
                                 textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
-                                  color: headerColor,
+                                  color: primaryColor,
                                   decoration: TextDecoration.none,
                                 ),
                               )),

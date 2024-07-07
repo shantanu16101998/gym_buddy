@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
         // uncomment when in prod
-        home: const SplashScreen(),
+        home:  const SplashScreen(),
         // home: UserSignUp(),
         // home: OwnerScreen(ownerScreens: OwnerScreens.analysis),
         // home: const Profile(userId: '667869fd29d826816fd0aa6e'),

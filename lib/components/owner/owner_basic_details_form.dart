@@ -1,11 +1,9 @@
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/owner_form.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
@@ -110,7 +108,7 @@ class _OwnerBasicDetailsFormState extends State<OwnerBasicDetailsForm> {
                     ))),
               )),
           Center(
-              child: Text("Welcome",
+              child: Text("Welcome!",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
                           color: primaryColor,

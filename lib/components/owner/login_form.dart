@@ -104,7 +104,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Center(
             child: Text(
-              "Welcome Back",
+              "Welcome Back!",
               style: GoogleFonts.inter(
                 textStyle: const TextStyle(
                   color: primaryColor,

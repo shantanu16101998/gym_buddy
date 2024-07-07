@@ -103,7 +103,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                   children: [
                     Center(
                       child: Container(
-                        height: 520,
+                        height: 530,
                         width: 320,
                         decoration: const BoxDecoration(
                             color: Colors.white,
@@ -191,8 +191,9 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                                             errorText:
                                                                 upiError))
                                                     : SizedBox(
+                                                      width: 300,
                                                         child: FittedBox(
-                                                          fit: BoxFit.fitWidth,
+                                                          fit: BoxFit.scaleDown,
                                                           child: Text(
                                                             _upiController.text,
                                                             overflow:
@@ -200,7 +201,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                                                     .ellipsis,
                                                             style:
                                                                 const TextStyle(
-                                                              fontSize: 18,
+                                                              fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
