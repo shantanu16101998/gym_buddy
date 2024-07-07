@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
@@ -16,11 +17,11 @@ class GymAnalysis extends StatefulWidget {
 class _GymAnalysisState extends State<GymAnalysis> {
   ExpandedAnalysisResponse earningExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+          titles: [], data: [], average: 0, total: 0, maxLimitOfData: 100);
 
   ExpandedAnalysisResponse peopleExpandedAnalysisResponse =
       ExpandedAnalysisResponse(
-          titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+          titles: [], data: [], average: 0, total: 0, maxLimitOfData: 100);
 
   Widget getBottomTitlesWidget(double x, TitleMeta titleMeta) {
     return CustomText(
@@ -33,11 +34,22 @@ class _GymAnalysisState extends State<GymAnalysis> {
   }
 
   Widget getLeftTitlesWidget(double x, TitleMeta titleMeta) {
-    String locale = NumberFormat.compact(locale: 'en_IN').format(x);
-
     return CustomText(
-        text: locale.endsWith('T') ? locale.replaceFirst('T', 'K') : locale,
-        color: const Color(0XFF86909C));
+        text: convertToIndianNumber(x), color: const Color(0XFF86909C));
+  }
+
+  String convertToIndianNumber(num input) {
+    String locale = NumberFormat.compact(locale: 'en_IN').format(input);
+    return locale.endsWith('T') ? locale.replaceFirst('T', 'K') : locale;
+  }
+
+  String convertToIndianNumberString(String input) {
+    try {
+      String locale = NumberFormat.compact(locale: 'en_IN').format(input);
+      return locale.endsWith('T') ? locale.replaceFirst('T', 'K') : locale;
+    } catch (e) {
+      return input;
+    }
   }
 
   bool isApiDataLoaded = false;
@@ -104,9 +116,9 @@ class _GymAnalysisState extends State<GymAnalysis> {
           color: primaryColor,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 25),
+          padding: const EdgeInsets.only(top: 25, left: 10, right: 10),
           child: Container(
-            width: 400,
+            // width: 400,
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xffE5E6EB)),
                 borderRadius: const BorderRadius.all(Radius.circular(12))),
@@ -132,8 +144,9 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 350,
+              Padding(
+                padding: EdgeInsets.only(top: 20,left: 25,right: 25),
+                // width: 350,
                 // height: 300,
                 child: Container(
                   child: AspectRatio(
@@ -260,13 +273,13 @@ class _GymAnalysisState extends State<GymAnalysis> {
                             children: [
                               CustomText(
                                 text:
-                                    '₹ ${earningExpandedAnalysisResponse.average}',
+                                    '₹ ${convertToIndianNumber(earningExpandedAnalysisResponse.average)}',
                                 fontSize: 20,
                               ),
                               const SizedBox(height: 5),
                               CustomText(
                                 text:
-                                    '₹ ${earningExpandedAnalysisResponse.total}',
+                                    '₹ ${convertToIndianNumber(earningExpandedAnalysisResponse.total)}',
                                 fontSize: 20,
                               )
                             ],
@@ -281,9 +294,9 @@ class _GymAnalysisState extends State<GymAnalysis> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 25),
+          padding: const EdgeInsets.only(top: 25,left: 10,right: 10),
           child: Container(
-            width: 400,
+            // width: 400,
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xffE5E6EB)),
                 borderRadius: const BorderRadius.all(Radius.circular(12))),
@@ -309,8 +322,9 @@ class _GymAnalysisState extends State<GymAnalysis> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 350,
+              Padding(
+                padding: EdgeInsets.all(25),
+                // width: 350,
                 // height: 300,
                 child: Container(
                   child: AspectRatio(
@@ -429,7 +443,7 @@ class _GymAnalysisState extends State<GymAnalysis> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: peopleExpandedAnalysisResponse.average,
+                                text: peopleExpandedAnalysisResponse.average.toString(),
                                 fontSize: 20,
                               ),
                               const SizedBox(height: 5),

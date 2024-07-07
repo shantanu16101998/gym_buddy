@@ -3,6 +3,7 @@ import 'package:gym_buddy/components/owner/login_form.dart';
 import 'package:gym_buddy/components/owner/owner_basic_details_form.dart';
 import 'package:gym_buddy/components/owner/owner_additional_details.dart';
 import 'package:gym_buddy/components/owner/trainee_form.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/utils/enums.dart';
@@ -35,7 +36,7 @@ class _OwnerFormState extends State<OwnerForm> {
 
   Widget widgetDecider() {
     if (formState == OwnerFormState.loginPage) {
-      return const LoginForm();
+      return LoginForm(formStateChanger: formStateChanger);
     } else if (formState == OwnerFormState.basicDetails) {
       return OwnerBasicDetailsForm(
           formStateChanger: formStateChanger, nameController: nameController);
@@ -46,75 +47,23 @@ class _OwnerFormState extends State<OwnerForm> {
       return OwnerTraineeForm(
           nameController: nameController, formStateChanger: formStateChanger);
     }
-    return const LoginForm();
+    return LoginForm(formStateChanger: formStateChanger);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: <Widget>[
-      Container(
-          margin: EdgeInsets.only(top: getStatusBarHeight(context)),
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/images/designer.png"),
-            fit: BoxFit.cover,
-          ))),
-      SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Container(
-              color: Colors.transparent,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Padding(padding: EdgeInsets.only(top: 100.0)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  formState = OwnerFormState.loginPage;
-                                });
-                              },
-                              child: Text(
-                                "Log In",
-                                style: TextStyle(
-                                    color: formState == OwnerFormState.loginPage
-                                        ? const Color(0xffE7AA0F)
-                                        : const Color.fromARGB(255, 255, 255, 255),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                              )),
-                          const Text(
-                            "|",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  formState = OwnerFormState.basicDetails;
-                                });
-                              },
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                    color: formState == OwnerFormState.loginPage
-                                        ? const Color.fromARGB(255, 255, 255, 255)
-                                        : const Color(0xffE7AA0F),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Padding(padding: const EdgeInsets.all(20), child: widgetDecider())
-                  ])))
-    ]));
+        body: Container(
+      margin: EdgeInsets.only(top: getStatusBarHeight(context)),
+      color: primaryColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+              constraints: BoxConstraints(maxHeight: getScreenHeight(context) - 20),
+              child: SingleChildScrollView(child: widgetDecider()))
+        ],
+      ),
+    ));
   }
 }

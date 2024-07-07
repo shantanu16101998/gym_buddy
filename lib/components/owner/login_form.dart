@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
-import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/owner.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
@@ -12,7 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final Function formStateChanger;
+  const LoginForm({super.key, required this.formStateChanger});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -64,12 +66,8 @@ class _LoginFormState extends State<LoginForm> {
           sharedPreferences.setBool('isLocationPermissionGiven', true);
         }
         if (mounted) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const OwnerScreen(
-                        ownerScreens: OwnerScreens.subscriptionPage,
-                      )));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Subscription()));
         }
       } else {
         setState(() {
@@ -83,27 +81,28 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         color: Colors.white.withOpacity(0.98),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-            child: Text(
-              appEnvironment == AppEnvironment.owner ? 'Gymania AI' : 'Gymania',
-              style: GoogleFonts.inter(
-                textStyle: const TextStyle(
-                  color: primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+            padding: const EdgeInsets.only(top: 30, bottom: 12),
+            child: Center(
+              child: Text(
+                'Login',
+                style: GoogleFonts.inter(
+                  textStyle: const TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30),
+          Center(
             child: Text(
               "Welcome Back",
               style: GoogleFonts.inter(
@@ -144,16 +143,40 @@ class _LoginFormState extends State<LoginForm> {
               cursorColor: primaryColor,
             ),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: showEmailPasswordNotMatchedError
-                ? Text("Phone number or password does not match",
+          if (showEmailPasswordNotMatchedError)
+            const Padding(
+              padding:
+                  EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+              child: Center(
+                child: Text("Phone number or password does not match",
                     style: TextStyle(
                         color: formValidationErrorColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15))
-                : const SizedBox(),
+                        fontSize: 15)),
+              ),
+            ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                    text: "Don't have an account? ",
+                    color: primaryColor,
+                    fontSize: 15),
+                GestureDetector(
+                  onTap: () {
+                    widget.formStateChanger(OwnerFormState.basicDetails);
+                  },
+                  child: CustomText(
+                      text: 'Sign Up',
+                      color: primaryColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.center,

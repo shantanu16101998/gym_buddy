@@ -17,7 +17,7 @@ class ExpandedAnalysis extends StatefulWidget {
 
 class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
   ExpandedAnalysisResponse expandedAnalysisResponse = ExpandedAnalysisResponse(
-      titles: [], data: [], average: "", total: "", maxLimitOfData: 100);
+      titles: [], data: [], average: 0, total: 0, maxLimitOfData: 100);
 
   bool isApiDataLoaded = false;
 
@@ -144,7 +144,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                               color: const Color(0xff344054),
                               fontSize: 20),
                           CustomText(
-                              text: expandedAnalysisResponse.average,
+                              text: expandedAnalysisResponse.average.toString(),
                               color: const Color(0xff344054),
                               fontSize: 20)
                         ]),
@@ -156,7 +156,7 @@ class _ExpandedAnalysisState extends State<ExpandedAnalysis> {
                             color: const Color(0xff344054),
                             fontSize: 20),
                         CustomText(
-                            text: expandedAnalysisResponse.total,
+                            text: expandedAnalysisResponse.total.toString(),
                             color: const Color(0xff344054),
                             fontSize: 20)
                       ],

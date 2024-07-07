@@ -4,6 +4,7 @@ import 'package:gym_buddy/components/owner/user_goal_form.dart';
 import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/components/owner/user_sign_up_form_basic.dart';
 import 'package:gym_buddy/components/owner/user_further_information_form.dart';
+import 'package:gym_buddy/utils/enums.dart';
 
 import 'package:gym_buddy/utils/ui_constants.dart';
 
@@ -17,7 +18,7 @@ class UserSignUp extends StatefulWidget {
 }
 
 class _UserSignUpState extends State<UserSignUp> {
-  PageToShow pageToShow = PageToShow.signUpDetails;
+  PageToShow pageToShow = PageToShow.basicPage;
 
   void intialRouteDecider() async {
     // var sharedPreference = await SharedPreferences.getInstance();
@@ -57,7 +58,7 @@ class _UserSignUpState extends State<UserSignUp> {
                       children: [
                         // const Padding(padding: EdgeInsets.only(top: 20.0)),
                         Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(0),
                             child: AnimatedSwitcher(
                                 duration: Duration(milliseconds: 300),
                                 transitionBuilder: (Widget child,
@@ -84,7 +85,12 @@ class _UserSignUpState extends State<UserSignUp> {
                                                     onPageToShowChange)
                                             : UserPaymentForm(
                                                 onPageToShowChange:
-                                                    onPageToShowChange)))
+                                                    onPageToShowChange,
+                                                paymentFormPastWidget:
+                                                    PaymentFormPastWidget
+                                                        .userRegistration,
+                                                profilePageUserId: '',
+                                              )))
                       ])))
         ]));
   }

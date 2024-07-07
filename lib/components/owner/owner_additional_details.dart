@@ -109,11 +109,13 @@ class _OwnerAdditionalDetailsState extends State<OwnerAdditionalDetails> {
             padding:
                 const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
             child: showValidationError
-                ? Text(formNotValidated,
-                    style: const TextStyle(
-                        color: formValidationErrorColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15))
+                ? Center(
+                  child: Text(formNotValidated,
+                      style: const TextStyle(
+                          color: formValidationErrorColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                )
                 : const SizedBox(),
           ),
           Align(

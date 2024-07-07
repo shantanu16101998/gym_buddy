@@ -6,6 +6,7 @@ import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         if (mounted) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage)));
+              MaterialPageRoute(builder: (context) => const Subscription()));
         }
       }
     } else if (appEnvironment == AppEnvironment.member) {

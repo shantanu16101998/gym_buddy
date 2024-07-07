@@ -29,8 +29,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 312,
-      height: 240,
+      // width: 312,
+      height: 280,
       decoration: const BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -43,10 +43,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             ),
-            height: 200,
+            height: 240,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(left: 27, right: 27),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -61,7 +61,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8.0,left: 5,right: 5),
                       child: CustomText(
                         text: widget.subheading,
                         fontSize: 16,
@@ -74,7 +74,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: GestureDetector(
@@ -87,7 +87,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   },
                   child: Container(
                     height: 40,
-                    width: widget.shouldShowExtraDismissButton == true ? 156 : 312,
+                    // width: widget.shouldShowExtraDismissButton == true ? 156 : 312,
                     decoration: BoxDecoration(
                         color: widget.buttonColor,
                         borderRadius: BorderRadius.only(
@@ -109,28 +109,30 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 ),
               ),
               if (widget.shouldShowExtraDismissButton == true)
-                GestureDetector(
-                  onTap: () async {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 156,
-                    decoration: BoxDecoration(
-                        color: widget.buttonColor.withOpacity(0.5),
-                        borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(12))),
-                    child: Center(
-                        child: CustomText(
-                      text: 'Dismiss',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 40,
+                      // width: 156,
+                      decoration: BoxDecoration(
+                          color: widget.buttonColor.withOpacity(0.5),
+                          borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(12))),
+                      child: Center(
+                          child: CustomText(
+                        text: 'Dismiss',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )),
+                    ),
                   ),
                 ),
             ],
-          )
+          ),
         ],
       ),
     );

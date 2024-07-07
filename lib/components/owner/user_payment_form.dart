@@ -4,6 +4,7 @@ import 'package:gym_buddy/components/owner/qr_code_pic.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -11,10 +12,18 @@ import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UserPaymentForm extends StatefulWidget {
   final Function onPageToShowChange;
-  const UserPaymentForm({super.key, required this.onPageToShowChange});
+  final PaymentFormPastWidget paymentFormPastWidget;
+  final String profilePageUserId;
+
+  const UserPaymentForm(
+      {super.key,
+      required this.onPageToShowChange,
+      required this.paymentFormPastWidget,
+      required this.profilePageUserId});
 
   @override
   State<UserPaymentForm> createState() => _UserPaymentFormState();
@@ -119,111 +128,184 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const OwnerScreen(ownerScreens: OwnerScreens.subscriptionPage)),
+        MaterialPageRoute(builder: (context) => const Subscription()),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: getScreenWidth(context) * 0.9,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black),
-        color: Colors.white,
-      ),
-      child: !isAPIDataLoaded
-          ? const SizedBox()
-          : Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CustomText(
-                    text: "Please verify your UPI Id",
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: QrCodePic(
-                            qrColor: Colors.black,
-                            upiIntentLink:
-                                generateUPIDeeplink(_upiController, charges)),
-                      )),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CustomText(
-                    text: "UPI ID",
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 20, left: 20, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      isOwnerEditingUPIId
-                          ? SizedBox(
-                              width: getScreenWidth(context) * 0.6,
-                              child: LabeledTextField(
-                                  labelText: "UPI Id",
-                                  controller: _upiController,
-                                  errorText: upiError))
-                          : Flexible(
+    return Stack(
+      children: <Widget>[
+        Column(children: [
+          Container(
+            height: getEffectiveScreenHeight(context) / 2,
+            color: Color(0xff00BDF1),
+          ),
+          Container(
+            height: getEffectiveScreenHeight(context) / 2,
+            color: Color(0xff172B76),
+          )
+        ]),
+        Container(
+          height: getEffectiveScreenHeight(context),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  height: 520,
+                  width: 320,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: isAPIDataLoaded
+                      ? Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 40),
                               child: CustomText(
-                                text: _upiController.text,
-                                fontSize: 20,
+                                text: "SCAN QR CODE TO PAY",
+                                fontSize: 22,
+                                color: primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                      const SizedBox(width: 5),
-                      InkWell(
-                        onTap: isOwnerEditingUPIId
-                            ? onTickIconClicked
-                            : onEditIconClicked,
-                        child: Icon(
-                          isOwnerEditingUPIId ? Icons.check : Icons.edit,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 40, bottom: 19),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: QrCodePic(
+                                    qrColor: Colors.black,
+                                    upiIntentLink: generateUPIDeeplink(
+                                        _upiController, charges)),
+                              ),
+                            ),
+                            Container(
+                                height: 140,
+                                decoration: BoxDecoration(
+                                    color: Color(0xffD4F0FD),
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(0),
+                                        bottom: Radius.circular(12))),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: CustomText(
+                                              text: "UPI ID",
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: InkWell(
+                                              onTap: isOwnerEditingUPIId
+                                                  ? onTickIconClicked
+                                                  : onEditIconClicked,
+                                              child: Icon(
+                                                isOwnerEditingUPIId
+                                                    ? Icons.check
+                                                    : Icons.edit,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15, left: 5, right: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          isOwnerEditingUPIId
+                                              ? SizedBox(
+                                                  child: LabeledTextField(
+                                                      labelText: "UPI Id",
+                                                      controller:
+                                                          _upiController,
+                                                      errorText: upiError))
+                                              : SizedBox(
+                                                  child: FittedBox(
+                                                    fit: BoxFit.fitWidth,
+                                                    child: Text(
+                                                      _upiController.text,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        )
+                      : SizedBox(
+                          child: Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Shimmer.fromColors(
+                                baseColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                highlightColor:
+                                    const Color.fromARGB(255, 227, 227, 226),
+                                child: Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: const Color(0xffDBDDE2)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(12)),
+                                  ),
+                                ),
+                              )),
                         ),
-                      )
-                    ],
-                  ),
                 ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50, top: 30),
-                        child: SizedBox(
-                            height: 50,
-                            // width: 278,
-                            child: OutlinedButton(
-                                onPressed: onSignUpButtonClicked,
-                                style: OutlinedButton.styleFrom(
-                                    elevation: 0,
-                                    side:
-                                        const BorderSide(color: primaryColor)),
-                                child: const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text("Sign up and share Gym Card",
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)))))))
-              ],
-            ),
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50, top: 30),
+                      child: SizedBox(
+                          height: 50,
+                          width: 300,
+                          child: OutlinedButton(
+                              onPressed: onSignUpButtonClicked,
+                              style: OutlinedButton.styleFrom(
+                                  elevation: 0, backgroundColor: Colors.white),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(0),
+                                  child: Text("Sign up and share Gym Card",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)))))))
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

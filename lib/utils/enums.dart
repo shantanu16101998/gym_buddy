@@ -15,4 +15,6 @@ enum UserCurrentScreen { home, analysis, profile }
 
 enum CustomerScreens { homepage, analysis, profile }
 
-enum OwnerScreens { subscriptionPage , analysis }
+enum OwnerScreens { analysis }
+
+enum PaymentFormPastWidget { userRegistration, updateSubscription }

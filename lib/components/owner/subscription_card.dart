@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,136 +47,138 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: InkWell(
-          splashColor: const Color.fromARGB(255, 235, 238, 241),
-          onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Profile(userId: widget.userId)))
-              },
-          child: IntrinsicHeight(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 20),
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage: widget.profilePic == null
-                            ? const AssetImage(
-                                    "assets/images/profile_default.png")
-                                as ImageProvider<Object>
-                            : NetworkImage(widget.profilePic ??
-                                "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default"),
-                        radius: 30),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 200,
-                          child: Row(
+    return Container(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+            splashColor: const Color.fromARGB(255, 235, 238, 241),
+            onTap: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Profile(userId: widget.userId)))
+                },
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 20),
+                      child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: widget.profilePic == null
+                              ? const AssetImage(
+                                      "assets/images/profile_default.png")
+                                  as ImageProvider<Object>
+                              : NetworkImage(widget.profilePic ??
+                                  "https://appcraft.s3.ap-south-1.amazonaws.com/profile_default"),
+                          radius: 30),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(widget.name,
+                                      style: GoogleFonts.inter(
+                                          textStyle: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              color: primaryColor))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 10,
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Flexible(
-                                child: Text(widget.name,
+                              Row(children: [
+                                Text('Due',
                                     style: GoogleFonts.inter(
                                         textStyle: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color: primaryColor))),
-                              ),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            color: Colors.black))),
+                                Container(
+                                  width: 15,
+                                ),
+                                const Icon(
+                                  Icons.calendar_today,
+                                  color: Color(0xff667085),
+                                  size: 20,
+                                ),
+                                Container(
+                                  width: 5,
+                                ),
+                                Text(widget.endDate,
+                                    style: GoogleFonts.inter(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            color: Colors.black))),
+                              ])
                             ],
                           ),
-                        ),
-                        Container(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(children: [
-                              Text('Due',
+                          Container(
+                            height: 8,
+                          ),
+                          widget.expiringDay != null
+                              ? Text(
+                                  "Expiring within ${widget.expiringDay} ${widget.expiringDay == 1 ? "day" : "days"} ",
                                   style: GoogleFonts.inter(
                                       textStyle: const TextStyle(
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.w700,
                                           fontSize: 14,
-                                          color: Colors.black))),
-                              Container(
-                                width: 15,
-                              ),
-                              const Icon(
-                                Icons.calendar_today,
-                                color: Color(0xff667085),
-                                size: 20,
-                              ),
-                              Container(
-                                width: 5,
-                              ),
-                              Text(widget.endDate,
+                                          color: Color(0xff8C6A13))))
+                              : const SizedBox(),
+                          widget.expiredDay != null
+                              ? Text(
+                                  "Expired ${widget.expiredDay} ${widget.expiredDay == 1 ? "day" : "days"} ago",
                                   style: GoogleFonts.inter(
                                       textStyle: const TextStyle(
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.w700,
                                           fontSize: 14,
-                                          color: Colors.black))),
-                            ])
-                          ],
-                        ),
-                        Container(
-                          height: 8,
-                        ),
-                        widget.expiringDay != null
-                            ? Text(
-                                "Expiring within ${widget.expiringDay} ${widget.expiringDay == 1 ? "day" : "days"} ",
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14,
-                                        color: Color(0xff8C6A13))))
-                            : const SizedBox(),
-                        widget.expiredDay != null
-                            ? Text(
-                                "Expired ${widget.expiredDay} ${widget.expiredDay == 1 ? "day" : "days"} ago",
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14,
-                                        color: Color(0xffB01D1D))))
-                            : const SizedBox(),
-                      ],
-                    ),
-                  ),
-                  if (widget.experience == 'Beginner')
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 0),
-                        child: Container(
-                            height: 25,
-                            width: 50,
-                            color: Color(0xffDCF2D8),
-                            child: Center(
-                                child: CustomText(
-                              text: 'New',
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: primaryColor,
-                            ))),
+                                          color: Color(0xffB01D1D))))
+                              : const SizedBox(),
+                        ],
                       ),
-                    )
-                ],
+                    ),
+                    if (widget.experience == 'Beginner')
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 0),
+                          child: Container(
+                              height: 25,
+                              width: 50,
+                              color: Color(0xffDCF2D8),
+                              child: Center(
+                                  child: CustomText(
+                                text: 'New',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor,
+                              ))),
+                        ),
+                      )
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

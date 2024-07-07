@@ -4,10 +4,6 @@ double getScreenWidth(context) {
   return MediaQuery.of(context).size.width;
 }
 
-double getHeaderHeight(context) {
-  return getScreenHeight(context) * 0.12;
-}
-
 double getScreenHeight(context) {
   return MediaQuery.of(context).size.height;
 }
@@ -19,7 +15,7 @@ double getStatusBarHeight(context) {
 double getEffectiveScreenHeight(context) {
   return getScreenHeight(context) -
       getStatusBarHeight(context) -
-      getHeaderHeight(context);
+      80;
 }
 
 Color formPrimaryColor = const Color.fromARGB(255, 85, 84, 84);

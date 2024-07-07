@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/subscription_card.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
-  final bool showCurrentUsers;
-  final List<dynamic> currentUsers;
-  final List<dynamic> expiredUsers;
+  final List<dynamic> users;
   const SubscriptionCardContainer(
-      {super.key,
-      required this.showCurrentUsers,
-      required this.currentUsers,
-      required this.expiredUsers});
+      {super.key, required this.users});
 
   @override
   State<SubscriptionCardContainer> createState() =>
@@ -17,19 +12,11 @@ class SubscriptionCardContainer extends StatefulWidget {
 }
 
 class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
-  List listToShow() {
-    if (widget.showCurrentUsers) {
-      return widget.currentUsers;
-    } else {
-      return widget.expiredUsers;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: listToShow()
+      children: widget.users
           .map((userSubscription) => Padding(
               padding: const EdgeInsets.all(0),
               child: Column(

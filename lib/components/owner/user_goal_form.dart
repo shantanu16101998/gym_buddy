@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,12 +116,12 @@ class _UserGoalFormState extends State<UserGoalForm> {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            border: Border.all(color: Colors.black)),
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+        ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
-              padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
+              padding: const EdgeInsets.only(left: 30, top: 20, bottom: 30),
               child: Text("Complete  $userName registration",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
@@ -129,12 +130,35 @@ class _UserGoalFormState extends State<UserGoalForm> {
                     fontSize: 22,
                   )))),
           Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
               child: Center(
-                child: DropdownButton(
+                child: DropdownButton2(
                   value: goal,
-                  dropdownColor: Colors.white,
+                  iconStyleData: IconStyleData(
+                      icon: RotatedBox(
+                          quarterTurns: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          ))),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.transparent,
+                  ),
+                  dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 400,
+                      // width: 100,
+                      decoration: BoxDecoration(color: Colors.white)),
+                  buttonStyleData: ButtonStyleData(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
                   onChanged: (value) {
                     setState(() {
                       goal = value!;
@@ -145,24 +169,46 @@ class _UserGoalFormState extends State<UserGoalForm> {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: SizedBox(
-                          // color: Colors.white,
-                          width: getScreenWidth(context) * 0.6,
-                          child: CustomText(
-                            text: value,
-                            color:
-                                goalError != null ? Colors.red : Colors.black,
-                          )),
+                          child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomText(
+                          text: value,
+                          color: goalError != null ? Colors.red : Colors.black,
+                        ),
+                      )),
                     );
                   }).toList(),
                 ),
               )),
           Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
               child: Center(
-                child: DropdownButton(
+                child: DropdownButton2(
                   value: experience,
-                  dropdownColor: Colors.white,
+                  iconStyleData: IconStyleData(
+                      icon: RotatedBox(
+                          quarterTurns: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          ))),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.transparent,
+                  ),
+                  dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 400,
+                      decoration: BoxDecoration(color: Colors.white)),
+                  buttonStyleData: ButtonStyleData(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
                   onChanged: (value) {
                     setState(() {
                       experience = value!;
@@ -174,26 +220,49 @@ class _UserGoalFormState extends State<UserGoalForm> {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: SizedBox(
-                          // color: Colors.white,
-                          width: getScreenWidth(context) * 0.6,
-                          child: CustomText(
-                            text: value,
-                            color: experienceError != null
-                                ? Colors.red
-                                : Colors.black,
-                          )),
+                          child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomText(
+                          text: value,
+                          color: experienceError != null
+                              ? Colors.red
+                              : Colors.black,
+                        ),
+                      )),
                     );
                   }).toList(),
                 ),
               )),
           if (mentors.length > 1)
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
               child: Center(
-                child: DropdownButton<List<String>>(
+                child: DropdownButton2<List<String>>(
                   value: mentor,
-                  dropdownColor: Colors.white,
+                  iconStyleData: IconStyleData(
+                      icon: RotatedBox(
+                          quarterTurns: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          ))),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.transparent,
+                  ),
+                  dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 400,
+                      decoration: BoxDecoration(color: Colors.white)),
+                  buttonStyleData: ButtonStyleData(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5)))),
                   onChanged: (List<String>? value) {
                     setState(() {
                       mentor = value ??
@@ -206,13 +275,14 @@ class _UserGoalFormState extends State<UserGoalForm> {
                     return DropdownMenuItem<List<String>>(
                       value: value,
                       child: SizedBox(
-                        // color: Colors.white,
-                        width: getScreenWidth(context) * 0.6,
-                        child: CustomText(
-                          text: value
-                              .last, // Assuming the last string is the mentor's name
-                          color:
-                              mentorError != null ? Colors.red : Colors.black,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CustomText(
+                            text: value
+                                .last, // Assuming the last string is the mentor's name
+                            color:
+                                mentorError != null ? Colors.red : Colors.black,
+                          ),
                         ),
                       ),
                     );
@@ -237,18 +307,16 @@ class _UserGoalFormState extends State<UserGoalForm> {
                   padding: const EdgeInsets.only(bottom: 50, top: 30),
                   child: SizedBox(
                       height: 50,
-                      width: 178,
+                      width: 320,
                       child: ElevatedButton(
                           onPressed: onPayNowButtonPressed,
                           style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            side: BorderSide(color: primaryColor),
-                          ),
+                              elevation: 0, backgroundColor: primaryColor),
                           child: const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text("Pay Now",
                                   style: TextStyle(
-                                      color: primaryColor,
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)))))))
         ]));

@@ -110,7 +110,6 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                         ListTile(
                           leading: const Icon(
                             Icons.camera_alt,
-                            size: 100,
                           ),
                           title: const Text('Take a photo'),
                           onTap: () {

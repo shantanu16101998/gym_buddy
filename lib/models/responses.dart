@@ -136,8 +136,8 @@ class AnalysisHomepageResponse {
 class ExpandedAnalysisResponse {
   final List<String> titles;
   final List<num> data;
-  final String average;
-  final String total;
+  final num average;
+  final num total;
   final num maxLimitOfData;
 
   ExpandedAnalysisResponse(

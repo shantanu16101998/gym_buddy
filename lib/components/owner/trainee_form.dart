@@ -6,6 +6,7 @@ import 'package:gym_buddy/models/requests.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/constants/url.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
@@ -95,12 +96,8 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
       sharedPreferences.setString(
           'gymName', ownerRegistrationResponse.gymName ?? "Gym");
       if (mounted) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const OwnerScreen(
-                      ownerScreens: OwnerScreens.subscriptionPage,
-                    )));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Subscription()));
       }
     } else {
       setState(() {
@@ -117,21 +114,22 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           color: Colors.white.withOpacity(0.98),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
-              padding: const EdgeInsets.only(left: 30, top: 30, bottom: 12),
-              child: Text("Hi ${widget.nameController.text}",
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  )))),
-          Padding(
-              padding: const EdgeInsets.only(left: 30),
+              padding: const EdgeInsets.only(top: 30, bottom: 12),
+              child: Center(
+                child: Text("Hi ${widget.nameController.text}",
+                    style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ))),
+              )),
+          Center(
               child: Text("Enter trainee details",
                   style: GoogleFonts.inter(
                       textStyle: const TextStyle(
@@ -142,7 +140,7 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
             Column(
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 30),
+                    padding: const EdgeInsets.only(top: 30),
                     child: Text("Trainee ${i + 1}",
                         style: GoogleFonts.inter(
                             textStyle: const TextStyle(
@@ -175,17 +173,17 @@ class _OwnerTraineeFormState extends State<OwnerTraineeForm> {
                         errorText: null)),
               ],
             ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: showValidationError
-                ? Text(formNotValidated,
-                    style: const TextStyle(
-                        color: formValidationErrorColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15))
-                : const SizedBox(),
-          ),
+          if (showValidationError)
+            Padding(
+                padding: const EdgeInsets.only(
+                    left: 30, top: 15, bottom: 15, right: 30),
+                child: Center(
+                  child: Text(formNotValidated,
+                      style: const TextStyle(
+                          color: formValidationErrorColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                )),
           Align(
               alignment: Alignment.center,
               child: Padding(

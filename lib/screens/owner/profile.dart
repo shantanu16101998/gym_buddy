@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_buddy/components/common/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -56,13 +60,25 @@ class _ProfileState extends State<Profile> {
     await backendAPICall(
         "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
     if (mounted) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const OwnerScreen(
-                    ownerScreens: OwnerScreens.subscriptionPage,
-                  )));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Subscription()));
     }
+  }
+
+  _openWhatsappLink() async {
+    await launchUrl(Uri(
+        host: 'wa.me',
+        path: '+91${userProfileResponse.phone}',
+        scheme: 'https',
+        queryParameters: {'text': textToSend(userProfileResponse.name)}));
+  }
+
+  _callPhone() async {
+    await launchUrl(Uri(
+      host: '+91${userProfileResponse.phone}',
+      path: '',
+      scheme: 'tel',
+    ));
   }
 
   @override
@@ -113,6 +129,76 @@ class _ProfileState extends State<Profile> {
               Column(
                 children: [
                   const SizedBox(height: 70),
+                  Container(
+                      height: 100,
+                      // color: Colors.lightBlue,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: _callPhone,
+                            child: Container(
+                              height: 70,
+                              width: 84,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Color(0xffD9D9D9)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: CircleAvatar(
+                                        maxRadius: 15,
+                                        backgroundImage: AssetImage(
+                                            "assets/images/phone.png")),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: CustomText(
+                                      text: 'Call',
+                                      color: Color(0xff757575),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: _openWhatsappLink,
+                            child: Container(
+                              height: 70,
+                              width: 84,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Color(0xffD9D9D9)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // FaIcon(FontAwesomeIcons.whatsapp,color: Colors.green,size: 30,),
+                                  CircleAvatar(
+                                      maxRadius: 15,
+                                      backgroundColor: Colors.white,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/whatsapp.png")),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: CustomText(
+                                      text: 'Whatsapp',
+                                      color: Color(0xff757575),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
                   Container(
                     width: getScreenWidth(context) * 0.8,
                     decoration: BoxDecoration(
@@ -255,10 +341,11 @@ class _ProfileState extends State<Profile> {
               Padding(
                   padding: const EdgeInsets.only(top: 50, bottom: 25),
                   child: SizedBox(
-                    height: 45,
+                    height: 50,
                     width: 300,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          backgroundColor: primaryColor,
                           shape: RoundedRectangleBorder(
                             side: BorderSide(
                                 width: 2, color: primaryColor.withOpacity(0.8)),
@@ -276,25 +363,23 @@ class _ProfileState extends State<Profile> {
                               return SubscriptionDialog(userId: widget.userId);
                             });
                       },
-                      child: Text('Update Subscription',
+                      child: Text('Renew Subscription',
                           style: GoogleFonts.inter(
                               textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
-                                  color: primaryColor))),
+                                  color: Colors.white))),
                     ),
                   )),
               Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: SizedBox(
-                    height: 45,
+                    height: 50,
                     width: 300,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          backgroundColor: Color(0xffB01D1D),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 2,
-                                  color: Color(0xffB01D1D).withOpacity(0.5)),
                               borderRadius: BorderRadius.circular(20)),
                           textStyle: const TextStyle(
                               fontSize: 22,
@@ -306,7 +391,7 @@ class _ProfileState extends State<Profile> {
                               textStyle: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22,
-                                  color: Color(0xffB01D1D)))),
+                                  color: Colors.white))),
                     ),
                   )),
               const SizedBox(height: 50)

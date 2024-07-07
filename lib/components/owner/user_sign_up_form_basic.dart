@@ -111,7 +111,7 @@ class _UserSignUpFormBasicState extends State<UserSignUpFormBasic> {
         // ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-          padding: const EdgeInsets.only(top: 30, bottom: 30),
+          padding: const EdgeInsets.only(top: 20, bottom: 30),
           child: Center(
             child: Text("Register New User",
                 style: GoogleFonts.inter(

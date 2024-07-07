@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/splash_screen.dart';
+import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
@@ -49,9 +50,7 @@ class _SideBarState extends State<SideBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const OwnerScreen(
-                                ownerScreens: OwnerScreens.subscriptionPage,
-                              )))
+                          builder: (context) => const Subscription()))
                 },
                 child: Container(
                     decoration: BoxDecoration(

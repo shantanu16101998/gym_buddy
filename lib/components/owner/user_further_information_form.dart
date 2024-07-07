@@ -1,4 +1,7 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,20 @@ import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
 import 'package:gym_buddy/constants/url.dart';
 
-final List<String> timings = ["Regular Timings", "Special Timings"];
+final List<String> durations = [
+  'Duration (months)',
+  '1 month',
+  '2 months',
+  '3 months',
+  '4 months',
+  '5 months',
+  '7 months',
+  '8 months',
+  '9 months',
+  '10 months',
+  '11 months',
+  '12 months'
+];
 
 class UserFurtherInformationForm extends StatefulWidget {
   final Function onPageToShowChange;
@@ -41,7 +57,8 @@ class _UserFurtherInformationFormState
   String? endMonthError;
   String? chargesError;
 
-  String timing = timings[0];
+  String duration = durations[0];
+
   late String userName = "User's";
 
   void intialConfigs() async {
@@ -63,7 +80,6 @@ class _UserFurtherInformationFormState
           "bloodGroup", _bloodGroupController.text);
       await sharedPreferences.setString("startDate", _startDateController.text);
       await sharedPreferences.setString("validTill", _endMonthController.text);
-      await sharedPreferences.setString("timing", timing);
       widget.onPageToShowChange(PageToShow.futherInformationPage);
     } else {
       setState(() {
@@ -76,8 +92,9 @@ class _UserFurtherInformationFormState
     setState(() {
       startDateError =
           validateSimpleText(_startDateController.text, "Start Date");
-      endMonthError =
-          validateSimpleText(_endMonthController.text, "Valid till");
+      endMonthError = _endMonthController.text == "0"
+          ? "End month cannot be zero"
+          : validateSimpleText(_endMonthController.text, "Valid till");
       chargesError = validateSimpleText(_chargesController.text, "charges");
     });
     if (genderError != null ||
@@ -131,23 +148,25 @@ class _UserFurtherInformationFormState
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffDBDDE2)),
-          borderRadius: BorderRadius.circular(20),
-          color: const Color(0xffFCFCFD),
-        ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-              Text("Enter subscription details",
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          overflow: TextOverflow.clip))),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
+      Padding(
+        padding: const EdgeInsets.only(top: 20, bottom: 30),
+        child: Center(
+          child: Text("Enter subscription details",
+              style: GoogleFonts.inter(
+                  textStyle: const TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      overflow: TextOverflow.clip))),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 15, bottom: 15),
+        child: Center(
+          child: SizedBox(
+              width: 320,
+              // height: 80,
               child: LabeledTextField(
                   labelText: "Start Date",
                   controller: _startDateController,
@@ -156,171 +175,108 @@ class _UserFurtherInformationFormState
                   onTap: () {
                     _selectDate(context, _startDateController);
                   })),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 30, top: 15, bottom: 15, right: 30),
-                child: Text('Valid Till in Months',
-                    style: GoogleFonts.roboto(
-                        textStyle: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15,
-                    )))),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlinedButton(
-                      onPressed: () => {
-                            setState(() {
-                              _endMonthController.text = "3";
-                            })
-                          },
-                      style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          elevation: 0,
-                          backgroundColor: _endMonthController.text == "3"
-                              ? Color.fromARGB(255, 233, 233, 233)
-                              : Colors.white.withOpacity(0.2)),
-                      child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text("3",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)))),
-                  OutlinedButton(
-                      onPressed: () => {
-                            setState(() {
-                              _endMonthController.text = "6";
-                            })
-                          },
-                      style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          elevation: 0,
-                          backgroundColor: _endMonthController.text == "6"
-                              ? const Color.fromARGB(255, 233, 233, 233)
-                              : Colors.white.withOpacity(0.2).withOpacity(0.2)),
-                      child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text("6",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)))),
-                  OutlinedButton(
-                      onPressed: () => {
-                            setState(() {
-                              _endMonthController.text = "12";
-                            })
-                          },
-                      style: ElevatedButton.styleFrom(
-                          side: BorderSide(color: Colors.black),
-                          elevation: 0,
-                          backgroundColor: _endMonthController.text == "12"
-                              ? const Color.fromARGB(255, 233, 233, 233)
-                              : Colors.white.withOpacity(0.2).withOpacity(0.2)),
-                      child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text("12",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold))))
-                ],
-              )),
-          Align(
-              alignment: Alignment.center,
-              child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: LabeledTextField(
-                      textInputType: TextInputType.number,
-                      labelText: "Valid till Month",
-                      textInputFormatter: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      controller: _endMonthController,
-                      onTap: () => {
-                            setState(() {
-                              _endMonthController.text = "";
-                            })
-                          },
-                      errorText: endMonthError))),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 15, bottom: 15, right: 30),
-              child: DropdownButton(
-                value: timing,
-                dropdownColor: Colors.white,
-                onChanged: (value) {
-                  setState(() {
-                    timing = value!;
-                  });
-                },
-                items: timings.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: SizedBox(
-                        // color: Colors.white,
-                        width: getScreenWidth(context) * 0.6,
-                        child: CustomText(
-                          text: value,
-                        )),
-                  );
-                }).toList(),
-              )),
-          Align(
-              alignment: Alignment.center,
-              child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30, top: 15, bottom: 15, right: 30),
-                  child: LabeledTextField(
-                    textInputType: TextInputType.number,
-                    labelText: "Charges",
-                    controller: _chargesController,
-                    textInputFormatter: [
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    errorText: chargesError,
-                    prefixIcon: const Icon(
-                      Icons.currency_rupee,
+        ),
+      ),
+      Center(
+        child: DropdownButton2(
+          iconStyleData: IconStyleData(
+              icon: RotatedBox(
+                  quarterTurns: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                      size: 15,
                     ),
                   ))),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
-            child: showValidationError
-                ? Text(formNotValidated,
-                    style: const TextStyle(
-                        color: formValidationErrorColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15))
-                : const SizedBox(),
+          underline: Container(
+            height: 1,
+            color: Colors.transparent,
           ),
-          Align(
-              alignment: Alignment.center,
-              child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50, top: 30),
-                  child: SizedBox(
-                      height: 50,
-                      width: 178,
-                      child: OutlinedButton(
-                          onPressed: onPayNowButtonPressed,
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: primaryColor),
-                            elevation: 0,
-                          ),
-                          child: const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text("Next",
-                                  style: TextStyle(
-                                      color: primaryColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)))))))
-        ]));
+          buttonStyleData: ButtonStyleData(
+              width: 320,
+              height: 60,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1,
+                      color: endMonthError != null ? Colors.red : Colors.grey),
+                  borderRadius: BorderRadius.all(Radius.circular(5)))),
+          dropdownStyleData: const DropdownStyleData(
+              maxHeight: 400,
+              // width: 100,
+              decoration: BoxDecoration(color: Colors.white)),
+          value: duration,
+          onChanged: (value) {
+            setState(() {
+              duration = value!;
+              _endMonthController.text = durations.indexOf(value).toString();
+            });
+          },
+          items: durations.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Container(
+                  // width: getScreenWidth(context) * 0.6,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: CustomText(
+                      text: value,
+                      fontSize: 17,
+                    ),
+                  )),
+            );
+          }).toList(),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 15, bottom: 15),
+        child: Align(
+            alignment: Alignment.center,
+            child: Container(
+                width: 320,
+                child: LabeledTextField(
+                  textInputType: TextInputType.number,
+                  labelText: "Charges",
+                  controller: _chargesController,
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                  errorText: chargesError,
+                  prefixIcon: const Icon(
+                    Icons.currency_rupee,
+                  ),
+                ))),
+      ),
+      Padding(
+        padding:
+            const EdgeInsets.only(left: 30, top: 15, bottom: 15, right: 30),
+        child: showValidationError
+            ? Text(formNotValidated,
+                style: const TextStyle(
+                    color: formValidationErrorColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15))
+            : const SizedBox(),
+      ),
+      Align(
+          alignment: Alignment.center,
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 50, top: 30),
+              child: SizedBox(
+                  height: 50,
+                  width: 320,
+                  child: OutlinedButton(
+                      onPressed: onPayNowButtonPressed,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        elevation: 0,
+                      ),
+                      child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text("Next",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)))))))
+    ]));
   }
 }
