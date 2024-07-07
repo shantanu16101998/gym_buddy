@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
-import 'package:gym_buddy/components/owner/tab_bar.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
@@ -14,9 +11,7 @@ import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Subscription extends StatefulWidget {
@@ -125,9 +120,9 @@ class _SubscriptionState extends State<Subscription>
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  Header(),
+                  const Header(),
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 20,
                       right: 20,
                       bottom: 10,
@@ -135,7 +130,7 @@ class _SubscriptionState extends State<Subscription>
                     // width: 360,
                     child: LabeledTextField(
                         prefixIcon:
-                            Icon(Icons.search, color: const Color(0xff667085)),
+                            const Icon(Icons.search, color: Color(0xff667085)),
                         labelText: "Search members...",
                         controller: _searchController,
                         onChange: context
@@ -147,11 +142,11 @@ class _SubscriptionState extends State<Subscription>
                         errorText: null),
                   ),
                   TabBar(
-                    dividerColor: Color(0xffD0D5DD),
+                    dividerColor: const Color(0xffD0D5DD),
                     controller: tabController,
-                    indicatorColor: Color(0xff344054),
-                    labelColor: Color(0xff344054),
-                    unselectedLabelColor: Color(0xff344054).withOpacity(0.64),
+                    indicatorColor: const Color(0xff344054),
+                    labelColor: const Color(0xff344054),
+                    unselectedLabelColor: const Color(0xff344054).withOpacity(0.64),
                     tabs: [
                       Tab(
                         child: Container(
@@ -234,7 +229,7 @@ class _SubscriptionState extends State<Subscription>
                                           BoxShadow(
                                               blurRadius: 2, color: Colors.grey)
                                         ]),
-                                    child: Align(
+                                    child: const Align(
                                         alignment: Alignment.center,
                                         child: SizedBox(
                                             child: Text("+",
@@ -266,7 +261,7 @@ class _SubscriptionState extends State<Subscription>
                           )),
                     ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: SingleChildScrollView(
                   child: SubscriptionCardContainer(
                     users: context.watch<SubscriptionProvider>().expiredUsers,

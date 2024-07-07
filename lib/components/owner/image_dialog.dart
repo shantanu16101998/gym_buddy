@@ -52,6 +52,7 @@ class _ImageDialogState extends State<ImageDialog> {
         compressFormat: ImageCompressFormat.jpg,
         uiSettings: [
           AndroidUiSettings(
+            lockAspectRatio: false,
             toolbarTitle: 'Crop Image',
             toolbarColor:
                 const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),

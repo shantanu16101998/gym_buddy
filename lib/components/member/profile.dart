@@ -68,7 +68,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Container(
                                 width: getScreenWidth(context) * 0.8,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
                                             color: Color(0xffD0D5DD)))),
@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomText(
+                                      const CustomText(
                                         text: 'Name',
                                         fontSize: 16,
                                         color: Color(0xff7A7F93),
@@ -97,7 +97,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               Container(
                                 width: getScreenWidth(context) * 0.8,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
                                             color: Color(0xffD0D5DD)))),
@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomText(
+                                      const CustomText(
                                         text: 'Contact',
                                         fontSize: 16,
                                         color: Color(0xff7A7F93),
@@ -128,7 +128,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               Container(
                                 width: getScreenWidth(context) * 0.8,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
                                             color: Color(0xffD0D5DD)))),
@@ -139,7 +139,7 @@ class _ProfileState extends State<Profile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomText(
+                                      const CustomText(
                                         text: 'Start Date',
                                         fontSize: 16,
                                         color: Color(0xff7A7F93),
@@ -147,9 +147,7 @@ class _ProfileState extends State<Profile> {
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: CustomText(
-                                          text:
-                                              memberProfileResponse.startDate ??
-                                                  '',
+                                          text: memberProfileResponse.startDate,
                                           fontSize: 22,
                                           color: primaryColor,
                                         ),
@@ -160,7 +158,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               Container(
                                 width: getScreenWidth(context) * 0.8,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
                                             color: Color(0xffD0D5DD)))),
@@ -171,7 +169,7 @@ class _ProfileState extends State<Profile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomText(
+                                      const CustomText(
                                         text: 'Plan',
                                         fontSize: 16,
                                         color: Color(0xff7A7F93),
@@ -192,7 +190,7 @@ class _ProfileState extends State<Profile> {
                               if (memberProfileResponse.trainerName != null)
                                 Container(
                                   width: getScreenWidth(context) * 0.8,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
                                               color: Color(0xffD0D5DD)))),
@@ -203,7 +201,7 @@ class _ProfileState extends State<Profile> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        CustomText(
+                                        const CustomText(
                                           text: 'Mentor',
                                           fontSize: 16,
                                           color: Color(0xff7A7F93),

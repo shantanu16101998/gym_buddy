@@ -1,15 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:gym_buddy/components/common/app_scaffold.dart';
-import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/components/owner/gym_analysis.dart';
 import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
-import 'package:gym_buddy/utils/colors.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:provider/provider.dart';
 
 class Test extends StatefulWidget {
@@ -43,13 +36,13 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  Header(),
+                  const Header(),
                   Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     // width: 360,
                     child: LabeledTextField(
                         prefixIcon:
-                            Icon(Icons.search, color: const Color(0xff667085)),
+                            const Icon(Icons.search, color: Color(0xff667085)),
                         labelText: "Search members...",
                         controller: _searchController,
                         onChange: context
@@ -60,7 +53,7 @@ class _TestState extends State<Test> with SingleTickerProviderStateMixin {
                         cursorColor: const Color(0xff667085),
                         errorText: null),
                   ),
-                  TabBar(
+                  const TabBar(
                     tabs: [
                       Tab(child: Text("Tab 1")),
                       Tab(child: Text("Tab 2")),

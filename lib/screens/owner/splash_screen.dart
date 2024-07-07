@@ -4,7 +4,6 @@ import 'package:gym_buddy/constants/environment.dart';
 import 'package:gym_buddy/screens/common/test.dart';
 import 'package:gym_buddy/screens/member/member.dart';
 import 'package:gym_buddy/screens/member/member_login_form.dart';
-import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/screens/owner/owner_form.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/enums.dart';

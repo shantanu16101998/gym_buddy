@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/models/requests.dart';
 import 'package:gym_buddy/models/responses.dart';
-import 'package:gym_buddy/screens/owner/owner.dart';
 import 'package:gym_buddy/constants/url.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
-import 'package:gym_buddy/utils/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OwnerTraineeForm extends StatefulWidget {

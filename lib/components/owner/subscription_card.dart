@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
-import 'package:gym_buddy/components/owner/subscription_dialog.dart';
 import 'package:gym_buddy/screens/owner/profile.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gym_buddy/utils/custom.dart';
@@ -160,12 +156,12 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                       Align(
                         alignment: Alignment.topRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 0),
+                          padding: const EdgeInsets.only(right: 0),
                           child: Container(
                               height: 25,
                               width: 50,
-                              color: Color(0xffDCF2D8),
-                              child: Center(
+                              color: const Color(0xffDCF2D8),
+                              child: const Center(
                                   child: CustomText(
                                 text: 'New',
                                 fontSize: 14,

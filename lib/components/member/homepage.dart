@@ -11,7 +11,6 @@ import 'package:gym_buddy/providers/excercise_provider.dart';
 import 'package:gym_buddy/screens/common/screen_shimmer.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'dart:typed_data';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';

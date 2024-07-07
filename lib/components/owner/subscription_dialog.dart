@@ -5,7 +5,6 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/screens/owner/profile.dart';
-import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/exercise_constant.dart';
