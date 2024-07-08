@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/common/attendance_calendar.dart';
 import 'package:gym_buddy/components/common/app_scaffold.dart';
+import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
@@ -53,7 +54,31 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  _onDeleteUserPressed() async {
+  void showDeleteUserAlertDialog() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              elevation: 0,
+              backgroundColor:
+                  Colors.transparent, // Set background color to white
+              content: CustomDialogBox(
+                  shouldShowExtraDismissButton: true,
+                  buttonColor: Color(0xffE46A6A),
+                  dismissButtonColor: Color(0xff344054).withOpacity(0.5),
+                  iconWidget: const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child:
+                        Icon(Icons.delete, size: 60, color: Color(0xffE46A6A)),
+                  ),
+                  heading: 'Delete User',
+                  subheading: 'Are you sure you want to delete this user?',
+                  buttonName: 'Delete',
+                  buttonAction: deleteUser));
+        });
+  }
+
+  deleteUser() async {
     await backendAPICall(
         "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
     if (mounted) {
@@ -411,7 +436,7 @@ class _ProfileState extends State<Profile> {
                               fontSize: 22,
                               color: Color(0xffB01D1D),
                               fontWeight: FontWeight.bold)),
-                      onPressed: _onDeleteUserPressed,
+                      onPressed: showDeleteUserAlertDialog,
                       child: Text('Delete user',
                           style: GoogleFonts.inter(
                               textStyle: const TextStyle(
@@ -471,12 +496,12 @@ class _ProfileState extends State<Profile> {
                                         color: primaryColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
+                                    height: 40,
+                                    width: 40,
                                     child: const Icon(
                                       Icons.camera_alt_rounded,
                                       color: Colors.white,
                                     ),
-                                    height: 40,
-                                    width: 40,
                                   ))
                             ],
                           ),

@@ -133,7 +133,7 @@ class _UserPaymentFormState extends State<UserPaymentForm> {
                                     ),
                                   ),
                                   Container(
-                                      height: 140,
+                                      height: 150,
                                       decoration: const BoxDecoration(
                                           color: Color(0xffD4F0FD),
                                           borderRadius: BorderRadius.vertical(

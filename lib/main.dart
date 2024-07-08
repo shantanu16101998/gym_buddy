@@ -96,6 +96,7 @@ class _MyAppState extends State<MyApp> {
         // uncomment when in prod
         home:  const SplashScreen(),
         // home: UserSignUp(),
+        // home: Subscription(),
         // home: OwnerScreen(ownerScreens: OwnerScreens.analysis),
         // home: const Profile(userId: '667869fd29d826816fd0aa6e'),
         // home: UserPaymentForm(nextPageToShow: const Subscription()),

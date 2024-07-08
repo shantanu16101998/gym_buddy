@@ -36,7 +36,7 @@ String? chargeValidator(String charge) {
   try {
     int charges = int.parse(charge);
 
-    if (charges < 10) {
+    if (charges < 100) {
       return "Isn't charge too low";
     } else if (charges > 100000) {
       return "Isn't charge too high";
