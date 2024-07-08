@@ -11,6 +11,7 @@ class CustomDialogBox extends StatefulWidget {
   final Function()? buttonAction;
   final String? buttonName;
   final bool? shouldShowExtraDismissButton;
+  final Color? dismissButtonColor;
   const CustomDialogBox(
       {super.key,
       required this.buttonColor,
@@ -19,6 +20,7 @@ class CustomDialogBox extends StatefulWidget {
       required this.subheading,
       this.buttonAction,
       this.buttonName,
+      this.dismissButtonColor,
       this.shouldShowExtraDismissButton});
 
   @override
@@ -61,7 +63,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0,left: 5,right: 5),
+                      padding:
+                          const EdgeInsets.only(top: 8.0, left: 10, right: 10),
                       child: CustomText(
                         text: widget.subheading,
                         fontSize: 16,
@@ -91,7 +94,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     decoration: BoxDecoration(
                         color: widget.buttonColor,
                         borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12),
+                            bottomLeft: const Radius.circular(12),
                             bottomRight: Radius.circular(
                                 widget.shouldShowExtraDismissButton == true
                                     ? 0
@@ -118,10 +121,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       height: 40,
                       // width: 156,
                       decoration: BoxDecoration(
-                          color: widget.buttonColor.withOpacity(0.5),
+                          color: widget.dismissButtonColor ?? widget.buttonColor.withOpacity(0.5),
                           borderRadius: const BorderRadius.only(
                               bottomRight: Radius.circular(12))),
-                      child: Center(
+                      child: const Center(
                           child: CustomText(
                         text: 'Dismiss',
                         fontSize: 20,

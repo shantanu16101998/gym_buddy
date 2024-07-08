@@ -22,6 +22,30 @@ class SubscriptionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  changeImagePath(String customerId) async {
+    String customerProfilePicUrl = GetProfilePicUrl.fromJson(
+            await backendAPICall('/aws/image/$customerId', {}, 'GET', true))
+        .url;
+
+    try {
+      var user =
+          allCurrentUsers.firstWhere((element) => element.id == customerId);
+      user.profilePic = customerProfilePicUrl;
+      currentUsers = allCurrentUsers;
+
+      notifyListeners();
+    } catch (e) {
+      try {
+        var user =
+            allExpiredUsers.firstWhere((element) => element.id == customerId);
+        user.profilePic = customerProfilePicUrl;
+        expiredUsers = allExpiredUsers;
+      } catch (e) {
+        print("User with ID $customerId not found.");
+      }
+    }
+  }
+
   onSearchTextFieldChanged(String currentText) {
     if (searchFieldLoaded) {
       currentUsers = allCurrentUsers

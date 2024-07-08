@@ -465,3 +465,12 @@ class AddExerciseResponse {
     return AddExerciseResponse(message: json['message']);
   }
 }
+
+class GetProfilePicUrl {
+  final String url;
+  GetProfilePicUrl({required this.url});
+
+  factory GetProfilePicUrl.fromJson(Map<String, dynamic> json) {
+    return GetProfilePicUrl(url: json['url']);
+  }
+}

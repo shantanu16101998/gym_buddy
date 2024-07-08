@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
+import 'package:gym_buddy/components/owner/loader.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
@@ -25,6 +27,7 @@ class ImageDialog extends StatefulWidget {
 class _ImageDialogState extends State<ImageDialog> {
   late ImagePicker _picker;
   XFile? _imageFile;
+  bool imageBeingUploaded = true;
 
   @override
   void initState() {
@@ -37,6 +40,7 @@ class _ImageDialogState extends State<ImageDialog> {
     if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;
+        _cropImage();
       });
     }
   }
@@ -45,7 +49,7 @@ class _ImageDialogState extends State<ImageDialog> {
     if (_imageFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: _imageFile!.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 2),
         compressQuality: 100,
         maxWidth: 1000,
         maxHeight: 1000,
@@ -53,9 +57,9 @@ class _ImageDialogState extends State<ImageDialog> {
         uiSettings: [
           AndroidUiSettings(
             lockAspectRatio: false,
+            hideBottomControls: true,
             toolbarTitle: 'Crop Image',
-            toolbarColor:
-                const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
+            toolbarColor: primaryColor,
             toolbarWidgetColor: Colors.white,
             activeControlsWidgetColor:
                 const Color.fromARGB(255, 85, 84, 84).withOpacity(0.98),
@@ -77,11 +81,11 @@ class _ImageDialogState extends State<ImageDialog> {
 
   void _uploadImage() async {
     if (_imageFile != null) {
-      await uploadImage('/aws/upload', _imageFile!, widget.customerId);
+      uploadImage('/aws/upload', _imageFile!, widget.customerId);
     }
 
     if (mounted) {
-      await Provider.of<SubscriptionProvider>(context, listen: false)
+      Provider.of<SubscriptionProvider>(context, listen: false)
           .fetchSubscription();
     }
 
@@ -95,6 +99,7 @@ class _ImageDialogState extends State<ImageDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.white,
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -117,8 +122,7 @@ class _ImageDialogState extends State<ImageDialog> {
             width: double.infinity,
             decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(20)),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
             ),
             child: Column(
               children: [
@@ -180,7 +184,7 @@ class _ImageDialogState extends State<ImageDialog> {
                             text: "Upload",
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                            fontSize: 22)),
+                            fontSize: 22))
               ],
             ),
           ),

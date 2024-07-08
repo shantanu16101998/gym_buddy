@@ -1,7 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/exercise_constant.dart';
-import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:gym_buddy/utils/validator.dart';
@@ -112,14 +109,10 @@ class _UserFurtherInformationFormState
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: formPrimaryColor,
+            colorScheme: const ColorScheme.light(
+              primary: primaryColor,
               onPrimary: Colors.white,
-              onSurface: formPrimaryColor,
-            ),
-            textTheme: const TextTheme(
-              bodyLarge: TextStyle(color: Colors.white),
-              titleMedium: TextStyle(color: Colors.white),
+            //   onSurface: formPrimaryColor,
             ),
           ),
           child: child!,
@@ -167,11 +160,11 @@ class _UserFurtherInformationFormState
       ),
       Center(
         child: DropdownButton2(
-          iconStyleData: IconStyleData(
+          iconStyleData: const IconStyleData(
               icon: RotatedBox(
                   quarterTurns: 3,
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                     child: Icon(
                       Icons.arrow_back_ios,
                       color: Colors.black,
@@ -189,7 +182,7 @@ class _UserFurtherInformationFormState
                   border: Border.all(
                       width: 1,
                       color: endMonthError != null ? Colors.red : Colors.grey),
-                  borderRadius: BorderRadius.all(Radius.circular(5)))),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)))),
           dropdownStyleData: const DropdownStyleData(
               maxHeight: 400,
               // width: 100,
