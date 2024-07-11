@@ -43,6 +43,8 @@ void main() async {
   await initNotifications(flutterLocalNotificationsPlugin);
   await DatabaseHelper().database;
 
+  await DatabaseHelper().database;
+
   if (shouldEnableFirebase) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
