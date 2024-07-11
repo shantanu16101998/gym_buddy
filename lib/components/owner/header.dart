@@ -30,7 +30,7 @@ class _HeaderState extends State<Header> {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 20),
                     child: Center(
                     
                         child: SizedBox(

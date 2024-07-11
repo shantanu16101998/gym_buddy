@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gym_buddy/database/user_subscription.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/models/user_subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/custom.dart';
 
 class SubscriptionProvider extends ChangeNotifier {
   List allCurrentUsers = [];
@@ -10,7 +13,15 @@ class SubscriptionProvider extends ChangeNotifier {
   bool searchFieldLoaded = false;
   bool subcriptionAPIDataFetched = false;
 
-  Future<void> fetchSubscription() async {
+  void insertUserInDb(UserSubscription userSubscription) async {
+    await insertUser(userSubscription);
+    print('inserted this user $userSubscription');
+    await fetchSubscription();
+
+    notifyListeners();
+  }
+
+  Future<void> fetchSubscriptionFromAPI() async {
     SubscriptionDetailsResponse subscriptionDetailsResponse =
         SubscriptionDetailsResponse.fromJson(
             await backendAPICall('/customer/getCustomers', null, "GET", true));
@@ -19,7 +30,46 @@ class SubscriptionProvider extends ChangeNotifier {
     currentUsers = subscriptionDetailsResponse.currentUsers;
     expiredUsers = subscriptionDetailsResponse.expiredUsers;
     subcriptionAPIDataFetched = true;
+
+    subscriptionDetailsResponse.currentUsers.forEach((user) {
+      insertUser(user);
+    });
+
+    subscriptionDetailsResponse.expiredUsers.forEach((user) {
+      insertUser(user);
+    });
+
     notifyListeners();
+  }
+
+  Future<void> fetchSubscription() async {
+    List<UserSubscription> allUsers = await getAllUsers();
+
+    fetchSubscriptionFromAPI();
+
+    if (allUsers.isEmpty) {
+      fetchSubscriptionFromAPI();
+    } else {
+      allUsers.forEach((user) {
+        user.expiringDays = expiringDayToShow(user.endDate);
+
+        user.expiredDays = expiredDayToShow(user.endDate);
+      });
+      subcriptionAPIDataFetched = true;
+
+      currentUsers = allUsers
+          .where((user) => getDaysRemainingFromToday(user.endDate) > 0)
+          .toList();
+
+      expiredUsers = allUsers
+          .where((user) => getDaysRemainingFromToday(user.endDate) <= 0)
+          .toList();
+
+      allCurrentUsers = currentUsers;
+      allExpiredUsers = expiredUsers;
+
+      notifyListeners();
+    }
   }
 
   changeImagePath(String customerId) async {

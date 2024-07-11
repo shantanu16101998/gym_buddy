@@ -171,12 +171,13 @@ class DuplicateEmailCheckResponse {
 }
 
 class RegisterCustomerResponse {
-  final String? profilePic;
+  final UserSubscription newUser;
 
-  RegisterCustomerResponse({this.profilePic});
+  RegisterCustomerResponse({required this.newUser});
 
   factory RegisterCustomerResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterCustomerResponse(profilePic: json['profilePic']);
+    return RegisterCustomerResponse(
+        newUser: UserSubscription.fromJson(json['new_customer']));
   }
 }
 
