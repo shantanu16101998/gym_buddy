@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gym_buddy/database/user_subscription.dart' as db;
 import 'package:gym_buddy/models/responses.dart';
 import 'package:gym_buddy/models/user_subscription.dart';
+import 'package:gym_buddy/models/user_subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
+import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/custom.dart';
 
 class SubscriptionProvider extends ChangeNotifier {
