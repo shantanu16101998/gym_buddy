@@ -5,7 +5,9 @@ import 'package:gym_buddy/components/owner/header.dart';
 import 'package:gym_buddy/components/owner/side_bar.dart';
 import 'package:gym_buddy/components/owner/subscription_card_container.dart';
 import 'package:gym_buddy/components/owner/text_box.dart';
+import 'package:gym_buddy/database/user_subscription.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/models/user_subscription.dart';
 import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/user_sign_up.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
@@ -146,7 +148,8 @@ class _SubscriptionState extends State<Subscription>
                     controller: tabController,
                     indicatorColor: const Color(0xff344054),
                     labelColor: const Color(0xff344054),
-                    unselectedLabelColor: const Color(0xff344054).withOpacity(0.64),
+                    unselectedLabelColor:
+                        const Color(0xff344054).withOpacity(0.64),
                     tabs: [
                       Tab(
                         child: Container(
@@ -211,12 +214,14 @@ class _SubscriptionState extends State<Subscription>
                               padding:
                                   const EdgeInsets.only(right: 25, bottom: 25),
                               child: GestureDetector(
-                                onTap: () => {
+                                onTap: () async {
+
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const UserSignUp()))
+                                              const UserSignUp()));
                                 },
                                 child: Container(
                                     height: 60,

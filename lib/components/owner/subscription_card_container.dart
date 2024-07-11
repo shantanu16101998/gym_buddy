@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/subscription_card.dart';
+import 'package:gym_buddy/models/user_subscription.dart';
 
 class SubscriptionCardContainer extends StatefulWidget {
-  final List<dynamic> users;
+  final List<UserSubscription> users;
   const SubscriptionCardContainer(
       {super.key, required this.users});
 
@@ -17,7 +18,7 @@ class _SubscriptionCardContainerState extends State<SubscriptionCardContainer> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: widget.users
-          .map((userSubscription) => Padding(
+          .map((UserSubscription userSubscription) => Padding(
               padding: const EdgeInsets.all(0),
               child: Column(
                 children: [

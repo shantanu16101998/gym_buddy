@@ -53,19 +53,20 @@ class OwnerRegistrationResponse {
 }
 
 class SubscriptionDetailsResponse {
-  final List<dynamic> currentUsers;
-  final List<dynamic> expiredUsers;
+  final List<UserSubscription> currentUsers;
+  final List<UserSubscription> expiredUsers;
 
   const SubscriptionDetailsResponse(
       {required this.currentUsers, required this.expiredUsers});
 
   factory SubscriptionDetailsResponse.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> currentUsers = json["current"]
-        .map((userJson) => UserSubscription.fromJson(userJson))
-        .toList();
-    final List<dynamic> expiredUsers = json["expired"]
-        .map((userJson) => UserSubscription.fromJson(userJson))
-        .toList();
+    final List<UserSubscription> currentUsers = List<UserSubscription>.from(
+        (json["current"] as List<dynamic>).map((userJson) =>
+            UserSubscription.fromJson(userJson as Map<String, dynamic>)));
+    final List<UserSubscription> expiredUsers = List<UserSubscription>.from(
+        (json["expired"] as List<dynamic>).map((userJson) =>
+            UserSubscription.fromJson(userJson as Map<String, dynamic>)));
+
     return SubscriptionDetailsResponse(
         currentUsers: currentUsers, expiredUsers: expiredUsers);
   }
@@ -85,8 +86,8 @@ class UserProfileResponse {
   final String name;
   final String phone;
   final String? profilePic;
-  final String? startDate;
-  final String? endDate;
+  final String startDate;
+  final String endDate;
   final num? validTill;
   final String? traineeName;
 
@@ -171,12 +172,13 @@ class DuplicateEmailCheckResponse {
 }
 
 class RegisterCustomerResponse {
-  final String? profilePic;
+  final UserSubscription newUser;
 
-  RegisterCustomerResponse({this.profilePic});
+  RegisterCustomerResponse({required this.newUser});
 
   factory RegisterCustomerResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterCustomerResponse(profilePic: json['profilePic']);
+    return RegisterCustomerResponse(
+        newUser: UserSubscription.fromJson(json['new_customer']));
   }
 }
 

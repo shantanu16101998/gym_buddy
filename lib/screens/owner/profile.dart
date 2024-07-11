@@ -5,6 +5,7 @@ import 'package:gym_buddy/components/common/custom_dialog_box.dart';
 import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:gym_buddy/components/owner/image_dialog.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
@@ -12,6 +13,7 @@ import 'package:gym_buddy/utils/custom.dart';
 import 'package:gym_buddy/utils/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/subscription_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,8 +31,8 @@ class _ProfileState extends State<Profile> {
       phone: "7424948001",
       profilePic: null,
       validTill: null,
-      endDate: null,
-      startDate: null,
+      endDate: '',
+      startDate: '',
       traineeName: null);
 
   bool isApiDataLoaded = false;
@@ -79,8 +81,9 @@ class _ProfileState extends State<Profile> {
   }
 
   deleteUser() async {
-    await backendAPICall(
-        "/customer/deleteCustomer/${widget.userId}", {}, "DELETE", true);
+    await Provider.of<SubscriptionProvider>(context, listen: false)
+        .deleteUser(widget.userId);
+
     if (mounted) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Subscription()));

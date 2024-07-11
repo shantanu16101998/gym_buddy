@@ -3,11 +3,14 @@ import 'package:gym_buddy/components/owner/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gym_buddy/components/owner/user_payment_form.dart';
+import 'package:gym_buddy/database/user_subscription.dart';
 import 'package:gym_buddy/models/responses.dart';
+import 'package:gym_buddy/providers/subscription_provider.dart';
 import 'package:gym_buddy/screens/owner/subscription.dart';
 import 'package:gym_buddy/utils/backend_api_call.dart';
 import 'package:gym_buddy/utils/colors.dart';
 import 'package:gym_buddy/utils/custom.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gym_buddy/constants/url.dart';
 
@@ -58,7 +61,7 @@ class _UserGoalFormState extends State<UserGoalForm> {
     int? validTill = tryParseInt(validTillString);
     int? charges = tryParseInt(chargesString);
 
-    RegisterCustomerResponse _ =
+    RegisterCustomerResponse registerCustomerResponse =
         RegisterCustomerResponse.fromJson(await backendAPICall(
             '/customer/registerCustomer',
             {
@@ -74,6 +77,11 @@ class _UserGoalFormState extends State<UserGoalForm> {
             },
             "POST",
             true));
+
+    Provider.of<SubscriptionProvider>(context, listen: false)
+        .insertUserInDb(registerCustomerResponse.newUser);
+
+        
 
     if (sharedPreferences.getString('referralCode') != '') {
       backendAPICall(

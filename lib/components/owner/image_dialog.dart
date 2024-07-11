@@ -81,12 +81,9 @@ class _ImageDialogState extends State<ImageDialog> {
 
   void _uploadImage() async {
     if (_imageFile != null) {
-      uploadImage('/aws/upload', _imageFile!, widget.customerId);
-    }
-
-    if (mounted) {
-      Provider.of<SubscriptionProvider>(context, listen: false)
-          .fetchSubscription();
+      await uploadImage('/aws/upload', _imageFile!, widget.customerId);
+      await Provider.of<SubscriptionProvider>(context, listen: false)
+          .addedProfilePicOfUser(widget.customerId);
     }
 
     widget.changeImage(Image.file(File(_imageFile!.path)).image);

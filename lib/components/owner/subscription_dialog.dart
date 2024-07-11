@@ -84,16 +84,19 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
   }
 
   onUpdatePressed() async {
-    await backendAPICall(
-        '/customer/updateSubscription/${widget.userId}',
-        {
-          'currentBeginDate': _startDateController.text,
-          if (tryParseInt(_endMonthController.text) != null)
-            'validTill': tryParseInt(_endMonthController.text),
-          'charges': _chargesController.text
-        },
-        'PUT',
-        true);
+    Provider.of<SubscriptionProvider>(context, listen: false)
+        .updateSubscription(widget.userId, _startDateController.text,
+            _endMonthController.text, _chargesController.text);
+    // await backendAPICall(
+    //     '/customer/updateSubscription/${widget.userId}',
+    //     {
+    //       'currentBeginDate': _startDateController.text,
+    //       if (tryParseInt(_endMonthController.text) != null)
+    //         'validTill': tryParseInt(_endMonthController.text),
+    //       'charges': _chargesController.text
+    //     },
+    //     'PUT',
+    //     true);
     if (mounted) {
       await Provider.of<SubscriptionProvider>(context, listen: false)
           .fetchSubscription();
@@ -112,8 +115,9 @@ class _SubscriptionDialogState extends State<SubscriptionDialog> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  UserPaymentForm(onButtonPressed: onUpdatePressed,buttonText: 'Renew Subscription')));
+              builder: (context) => UserPaymentForm(
+                  onButtonPressed: onUpdatePressed,
+                  buttonText: 'Renew Subscription')));
     }
   }
 

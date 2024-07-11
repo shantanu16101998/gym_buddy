@@ -63,6 +63,8 @@ dependencies:
   dropdown_search: ^5.0.6
   dropdown_button2: ^2.3.9
   shimmer: ^3.0.0
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
 
 
 flutter_icons:

@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_buddy/components/owner/custom_image_picker.dart';
-import 'package:gym_buddy/components/owner/user_payment_form.dart';
 import 'package:gym_buddy/constants/environment.dart';
+import 'package:gym_buddy/database/database_helper.dart';
 import 'package:gym_buddy/firebase_options.dart';
 import 'package:gym_buddy/providers/api_data_loaded.dart';
 import 'package:gym_buddy/providers/customer_details.dart';
@@ -28,20 +28,20 @@ import 'package:gym_buddy/services/local_notification.dart';
 import 'package:gym_buddy/utils/enums.dart';
 import 'package:gym_buddy/utils/firebase_api.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:sqflite/sqflite.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-/* 
-  IMP: Uncheck in production
-*/
 bool shouldEnableFirebase = !kIsWeb;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initNotifications(flutterLocalNotificationsPlugin);
+  await DatabaseHelper().database;
 
   if (shouldEnableFirebase) {
     await Firebase.initializeApp(
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: const Color.fromARGB(255, 248, 248, 248),
         ),
         // uncomment when in prod
-        home:  const SplashScreen(),
+        home: const SplashScreen(),
         // home: UserSignUp(),
         // home: Subscription(),
         // home: OwnerScreen(ownerScreens: OwnerScreens.analysis),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:location/location.dart';
+import 'package:path/path.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
@@ -176,16 +177,16 @@ class LocationResult {
 }
 
 int? tryParseInt(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
-    try {
-      return int.parse(value);
-    } catch (e) {
-      print("Error parsing integer: $e");
-      return null;
-    }
+  if (value == null || value.isEmpty) {
+    return null;
   }
+  try {
+    return int.parse(value);
+  } catch (e) {
+    print("Error parsing integer: $e");
+    return null;
+  }
+}
 
 Future<LocationResult> getCurrentLocationSuccess() async {
   var status = await Permission.location.request();
@@ -195,8 +196,9 @@ Future<LocationResult> getCurrentLocationSuccess() async {
       LocationData locationData = await Location().getLocation().timeout(
         const Duration(seconds: 5),
         onTimeout: () async {
-          return await Location().getLocation().timeout(const Duration(seconds: 5),
-              onTimeout: () async {
+          return await Location()
+              .getLocation()
+              .timeout(const Duration(seconds: 5), onTimeout: () async {
             throw TimeoutException('location timed out 2 times');
           });
         },
@@ -244,3 +246,45 @@ final expandedWeekdays = [
   'Saturday',
   'Sunday'
 ];
+
+// const expiryIndays =
+//         (parseFinishdate.getTime() - parseCurrDate.getTime()) / (1000 * 60 * 60 * 24);
+
+int getDaysRemainingFromToday(String endDate) {
+  try {
+    final intl.DateFormat dateFormat = intl.DateFormat('d MMM yyyy','en_US');
+
+    String updatedEndDate = endDate.replaceAll('Sept', 'Sep');
+
+    final DateTime endDateTime = dateFormat.parse(updatedEndDate);
+
+    final DateTime today = DateTime.now();
+
+    final Duration difference = endDateTime.difference(today);
+
+    return difference.inDays;
+  } catch (e) {
+    print('Error parsing date: $e');
+    return -1;
+  }
+}
+
+int? expiringDayToShow(String endDate) {
+  try {
+    int days = getDaysRemainingFromToday(endDate);
+
+    return days <= 10 && days > 0 ? days : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+int? expiredDayToShow(String endDate) {
+  try {
+    int days = getDaysRemainingFromToday(endDate);
+
+    return days > 0 ? null : days.abs();
+  } catch (e) {
+    return null;
+  }
+}
